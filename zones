@@ -1,8 +1,0 @@
-[% WRAPPER zones/wrapper.html %]
-<h1>[% zone %] Next Pickup</h1>
-<ul>
-  [% FOR day IN days %]
-    <li>[% day %]</li>
-  [% END %]
-</ul>
-[% END %]
