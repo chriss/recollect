@@ -7,7 +7,7 @@ use t::Recollect;
 use DateTime;
 
 
-$ENV{VT_LOAD_DATA} = 1;
+$ENV{RECOLLECT_LOAD_DATA} = 1;
 t::Recollect->set_time( DateTime->new(year => 2009, month => 6, day => 1) );
 
 

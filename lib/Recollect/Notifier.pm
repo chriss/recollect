@@ -20,7 +20,7 @@ with 'Recollect::Log';
 sub need_notification {
     my $self = shift;
     my %args = @_;
-    my $debug = $args{debug} || $ENV{VT_DEBUG};
+    my $debug = $args{debug} || $ENV{RECOLLECT_DEBUG};
 
     my $as_of = $args{as_of} || $self->model->now;
     $as_of = $as_of->epoch;

@@ -4,7 +4,7 @@ use warnings;
 use Test::More;
 use t::Recollect;
 
-$ENV{VT_LOAD_DATA} = 1;
+$ENV{RECOLLECT_LOAD_DATA} = 1;
 
 Add_a_reminder: {
     my $model = t::Recollect->model;

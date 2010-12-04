@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 use FindBin;
 use lib "$FindBin::Bin/../lib";
-use App::VanTrash::Model;
+use Recollect::Model;
 use Getopt::Long;
 
 my $base_path = "$FindBin::Bin/..";
@@ -15,7 +15,7 @@ GetOptions(
     's|summary'   => \$summary,
 ) or die "USAGE: $0 --base-path=foo";
 
-my $model = App::VanTrash::Model->new(
+my $model = Recollect::Model->new(
     base_path => $base_path,
 );
 
@@ -47,6 +47,9 @@ unless ($summary) {
         $date->set_time_zone('America/Vancouver');
         print "  $r->{id} $r->{zone}\t- $r->{email} ($r->{target}) created: " 
             . $date->ymd . " " . $date->hms . "\n";
+        if ($verbose) {
+            print "   offset=$r->{offset} id=$r->{id} hash=$r->{hash}\n";
+        }
     }
 }
 

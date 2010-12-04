@@ -50,7 +50,7 @@ sub scrape {
 sub scrape_zone {
     my $self = shift;
     my $zone = shift;
-    my $debug = $ENV{VT_DEBUG};
+    my $debug = $ENV{RECOLLECT_DEBUG};
 
     my $row_scraper = scraper {
         process 'td.headings', 'months[]' => 'TEXT';

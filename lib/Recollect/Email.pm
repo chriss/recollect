@@ -44,8 +44,8 @@ sub send_email {
 sub _build_mailer {
     my $self = shift;
 
-    if ($ENV{VT_EMAIL}) {
-        @Email::Send::IO::IO = ($ENV{VT_EMAIL});
+    if ($ENV{RECOLLECT_EMAIL}) {
+        @Email::Send::IO::IO = ($ENV{RECOLLECT_EMAIL});
         return Email::Send->new({
             mailer => 'IO',
         });

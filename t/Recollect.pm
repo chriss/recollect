@@ -15,7 +15,7 @@ use lib 'lib';
 use namespace::clean -except => 'meta';
 
 BEGIN {
-    $ENV{VT_EMAIL} = "/tmp/email.$$";
+    $ENV{RECOLLECT_EMAIL} = "/tmp/email.$$";
     $ENV{RECOLLECT_DEV_ENV} = 1;
 
     use_ok 'Recollect::Model';
@@ -24,9 +24,9 @@ BEGIN {
 }
 
 END { 
-    unlink $ENV{VT_EMAIL} if $ENV{VT_EMAIL};
+    unlink $ENV{RECOLLECT_EMAIL} if $ENV{RECOLLECT_EMAIL};
     # Uncomment this for debugging
-    # warn qx(cat $ENV{VT_LOG_FILE}) if -e $ENV{VT_LOG_FILE};
+    # warn qx(cat $ENV{RECOLLECT_LOG_FILE}) if -e $ENV{RECOLLECT_LOG_FILE};
 }
 
 has 'base_path' => (is => 'ro', lazy_build => 1);
@@ -48,12 +48,12 @@ sub _build_base_path {
     mkdir "$tmp_dir/etc";
     copy "$FindBin::Bin/../etc/recollect.yaml.DEFAULT" => "$tmp_dir/etc/recollect.yaml";
 
-    $ENV{VT_LOG_FILE} = "$tmp_dir/recollect.log";
+    $ENV{RECOLLECT_LOG_FILE} = "$tmp_dir/recollect.log";
     
     # Create the SQL db
     my $db_file = "$tmp_dir/data/recollect.db";
     my $sql_file = "$FindBin::Bin/../etc/sql/recollect.sql";
-    if ($ENV{VT_LOAD_DATA}) {
+    if ($ENV{RECOLLECT_LOAD_DATA}) {
         $sql_file = "$FindBin::Bin/../data/recollect.dump";
     }
     system("sqlite3 $db_file < $sql_file");
@@ -61,7 +61,7 @@ sub _build_base_path {
 }
 
 sub app {
-    local $ENV{VT_LOAD_DATA} = 1;
+    local $ENV{RECOLLECT_LOAD_DATA} = 1;
     my $test_base = t::Recollect->base_path;
     Recollect::Config->new( config_file => "$test_base/etc/recollect.yaml");
     return sub {
@@ -83,11 +83,11 @@ sub model {
 }
 
 sub email_content {
-    return eval { scalar read_file($ENV{VT_EMAIL}) } || '';
+    return eval { scalar read_file($ENV{RECOLLECT_EMAIL}) } || '';
 }
 
 sub clear_email {
-    unlink $ENV{VT_EMAIL};
+    unlink $ENV{RECOLLECT_EMAIL};
 }
 
 sub clear_twitters {
