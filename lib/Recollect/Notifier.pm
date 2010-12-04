@@ -135,6 +135,7 @@ sub _send_notification_twitter {
                         reminder    => $args{reminder},
                         garbage_day => $args{pickup},
                         target => $args{target},
+                        twitter => $self->model->config->Value('twitter_username'),
                     },
                 );
                 $self->log("Send Twitter fail email for $args{target}");

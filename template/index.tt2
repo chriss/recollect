@@ -16,7 +16,7 @@
         </div>
         <div class="shareButtons">
             <!-- Tweet button -->
-            <a href="http://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-via="vantrash">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+            <a href="http://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-via="recollect">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
             <!-- buzz -->
             <a title="Post to Google Buzz" class="google-buzz-button" href="http://www.google.com/buzz/post" data-button-style="small-count"></a><script type="text/javascript" src="http://www.google.com/buzz/api/button.js"></script>
             <!-- facebook like -->

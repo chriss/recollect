@@ -186,6 +186,7 @@ sub confirm_reminder {
         template => 'reminder-success.html',
         template_args => {
             reminder => $rem,
+            twitter => $self->config->Value('twitter_username'),
         },
     );
 
