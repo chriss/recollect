@@ -8,7 +8,9 @@ has 'config_hash' => (is => 'rw', isa => 'HashRef', lazy_build => 1);
 has 'timestamp'   => (is => 'rw', isa => 'Int', default => 0);
 
 sub _build_config_file {
-    $ENV{RECOLLECT_DEV_ENV} ? './etc/recollect.yaml' : '/etc/recollect.yaml';
+    my $dev_config = 'etc/recollect.yaml';
+    return $dev_config if -e $dev_config;
+    return '/etc/recollect.yaml';
 }
 
 sub _build_config_hash {

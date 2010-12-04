@@ -7,7 +7,11 @@ our $VERBOSE = 0;
 
 has 'log_file'    => (is => 'rw', isa => 'Str', lazy_build => 1);
 
-sub _build_log_file { $ENV{VT_LOG_FILE} || '/var/log/recollect.log' }
+sub _build_log_file {
+    my $dev_log = 'recollect.log';
+    return $dev_log if -w $dev_log;
+    return '/var/log/recollect.log';
+}
 
 sub log {
     my $self = shift;
