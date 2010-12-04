@@ -2,14 +2,14 @@
 use strict;
 use warnings;
 use Test::More;
-use t::VanTrash;
+use t::Recollect;
 use DateTime;
 
 $ENV{VT_LOAD_DATA} = 1;
-$ENV{VANTRASH_NOW} = DateTime->new(year => 2009, month => 6, day => 1);
+$ENV{RECOLLECT_NOW} = DateTime->new(year => 2009, month => 6, day => 1);
 
 Sunny_day: {
-    my $model = t::VanTrash->model;
+    my $model = t::Recollect->model;
     my $zones = $model->zones->all('objects');
     is_deeply $model->reminders->all, [], 'is empty';
 
