@@ -10,7 +10,7 @@ my %args;
 GetOptions(\%args, qw(lightbox));
 
 my $R = get_rester(
-    'rester-config' => "$FindBin::Bin/../.vantrash-rester.conf"
+    'rester-config' => "$FindBin::Bin/../.recollect-rester.conf"
 );
 die "Couldn't load a rester" unless $R->password;
 

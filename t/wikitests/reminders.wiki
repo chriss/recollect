@@ -1,7 +1,7 @@
 
-* Fixture: VanTrash
+* Fixture: Recollect
 
-| set | email_address | test+%%start_time%%@vantrash.ca |
+| set | email_address | test+%%start_time%%@recollect.net |
 
 # Open the reminder lightbox
 | open-reminder-lightbox-ok | vancouver-south-red |
@@ -27,7 +27,7 @@
 # try to confirm an unknown reminder
 | open-ok                  | %%browser_url%%/zones/vancouver-south-red/reminders/abracadabra/confirm |
 | wait-for-text-present-ok | Sorry, we could not find a valid reminder at this address.              |
-| is-text-present-ok       | Please contact help@vantrash.ca if you think there was a problem.       |
+| is-text-present-ok       | Please contact help@recollect.net if you think there was a problem.       |
 
 ##
 # Premium Services
@@ -63,7 +63,7 @@
 # Redirect to PayPal
 | wait-for-page-to-load-ok | 30000                                      |
 | login-paypal-ok          |                                            |
-| wait-for-text-present-ok | $15.00 per year for VanTrash notifications |
+| wait-for-text-present-ok | $15.00 per year for Recollect notifications |
 
 ########################################################
 | *comment* | CANCEL, go back and choose $1.50 / Month |
@@ -78,10 +78,10 @@
 | click-ok                  | css=.ui-dialog-buttonset .submit           |                   |
 | wait-for-page-to-load-ok  | 30000                                      |                   |
 | login-paypal-ok           |                                            |                   |
-| wait-for-text-present-ok  | $1.50 per month for VanTrash notifications |                   |
+| wait-for-text-present-ok  | $1.50 per month for Recollect notifications |                   |
 
 | click-ok                 | continue                                                   |
-| wait-for-text-present-ok | Thank you for subscribing to VanTrash, %%email_address%%.  |
+| wait-for-text-present-ok | Thank you for subscribing to Recollect, %%email_address%%.  |
 | is-text-present-ok       | You will soon receive a confirmation email and phone call. |
 
 # Wait for the welcome email 
@@ -122,7 +122,7 @@
 # Redirect to PayPal
 | wait-for-page-to-load-ok | 30000                                      |
 | login-paypal-ok          |                                            |
-| wait-for-text-present-ok | $1.50 per month for VanTrash notifications |
+| wait-for-text-present-ok | $1.50 per month for Recollect notifications |
 
 #####################################################
 | *comment* | CANCEL, go back and choose $15 / Year |
@@ -137,10 +137,10 @@
 | click-ok                  | css=.ui-dialog-buttonset .submit           |                   |
 | wait-for-page-to-load-ok  | 30000                                      |                   |
 | login-paypal-ok           |                                            |                   |
-| wait-for-text-present-ok  | $15.00 per year for VanTrash notifications |                   |
+| wait-for-text-present-ok  | $15.00 per year for Recollect notifications |                   |
 
 | click-ok                 | continue                                                      |
-| wait-for-text-present-ok | Thank you for subscribing to VanTrash, %%email_address%%.     |
+| wait-for-text-present-ok | Thank you for subscribing to Recollect, %%email_address%%.     |
 | is-text-present-ok       | You will soon receive a confirmation email and phone message. |
 
 # Wait for the welcome email 
@@ -185,7 +185,7 @@
 | open-ok                     | %%delete_url%%                                                                                   |
 | wait-for-text-present-ok    | Are you sure you want to unsubscribe email:%%email_address%% from vancouver-south-red reminders? |
 | click-ok                    | css=.button.no                                                                                   |
-| wait-for-text-present-ok    | VanTrash helps you manage your household garbage schedule more effectively.                  |
+| wait-for-text-present-ok    | Recollect helps you manage your household garbage schedule more effectively.                  |
 | open-ok                     | %%delete_url%%                                                                                   |
 | wait-for-element-present-ok | css=.button.yes                                                                                  |
 | click-ok                    | css=.button.yes                                                                                  |
@@ -226,7 +226,7 @@
 | open-ok                     | %%delete_url%%                                                                          |
 | wait-for-text-present-ok    | Are you sure you want to unsubscribe twitter:kevinj from vancouver-south-red reminders? |
 | click-ok                    | css=.button.no                                                                          |
-| wait-for-text-present-ok    | VanTrash helps you manage your household garbage schedule more effectively.         |
+| wait-for-text-present-ok    | Recollect helps you manage your household garbage schedule more effectively.         |
 | open-ok                     | %%delete_url%%                                                                          |
 | wait-for-element-present-ok | css=.button.yes                                                                         |
 | click-ok                    | css=.button.yes                                                                         |

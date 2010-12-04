@@ -5,9 +5,9 @@ use lib 'lib';
 use FindBin;
 use Email::MIME;
 
-use App::VanTrash::Email;
+use Recollect::Email;
 
-my $emailer = App::VanTrash::Email->new(
+my $emailer = Recollect::Email->new(
     base_path => "$FindBin::Bin/..",
 );
 
@@ -16,7 +16,7 @@ die unless $subject and $body and @recipients;
 for my $recip (@recipients) {
     warn "Sending email to $recip\n";
     my %headers = (
-        From => '"VanTrash" <noreply@vantrash.ca>',
+        From => 'Recollect <noreply@recollect.net>',
         To => $recip,
         Subject => $subject,
     );

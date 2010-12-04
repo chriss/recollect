@@ -8,7 +8,7 @@ my $num_reminders = 1;
 my $email = 'lukec@vancal.org';
 my $zone = 'vancouver-north-blue';
 my $server = 'http://dev.hackspace.ca';
-my $tool = "$FindBin::Bin/vantrash-reminder";
+my $tool = "$FindBin::Bin/recollect-reminder";
 
 my $i = 0;
 timethis 1000, sub {

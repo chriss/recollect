@@ -1,0 +1,18 @@
+#!/usr/bin/perl
+use strict;
+use warnings;
+use FindBin;
+use lib "$FindBin::Bin/../lib";
+
+my $command = shift;
+die "USAGE: $0 <command>\n" unless $command;
+
+my $db_file = "$FindBin::Bin/../data/recollect.db";
+my $schema  = "$FindBin::Bin/../etc/sql/recollect.sql";
+if ($command eq 'recreate') {
+    print "Re-creating database ...\n";
+    rename $db_file, "$db_file.old" if $db_file;
+    system("sqlite3 $db_file < $schema");
+}
+
+exit;

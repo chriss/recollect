@@ -3,25 +3,25 @@ use strict;
 use warnings;
 no warnings 'redefine';
 use Test::More;
-use t::VanTrash;
+use t::Recollect;
 use DateTime;
 
 
 $ENV{VT_LOAD_DATA} = 1;
-t::VanTrash->set_time( DateTime->new(year => 2009, month => 6, day => 1) );
+t::Recollect->set_time( DateTime->new(year => 2009, month => 6, day => 1) );
 
 
 Create_and_send_reminder: {
-    my $model = t::VanTrash->model;
+    my $model = t::Recollect->model;
     my $zones = $model->zones->all('objects');
     is_deeply $model->reminders->all, [], 'is empty';
 
     my $zone = $zones->[0];
     my $robj = $model->add_reminder({
         name => "Test Reminder",
-        email => 'test@vantrash.ca',
+        email => 'test@recollect.net',
         zone => $zone->name,
-        target => 'email:test@vantrash.ca',
+        target => 'email:test@recollect.net',
         offset => 0,
     });
     my $next_pickup = $model->next_pickup($zone->name);
@@ -45,11 +45,11 @@ Create_and_send_reminder: {
         is scalar(@$reminders), 1, 'found 1 reminder needing notification';
         is $reminders->[0]->name, 'Test Reminder', 'and it had the right name';
 
-        t::VanTrash->clear_email;
+        t::Recollect->clear_email;
 
-        t::VanTrash->set_time($pud);
+        t::Recollect->set_time($pud);
         $model->notifier->notify($reminders->[0]);
-        my $email = t::VanTrash->email_content();
+        my $email = t::Recollect->email_content();
         like $email, qr/garbage day/, 'email matches';
     }
 
@@ -80,7 +80,7 @@ Create_and_send_reminder: {
         my $reminders = $model->notifier->need_notification( as_of => $pud);
         is scalar(@$reminders), 1, 'reminder needs notification again';
         $model->notifier->notify($reminders->[0]);
-        my $tweets = t::VanTrash->twitters;
+        my $tweets = t::Recollect->twitters;
         is scalar(@$tweets), 1, '1 tweet message found';
         is $tweets->[0]{to}, 'lukec', 'to correct user';
         like $tweets->[0]{msg}, qr/It's garbage day on \w+ for [\w\-]+/, 'message is correct';
@@ -96,7 +96,7 @@ Create_and_send_reminder: {
         my $reminders = $model->notifier->need_notification( as_of => $pud, debug => 1);
         is scalar(@$reminders), 1, 'reminder needs notification again';
         $model->notifier->notify($reminders->[0]);
-        my $reqs = t::VanTrash->http_requests;
+        my $reqs = t::Recollect->http_requests;
         is scalar(@$reqs), 1, '1 http request found';
     }
 }

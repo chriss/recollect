@@ -22,7 +22,7 @@ All of the trash pickup data is scraped from the City of Vancouver's website:
 <h1>Licensing Intent</h1>
 Our intent in releasing this code as open source is to enable other citizens to learn and use the code and tools we have created for non-commercial purposes.
 
-<h1>VanTrash Perl Code License</h1>
+<h1>Recollect Perl Code License</h1>
 <p>The scraping codes and the reminder system codes are licensed under the folowing terms:</p>
 
 <p>Copyright &copy; 2009,2010 by Luke Closs and Kevin Jones</p>
@@ -35,7 +35,7 @@ Our intent in releasing this code as open source is to enable other citizens to 
 
 <h1>JavaScript Licenses</h1>
 
-<h2>VanTrash JavaScript</h2>
+<h2>Recollect JavaScript</h2>
 <p>Copyright &copy; 2009,2010 by Luke Closs and Kevin Jones</p>
 
 <h2>Libraries</h2>

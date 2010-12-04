@@ -1,0 +1,274 @@
+#!/usr/bin/perl
+use strict;
+use warnings;
+use Chart::Clicker;
+use File::Path qw/mkpath/;
+use Fatal qw/open close mkpath/;
+use FindBin;
+use Getopt::Long;
+use Chart::Clicker;
+use Chart::Clicker::Context;
+use Chart::Clicker::Data::DataSet;
+use Chart::Clicker::Data::Marker;
+use Chart::Clicker::Data::Series;
+use Chart::Clicker::Renderer::Pie;
+use Geometry::Primitive::Rectangle;
+use Graphics::Color::RGB;
+use YAML qw/DumpFile/;
+
+
+my $log_file = '/var/log/recollect.log';
+my $dev_log = "$FindBin::Bin/../recollect.log";
+$log_file = $dev_log if -e $dev_log;
+
+my $summary;
+GetOptions(
+    's|summary' => \$summary,
+    'f|file=s'  => \$log_file,
+) or die <<EOT;
+USAGE: $0 [--summary]
+EOT
+
+my @now = localtime;
+my $data_dir = "$FindBin::Bin/../root/reports";
+mkpath $data_dir unless -d $data_dir;
+
+{
+    my $data = parse_logfile($log_file);
+    DumpFile("$data_dir/details.yaml", $data);
+    create_images($data_dir, $data);
+    create_detailed_stats("$data_dir/details.html", $data);
+}
+
+exit;
+
+sub create_images {
+    my $data_dir = shift;
+    my $data = shift;
+
+    {
+        my $hits_by_type = $data->{hits_by_type};
+        my @series;
+        for my $key (sort { $hits_by_type->{$b} <=> $hits_by_type->{$a} }
+                        keys %$hits_by_type) {
+            my $val = $hits_by_type->{$key};
+            push @series, Chart::Clicker::Data::Series->new(
+                keys => [ $val ],
+                values  => [ $val ],
+                name => "$key ($val)",
+            );
+        }
+        create_png(\@series, "$data_dir/api-by-type.png") if @series;
+    }
+    {
+        my $confirmed = $data->{hits}{confirm};
+        my @series;
+        for my $key (sort {$confirmed->{$b} <=> $confirmed->{$a}} keys %$confirmed) {
+            my $val = $confirmed->{$key};
+            push @series, Chart::Clicker::Data::Series->new(
+                keys => [ $val ],
+                values  => [ $val ],
+                name => "$key ($val)",
+            );
+        }
+        create_png(\@series, "$data_dir/reminders-by-zone.png") if @series;
+    }
+}
+
+sub create_png {
+    my $series = shift;
+    my $filename = shift;
+    return unless @$series > 1;
+
+    my $ds = Chart::Clicker::Data::DataSet->new(series => $series);
+
+    my $cc = Chart::Clicker->new(width => 500, height => 400);
+    $cc->add_to_datasets($ds);
+     
+    my $defctx = $cc->get_context('default');
+    $defctx->renderer(Chart::Clicker::Renderer::Pie->new);
+    $defctx->domain_axis->hidden(1);
+    $defctx->range_axis->hidden(1);
+    $cc->plot->grid->visible(0);
+    eval { $cc->write_output($filename) };
+    warn "Error creating $filename: $@" if $@;
+}
+
+sub create_detailed_stats {
+    my $file = shift;
+    my $data = shift;
+    open(my $fh, ">$file");
+    my $zones = $data->{hits}{zones};
+
+    my $short_summary = '';
+    for my $type (keys %{ $data->{hits}{sent} }) {
+        $short_summary ||= '<strong>Reminders sent:</strong><br />';
+        my $count = $data->{hits}{sent}{$type};
+        $short_summary .= "Sent $count $type reminders.<br />\n";
+    }
+    $short_summary .= "$data->{reminders}{added} reminders added<br />\n";
+    $short_summary .= "$data->{reminders}{confirmed} reminders confirmed<br />\n";
+    $short_summary .= "$data->{reminders}{deleted} reminders deleted<br />\n";
+
+    print $fh <<EOT;
+<html>
+    <head>
+        <title>Recollect Statistics</title>
+    </head>
+    <body>
+      <div class="summary">$short_summary</div>
+      <a href="/reports/details.yaml">Details as YAML</a>
+
+      <div>
+        <h2>Confirmed reminders by zone:</h2>
+        <img src="/reports/reminders-by-zone.png" />
+        <br />
+        <h2>API Requests by Content Type:</h2>
+        <img src="/reports/api-by-type.png" />
+        <br />
+      </div>
+      <pre>
+EOT
+    print $fh "API: ZONES:\tHTML=$zones->{HTML}\tTXT=$zones->{TXT}\tJSON=$zones->{JSON}\n";
+
+    for my $type ( qw/zone zonedays zonenextdowchange zonenextpickup/ ) {
+        my $sum = 0;
+        for my $zone (sort keys %{ $data->{hits}{$type} }) {
+            my $h = $data->{hits}{$type}{$zone};
+            my $html = $h->{HTML} || 0;
+            my $txt = $h->{TXT} || 0;
+            my $json = $h->{JSON} || 0;
+            my $total = $html + $txt + $json;
+            $sum += $total;
+        }
+        printf $fh "API: %20s - total requests: $sum\n", $type;
+    }
+
+    for my $action (qw/add confirm confirm_fail/) {
+        my $sum = 0;
+        for my $zone (sort keys %{ $data->{hits}{$action} }) {
+            my $count = $data->{hits}{$action}{$zone};
+            $sum += $count;
+        }
+        printf $fh "Action: %15s - total: $sum\n", $action;
+    }
+
+    print $fh <<EOT;
+      </pre>
+    </body>
+</html>
+EOT
+    close $fh;
+}
+
+exit;
+
+sub parse_logfile {
+    my $filename = shift;
+    open(my $fh, $filename);
+    my %data = (
+        reminders => {
+            added => 0,
+            confirmed => 0,
+            deleted => 0,
+        },
+        hits => {
+            zones => {
+                HTML => 0,
+                TXT => 0,
+                JSON => 0,
+            },
+        },
+    );
+    while (my $line = <$fh>) {
+        next unless $line =~ m/^\w+$/;
+        unless (
+            $line =~ m/^(\w+)\s+(\w+)\s+(\d+)\s+([\d:]+)\s+(\d+):\s+(.+)$/) {
+            warn "Ignoring: $line";
+            next;
+        }
+        my ($dow, $month, $day, $time, $year, $comment)
+            = ($1, $2, $3, $4, $5, $6);
+
+        next if $comment =~ m/^Found \d+ reminders due/;
+
+        if ($comment =~ m/(TXT|HTML|JSON|ICAL)/) {
+            $data{hits_by_type}{$1}++;
+        }
+
+        if    ($comment =~ m/^ZONES (\S+)/) {
+            my $format = $1;
+            $data{hits}{zones}{$format}++;
+        }
+        elsif ($comment =~ m/^ZONE (\S+) (\w+)/) {
+            my $zone_id = $1;
+            my $format = $2;
+            $data{hits}{zone}{$zone_id}{$format}++;
+        }
+        elsif ($comment =~ m/^ZONEDAYS (\S+) (\w+)/) {
+            my $zone_id = $1;
+            my $format = $2;
+            $data{hits}{zonedays}{$zone_id}{$format}++;
+        }
+        elsif ($comment =~ m/^ZONENEXTDOWCHANGE (\S+) (\w+)/) {
+            my $zone_id = $1;
+            my $format = $2;
+            $data{hits}{zonenextdowchange}{$zone_id}{$format}++;
+        }
+        elsif ($comment =~ m/^ZONENEXTPICKUP (\S+) (\w+)/) {
+            my $zone_id = $1;
+            my $format = $2;
+            $data{hits}{zonenextpickup}{$zone_id}{$format}++;
+        }
+        elsif ($comment =~ m/^TELLAFRIEND(?: (\d+))?/) {
+            my $count = $1 || 1;
+            $data{hits}{tellafriend} += $count;
+        }
+        elsif ($comment =~ m/^ADD (\S+)/) {
+            my $zone_id = $1;
+            $data{hits}{add}{$zone_id}++;
+            $data{reminders}{added}++;
+        }
+        elsif ($comment =~ m/^CONFIRM (\S+)/) {
+            my $zone_id = $1;
+            $data{hits}{confirm}{$zone_id}++;
+            $data{reminders}{confirmed}++;
+        }
+        elsif ($comment =~ m/^CONFIRM_FAIL (\S+)/) {
+            my $zone_id = $1;
+            $data{hits}{confirm_fail}{$zone_id}++;
+        }
+        elsif ($comment =~ m/^SENDING (\w+) notification/i) {
+            my $type = $1;
+            $data{hits}{sent}{$type}++;
+        }
+        elsif ($comment =~ m/^DELETE (\S+) (\S+)/) {
+            my $zone = $1;
+            $data{hits}{delete}{$zone}++;
+            $data{reminders}{deleted}++;
+        }
+        elsif ($comment =~ m/^DELETE_FAIL (\S+) (\S+)/) {
+            my $zone = $1;
+            $data{hits}{delete_fail}{$zone}++;
+        }
+        elsif ($comment =~ m/Send Twitter fail email/) {
+            $data{twitter_dm_fails}++;
+        }
+        elsif ($comment =~ m/^(PAYMENT_\w+)/) {
+            $data{lc $1}++;
+        }
+        elsif ($comment =~ m/^EXPIRY_ADVANCE/) {
+            $data{reminders_renewed}++;
+        }
+        elsif ($comment =~ m/^(?:UNKNOWN_IPN|Payment without)/) {
+            # Ignore
+        }
+        else {
+            warn "Unknown: $comment";
+        }
+    }
+    return \%data;
+}
+
+
+

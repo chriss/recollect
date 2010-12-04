@@ -5,7 +5,7 @@
         <link rel="shortcut icon" href="/images/favicon.png" />
         <link rel="stylesheet" href="/css/[% version %]/style.css?v=2">
         <link rel="stylesheet" href="/css/[% version %]/jquery-ui-1.8.6.custom.css">
-        <script src="/javascript/[% version %]/vantrash-mobile-mini.js" type="text/javascript"></script>
+        <script src="/javascript/[% version %]/recollect-mobile-mini.js" type="text/javascript"></script>
     </head>
     <body id="mobile">
         <noscript>Your browser does not support JavaScript!</noscript>

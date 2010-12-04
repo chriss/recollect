@@ -1,11 +1,11 @@
 [% WRAPPER wrapper.tt2
     javascript = [
-        "http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=true&amp;key=ABQIAAAA5rEMciNjzck_9F910WRZkxQkGglP5O4HpwzXzPkg1mrDd6_pIhQOrRhaNFw0NJs0Y9o2jCPcHNE8Sw", "/javascript/$version/vantrash-map-mini.js",
+        "http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=true&amp;key=ABQIAAAA5rEMciNjzck_9F910WRZkxQkGglP5O4HpwzXzPkg1mrDd6_pIhQOrRhaNFw0NJs0Y9o2jCPcHNE8Sw", "/javascript/$version/recollect-map-mini.js",
     ]
 %]
     <div class="searchSection">
         <div class="description">
-            <p>VanTrash helps you manage your household garbage schedule more effectively.</p>
+            <p>Recollect helps you manage your household garbage schedule more effectively.</p>
             <p>To start, simply click on the zone in which you live or search for your address, then click "Remind me".</p>
         </div>
         <div class="searchBox">
@@ -20,7 +20,7 @@
             <!-- buzz -->
             <a title="Post to Google Buzz" class="google-buzz-button" href="http://www.google.com/buzz/post" data-button-style="small-count"></a><script type="text/javascript" src="http://www.google.com/buzz/api/button.js"></script>
             <!-- facebook like -->
-            <fb:like href="http://www.vantrash.ca" layout="button_count" width="50"></fb:like>
+            <fb:like href="http://recollect.net" layout="button_count" width="50"></fb:like>
         </div>
         <div class="clearfix"></div>
     </div>
@@ -31,7 +31,7 @@
         <div class="cityimage">
             <a href="http://vancouver.ca/projects/foodWaste/noplastic.htm"
                 alt="Don't trash your food!">
-                <img src="/images/vantrash-ad-no-plastic-borderless.jpg"/>
+                <img src="/images/recollect-ad-no-plastic-borderless.jpg"/>
             </a>
         </div>
     </div>

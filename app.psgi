@@ -4,11 +4,11 @@
 
 use Plack::Builder;
 use lib "lib";
-use App::VanTrash::CallController;
-use App::VanTrash::Controller;
-use App::VanTrash::Config;
+use Recollect::CallController;
+use Recollect::Controller;
+use Recollect::Config;
 
-App::VanTrash::Config->new(config_file => 'etc/vantrash.yaml');
+Recollect::Config->new(config_file => 'etc/recollect.yaml');
 
 builder {
     enable 'Debug', panels => [qw(
@@ -26,17 +26,17 @@ builder {
            root => './static/';
 
     mount "/call" => sub {
-        App::VanTrash::CallController->new(
+        Recollect::CallController->new(
             base_path => ".",
-            log_file => 'vantrash.log',
+            log_file => 'recollect.log',
         )->run(@_);
     };
 
     mount "/" => sub {
-        local $ENV{VANTRASH_DEV_ENV} = 1;
-        App::VanTrash::Controller->new(
+        local $ENV{RECOLLECT_DEV_ENV} = 1;
+        Recollect::Controller->new(
             base_path => ".",
-            log_file => 'vantrash.log',
+            log_file => 'recollect.log',
         )->run(@_);
     }
 };

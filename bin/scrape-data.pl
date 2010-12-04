@@ -1,16 +1,16 @@
 #!/usr/bin/perl
 use FindBin;
 use lib "$FindBin::Bin/../lib";
-use App::VanTrash::Scraper;
+use Recollect::Scraper;
 
 my $zone = shift;
 
-my $scraper = App::VanTrash::Scraper->new(
+my $scraper = Recollect::Scraper->new(
     ($zone ? (zone => $zone) : ()),
     area => 'vancouver',
 );
 $scraper->scrape;
 
-my $dumpfile = "$FindBin::Bin/../data/vantrash.dump";
+my $dumpfile = "$FindBin::Bin/../data/recollect.dump";
 print "Dumping database to $dumpfile\n";
-system("echo '.dump' | sqlite3 data/vantrash.db > $dumpfile");
+system("echo '.dump' | sqlite3 data/recollect.db > $dumpfile");

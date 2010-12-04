@@ -1,27 +1,27 @@
 #!perl
 use Plack::Builder;
-use App::VanTrash::CallController;
-use App::VanTrash::Controller;
-use App::VanTrash::Config;
+use Recollect::CallController;
+use Recollect::Controller;
+use Recollect::Config;
 
 # Create the singleton config object
-App::VanTrash::Config->new(config_file => '/etc/vantrash.yaml');
+Recollect::Config->new(config_file => '/etc/recollect.yaml');
 
-my $root = '/var/www/vantrash';
-my $log = '/var/log/vantrash.log';
+my $root = '/var/www/recollect';
+my $log = '/var/log/recollect.log';
 builder {
     enable "Plack::Middleware::AccessLog::Timed",
             format => "%h %l %u %t \"%r\" %>s %b %D";
 
     mount "/call" => sub {
-        App::VanTrash::CallController->new(
+        Recollect::CallController->new(
             base_path => $root,
             log_file => $log,
         )->run(@_);
     };
 
     mount "/" => sub {
-        App::VanTrash::Controller->new(
+        Recollect::Controller->new(
             base_path => $root,
             log_file => $log,
         )->run(@_);

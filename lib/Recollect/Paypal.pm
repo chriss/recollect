@@ -1,0 +1,174 @@
+package Recollect::Paypal;
+use MooseX::Singleton;
+use Business::PayPal::NVP;
+use Recollect::Config;
+use namespace::clean -except => 'meta';
+
+# Website Payments Pro and Express Checkout API Reference -
+# https://www.x.com/docs/DOC-1372
+
+has 'api' => (is => 'ro', isa => 'Business::PayPal::NVP', lazy_build => 1);
+has 'model' => (is => 'ro', isa => 'Object', required => 1);
+
+sub _build_api {
+    my $self = shift;
+
+    my $config = Recollect::Config->new;
+    my $branch = $config->Value('paypal_branch') or die "No paypal branch defined!";
+    return Business::PayPal::NVP->new(
+        branch => $branch,
+        test => {
+            user => $config->Value('paypal_test_user'),
+            pwd => $config->Value('paypal_test_pwd'),
+            sig => $config->Value('paypal_test_sig'),
+        },
+        live => {
+            user => $config->Value('paypal_live_user'),
+            pwd => $config->Value('paypal_live_pwd'),
+            sig => $config->Value('paypal_live_sig'),
+        },
+    );
+}
+
+sub set_up_subscription {
+    my $self = shift;
+    my %opts = @_;
+
+    die "Invalid period - '$opts{period}'" unless $opts{period} =~ m/^(?:month|year|day)$/;
+    die "Custom is required" unless $opts{custom};
+
+    # SetExpressCheckout - https://www.x.com/docs/DOC-1208
+    my $base_url = Recollect::Config->base_url;
+    my $p = $self->_subscription_opts($opts{period}, $opts{coupon});
+
+    my %resp = $self->api->SetExpressCheckout(
+        AMT => $p->{amount},
+        CURRENCYCODE => 'CAD',
+        DESC => 'Recollect Garbage Reminder Service',
+        CUSTOM => $opts{custom},
+        L_NAME0 => $p->{name},
+        L_BILLINGTYPE0 => 'RecurringPayments',
+        L_BILLINGAGREEMENTDESCRIPTION0 => $p->{desc},
+        RETURNURL => "$base_url/billing/proceed",
+        CANCELURL => "$base_url/billing/cancel",
+        LANDINGPAGE => 'Billing',
+    ) or do {
+        warn "Error! " . join("\n", $self->api->errors);
+        die "Could not create a Recollect subscription payment. Try again later.\n";
+    };
+
+    my $paypal_base_url = 'https://www.paypal.com';
+    if (Recollect::Config->Value('paypal_branch') eq 'test') {
+        $paypal_base_url = 'https://www.sandbox.paypal.com';
+    }
+
+    return "$paypal_base_url/cgi-bin/webscr?cmd=_express-checkout&token=$resp{TOKEN}";
+}
+
+sub _subscription_opts {
+    my $self = shift;
+    my $period = shift;
+    my $coupon = shift;
+
+    my $config = Recollect::Config->instance;
+    if ($period eq 'month') {
+        my $value = $config->Value('price_per_month')
+            || die "No price_per_month defined!";
+        return {
+            amount => $value,
+            name => 'Monthly Recollect Subscription',
+            desc => "\$$value per month for Recollect notifications",
+        };
+    }
+    elsif ($period eq 'year') {
+        my $coupons = $config->Value('coupons') || {};
+        if ($coupon and $coupons->{$coupon}) {
+            my $price = $coupons->{$coupon};
+            return {
+                amount => $price,
+                name => 'Annual Recollect Subscription',
+                desc => "$price per year for Recollect notifications ($coupon)",
+            };
+        }
+
+        # No coupon
+        my $value = $config->Value('price_per_year')
+            || die "No price_per_month defined!";
+        return {
+            amount => $value,
+            name => 'Annual Recollect Subscription',
+            desc => "\$$value per year for Recollect notifications",
+        };
+    }
+    elsif ($period eq 'day') {
+        return {
+            amount => '0.01',
+            name => 'Recollect Test Subscription',
+            desc => 'Recollect test subscription',
+        };
+    }
+    die "Unknown payment period: $period";
+}
+
+sub create_subscription {
+    my $self = shift;
+    my $token = shift;
+
+    my %resp = $self->api->GetExpressCheckoutDetails(TOKEN => $token);
+    die $resp{L_SHORTMESSAGE0} unless $resp{ACK} eq 'Success';
+    die "Paypal billing agreement has not yet been accepted."
+        unless $resp{BILLINGAGREEMENTACCEPTEDSTATUS};
+    my $rem = $self->model->reminders->by_id($resp{CUSTOM});
+    die "Could not find reminder for '$resp{CUSTOM}'" unless $rem;
+
+    my $p = $self->_subscription_opts($rem->payment_period, $rem->coupon);
+    # Docs: https://www.x.com/docs/DOC-1168
+    %resp = $self->api->CreateRecurringPaymentsProfile(
+        TOKEN => $token,
+        PROFILESTARTDATE => DateTime->now->iso8601,
+        DESC => $p->{desc},
+        MAXFAILEDPAYMENTS => 1,
+        BILLINGPERIOD => ucfirst($rem->payment_period),
+        BILLINGFREQUENCY => 1,
+        AMT => $p->{amount},
+        CURRENCYCODE => 'CAD',
+        PROFILEREFERENCE => $resp{CUSTOM},
+    );
+    die "Could not create recurring payment: $resp{L_SHORTMESSAGE0}"
+        unless $resp{ACK} eq 'Success';
+
+    my $profile_id = $resp{PROFILEID};
+    $rem->subscription_profile_id($resp{PROFILEID});
+    $rem->update;
+
+    return $rem;
+}
+
+sub cancel_subscription {
+    my $self = shift;
+    my $profile_id = shift;
+
+    my %resp = $self->api->ManageRecurringPaymentsProfileStatus(
+        PROFILEID => $profile_id,
+        ACTION => 'Cancel',
+        NOTE => "Subscription cancelled at user's request.",
+    );
+    warn "Could not cancel reminder using profile_id: $profile_id"
+        unless $resp{ACK} eq 'Success';
+}
+
+sub process_ipn {
+    my $self = shift;
+    my $req  = shift;
+
+    if (Recollect::Config->Value('paypal_branch') eq 'test') {
+        $Business::PayPal::IPN::GTW =
+            'https://www.sandbox.paypal.com/cgi-bin/webscr';
+    }
+
+    return Business::PayPal::IPN->new(query => $req)
+        or die Business::PayPal::IPN->error;
+}
+
+__PACKAGE__->meta->make_immutable;
+1;

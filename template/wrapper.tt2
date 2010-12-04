@@ -9,7 +9,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
-    <title>VanTrash</title>
+    <title>Recollect</title>
     <meta name="description" content="">
     <meta name="author" content="">
 
@@ -23,8 +23,8 @@
     <script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script>
     <script src="/javascript/[% version %]/libs/modernizr-1.6.min.js"></script>
 
-    <!-- vantrash stuff -->
-    <script src="/javascript/[% version %]/vantrash-mini.js"></script>
+    <!-- Recollect stuff -->
+    <script src="/javascript/[% version %]/recollect-mini.js"></script>
 
     [% FOR js = javascript %]
     <script src="[% js %]"></script>
@@ -34,7 +34,7 @@
 <body>
     <div id="container">
         <header>
-            <a href="/"><img id="headerLogo" src="/images/new/vantrash_logo.png"/></a>
+            <a href="/"><img id="headerLogo" src="/images/new/recollect_logo.png"/></a>
             <div id="headerLinks">
                 <a href="/faq.html">Frequently asked questions</a>
                 <a href="/tell-a-friend.html">Tell a friend</a>
