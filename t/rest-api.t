@@ -130,7 +130,7 @@ for my $target (qw{voice:7787851357 sms:7787851357}) {
             'mc_shipping1' => '1.02',
             'cmd' => '_notify-validate',
             'test_ipn' => '1',
-            'txn_type' => 'cart',
+            'txn_type' => 'recurring_payment_profile_created',
             'address_country' => 'United States',
             'charset' => 'windows-1252',
             'payment_date' => '22:23:24 Nov 17, 2010 PST',
@@ -153,7 +153,8 @@ for my $target (qw{voice:7787851357 sms:7787851357}) {
             'mc_gross_1' => '9.34',
             'item_name1' => 'something',
             'mc_currency' => 'USD',
-            'first_name' => 'John'
+            'first_name' => 'John',
+            'rp_invoice_id' => $reminder_id,
         };
         %Business::PayPal::IPN::TEST_DATA = ( %$fake_ipn, completed => 1);
         $res = $cb->(POST "/billing/ipn", [ %$fake_ipn ]);
