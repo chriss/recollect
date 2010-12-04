@@ -67,7 +67,7 @@
         </p>
         <ul>
             <li><code>email:email_address</code> - Sends a regular email notification to the address.</li>
-            <li><code>twitter:twitter_username</code> - Sends a direct message to the twitter user. They must follow <a href="http://twitter.com/vantrash">VanTrash</a> to receive the DM.</li>
+            <li><code>twitter:twitter_username</code> - Sends a direct message to the twitter user. They must follow <a href="http://twitter.com/[% twitter %]">@[% twitter %]</a> to receive the DM.</li>
             <li><code>webhook:http://example.com</code> - Sends a HTTP POST request with a JSON payload that contains details about the reminder to the URL specified. See <a href="http://webhooks.org">Webhooks.org</a> for more details.</li>
         </ul>
         <h4>Deleting a reminder</h4>

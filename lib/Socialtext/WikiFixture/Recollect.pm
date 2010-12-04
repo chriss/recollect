@@ -211,8 +211,8 @@ sub reminder_success_email_ok {
     if ($target eq 'twitter') {
         like $self->{email_body}, qr{You will now receive twitter reminders},
             'you will now receive twitter reminders';
-        like $self->{email_body}, qr{http://twitter\.com/vantrash},
-            "twitter success email links to vantrash's twitter";
+        like $self->{email_body}, qr{http://twitter\.com/\w+},
+            "twitter success email links to twitter";
     }
     elsif ($target eq 'email') {
         like $self->{email_body}, qr{You will now receive email reminders},

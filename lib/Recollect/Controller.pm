@@ -111,6 +111,7 @@ sub ui_html {
     my $params = $req->parameters;
     $params->{zones} = $self->model->zones->all;
     $params->{host_port} = $req->uri->host_port;
+    $params->{twitter} = $self->config->Value('twitter_username');
     return $self->process_template("$tmpl.tt2", $params)->finalize;
 }
 
