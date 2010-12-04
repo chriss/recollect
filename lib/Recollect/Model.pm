@@ -9,6 +9,7 @@ use Recollect::Reminders;
 use Recollect::Notifier;
 use Recollect::Paypal;
 use Recollect::KML;
+use Recollect::Config;
 use Carp qw/croak/;
 use Data::ICal;
 use Data::ICal::Entry::Event;
@@ -28,6 +29,7 @@ has 'reminders' => (is => 'ro', isa => 'Object', lazy_build => 1);
 has 'schema'    => (is => 'ro', isa => 'Object', lazy_build => 1);
 has 'notifier'  => (is => 'ro', isa => 'Object', lazy_build => 1);
 has 'kml'       => (is => 'ro', isa => 'Object', lazy_build => 1);
+has 'config'    => (is => 'ro', isa => 'Object', lazy_build => 1);
 
 sub days {
     my $self = shift;
@@ -101,7 +103,7 @@ sub next_dow_change {
         my $dow = $dt->day_of_week;
         if ($tonight < $dt and $prev_dow != $dow) {
             return (
-                last => ($return_dt ? $prev_day : $prev_day->epoch), 
+                last => ($return_dt ? $prev_day : $prev_day->epoch),
                 first => ($return_dt ? $dt : $dt->epoch),
             );
         }
@@ -231,7 +233,7 @@ sub _build_mailer {
 
 sub _build_reminders {
     my $self = shift;
-    return Recollect::Reminders->new( 
+    return Recollect::Reminders->new(
         schema => $self->schema,
     );
 }
@@ -289,6 +291,8 @@ sub _build_kml {
             : "$base/static/zones.kml";
     return Recollect::KML->new(filename => $filename);
 }
+
+sub _build_config { Recollect::Config->instance }
 
 __PACKAGE__->meta->make_immutable;
 1;
