@@ -8,8 +8,8 @@
   twitter_oauth_token_secret: ''
   twilio_AccountSid: ''
   twilio_AuthToken: ''
-  twilio_from_number_sms: ''
-  twilio_from_number_voice: ''
+  twilio_from_number_sms: '123456789'
+  twilio_from_number_voice: '123456789'
   paypal_branch: "test"
   paypal_test_user: "paypal_1289279423_biz_api1.5thplane.com"
   paypal_test_pwd: "1289279434"
