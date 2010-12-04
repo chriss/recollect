@@ -25,10 +25,12 @@ sub run {
         [ qr{^/gather/lookup/(north|south)$}   => \&lookup_zone ],
 
         [ qr{^/notify/([\w-]+)$}     => \&voice_notify ],
+        [ qr{^/notify/([\w-]+)/status$} => \&voice_notify_status ],
         [ qr{^/show/message_prompt$} => \&show_message_prompt ],
         [ qr{^/receive/message$}     => \&receive_message ],
         [ qr{^/goodbye$}             => \&goodbye ],
         [ qr{^/new-user-welcome$}    => \&new_user_welcome ],
+        [ qr{^/new-user-status$}     => \&new_user_status ],
     );
 
     my $response = '';
@@ -157,6 +159,15 @@ sub voice_notify {
 EOT
 }
 
+sub voice_notify_status {
+    my ($self, $req, $zone_name) = @_;
+
+    warn "StatusCallback";
+    return <<EOT
+<Hangup />
+EOT
+}
+
 sub show_zones_menu {
     my ($self, $req, $type) = @_;
     return <<EOT;
@@ -233,6 +244,15 @@ sub receive_message {
 }
 
 sub goodbye { "<Say voice=\"woman\">Goodbye.</Say><Hangup/>" }
+
+sub new_user_status {
+    my $self = shift;
+    my $req  = shift;
+
+    use Data::Dumper;
+    warn Dumper $req->parameters;
+    return '';
+}
 
 sub new_user_welcome { 
     my $self = shift;
