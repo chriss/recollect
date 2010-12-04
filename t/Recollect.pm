@@ -16,6 +16,7 @@ use namespace::clean -except => 'meta';
 
 BEGIN {
     $ENV{VT_EMAIL} = "/tmp/email.$$";
+    $ENV{RECOLLECT_DEV_ENV} = 1;
 
     use_ok 'Recollect::Model';
     use_ok 'Recollect::Log';

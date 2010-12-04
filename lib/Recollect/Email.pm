@@ -24,7 +24,7 @@ sub send_email {
         || die $self->template->error;
 
     my %headers = (
-        From => $args{from} || '"Recollect" <noreply@recollect.net>',
+        From => $args{from} || 'Recollect <noreply@recollect.net>',
         To => $args{to},
         Subject => $args{subject},
     );
