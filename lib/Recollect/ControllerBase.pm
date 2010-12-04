@@ -3,6 +3,7 @@ use Moose::Role;
 use Recollect::Template;
 use Recollect::Model;
 use Recollect::Paypal;
+use JSON qw/encode_json decode_json/;
 
 with 'Recollect::Log';
 requires 'Version';
@@ -79,6 +80,17 @@ sub _400_bad_request {
     $resp->body($self->render_template('error.tt2', { msg => $msg }));
     $resp->header('X-UA-Compatible' => 'IE=EmulateIE7');
     $resp->header('Content-Type' => 'text/html; charset=utf8');
+    return $resp->finalize;
+}
+
+
+sub _400_bad_request_json {
+    my $self = shift;
+    my $msg  = shift;
+    
+    my $resp = Plack::Response->new(400);
+    $resp->content_type('application/json');
+    $resp->body(encode_json { msg => $msg });
     return $resp->finalize;
 }
 

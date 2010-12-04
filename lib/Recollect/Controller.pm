@@ -403,23 +403,23 @@ sub post_reminder {
     my $zone = shift;
     
     my $args = eval { decode_json $req->raw_body };
-    return $self->_400_bad_request("Bad JSON") if $@;
+    return $self->_400_bad_request_json("Bad JSON") if $@;
 
     my $addr;
     if ($args->{email}) {
         $addr = Email::Valid->address($args->{email});
     }
-    return $self->_400_bad_request("Bad email address") unless $addr;
-    return $self->_400_bad_request("name is required") unless $args->{name};
-    return $self->_400_bad_request("target is required") unless $args->{target};
-    return $self->_400_bad_request("target is unsupported") unless $self->model->reminders->Is_valid_target($args->{target});
+    return $self->_400_bad_request_json("Bad email address") unless $addr;
+    return $self->_400_bad_request_json("name is required") unless $args->{name};
+    return $self->_400_bad_request_json("target is required") unless $args->{target};
+    return $self->_400_bad_request_json("target is unsupported") unless $self->model->reminders->Is_valid_target($args->{target});
 
     my $payment_required = $self->model->Payment_required_for($args->{target});
-    return $self->_400_bad_request("voice/sms reminders require payment period")
+    return $self->_400_bad_request_json("voice/sms reminders require payment period")
         if $payment_required and !$args->{payment_period};
 
     if (my $coupon = $args->{coupon} and $payment_required) {
-        return $self->_400_bad_request("coupons are only valid for annual subscriptions") unless $args->{payment_period} eq 'year';
+        return $self->_400_bad_request_json("coupons are only valid for annual subscriptions") unless $args->{payment_period} eq 'year';
     }
 
     my $reminder = eval { 
@@ -433,7 +433,7 @@ sub post_reminder {
             coupon => $args->{coupon},
         });
     };
-    return $self->_400_bad_request($@) if $@;
+    return $self->_400_bad_request_json($@) if $@;
 
     $self->log(join ' ', 'ADD', $zone, $reminder->id, $reminder->email, $reminder->target );
     my @headers;
@@ -530,7 +530,7 @@ sub delete_reminder {
     }
 
     $self->log("DELETE_FAIL $zone $id");
-    return $self->_400_bad_request("Could not delete $id");
+    return $self->_400_bad_request_json("Could not delete $id");
 }
 
 sub _load_zone {
