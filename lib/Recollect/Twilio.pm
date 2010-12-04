@@ -11,6 +11,7 @@ sub _build_api {
     my $self = shift;
 
     return WWW::Twilio::API->new(
+        API_VERSION => '2010-04-01',
         map { $_ => Recollect::Config->Value('twilio_' . $_) }
             qw(AccountSid AuthToken))
         or die "Could not create a twilio!";
@@ -40,16 +41,22 @@ sub voice_call {
     my $self    = shift;
     my $number  = shift;
     my $path = shift;
+    my %opts = @_;
 
     return if $number eq '000-000-0000'; # testing number - invalid
 
     my $url = Recollect::Config->base_url . $path;
+    $opts{StatusCallback} = Recollect::Config->base_url . $opts{StatusCallback}
+        if $opts{StatusCallback};
+
     my $response = $self->api->POST(
         'Calls',
         Caller => $self->voice_from_number,
         Called => $number,
         Url    => $url,
+        %opts,
     );
+    
     unless ($response->{code} == 201) {
         (my $comment = $response->{content}) =~ s/.+\<Message\>(.+?)\<\/Message\>.+/$1/;
         die "Could not place a call to $number: $comment\n";
