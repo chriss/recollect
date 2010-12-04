@@ -57,7 +57,9 @@ sub confirm {
     $self->update;
 
     if (my $number = $self->voice_target) {
-        $self->twilio->voice_call($number, "/call/new-user-welcome");
+        $self->twilio->voice_call($number, "/call/new-user-welcome",
+            StatusCallback => '/call/new-user-status?reminder=' . $self->id,
+        );
     }
     elsif ($number = $self->sms_target) {
         $self->twilio->send_sms($number, <<EOT);

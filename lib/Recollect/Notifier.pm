@@ -190,7 +190,11 @@ sub _send_notification_voice {
     my $self = shift;
     my %args = @_;
 
-    $self->twilio->voice_call($args{target}, '/call/notify/' . $args{reminder}->zone);
+    my $url = '/call/notify/' . $args{reminder}->zone;
+    $self->twilio->voice_call($args{target}, $url,
+        StatusCallback => $url . "/status?id=" . $args{reminder}->id,
+    );
+
     return 1;
 }
 
