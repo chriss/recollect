@@ -154,7 +154,7 @@ sub voice_notify {
     my $zone_desc = $zone->desc;
     return <<EOT;
 <Pause length="1"/>
-<Say voice="woman">Hello, this is Van Trash. I hope you are feeling dirty, because garbage day is almost here!  Your garbage will be removed on $day_name.  $extra</Say>
+<Say voice="woman">Hello, this is Van Trash. Garbage day is almost here!  Your garbage will be removed on $day_name.  $extra</Say>
 <Hangup/>
 EOT
 }
