@@ -1,50 +1,65 @@
 BEGIN;
 
-CREATE TABLE area (
-    name TEXT PRIMARY KEY,
-    desc TEXT NOT NULL,
-    centre TEXT NOT NULL
+CREATE SEQUENCE zone_seq;
+CREATE TABLE zones (
+    id     integer PRIMARY KEY DEFAULT nextval('zone_seq'),
+    name   text NOT NULL,
+    title  text NOT NULL,
+    colour text NOT NULL
 );
+CREATE INDEX zones_name_idx ON zones (name);
 
-CREATE TABLE zone (
-    name TEXT PRIMARY KEY,
-    area TEXT NOT NULL,
-    desc TEXT NOT NULL,
-    colour TEXT NOT NULL
+
+CREATE SEQUENCE pickup_seq;
+CREATE TABLE pickups (
+    id      integer PRIMARY KEY DEFAULT nextval('pickup_seq'),
+    zone_id integer references zones(id),
+    day     date NOT NULL,
+    flags   text DEFAULT ''
 );
+CREATE INDEX pickups_zone_idx ON pickups (zone_id);
+CREATE INDEX pickups_day_idx  ON pickups (day);
 
-CREATE TABLE pickup (
-    id INTEGER PRIMARY KEY,
-    zone TEXT NOT NULL,
-    day TEXT NOT NULL,
-    flags TEXT NOT NULL
+
+CREATE SEQUENCE user_seq;
+CREATE TABLE users (
+    id    integer PRIMARY KEY DEFAULT nextval('user_seq'),
+    email text NOT NULL
 );
+CREATE INDEX users_email_idx ON users (email);
 
-CREATE TABLE reminder (
-    id TEXT PRIMARY KEY,
-    name TEXT NOT NULL,
-    email TEXT NOT NULL,
-    target TEXT NOT NULL,
-    zone TEXT NOT NULL,
-    offset INTEGER NOT NULL,
-    confirmed BOOLEAN NOT NULL,
-    created_at INTEGER NOT NULL,
-    next_pickup INTEGER NOT NULL,
-    last_notified INTEGER NOT NULL,
-    confirm_hash TEXT NOT NULL,
-    payment_period TEXT,
-    expiry INTEGER NOT NULL DEFAULT 0,
-    coupon TEXT,
-    subscription_profile_id TEXT
+
+CREATE SEQUENCE reminder_seq;
+CREATE TABLE reminders (
+    id      integer PRIMARY KEY DEFAULT nextval('reminder_seq'),
+    user_id integer references users(id),
+    zone_id integer references zones(id),
+    created_at      timestamptz DEFAULT LOCALTIMESTAMP,
+    last_notified   timestamptz DEFAULT '-infinity'::timestamptz,
+    delivery_offset interval DAY TO MINUTE DEFAULT '-6hours'::interval,
+    target      text NOT NULL,
+    active      BOOLEAN NOT NULL DEFAULT TRUE,
+    confirmed   BOOLEAN NOT NULL,
+    confirm_hash text DEFAULT ''
 );
+CREATE INDEX reminders_user_idx ON reminders (user_id);
+CREATE INDEX reminders_zone_idx ON reminders (zone_id) WHERE active IS TRUE;
+CREATE INDEX reminders_last_notified_idx ON reminders (last_notified);
+CREATE INDEX reminders_confirm_hash_idx ON reminders (confirm_hash);
 
--- TODO:
--- index area on name
--- index zone on area
--- index zone on name
--- index pickup on zone
--- index reminder on id
--- index reminder on zone
--- index reminder on confirm_hash
+
+CREATE SEQUENCE subscriptions_seq;
+CREATE TABLE subscriptions (
+    id         integer PRIMARY KEY DEFAULT nextval('subscriptions_seq'),
+    user_id    integer references users(id),
+    period     text NOT NULL,
+    profile_id text NOT NULL,
+    expiry     timestamptz DEFAULT 'infinity'::timestamptz,
+    coupon     text DEFAULT ''
+);
+CREATE INDEX subscriptions_user_idx ON subscriptions (user_id);
+CREATE INDEX subscriptions_profile_id_idx ON subscriptions (profile_id);
+CREATE INDEX subscriptions_expiry_idx ON subscriptions (expiry);
+
 
 COMMIT;
