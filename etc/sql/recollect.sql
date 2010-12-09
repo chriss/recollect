@@ -1,8 +1,17 @@
 BEGIN;
 
+CREATE SEQUENCE area_seq;
+CREATE TABLE areas (
+    id     integer PRIMARY KEY DEFAULT nextval('area_seq'),
+    name   text NOT NULL,
+    centre text NOT NULL
+);
+
+
 CREATE SEQUENCE zone_seq;
 CREATE TABLE zones (
     id     integer PRIMARY KEY DEFAULT nextval('zone_seq'),
+    area_id integer references areas(id),
     name   text NOT NULL,
     title  text NOT NULL,
     colour text NOT NULL
@@ -19,19 +28,19 @@ CREATE TABLE pickups (
 );
 CREATE INDEX pickups_zone_idx ON pickups (zone_id);
 CREATE INDEX pickups_day_idx  ON pickups (day);
+CREATE UNIQUE INDEX pickups_zone_day_idx ON pickups (zone_id, day);
 
 
-CREATE SEQUENCE user_seq;
 CREATE TABLE users (
-    id    integer PRIMARY KEY DEFAULT nextval('user_seq'),
-    email text NOT NULL
+    id    integer PRIMARY KEY,
+    email text NOT NULL,
+    created_at  timestamptz DEFAULT LOCALTIMESTAMP
 );
 CREATE INDEX users_email_idx ON users (email);
 
 
-CREATE SEQUENCE reminder_seq;
 CREATE TABLE reminders (
-    id      integer PRIMARY KEY DEFAULT nextval('reminder_seq'),
+    id      text    PRIMARY KEY,
     user_id integer references users(id),
     zone_id integer references zones(id),
     created_at      timestamptz DEFAULT LOCALTIMESTAMP,
@@ -48,10 +57,10 @@ CREATE INDEX reminders_last_notified_idx ON reminders (last_notified);
 CREATE INDEX reminders_confirm_hash_idx ON reminders (confirm_hash);
 
 
-CREATE SEQUENCE subscriptions_seq;
 CREATE TABLE subscriptions (
-    id         integer PRIMARY KEY DEFAULT nextval('subscriptions_seq'),
+    id         integer PRIMARY KEY,
     user_id    integer references users(id),
+    created_at timestamptz DEFAULT LOCALTIMESTAMP,
     period     text NOT NULL,
     profile_id text NOT NULL,
     expiry     timestamptz DEFAULT 'infinity'::timestamptz,

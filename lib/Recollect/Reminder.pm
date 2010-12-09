@@ -1,7 +1,5 @@
-package Recollect::Schema::Result::Reminder;
-use base qw/DBIx::Class/;
+package Recollect::Reminder;
 use Moose;
-use MooseX::Types::Common::String qw/NonEmptySimpleStr/;
 use WWW::Shorten::isgd;
 use Data::UUID;
 use Recollect::Config;
@@ -11,38 +9,36 @@ use DateTime;
 use DateTime::Duration;
 use namespace::clean -except => 'meta';
 
-has 'id'            => (is => 'ro', isa => 'Str',  required => 1);
-has 'name'          => (is => 'ro', isa => 'Str',  required => 1);
-has 'email'         => (is => 'ro', isa => 'Str',  required => 1);
-has 'target'        => (is => 'ro', isa => 'Str',  required => 1);
-has 'zone'          => (is => 'ro', isa => 'Str',  required => 1);
-has 'offset'        => (is => 'ro', isa => 'Int',  required => 1);
-has 'confirmed'     => (is => 'rw', isa => 'Bool', required => 1);
-has 'created_at'    => (is => 'ro', isa => 'Int',  required => 1);
-has 'next_pickup'   => (is => 'rw', isa => 'Int',  required => 1);
-has 'last_notified' => (is => 'rw', isa => 'Int',  required => 1);
-has 'confirm_hash'  => (is => 'ro', isa => 'Str',  required => 1);
-has 'expiry'                  => (is => 'rw', isa => 'Int', default => 0);
-has 'payment_period'          => (is => 'ro', isa => 'Str');
-has 'coupon'                  => (is => 'ro', isa => 'Str', default => '');
-has 'subscription_profile_id' => (is => 'ro', isa => 'Str');
+extends 'Recollect::Collection';
 
+has 'id'            => (is => 'ro', isa => 'Str',  required => 1);
+has 'user_id'       => (is => 'ro', isa => 'Int',  required => 1);
+has 'zone_id'       => (is => 'ro', isa => 'Int',  required => 1);
+has 'created_at'    => (is => 'ro', isa => 'Object',  required => 1);
+has 'last_notified' => (is => 'ro', isa => 'Object',  required => 1);
+has 'delivery_offset'=>(is => 'ro', isa => 'Object',  required => 1);
+has 'target'        => (is => 'ro', isa => 'Str',  required => 1);
+has 'active'        => (is => 'rw', isa => 'Bool', required => 1);
+has 'confirmed'     => (is => 'rw', isa => 'Bool', required => 1);
+has 'confirm_hash'  => (is => 'ro', isa => 'Str',  required => 1);
+
+has 'user'             => (is => 'ro', isa => 'Object', lazy_build => 1);
+has 'zone'             => (is => 'ro', isa => 'Object', lazy_build => 1);
 has 'nice_name'        => (is => 'ro', isa => 'Str', lazy_build => 1);
 has 'nice_zone'        => (is => 'ro', isa => 'Str', lazy_build => 1);
 has 'confirm_url'      => (is => 'ro', isa => 'Str', lazy_build => 1);
 has 'delete_url'       => (is => 'ro', isa => 'Str', lazy_build => 1);
 has 'short_delete_url' => (is => 'ro', isa => 'Str', lazy_build => 1);
 has 'zone_url'         => (is => 'ro', isa => 'Str', lazy_build => 1);
-has 'payment_url'      => (is => 'ro', isa => 'Str', lazy_build => 1);
-has 'expiry_datetime'  => (is => 'ro', isa => 'DateTime', lazy_build => 1);
-has 'duration'         => (is => 'ro', isa => 'DateTime::Duration', lazy_build => 1);
 
 sub to_hash {
     my $self = shift;
     return {
+        user => $self->user->to_hash,
+        zone => $self->zone->to_hash,
         map { $_ => $self->$_() }
-            qw/id name email zone offset confirmed created_at next_pickup
-            last_notified target confirm_hash payment_period expiry/
+            qw/id user_id zone_id created_at last_notified delivery_offset
+            target active confirmed confirm_hash/
     };
 }
 
@@ -134,28 +130,39 @@ has 'twilio' => (
 );
 sub _build_twilio { Recollect::Twilio->new }
 
-__PACKAGE__->load_components(qw/Core/);
-__PACKAGE__->table('reminder');
+sub By_id   { }
+sub By_hash { }
+sub By_email {}
 
-__PACKAGE__->add_columns(
-    id            => { data_type => 'text' },
-    name          => { data_type => 'text' },
-    email         => { data_type => 'text' },
-    target        => { data_type => 'text' },
-    zone          => { data_type => 'text' },
-    offset        => { data_type => 'integer' },
-    confirmed     => { data_type => 'boolean' },
-    created_at    => { data_type => 'integer' },
-    next_pickup   => { data_type => 'integer' },
-    last_notified => { data_type => 'integer' },
-    confirm_hash  => { data_type => 'text' },
-    payment_period          => { data_type => 'text' },
-    expiry                  => { data_type => 'integer' },
-    coupon                  => { data_type => 'text' },
-    subscription_profile_id => { data_type => 'text' },
-);
+sub Add {
+    my $self = shift;
+    my $rem = shift;
 
-__PACKAGE__->set_primary_key('id');
+    $rem->{id} = _build_uuid();
+    $rem->{offset}        = -6 unless defined $rem->{offset};
+    $rem->{confirmed}     = 0;
+    $rem->{created_at}    = time;
+    $rem->{last_notified} = time;
+    $rem->{confirm_hash}  = _build_uuid();
+    $rem->{expiry}        ||= 0; # no expiry
+    if (my $pp = $rem->{payment_period}) {
+        die "Invalid payment_period - must be 'month' or 'year'"
+            unless $pp =~ m/^(?:year|month|day)$/;
+    }
 
-__PACKAGE__->meta->make_immutable(inline_constructor => 0);
+}
+
+sub Is_valid_target {
+    my $class = shift;
+    my $target = shift;
+    return $target =~ m/^(?:email|twitter|webhook|sms|voice):/;
+}
+
+sub _build_uuid { 
+    my $namespace = shift;
+    my $hash = shift;
+    return Data::UUID->new->create_str;
+}
+
+__PACKAGE__->meta->make_immutable;
 1;

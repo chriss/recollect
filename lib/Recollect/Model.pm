@@ -1,15 +1,12 @@
 package Recollect::Model;
 use Moose;
 use Recollect::Email;
-use Recollect::Schema;
-use Recollect::Areas;
-use Recollect::Pickups;
-use Recollect::Zones;
-use Recollect::Reminders;
+use Recollect::Pickup;
+use Recollect::Zone;
+use Recollect::Reminder;
 use Recollect::Notifier;
 use Recollect::Paypal;
 use Recollect::KML;
-use Recollect::Config;
 use Carp qw/croak/;
 use Data::ICal;
 use Data::ICal::Entry::Event;
@@ -20,16 +17,12 @@ use YAML qw/LoadFile DumpFile/;
 use Data::Dumper;
 use namespace::clean -except => 'meta';
 
+with 'Recollect::Config';
+
 has 'base_path' => (is => 'ro', isa => 'Str',    required   => 1);
-has 'areas'     => (is => 'ro', isa => 'Object', lazy_build => 1);
-has 'zones'     => (is => 'ro', isa => 'Object', lazy_build => 1);
-has 'pickups'   => (is => 'ro', isa => 'Object', lazy_build => 1);
 has 'mailer'    => (is => 'ro', isa => 'Object', lazy_build => 1);
-has 'reminders' => (is => 'ro', isa => 'Object', lazy_build => 1);
-has 'schema'    => (is => 'ro', isa => 'Object', lazy_build => 1);
 has 'notifier'  => (is => 'ro', isa => 'Object', lazy_build => 1);
 has 'kml'       => (is => 'ro', isa => 'Object', lazy_build => 1);
-has 'config'    => (is => 'ro', isa => 'Object', lazy_build => 1);
 
 sub days {
     my $self = shift;
@@ -188,7 +181,7 @@ sub confirm_reminder {
         template => 'reminder-success.html',
         template_args => {
             reminder => $rem,
-            twitter => $self->config->Value('twitter_username'),
+            twitter => $self->config->{twitter_username},
         },
     );
 
@@ -231,19 +224,6 @@ sub _build_mailer {
     return Recollect::Email->new( base_path => $self->base_path );
 }
 
-sub _build_reminders {
-    my $self = shift;
-    return Recollect::Reminders->new(
-        schema => $self->schema,
-    );
-}
-
-sub _build_schema {
-    my $self = shift;
-    my $db_file = $self->base_path . '/data/recollect.db';
-    return Recollect::Schema->connect("dbi:SQLite:$db_file");
-}
-
 sub _build_notifier {
     my $self = shift;
     return Recollect::Notifier->new(
@@ -268,21 +248,6 @@ sub tonight {
     $now->set( hour => 23, minute => 59 );
 }
 
-sub _build_areas {
-    my $self = shift;
-    return Recollect::Areas->new( schema => $self->schema );
-}
-
-sub _build_zones {
-    my $self = shift;
-    return Recollect::Zones->new( schema => $self->schema );
-}
-
-sub _build_pickups {
-    my $self = shift;
-    return Recollect::Pickups->new( schema => $self->schema );
-}
-
 sub _build_kml {
     my $self = shift;
     my $base = $self->base_path;
@@ -291,8 +256,6 @@ sub _build_kml {
             : "$base/static/zones.kml";
     return Recollect::KML->new(filename => $filename);
 }
-
-sub _build_config { Recollect::Config->instance }
 
 __PACKAGE__->meta->make_immutable;
 1;

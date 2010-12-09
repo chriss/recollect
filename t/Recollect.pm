@@ -6,6 +6,7 @@ use FindBin;
 use Fatal qw/mkdir symlink copy/;
 use Test::More;
 use File::Slurp;
+use YAML qw/LoadFile DumpFile/;
 use mocked 'Net::Twitter';
 use mocked 'WWW::Twilio::API';
 use mocked 'Business::PayPal::NVP';
@@ -46,17 +47,26 @@ sub _build_base_path {
     copy "$FindBin::Bin/../data/trash-zone-times.yaml",
         "$tmp_dir/data/trash-zone-times.yaml";
     mkdir "$tmp_dir/etc";
-    copy "$FindBin::Bin/../etc/recollect.yaml.DEFAULT" => "$tmp_dir/etc/recollect.yaml";
+    my $config = LoadFile("$FindBin::Bin/../etc/recollect.yaml.DEFAULT");
+    $config->{db_name} = "recollect_$$";
+    $config->{db_user} = $ENV{USER};
+    my $test_config = "$tmp_dir/etc/recollect.yaml";
+    DumpFile($test_config, $config);
+    $ENV{RECOLLECT_TEST_CONFIG_FILE} = $test_config;
 
     $ENV{RECOLLECT_LOG_FILE} = "$tmp_dir/recollect.log";
     
     # Create the SQL db
-    my $db_file = "$tmp_dir/data/recollect.db";
+    diag "createdb $config->{db_name}";
+    system("createdb $config->{db_name}");
+
     my $sql_file = "$FindBin::Bin/../etc/sql/recollect.sql";
     if ($ENV{RECOLLECT_LOAD_DATA}) {
-        $sql_file = "$FindBin::Bin/../data/recollect.dump";
+        $sql_file = "$FindBin::Bin/../etc/sql/recollect.dump";
     }
-    system("sqlite3 $db_file < $sql_file");
+    diag "Loading schema from $sql_file";
+    system("psql $config->{db_name} -f $sql_file > /dev/null 2>&1")
+        and die "Couldn't psql $config->{db_name} -f $sql_file";
     return $tmp_dir;
 }
 

@@ -1,38 +1,53 @@
 package Recollect::Collection;
 use Moose;
 use Carp qw/croak/;
+use Recollect::SQL;
 use namespace::clean -except => 'meta';
 
-has 'schema' => (is => 'ro', required => 1);
+sub _sql { Recollect::SQL->new }
+sub _select { _sql()->execute('select', shift->db_table, @_) }
 
-sub all {
-    my $self = shift;
-    my $objects = shift;
-    return [ map { $objects ? $_ : $_->to_hash } $self->_rs->search()->all ];
+sub All {
+    my $class = shift;
+    my $sth = $class->_select('*');
+    return [ map { $class->new($_) } @{ $sth->fetchall_arrayref({}) } ];
 }
 
-sub by_name { shift->search_by(name => @_)->first }
+sub Create {
+    my $class = shift;
+    my %args = @_;
 
-sub add {
-    my $self = shift;
-    my $res = eval {  $self->_rs->create(@_) };
-    croak "Could not add a new " . ref($self) if $@;
-    return $res;
+    $args{id} ||= do { $class->_sequence_nextval };
+    _sql()->insert($class->db_table, \%args);
+    return $class->By_id($args{id});
 }
 
-sub search_by {
-    my $self = shift;
-    my $key  = shift;
+sub By_id {
+    my $class = shift;
+    my $id = shift;
+    my $sth = $class->By_field(id => $id);
+    my $row = $sth->fetchrow_hashref;
+    return $class->new($row);
+}
+
+sub By_field {
+    my $class = shift;
+    my $field = shift;
     my $value = shift;
-
-    return $self->_rs->search({$key => $value});
+    return $class->_select('*', { $field => $value });
 }
 
-sub _rs {
-    my $self = shift;
-    (my $class = ref($self)) =~ s/.+::(.+)s$/$1/;
-    return $self->schema->resultset($class);
+sub _sequence_nextval {
+    my $class = shift;
+    return _sql()->nextval($class->db_table);
 }
+
+sub db_table {
+    my $class = ref($_[0]) ? ref($_[0]) : $_[0];
+    (my $table = $class) =~ s/^.+::(.+)$/lc($1) . 's'/e;
+    return $table;
+}
+
 
 __PACKAGE__->meta->make_immutable;
 1;

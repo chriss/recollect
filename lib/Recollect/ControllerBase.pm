@@ -5,12 +5,11 @@ use Recollect::Model;
 use Recollect::Paypal;
 use JSON qw/encode_json decode_json/;
 
-with 'Recollect::Log';
+with 'Recollect::Base';
 requires 'Version';
 
 has 'base_path' => (is => 'ro', isa => 'Str',    required   => 1);
 has 'template'  => (is => 'ro', isa => 'Object', lazy_build => 1);
-has 'config'    => (is => 'ro', isa => 'Object', lazy_build => 1);
 has 'request'   => (is => 'rw', isa => 'Plack::Request');
 has 'model' => (is => 'ro', isa => 'Recollect::Model', lazy_build => 1);
 
@@ -37,8 +36,6 @@ sub _build_template {
     my $self = shift;
     return Recollect::Template->new( base_path => $self->base_path );
 }
-
-sub _build_config { Recollect::Config->instance };
 
 sub response {
     my $self = shift;
