@@ -60,7 +60,7 @@ sub scrape_zone {
                 next unless $day;
                 next if $day =~ m/^\s*$/ or $day =~ m/Set out by 7/;
                 unless ($day and $day =~ m/^\s*(\d+)\s*$/) {
-                    warn "Couldn't recognize: '$day'\n";
+                    warn "Couldn't recognize: '$day'\n" if $day =~ m/\w+/;
                     next;
                 }
                 $day = $1;

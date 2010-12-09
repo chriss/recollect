@@ -1,1127 +1,1011 @@
-BEGIN TRANSACTION;
-CREATE TABLE area (
-    name TEXT PRIMARY KEY,
-    desc TEXT NOT NULL,
-    centre TEXT NOT NULL
+--
+-- PostgreSQL database dump
+--
+
+SET statement_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = off;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+SET escape_string_warning = off;
+
+SET search_path = public, pg_catalog;
+
+--
+-- Name: area_seq; Type: SEQUENCE; Schema: public; Owner: ubuntu
+--
+
+CREATE SEQUENCE area_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.area_seq OWNER TO ubuntu;
+
+--
+-- Name: area_seq; Type: SEQUENCE SET; Schema: public; Owner: ubuntu
+--
+
+SELECT pg_catalog.setval('area_seq', 1, true);
+
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- Name: areas; Type: TABLE; Schema: public; Owner: ubuntu; Tablespace: 
+--
+
+CREATE TABLE areas (
+    id integer DEFAULT nextval('area_seq'::regclass) NOT NULL,
+    name text NOT NULL,
+    centre text NOT NULL
 );
-INSERT INTO "area" VALUES('vancouver','Vancouver, BC','[ 49.26422,-123.138542 ]');
-CREATE TABLE zone (
-    name TEXT PRIMARY KEY,
-    area TEXT NOT NULL,
-    desc TEXT NOT NULL,
-    colour TEXT NOT NULL
+
+
+ALTER TABLE public.areas OWNER TO ubuntu;
+
+--
+-- Name: pickup_seq; Type: SEQUENCE; Schema: public; Owner: ubuntu
+--
+
+CREATE SEQUENCE pickup_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.pickup_seq OWNER TO ubuntu;
+
+--
+-- Name: pickup_seq; Type: SEQUENCE SET; Schema: public; Owner: ubuntu
+--
+
+SELECT pg_catalog.setval('pickup_seq', 899, true);
+
+
+--
+-- Name: pickups; Type: TABLE; Schema: public; Owner: ubuntu; Tablespace: 
+--
+
+CREATE TABLE pickups (
+    id integer DEFAULT nextval('pickup_seq'::regclass) NOT NULL,
+    zone_id integer,
+    day date NOT NULL,
+    flags text DEFAULT ''::text
 );
-INSERT INTO "zone" VALUES('vancouver-north-purple','vancouver','Vancouver North Purple','purple');
-INSERT INTO "zone" VALUES('vancouver-north-red','vancouver','Vancouver North Red','red');
-INSERT INTO "zone" VALUES('vancouver-north-blue','vancouver','Vancouver North Blue','blue');
-INSERT INTO "zone" VALUES('vancouver-north-green','vancouver','Vancouver North Green','green');
-INSERT INTO "zone" VALUES('vancouver-north-yellow','vancouver','Vancouver North Yellow','yellow');
-INSERT INTO "zone" VALUES('vancouver-south-purple','vancouver','Vancouver South Purple','purple');
-INSERT INTO "zone" VALUES('vancouver-south-red','vancouver','Vancouver South Red','red');
-INSERT INTO "zone" VALUES('vancouver-south-blue','vancouver','Vancouver South Blue','blue');
-INSERT INTO "zone" VALUES('vancouver-south-green','vancouver','Vancouver South Green','green');
-INSERT INTO "zone" VALUES('vancouver-south-yellow','vancouver','Vancouver South Yellow','yellow');
-CREATE TABLE pickup (
-    id INTEGER PRIMARY KEY,
-    zone TEXT NOT NULL,
-    day TEXT NOT NULL,
-    flags TEXT NOT NULL
+
+
+ALTER TABLE public.pickups OWNER TO ubuntu;
+
+--
+-- Name: reminders; Type: TABLE; Schema: public; Owner: ubuntu; Tablespace: 
+--
+
+CREATE TABLE reminders (
+    id text NOT NULL,
+    user_id integer,
+    zone_id integer,
+    created_at timestamp with time zone DEFAULT ('now'::text)::timestamp without time zone,
+    last_notified timestamp with time zone DEFAULT '-infinity'::timestamp with time zone,
+    delivery_offset interval day to minute DEFAULT '-06:00:00'::interval,
+    target text NOT NULL,
+    active boolean DEFAULT true NOT NULL,
+    confirmed boolean NOT NULL,
+    confirm_hash text DEFAULT ''::text
 );
-INSERT INTO "pickup" VALUES(1,'vancouver-north-purple','2009-01-06','');
-INSERT INTO "pickup" VALUES(2,'vancouver-north-purple','2009-01-13','Y');
-INSERT INTO "pickup" VALUES(3,'vancouver-north-purple','2009-01-20','');
-INSERT INTO "pickup" VALUES(4,'vancouver-north-purple','2009-01-27','Y');
-INSERT INTO "pickup" VALUES(5,'vancouver-north-purple','2009-02-03','');
-INSERT INTO "pickup" VALUES(6,'vancouver-north-purple','2009-02-10','Y');
-INSERT INTO "pickup" VALUES(7,'vancouver-north-purple','2009-02-17','');
-INSERT INTO "pickup" VALUES(8,'vancouver-north-purple','2009-02-24','Y');
-INSERT INTO "pickup" VALUES(9,'vancouver-north-purple','2009-03-03','');
-INSERT INTO "pickup" VALUES(10,'vancouver-north-purple','2009-03-10','Y');
-INSERT INTO "pickup" VALUES(11,'vancouver-north-purple','2009-03-17','');
-INSERT INTO "pickup" VALUES(12,'vancouver-north-purple','2009-03-24','Y');
-INSERT INTO "pickup" VALUES(13,'vancouver-north-purple','2009-03-31','');
-INSERT INTO "pickup" VALUES(14,'vancouver-north-purple','2009-04-07','Y');
-INSERT INTO "pickup" VALUES(15,'vancouver-north-purple','2009-04-16','');
-INSERT INTO "pickup" VALUES(16,'vancouver-north-purple','2009-04-23','Y');
-INSERT INTO "pickup" VALUES(17,'vancouver-north-purple','2009-04-30','');
-INSERT INTO "pickup" VALUES(18,'vancouver-north-purple','2009-05-07','Y');
-INSERT INTO "pickup" VALUES(19,'vancouver-north-purple','2009-05-14','');
-INSERT INTO "pickup" VALUES(20,'vancouver-north-purple','2009-05-22','Y');
-INSERT INTO "pickup" VALUES(21,'vancouver-north-purple','2009-05-29','');
-INSERT INTO "pickup" VALUES(22,'vancouver-north-purple','2009-06-05','Y');
-INSERT INTO "pickup" VALUES(23,'vancouver-north-purple','2009-06-12','');
-INSERT INTO "pickup" VALUES(24,'vancouver-north-purple','2009-06-19','Y');
-INSERT INTO "pickup" VALUES(25,'vancouver-north-purple','2009-06-26','');
-INSERT INTO "pickup" VALUES(26,'vancouver-north-purple','2009-07-06','Y');
-INSERT INTO "pickup" VALUES(27,'vancouver-north-purple','2009-07-13','');
-INSERT INTO "pickup" VALUES(28,'vancouver-north-purple','2009-07-20','Y');
-INSERT INTO "pickup" VALUES(29,'vancouver-north-purple','2009-07-27','');
-INSERT INTO "pickup" VALUES(30,'vancouver-north-purple','2009-08-04','Y');
-INSERT INTO "pickup" VALUES(31,'vancouver-north-purple','2009-08-11','');
-INSERT INTO "pickup" VALUES(32,'vancouver-north-purple','2009-08-18','Y');
-INSERT INTO "pickup" VALUES(33,'vancouver-north-purple','2009-08-25','');
-INSERT INTO "pickup" VALUES(34,'vancouver-north-purple','2009-09-01','Y');
-INSERT INTO "pickup" VALUES(35,'vancouver-north-purple','2009-09-09','');
-INSERT INTO "pickup" VALUES(36,'vancouver-north-purple','2009-09-16','Y');
-INSERT INTO "pickup" VALUES(37,'vancouver-north-purple','2009-09-23','');
-INSERT INTO "pickup" VALUES(38,'vancouver-north-purple','2009-09-30','Y');
-INSERT INTO "pickup" VALUES(39,'vancouver-north-purple','2009-10-07','');
-INSERT INTO "pickup" VALUES(40,'vancouver-north-purple','2009-10-15','Y');
-INSERT INTO "pickup" VALUES(41,'vancouver-north-purple','2009-10-22','');
-INSERT INTO "pickup" VALUES(42,'vancouver-north-purple','2009-10-29','Y');
-INSERT INTO "pickup" VALUES(43,'vancouver-north-purple','2009-11-05','');
-INSERT INTO "pickup" VALUES(44,'vancouver-north-purple','2009-11-13','Y');
-INSERT INTO "pickup" VALUES(45,'vancouver-north-purple','2009-11-20','');
-INSERT INTO "pickup" VALUES(46,'vancouver-north-purple','2009-11-27','Y');
-INSERT INTO "pickup" VALUES(47,'vancouver-north-purple','2009-12-04','');
-INSERT INTO "pickup" VALUES(48,'vancouver-north-purple','2009-12-11','Y');
-INSERT INTO "pickup" VALUES(49,'vancouver-north-purple','2009-12-18','');
-INSERT INTO "pickup" VALUES(50,'vancouver-north-purple','2009-12-29','Y');
-INSERT INTO "pickup" VALUES(51,'vancouver-north-purple','2010-01-06','');
-INSERT INTO "pickup" VALUES(52,'vancouver-north-purple','2010-01-13','Y');
-INSERT INTO "pickup" VALUES(53,'vancouver-north-purple','2010-01-20','');
-INSERT INTO "pickup" VALUES(54,'vancouver-north-purple','2010-01-27','Y');
-INSERT INTO "pickup" VALUES(55,'vancouver-north-purple','2010-02-03','');
-INSERT INTO "pickup" VALUES(56,'vancouver-north-purple','2010-02-10','Y');
-INSERT INTO "pickup" VALUES(57,'vancouver-north-purple','2010-02-17','');
-INSERT INTO "pickup" VALUES(58,'vancouver-north-purple','2010-02-24','Y');
-INSERT INTO "pickup" VALUES(59,'vancouver-north-red','2009-01-08','');
-INSERT INTO "pickup" VALUES(60,'vancouver-north-red','2009-01-15','Y');
-INSERT INTO "pickup" VALUES(61,'vancouver-north-red','2009-01-22','');
-INSERT INTO "pickup" VALUES(62,'vancouver-north-red','2009-01-29','Y');
-INSERT INTO "pickup" VALUES(63,'vancouver-north-red','2009-02-05','');
-INSERT INTO "pickup" VALUES(64,'vancouver-north-red','2009-02-12','Y');
-INSERT INTO "pickup" VALUES(65,'vancouver-north-red','2009-02-19','');
-INSERT INTO "pickup" VALUES(66,'vancouver-north-red','2009-02-26','Y');
-INSERT INTO "pickup" VALUES(67,'vancouver-north-red','2009-03-05','');
-INSERT INTO "pickup" VALUES(68,'vancouver-north-red','2009-03-12','Y');
-INSERT INTO "pickup" VALUES(69,'vancouver-north-red','2009-03-19','');
-INSERT INTO "pickup" VALUES(70,'vancouver-north-red','2009-03-26','Y');
-INSERT INTO "pickup" VALUES(71,'vancouver-north-red','2009-04-02','');
-INSERT INTO "pickup" VALUES(72,'vancouver-north-red','2009-04-09','Y');
-INSERT INTO "pickup" VALUES(73,'vancouver-north-red','2009-04-20','');
-INSERT INTO "pickup" VALUES(74,'vancouver-north-red','2009-04-27','Y');
-INSERT INTO "pickup" VALUES(75,'vancouver-north-red','2009-05-04','');
-INSERT INTO "pickup" VALUES(76,'vancouver-north-red','2009-05-11','Y');
-INSERT INTO "pickup" VALUES(77,'vancouver-north-red','2009-05-19','');
-INSERT INTO "pickup" VALUES(78,'vancouver-north-red','2009-05-26','Y');
-INSERT INTO "pickup" VALUES(79,'vancouver-north-red','2009-06-02','');
-INSERT INTO "pickup" VALUES(80,'vancouver-north-red','2009-06-09','Y');
-INSERT INTO "pickup" VALUES(81,'vancouver-north-red','2009-06-16','');
-INSERT INTO "pickup" VALUES(82,'vancouver-north-red','2009-06-23','Y');
-INSERT INTO "pickup" VALUES(83,'vancouver-north-red','2009-06-30','');
-INSERT INTO "pickup" VALUES(84,'vancouver-north-red','2009-07-08','Y');
-INSERT INTO "pickup" VALUES(85,'vancouver-north-red','2009-07-15','');
-INSERT INTO "pickup" VALUES(86,'vancouver-north-red','2009-07-22','Y');
-INSERT INTO "pickup" VALUES(87,'vancouver-north-red','2009-07-29','');
-INSERT INTO "pickup" VALUES(88,'vancouver-north-red','2009-08-06','Y');
-INSERT INTO "pickup" VALUES(89,'vancouver-north-red','2009-08-13','');
-INSERT INTO "pickup" VALUES(90,'vancouver-north-red','2009-08-20','Y');
-INSERT INTO "pickup" VALUES(91,'vancouver-north-red','2009-08-27','');
-INSERT INTO "pickup" VALUES(92,'vancouver-north-red','2009-09-03','Y');
-INSERT INTO "pickup" VALUES(93,'vancouver-north-red','2009-09-11','');
-INSERT INTO "pickup" VALUES(94,'vancouver-north-red','2009-09-18','Y');
-INSERT INTO "pickup" VALUES(95,'vancouver-north-red','2009-09-25','');
-INSERT INTO "pickup" VALUES(96,'vancouver-north-red','2009-10-02','Y');
-INSERT INTO "pickup" VALUES(97,'vancouver-north-red','2009-10-09','');
-INSERT INTO "pickup" VALUES(98,'vancouver-north-red','2009-10-19','Y');
-INSERT INTO "pickup" VALUES(99,'vancouver-north-red','2009-10-26','');
-INSERT INTO "pickup" VALUES(100,'vancouver-north-red','2009-11-02','Y');
-INSERT INTO "pickup" VALUES(101,'vancouver-north-red','2009-11-09','');
-INSERT INTO "pickup" VALUES(102,'vancouver-north-red','2009-11-17','Y');
-INSERT INTO "pickup" VALUES(103,'vancouver-north-red','2009-11-24','');
-INSERT INTO "pickup" VALUES(104,'vancouver-north-red','2009-12-01','Y');
-INSERT INTO "pickup" VALUES(105,'vancouver-north-red','2009-12-08','');
-INSERT INTO "pickup" VALUES(106,'vancouver-north-red','2009-12-15','Y');
-INSERT INTO "pickup" VALUES(107,'vancouver-north-red','2009-12-22','');
-INSERT INTO "pickup" VALUES(108,'vancouver-north-red','2009-12-31','Y');
-INSERT INTO "pickup" VALUES(109,'vancouver-north-red','2010-01-08','');
-INSERT INTO "pickup" VALUES(110,'vancouver-north-red','2010-01-15','Y');
-INSERT INTO "pickup" VALUES(111,'vancouver-north-red','2010-01-22','');
-INSERT INTO "pickup" VALUES(112,'vancouver-north-red','2010-01-29','Y');
-INSERT INTO "pickup" VALUES(113,'vancouver-north-red','2010-02-05','');
-INSERT INTO "pickup" VALUES(114,'vancouver-north-red','2010-02-12','Y');
-INSERT INTO "pickup" VALUES(115,'vancouver-north-red','2010-02-19','');
-INSERT INTO "pickup" VALUES(116,'vancouver-north-red','2010-02-26','Y');
-INSERT INTO "pickup" VALUES(117,'vancouver-north-blue','2009-01-02','');
-INSERT INTO "pickup" VALUES(118,'vancouver-north-blue','2009-01-09','Y');
-INSERT INTO "pickup" VALUES(119,'vancouver-north-blue','2009-01-16','');
-INSERT INTO "pickup" VALUES(120,'vancouver-north-blue','2009-01-23','Y');
-INSERT INTO "pickup" VALUES(121,'vancouver-north-blue','2009-01-30','');
-INSERT INTO "pickup" VALUES(122,'vancouver-north-blue','2009-02-06','Y');
-INSERT INTO "pickup" VALUES(123,'vancouver-north-blue','2009-02-13','');
-INSERT INTO "pickup" VALUES(124,'vancouver-north-blue','2009-02-20','Y');
-INSERT INTO "pickup" VALUES(125,'vancouver-north-blue','2009-02-27','');
-INSERT INTO "pickup" VALUES(126,'vancouver-north-blue','2009-03-06','Y');
-INSERT INTO "pickup" VALUES(127,'vancouver-north-blue','2009-03-13','');
-INSERT INTO "pickup" VALUES(128,'vancouver-north-blue','2009-03-20','Y');
-INSERT INTO "pickup" VALUES(129,'vancouver-north-blue','2009-03-27','');
-INSERT INTO "pickup" VALUES(130,'vancouver-north-blue','2009-04-03','Y');
-INSERT INTO "pickup" VALUES(131,'vancouver-north-blue','2009-04-14','');
-INSERT INTO "pickup" VALUES(132,'vancouver-north-blue','2009-04-21','Y');
-INSERT INTO "pickup" VALUES(133,'vancouver-north-blue','2009-04-28','');
-INSERT INTO "pickup" VALUES(134,'vancouver-north-blue','2009-05-05','Y');
-INSERT INTO "pickup" VALUES(135,'vancouver-north-blue','2009-05-12','');
-INSERT INTO "pickup" VALUES(136,'vancouver-north-blue','2009-05-20','Y');
-INSERT INTO "pickup" VALUES(137,'vancouver-north-blue','2009-05-27','');
-INSERT INTO "pickup" VALUES(138,'vancouver-north-blue','2009-06-03','Y');
-INSERT INTO "pickup" VALUES(139,'vancouver-north-blue','2009-06-10','');
-INSERT INTO "pickup" VALUES(140,'vancouver-north-blue','2009-06-17','Y');
-INSERT INTO "pickup" VALUES(141,'vancouver-north-blue','2009-06-24','');
-INSERT INTO "pickup" VALUES(142,'vancouver-north-blue','2009-07-02','Y');
-INSERT INTO "pickup" VALUES(143,'vancouver-north-blue','2009-07-09','');
-INSERT INTO "pickup" VALUES(144,'vancouver-north-blue','2009-07-16','Y');
-INSERT INTO "pickup" VALUES(145,'vancouver-north-blue','2009-07-23','');
-INSERT INTO "pickup" VALUES(146,'vancouver-north-blue','2009-07-30','Y');
-INSERT INTO "pickup" VALUES(147,'vancouver-north-blue','2009-08-07','');
-INSERT INTO "pickup" VALUES(148,'vancouver-north-blue','2009-08-14','Y');
-INSERT INTO "pickup" VALUES(149,'vancouver-north-blue','2009-08-21','');
-INSERT INTO "pickup" VALUES(150,'vancouver-north-blue','2009-08-28','Y');
-INSERT INTO "pickup" VALUES(151,'vancouver-north-blue','2009-09-04','');
-INSERT INTO "pickup" VALUES(152,'vancouver-north-blue','2009-09-14','Y');
-INSERT INTO "pickup" VALUES(153,'vancouver-north-blue','2009-09-21','');
-INSERT INTO "pickup" VALUES(154,'vancouver-north-blue','2009-09-28','Y');
-INSERT INTO "pickup" VALUES(155,'vancouver-north-blue','2009-10-05','');
-INSERT INTO "pickup" VALUES(156,'vancouver-north-blue','2009-10-13','Y');
-INSERT INTO "pickup" VALUES(157,'vancouver-north-blue','2009-10-20','');
-INSERT INTO "pickup" VALUES(158,'vancouver-north-blue','2009-10-27','Y');
-INSERT INTO "pickup" VALUES(159,'vancouver-north-blue','2009-11-03','');
-INSERT INTO "pickup" VALUES(160,'vancouver-north-blue','2009-11-10','Y');
-INSERT INTO "pickup" VALUES(161,'vancouver-north-blue','2009-11-18','');
-INSERT INTO "pickup" VALUES(162,'vancouver-north-blue','2009-11-25','Y');
-INSERT INTO "pickup" VALUES(163,'vancouver-north-blue','2009-12-02','');
-INSERT INTO "pickup" VALUES(164,'vancouver-north-blue','2009-12-09','Y');
-INSERT INTO "pickup" VALUES(165,'vancouver-north-blue','2009-12-16','');
-INSERT INTO "pickup" VALUES(166,'vancouver-north-blue','2009-12-23','Y');
-INSERT INTO "pickup" VALUES(167,'vancouver-north-blue','2010-01-04','');
-INSERT INTO "pickup" VALUES(168,'vancouver-north-blue','2010-01-11','Y');
-INSERT INTO "pickup" VALUES(169,'vancouver-north-blue','2010-01-18','');
-INSERT INTO "pickup" VALUES(170,'vancouver-north-blue','2010-01-25','Y');
-INSERT INTO "pickup" VALUES(171,'vancouver-north-blue','2010-02-01','');
-INSERT INTO "pickup" VALUES(172,'vancouver-north-blue','2010-02-08','Y');
-INSERT INTO "pickup" VALUES(173,'vancouver-north-blue','2010-02-15','');
-INSERT INTO "pickup" VALUES(174,'vancouver-north-blue','2010-02-22','Y');
-INSERT INTO "pickup" VALUES(175,'vancouver-north-green','2009-01-05','');
-INSERT INTO "pickup" VALUES(176,'vancouver-north-green','2009-01-12','Y');
-INSERT INTO "pickup" VALUES(177,'vancouver-north-green','2009-01-19','');
-INSERT INTO "pickup" VALUES(178,'vancouver-north-green','2009-01-26','Y');
-INSERT INTO "pickup" VALUES(179,'vancouver-north-green','2009-02-02','');
-INSERT INTO "pickup" VALUES(180,'vancouver-north-green','2009-02-09','Y');
-INSERT INTO "pickup" VALUES(181,'vancouver-north-green','2009-02-16','');
-INSERT INTO "pickup" VALUES(182,'vancouver-north-green','2009-02-23','Y');
-INSERT INTO "pickup" VALUES(183,'vancouver-north-green','2009-03-02','');
-INSERT INTO "pickup" VALUES(184,'vancouver-north-green','2009-03-09','Y');
-INSERT INTO "pickup" VALUES(185,'vancouver-north-green','2009-03-16','');
-INSERT INTO "pickup" VALUES(186,'vancouver-north-green','2009-03-23','Y');
-INSERT INTO "pickup" VALUES(187,'vancouver-north-green','2009-03-30','');
-INSERT INTO "pickup" VALUES(188,'vancouver-north-green','2009-04-06','Y');
-INSERT INTO "pickup" VALUES(189,'vancouver-north-green','2009-04-15','');
-INSERT INTO "pickup" VALUES(190,'vancouver-north-green','2009-04-22','Y');
-INSERT INTO "pickup" VALUES(191,'vancouver-north-green','2009-04-29','');
-INSERT INTO "pickup" VALUES(192,'vancouver-north-green','2009-05-06','Y');
-INSERT INTO "pickup" VALUES(193,'vancouver-north-green','2009-05-13','');
-INSERT INTO "pickup" VALUES(194,'vancouver-north-green','2009-05-21','Y');
-INSERT INTO "pickup" VALUES(195,'vancouver-north-green','2009-05-28','');
-INSERT INTO "pickup" VALUES(196,'vancouver-north-green','2009-06-04','Y');
-INSERT INTO "pickup" VALUES(197,'vancouver-north-green','2009-06-11','');
-INSERT INTO "pickup" VALUES(198,'vancouver-north-green','2009-06-18','Y');
-INSERT INTO "pickup" VALUES(199,'vancouver-north-green','2009-06-25','');
-INSERT INTO "pickup" VALUES(200,'vancouver-north-green','2009-07-03','Y');
-INSERT INTO "pickup" VALUES(201,'vancouver-north-green','2009-07-10','');
-INSERT INTO "pickup" VALUES(202,'vancouver-north-green','2009-07-17','Y');
-INSERT INTO "pickup" VALUES(203,'vancouver-north-green','2009-07-24','');
-INSERT INTO "pickup" VALUES(204,'vancouver-north-green','2009-07-31','Y');
-INSERT INTO "pickup" VALUES(205,'vancouver-north-green','2009-08-10','');
-INSERT INTO "pickup" VALUES(206,'vancouver-north-green','2009-08-17','Y');
-INSERT INTO "pickup" VALUES(207,'vancouver-north-green','2009-08-24','');
-INSERT INTO "pickup" VALUES(208,'vancouver-north-green','2009-08-31','Y');
-INSERT INTO "pickup" VALUES(209,'vancouver-north-green','2009-09-08','');
-INSERT INTO "pickup" VALUES(210,'vancouver-north-green','2009-09-15','Y');
-INSERT INTO "pickup" VALUES(211,'vancouver-north-green','2009-09-22','');
-INSERT INTO "pickup" VALUES(212,'vancouver-north-green','2009-09-29','Y');
-INSERT INTO "pickup" VALUES(213,'vancouver-north-green','2009-10-06','');
-INSERT INTO "pickup" VALUES(214,'vancouver-north-green','2009-10-14','Y');
-INSERT INTO "pickup" VALUES(215,'vancouver-north-green','2009-10-21','');
-INSERT INTO "pickup" VALUES(216,'vancouver-north-green','2009-10-28','Y');
-INSERT INTO "pickup" VALUES(217,'vancouver-north-green','2009-11-04','');
-INSERT INTO "pickup" VALUES(218,'vancouver-north-green','2009-11-12','Y');
-INSERT INTO "pickup" VALUES(219,'vancouver-north-green','2009-11-19','');
-INSERT INTO "pickup" VALUES(220,'vancouver-north-green','2009-11-26','Y');
-INSERT INTO "pickup" VALUES(221,'vancouver-north-green','2009-12-03','');
-INSERT INTO "pickup" VALUES(222,'vancouver-north-green','2009-12-10','Y');
-INSERT INTO "pickup" VALUES(223,'vancouver-north-green','2009-12-17','');
-INSERT INTO "pickup" VALUES(224,'vancouver-north-green','2009-12-24','Y');
-INSERT INTO "pickup" VALUES(225,'vancouver-north-green','2010-01-05','');
-INSERT INTO "pickup" VALUES(226,'vancouver-north-green','2010-01-12','Y');
-INSERT INTO "pickup" VALUES(227,'vancouver-north-green','2010-01-19','');
-INSERT INTO "pickup" VALUES(228,'vancouver-north-green','2010-01-26','Y');
-INSERT INTO "pickup" VALUES(229,'vancouver-north-green','2010-02-02','');
-INSERT INTO "pickup" VALUES(230,'vancouver-north-green','2010-02-09','Y');
-INSERT INTO "pickup" VALUES(231,'vancouver-north-green','2010-02-16','');
-INSERT INTO "pickup" VALUES(232,'vancouver-north-green','2010-02-23','Y');
-INSERT INTO "pickup" VALUES(233,'vancouver-north-yellow','2009-01-07','');
-INSERT INTO "pickup" VALUES(234,'vancouver-north-yellow','2009-01-14','Y');
-INSERT INTO "pickup" VALUES(235,'vancouver-north-yellow','2009-01-21','');
-INSERT INTO "pickup" VALUES(236,'vancouver-north-yellow','2009-01-28','Y');
-INSERT INTO "pickup" VALUES(237,'vancouver-north-yellow','2009-02-04','');
-INSERT INTO "pickup" VALUES(238,'vancouver-north-yellow','2009-02-11','Y');
-INSERT INTO "pickup" VALUES(239,'vancouver-north-yellow','2009-02-18','');
-INSERT INTO "pickup" VALUES(240,'vancouver-north-yellow','2009-02-25','Y');
-INSERT INTO "pickup" VALUES(241,'vancouver-north-yellow','2009-03-04','');
-INSERT INTO "pickup" VALUES(242,'vancouver-north-yellow','2009-03-11','Y');
-INSERT INTO "pickup" VALUES(243,'vancouver-north-yellow','2009-03-18','');
-INSERT INTO "pickup" VALUES(244,'vancouver-north-yellow','2009-03-25','Y');
-INSERT INTO "pickup" VALUES(245,'vancouver-north-yellow','2009-04-01','');
-INSERT INTO "pickup" VALUES(246,'vancouver-north-yellow','2009-04-08','Y');
-INSERT INTO "pickup" VALUES(247,'vancouver-north-yellow','2009-04-17','');
-INSERT INTO "pickup" VALUES(248,'vancouver-north-yellow','2009-04-24','Y');
-INSERT INTO "pickup" VALUES(249,'vancouver-north-yellow','2009-05-01','');
-INSERT INTO "pickup" VALUES(250,'vancouver-north-yellow','2009-05-08','Y');
-INSERT INTO "pickup" VALUES(251,'vancouver-north-yellow','2009-05-15','');
-INSERT INTO "pickup" VALUES(252,'vancouver-north-yellow','2009-05-25','Y');
-INSERT INTO "pickup" VALUES(253,'vancouver-north-yellow','2009-06-01','');
-INSERT INTO "pickup" VALUES(254,'vancouver-north-yellow','2009-06-08','Y');
-INSERT INTO "pickup" VALUES(255,'vancouver-north-yellow','2009-06-15','');
-INSERT INTO "pickup" VALUES(256,'vancouver-north-yellow','2009-06-22','Y');
-INSERT INTO "pickup" VALUES(257,'vancouver-north-yellow','2009-06-29','');
-INSERT INTO "pickup" VALUES(258,'vancouver-north-yellow','2009-07-07','Y');
-INSERT INTO "pickup" VALUES(259,'vancouver-north-yellow','2009-07-14','');
-INSERT INTO "pickup" VALUES(260,'vancouver-north-yellow','2009-07-21','Y');
-INSERT INTO "pickup" VALUES(261,'vancouver-north-yellow','2009-07-28','');
-INSERT INTO "pickup" VALUES(262,'vancouver-north-yellow','2009-08-05','Y');
-INSERT INTO "pickup" VALUES(263,'vancouver-north-yellow','2009-08-12','');
-INSERT INTO "pickup" VALUES(264,'vancouver-north-yellow','2009-08-19','Y');
-INSERT INTO "pickup" VALUES(265,'vancouver-north-yellow','2009-08-26','');
-INSERT INTO "pickup" VALUES(266,'vancouver-north-yellow','2009-09-02','Y');
-INSERT INTO "pickup" VALUES(267,'vancouver-north-yellow','2009-09-10','');
-INSERT INTO "pickup" VALUES(268,'vancouver-north-yellow','2009-09-17','Y');
-INSERT INTO "pickup" VALUES(269,'vancouver-north-yellow','2009-09-24','');
-INSERT INTO "pickup" VALUES(270,'vancouver-north-yellow','2009-10-01','Y');
-INSERT INTO "pickup" VALUES(271,'vancouver-north-yellow','2009-10-08','');
-INSERT INTO "pickup" VALUES(272,'vancouver-north-yellow','2009-10-16','Y');
-INSERT INTO "pickup" VALUES(273,'vancouver-north-yellow','2009-10-23','');
-INSERT INTO "pickup" VALUES(274,'vancouver-north-yellow','2009-10-30','Y');
-INSERT INTO "pickup" VALUES(275,'vancouver-north-yellow','2009-11-06','');
-INSERT INTO "pickup" VALUES(276,'vancouver-north-yellow','2009-11-16','Y');
-INSERT INTO "pickup" VALUES(277,'vancouver-north-yellow','2009-11-23','');
-INSERT INTO "pickup" VALUES(278,'vancouver-north-yellow','2009-11-30','Y');
-INSERT INTO "pickup" VALUES(279,'vancouver-north-yellow','2009-12-07','');
-INSERT INTO "pickup" VALUES(280,'vancouver-north-yellow','2009-12-14','Y');
-INSERT INTO "pickup" VALUES(281,'vancouver-north-yellow','2009-12-21','');
-INSERT INTO "pickup" VALUES(282,'vancouver-north-yellow','2009-12-30','Y');
-INSERT INTO "pickup" VALUES(283,'vancouver-north-yellow','2010-01-07','');
-INSERT INTO "pickup" VALUES(284,'vancouver-north-yellow','2010-01-14','Y');
-INSERT INTO "pickup" VALUES(285,'vancouver-north-yellow','2010-01-21','');
-INSERT INTO "pickup" VALUES(286,'vancouver-north-yellow','2010-01-28','Y');
-INSERT INTO "pickup" VALUES(287,'vancouver-north-yellow','2010-02-04','');
-INSERT INTO "pickup" VALUES(288,'vancouver-north-yellow','2010-02-11','Y');
-INSERT INTO "pickup" VALUES(289,'vancouver-north-yellow','2010-02-18','');
-INSERT INTO "pickup" VALUES(290,'vancouver-north-yellow','2010-02-25','Y');
-INSERT INTO "pickup" VALUES(291,'vancouver-south-purple','2009-01-06','Y');
-INSERT INTO "pickup" VALUES(292,'vancouver-south-purple','2009-01-13','');
-INSERT INTO "pickup" VALUES(293,'vancouver-south-purple','2009-01-20','Y');
-INSERT INTO "pickup" VALUES(294,'vancouver-south-purple','2009-01-27','');
-INSERT INTO "pickup" VALUES(295,'vancouver-south-purple','2009-02-03','Y');
-INSERT INTO "pickup" VALUES(296,'vancouver-south-purple','2009-02-10','');
-INSERT INTO "pickup" VALUES(297,'vancouver-south-purple','2009-02-17','Y');
-INSERT INTO "pickup" VALUES(298,'vancouver-south-purple','2009-02-24','');
-INSERT INTO "pickup" VALUES(299,'vancouver-south-purple','2009-03-03','Y');
-INSERT INTO "pickup" VALUES(300,'vancouver-south-purple','2009-03-10','');
-INSERT INTO "pickup" VALUES(301,'vancouver-south-purple','2009-03-17','Y');
-INSERT INTO "pickup" VALUES(302,'vancouver-south-purple','2009-03-24','');
-INSERT INTO "pickup" VALUES(303,'vancouver-south-purple','2009-03-31','Y');
-INSERT INTO "pickup" VALUES(304,'vancouver-south-purple','2009-04-07','');
-INSERT INTO "pickup" VALUES(305,'vancouver-south-purple','2009-04-16','Y');
-INSERT INTO "pickup" VALUES(306,'vancouver-south-purple','2009-04-23','');
-INSERT INTO "pickup" VALUES(307,'vancouver-south-purple','2009-04-30','Y');
-INSERT INTO "pickup" VALUES(308,'vancouver-south-purple','2009-05-07','');
-INSERT INTO "pickup" VALUES(309,'vancouver-south-purple','2009-05-14','Y');
-INSERT INTO "pickup" VALUES(310,'vancouver-south-purple','2009-05-22','');
-INSERT INTO "pickup" VALUES(311,'vancouver-south-purple','2009-05-29','Y');
-INSERT INTO "pickup" VALUES(312,'vancouver-south-purple','2009-06-05','');
-INSERT INTO "pickup" VALUES(313,'vancouver-south-purple','2009-06-12','Y');
-INSERT INTO "pickup" VALUES(314,'vancouver-south-purple','2009-06-19','');
-INSERT INTO "pickup" VALUES(315,'vancouver-south-purple','2009-06-26','Y');
-INSERT INTO "pickup" VALUES(316,'vancouver-south-purple','2009-07-06','');
-INSERT INTO "pickup" VALUES(317,'vancouver-south-purple','2009-07-13','Y');
-INSERT INTO "pickup" VALUES(318,'vancouver-south-purple','2009-07-20','');
-INSERT INTO "pickup" VALUES(319,'vancouver-south-purple','2009-07-27','Y');
-INSERT INTO "pickup" VALUES(320,'vancouver-south-purple','2009-08-04','');
-INSERT INTO "pickup" VALUES(321,'vancouver-south-purple','2009-08-11','Y');
-INSERT INTO "pickup" VALUES(322,'vancouver-south-purple','2009-08-18','');
-INSERT INTO "pickup" VALUES(323,'vancouver-south-purple','2009-08-25','Y');
-INSERT INTO "pickup" VALUES(324,'vancouver-south-purple','2009-09-01','');
-INSERT INTO "pickup" VALUES(325,'vancouver-south-purple','2009-09-09','Y');
-INSERT INTO "pickup" VALUES(326,'vancouver-south-purple','2009-09-16','');
-INSERT INTO "pickup" VALUES(327,'vancouver-south-purple','2009-09-23','Y');
-INSERT INTO "pickup" VALUES(328,'vancouver-south-purple','2009-09-30','');
-INSERT INTO "pickup" VALUES(329,'vancouver-south-purple','2009-10-07','Y');
-INSERT INTO "pickup" VALUES(330,'vancouver-south-purple','2009-10-15','');
-INSERT INTO "pickup" VALUES(331,'vancouver-south-purple','2009-10-22','Y');
-INSERT INTO "pickup" VALUES(332,'vancouver-south-purple','2009-10-29','');
-INSERT INTO "pickup" VALUES(333,'vancouver-south-purple','2009-11-05','Y');
-INSERT INTO "pickup" VALUES(334,'vancouver-south-purple','2009-11-13','');
-INSERT INTO "pickup" VALUES(335,'vancouver-south-purple','2009-11-20','Y');
-INSERT INTO "pickup" VALUES(336,'vancouver-south-purple','2009-11-27','');
-INSERT INTO "pickup" VALUES(337,'vancouver-south-purple','2009-12-04','Y');
-INSERT INTO "pickup" VALUES(338,'vancouver-south-purple','2009-12-11','');
-INSERT INTO "pickup" VALUES(339,'vancouver-south-purple','2009-12-18','Y');
-INSERT INTO "pickup" VALUES(340,'vancouver-south-purple','2009-12-29','');
-INSERT INTO "pickup" VALUES(341,'vancouver-south-purple','2010-01-06','Y');
-INSERT INTO "pickup" VALUES(342,'vancouver-south-purple','2010-01-13','');
-INSERT INTO "pickup" VALUES(343,'vancouver-south-purple','2010-01-20','Y');
-INSERT INTO "pickup" VALUES(344,'vancouver-south-purple','2010-01-27','');
-INSERT INTO "pickup" VALUES(345,'vancouver-south-purple','2010-02-03','Y');
-INSERT INTO "pickup" VALUES(346,'vancouver-south-purple','2010-02-10','');
-INSERT INTO "pickup" VALUES(347,'vancouver-south-purple','2010-02-17','Y');
-INSERT INTO "pickup" VALUES(348,'vancouver-south-purple','2010-02-24','');
-INSERT INTO "pickup" VALUES(349,'vancouver-south-red','2009-01-08','Y');
-INSERT INTO "pickup" VALUES(350,'vancouver-south-red','2009-01-15','');
-INSERT INTO "pickup" VALUES(351,'vancouver-south-red','2009-01-22','Y');
-INSERT INTO "pickup" VALUES(352,'vancouver-south-red','2009-01-29','');
-INSERT INTO "pickup" VALUES(353,'vancouver-south-red','2009-02-05','Y');
-INSERT INTO "pickup" VALUES(354,'vancouver-south-red','2009-02-12','');
-INSERT INTO "pickup" VALUES(355,'vancouver-south-red','2009-02-19','Y');
-INSERT INTO "pickup" VALUES(356,'vancouver-south-red','2009-02-26','');
-INSERT INTO "pickup" VALUES(357,'vancouver-south-red','2009-03-05','Y');
-INSERT INTO "pickup" VALUES(358,'vancouver-south-red','2009-03-12','');
-INSERT INTO "pickup" VALUES(359,'vancouver-south-red','2009-03-19','Y');
-INSERT INTO "pickup" VALUES(360,'vancouver-south-red','2009-03-26','');
-INSERT INTO "pickup" VALUES(361,'vancouver-south-red','2009-04-02','Y');
-INSERT INTO "pickup" VALUES(362,'vancouver-south-red','2009-04-09','');
-INSERT INTO "pickup" VALUES(363,'vancouver-south-red','2009-04-20','Y');
-INSERT INTO "pickup" VALUES(364,'vancouver-south-red','2009-04-27','');
-INSERT INTO "pickup" VALUES(365,'vancouver-south-red','2009-05-04','Y');
-INSERT INTO "pickup" VALUES(366,'vancouver-south-red','2009-05-11','');
-INSERT INTO "pickup" VALUES(367,'vancouver-south-red','2009-05-19','Y');
-INSERT INTO "pickup" VALUES(368,'vancouver-south-red','2009-05-26','');
-INSERT INTO "pickup" VALUES(369,'vancouver-south-red','2009-06-02','Y');
-INSERT INTO "pickup" VALUES(370,'vancouver-south-red','2009-06-09','');
-INSERT INTO "pickup" VALUES(371,'vancouver-south-red','2009-06-16','Y');
-INSERT INTO "pickup" VALUES(372,'vancouver-south-red','2009-06-23','');
-INSERT INTO "pickup" VALUES(373,'vancouver-south-red','2009-06-30','Y');
-INSERT INTO "pickup" VALUES(374,'vancouver-south-red','2009-07-08','');
-INSERT INTO "pickup" VALUES(375,'vancouver-south-red','2009-07-15','Y');
-INSERT INTO "pickup" VALUES(376,'vancouver-south-red','2009-07-22','');
-INSERT INTO "pickup" VALUES(377,'vancouver-south-red','2009-07-29','Y');
-INSERT INTO "pickup" VALUES(378,'vancouver-south-red','2009-08-06','');
-INSERT INTO "pickup" VALUES(379,'vancouver-south-red','2009-08-13','Y');
-INSERT INTO "pickup" VALUES(380,'vancouver-south-red','2009-08-20','');
-INSERT INTO "pickup" VALUES(381,'vancouver-south-red','2009-08-27','Y');
-INSERT INTO "pickup" VALUES(382,'vancouver-south-red','2009-09-03','');
-INSERT INTO "pickup" VALUES(383,'vancouver-south-red','2009-09-11','Y');
-INSERT INTO "pickup" VALUES(384,'vancouver-south-red','2009-09-18','');
-INSERT INTO "pickup" VALUES(385,'vancouver-south-red','2009-09-25','Y');
-INSERT INTO "pickup" VALUES(386,'vancouver-south-red','2009-10-02','');
-INSERT INTO "pickup" VALUES(387,'vancouver-south-red','2009-10-09','Y');
-INSERT INTO "pickup" VALUES(388,'vancouver-south-red','2009-10-19','');
-INSERT INTO "pickup" VALUES(389,'vancouver-south-red','2009-10-26','Y');
-INSERT INTO "pickup" VALUES(390,'vancouver-south-red','2009-11-02','');
-INSERT INTO "pickup" VALUES(391,'vancouver-south-red','2009-11-09','Y');
-INSERT INTO "pickup" VALUES(392,'vancouver-south-red','2009-11-17','');
-INSERT INTO "pickup" VALUES(393,'vancouver-south-red','2009-11-24','Y');
-INSERT INTO "pickup" VALUES(394,'vancouver-south-red','2009-12-01','');
-INSERT INTO "pickup" VALUES(395,'vancouver-south-red','2009-12-08','Y');
-INSERT INTO "pickup" VALUES(396,'vancouver-south-red','2009-12-15','');
-INSERT INTO "pickup" VALUES(397,'vancouver-south-red','2009-12-22','Y');
-INSERT INTO "pickup" VALUES(398,'vancouver-south-red','2009-12-31','');
-INSERT INTO "pickup" VALUES(399,'vancouver-south-red','2010-01-08','Y');
-INSERT INTO "pickup" VALUES(400,'vancouver-south-red','2010-01-15','');
-INSERT INTO "pickup" VALUES(401,'vancouver-south-red','2010-01-22','Y');
-INSERT INTO "pickup" VALUES(402,'vancouver-south-red','2010-01-29','');
-INSERT INTO "pickup" VALUES(403,'vancouver-south-red','2010-02-05','Y');
-INSERT INTO "pickup" VALUES(404,'vancouver-south-red','2010-02-12','');
-INSERT INTO "pickup" VALUES(405,'vancouver-south-red','2010-02-19','Y');
-INSERT INTO "pickup" VALUES(406,'vancouver-south-red','2010-02-26','');
-INSERT INTO "pickup" VALUES(407,'vancouver-south-blue','2009-01-02','Y');
-INSERT INTO "pickup" VALUES(408,'vancouver-south-blue','2009-01-09','');
-INSERT INTO "pickup" VALUES(409,'vancouver-south-blue','2009-01-16','Y');
-INSERT INTO "pickup" VALUES(410,'vancouver-south-blue','2009-01-23','');
-INSERT INTO "pickup" VALUES(411,'vancouver-south-blue','2009-01-30','Y');
-INSERT INTO "pickup" VALUES(412,'vancouver-south-blue','2009-02-06','');
-INSERT INTO "pickup" VALUES(413,'vancouver-south-blue','2009-02-13','Y');
-INSERT INTO "pickup" VALUES(414,'vancouver-south-blue','2009-02-20','');
-INSERT INTO "pickup" VALUES(415,'vancouver-south-blue','2009-02-27','Y');
-INSERT INTO "pickup" VALUES(416,'vancouver-south-blue','2009-03-06','');
-INSERT INTO "pickup" VALUES(417,'vancouver-south-blue','2009-03-13','Y');
-INSERT INTO "pickup" VALUES(418,'vancouver-south-blue','2009-03-20','');
-INSERT INTO "pickup" VALUES(419,'vancouver-south-blue','2009-03-27','Y');
-INSERT INTO "pickup" VALUES(420,'vancouver-south-blue','2009-04-03','');
-INSERT INTO "pickup" VALUES(421,'vancouver-south-blue','2009-04-14','Y');
-INSERT INTO "pickup" VALUES(422,'vancouver-south-blue','2009-04-21','');
-INSERT INTO "pickup" VALUES(423,'vancouver-south-blue','2009-04-28','Y');
-INSERT INTO "pickup" VALUES(424,'vancouver-south-blue','2009-05-05','');
-INSERT INTO "pickup" VALUES(425,'vancouver-south-blue','2009-05-12','Y');
-INSERT INTO "pickup" VALUES(426,'vancouver-south-blue','2009-05-20','');
-INSERT INTO "pickup" VALUES(427,'vancouver-south-blue','2009-05-27','Y');
-INSERT INTO "pickup" VALUES(428,'vancouver-south-blue','2009-06-03','');
-INSERT INTO "pickup" VALUES(429,'vancouver-south-blue','2009-06-10','Y');
-INSERT INTO "pickup" VALUES(430,'vancouver-south-blue','2009-06-17','');
-INSERT INTO "pickup" VALUES(431,'vancouver-south-blue','2009-06-24','Y');
-INSERT INTO "pickup" VALUES(432,'vancouver-south-blue','2009-07-02','');
-INSERT INTO "pickup" VALUES(433,'vancouver-south-blue','2009-07-09','Y');
-INSERT INTO "pickup" VALUES(434,'vancouver-south-blue','2009-07-16','');
-INSERT INTO "pickup" VALUES(435,'vancouver-south-blue','2009-07-23','Y');
-INSERT INTO "pickup" VALUES(436,'vancouver-south-blue','2009-07-30','');
-INSERT INTO "pickup" VALUES(437,'vancouver-south-blue','2009-08-07','Y');
-INSERT INTO "pickup" VALUES(438,'vancouver-south-blue','2009-08-14','');
-INSERT INTO "pickup" VALUES(439,'vancouver-south-blue','2009-08-21','Y');
-INSERT INTO "pickup" VALUES(440,'vancouver-south-blue','2009-08-28','');
-INSERT INTO "pickup" VALUES(441,'vancouver-south-blue','2009-09-04','Y');
-INSERT INTO "pickup" VALUES(442,'vancouver-south-blue','2009-09-14','');
-INSERT INTO "pickup" VALUES(443,'vancouver-south-blue','2009-09-21','Y');
-INSERT INTO "pickup" VALUES(444,'vancouver-south-blue','2009-09-28','');
-INSERT INTO "pickup" VALUES(445,'vancouver-south-blue','2009-10-05','Y');
-INSERT INTO "pickup" VALUES(446,'vancouver-south-blue','2009-10-13','');
-INSERT INTO "pickup" VALUES(447,'vancouver-south-blue','2009-10-20','Y');
-INSERT INTO "pickup" VALUES(448,'vancouver-south-blue','2009-10-27','');
-INSERT INTO "pickup" VALUES(449,'vancouver-south-blue','2009-11-03','Y');
-INSERT INTO "pickup" VALUES(450,'vancouver-south-blue','2009-11-10','');
-INSERT INTO "pickup" VALUES(451,'vancouver-south-blue','2009-11-18','Y');
-INSERT INTO "pickup" VALUES(452,'vancouver-south-blue','2009-11-25','');
-INSERT INTO "pickup" VALUES(453,'vancouver-south-blue','2009-12-02','Y');
-INSERT INTO "pickup" VALUES(454,'vancouver-south-blue','2009-12-09','');
-INSERT INTO "pickup" VALUES(455,'vancouver-south-blue','2009-12-16','Y');
-INSERT INTO "pickup" VALUES(456,'vancouver-south-blue','2009-12-23','');
-INSERT INTO "pickup" VALUES(457,'vancouver-south-blue','2010-01-04','Y');
-INSERT INTO "pickup" VALUES(458,'vancouver-south-blue','2010-01-11','');
-INSERT INTO "pickup" VALUES(459,'vancouver-south-blue','2010-01-18','Y');
-INSERT INTO "pickup" VALUES(460,'vancouver-south-blue','2010-01-25','');
-INSERT INTO "pickup" VALUES(461,'vancouver-south-blue','2010-02-01','Y');
-INSERT INTO "pickup" VALUES(462,'vancouver-south-blue','2010-02-08','');
-INSERT INTO "pickup" VALUES(463,'vancouver-south-blue','2010-02-15','Y');
-INSERT INTO "pickup" VALUES(464,'vancouver-south-blue','2010-02-22','');
-INSERT INTO "pickup" VALUES(465,'vancouver-south-green','2009-01-05','Y');
-INSERT INTO "pickup" VALUES(466,'vancouver-south-green','2009-01-12','');
-INSERT INTO "pickup" VALUES(467,'vancouver-south-green','2009-01-19','Y');
-INSERT INTO "pickup" VALUES(468,'vancouver-south-green','2009-01-26','');
-INSERT INTO "pickup" VALUES(469,'vancouver-south-green','2009-02-02','Y');
-INSERT INTO "pickup" VALUES(470,'vancouver-south-green','2009-02-09','');
-INSERT INTO "pickup" VALUES(471,'vancouver-south-green','2009-02-16','Y');
-INSERT INTO "pickup" VALUES(472,'vancouver-south-green','2009-02-23','');
-INSERT INTO "pickup" VALUES(473,'vancouver-south-green','2009-03-02','Y');
-INSERT INTO "pickup" VALUES(474,'vancouver-south-green','2009-03-09','');
-INSERT INTO "pickup" VALUES(475,'vancouver-south-green','2009-03-16','Y');
-INSERT INTO "pickup" VALUES(476,'vancouver-south-green','2009-03-23','');
-INSERT INTO "pickup" VALUES(477,'vancouver-south-green','2009-03-30','Y');
-INSERT INTO "pickup" VALUES(478,'vancouver-south-green','2009-04-06','');
-INSERT INTO "pickup" VALUES(479,'vancouver-south-green','2009-04-15','Y');
-INSERT INTO "pickup" VALUES(480,'vancouver-south-green','2009-04-22','');
-INSERT INTO "pickup" VALUES(481,'vancouver-south-green','2009-04-29','Y');
-INSERT INTO "pickup" VALUES(482,'vancouver-south-green','2009-05-06','');
-INSERT INTO "pickup" VALUES(483,'vancouver-south-green','2009-05-13','Y');
-INSERT INTO "pickup" VALUES(484,'vancouver-south-green','2009-05-21','');
-INSERT INTO "pickup" VALUES(485,'vancouver-south-green','2009-05-28','Y');
-INSERT INTO "pickup" VALUES(486,'vancouver-south-green','2009-06-04','');
-INSERT INTO "pickup" VALUES(487,'vancouver-south-green','2009-06-11','Y');
-INSERT INTO "pickup" VALUES(488,'vancouver-south-green','2009-06-18','');
-INSERT INTO "pickup" VALUES(489,'vancouver-south-green','2009-06-25','Y');
-INSERT INTO "pickup" VALUES(490,'vancouver-south-green','2009-07-03','');
-INSERT INTO "pickup" VALUES(491,'vancouver-south-green','2009-07-10','Y');
-INSERT INTO "pickup" VALUES(492,'vancouver-south-green','2009-07-17','');
-INSERT INTO "pickup" VALUES(493,'vancouver-south-green','2009-07-24','');
-INSERT INTO "pickup" VALUES(494,'vancouver-south-green','2009-07-31','');
-INSERT INTO "pickup" VALUES(495,'vancouver-south-green','2009-08-10','Y');
-INSERT INTO "pickup" VALUES(496,'vancouver-south-green','2009-08-17','');
-INSERT INTO "pickup" VALUES(497,'vancouver-south-green','2009-08-24','');
-INSERT INTO "pickup" VALUES(498,'vancouver-south-green','2009-08-31','');
-INSERT INTO "pickup" VALUES(499,'vancouver-south-green','2009-09-08','Y');
-INSERT INTO "pickup" VALUES(500,'vancouver-south-green','2009-09-15','');
-INSERT INTO "pickup" VALUES(501,'vancouver-south-green','2009-09-22','Y');
-INSERT INTO "pickup" VALUES(502,'vancouver-south-green','2009-09-29','');
-INSERT INTO "pickup" VALUES(503,'vancouver-south-green','2009-10-06','Y');
-INSERT INTO "pickup" VALUES(504,'vancouver-south-green','2009-10-14','');
-INSERT INTO "pickup" VALUES(505,'vancouver-south-green','2009-10-21','Y');
-INSERT INTO "pickup" VALUES(506,'vancouver-south-green','2009-10-28','');
-INSERT INTO "pickup" VALUES(507,'vancouver-south-green','2009-11-04','Y');
-INSERT INTO "pickup" VALUES(508,'vancouver-south-green','2009-11-12','');
-INSERT INTO "pickup" VALUES(509,'vancouver-south-green','2009-11-19','Y');
-INSERT INTO "pickup" VALUES(510,'vancouver-south-green','2009-11-26','');
-INSERT INTO "pickup" VALUES(511,'vancouver-south-green','2009-12-03','Y');
-INSERT INTO "pickup" VALUES(512,'vancouver-south-green','2009-12-10','');
-INSERT INTO "pickup" VALUES(513,'vancouver-south-green','2009-12-17','Y');
-INSERT INTO "pickup" VALUES(514,'vancouver-south-green','2009-12-24','');
-INSERT INTO "pickup" VALUES(515,'vancouver-south-green','2010-01-05','Y');
-INSERT INTO "pickup" VALUES(516,'vancouver-south-green','2010-01-12','');
-INSERT INTO "pickup" VALUES(517,'vancouver-south-green','2010-01-19','Y');
-INSERT INTO "pickup" VALUES(518,'vancouver-south-green','2010-01-26','');
-INSERT INTO "pickup" VALUES(519,'vancouver-south-green','2010-02-02','Y');
-INSERT INTO "pickup" VALUES(520,'vancouver-south-green','2010-02-09','');
-INSERT INTO "pickup" VALUES(521,'vancouver-south-green','2010-02-16','Y');
-INSERT INTO "pickup" VALUES(522,'vancouver-south-green','2010-02-23','');
-INSERT INTO "pickup" VALUES(523,'vancouver-south-yellow','2009-01-07','Y');
-INSERT INTO "pickup" VALUES(524,'vancouver-south-yellow','2009-01-14','');
-INSERT INTO "pickup" VALUES(525,'vancouver-south-yellow','2009-01-21','Y');
-INSERT INTO "pickup" VALUES(526,'vancouver-south-yellow','2009-01-28','');
-INSERT INTO "pickup" VALUES(527,'vancouver-south-yellow','2009-02-04','Y');
-INSERT INTO "pickup" VALUES(528,'vancouver-south-yellow','2009-02-11','');
-INSERT INTO "pickup" VALUES(529,'vancouver-south-yellow','2009-02-18','Y');
-INSERT INTO "pickup" VALUES(530,'vancouver-south-yellow','2009-02-25','');
-INSERT INTO "pickup" VALUES(531,'vancouver-south-yellow','2009-03-04','Y');
-INSERT INTO "pickup" VALUES(532,'vancouver-south-yellow','2009-03-11','');
-INSERT INTO "pickup" VALUES(533,'vancouver-south-yellow','2009-03-18','Y');
-INSERT INTO "pickup" VALUES(534,'vancouver-south-yellow','2009-03-25','');
-INSERT INTO "pickup" VALUES(535,'vancouver-south-yellow','2009-04-01','Y');
-INSERT INTO "pickup" VALUES(536,'vancouver-south-yellow','2009-04-08','');
-INSERT INTO "pickup" VALUES(537,'vancouver-south-yellow','2009-04-17','Y');
-INSERT INTO "pickup" VALUES(538,'vancouver-south-yellow','2009-04-24','');
-INSERT INTO "pickup" VALUES(539,'vancouver-south-yellow','2009-05-01','Y');
-INSERT INTO "pickup" VALUES(540,'vancouver-south-yellow','2009-05-08','');
-INSERT INTO "pickup" VALUES(541,'vancouver-south-yellow','2009-05-15','Y');
-INSERT INTO "pickup" VALUES(542,'vancouver-south-yellow','2009-05-25','');
-INSERT INTO "pickup" VALUES(543,'vancouver-south-yellow','2009-06-01','Y');
-INSERT INTO "pickup" VALUES(544,'vancouver-south-yellow','2009-06-08','');
-INSERT INTO "pickup" VALUES(545,'vancouver-south-yellow','2009-06-15','Y');
-INSERT INTO "pickup" VALUES(546,'vancouver-south-yellow','2009-06-22','');
-INSERT INTO "pickup" VALUES(547,'vancouver-south-yellow','2009-06-29','Y');
-INSERT INTO "pickup" VALUES(548,'vancouver-south-yellow','2009-07-07','');
-INSERT INTO "pickup" VALUES(549,'vancouver-south-yellow','2009-07-14','Y');
-INSERT INTO "pickup" VALUES(550,'vancouver-south-yellow','2009-07-21','');
-INSERT INTO "pickup" VALUES(551,'vancouver-south-yellow','2009-07-28','Y');
-INSERT INTO "pickup" VALUES(552,'vancouver-south-yellow','2009-08-05','');
-INSERT INTO "pickup" VALUES(553,'vancouver-south-yellow','2009-08-12','Y');
-INSERT INTO "pickup" VALUES(554,'vancouver-south-yellow','2009-08-19','');
-INSERT INTO "pickup" VALUES(555,'vancouver-south-yellow','2009-08-26','Y');
-INSERT INTO "pickup" VALUES(556,'vancouver-south-yellow','2009-09-02','');
-INSERT INTO "pickup" VALUES(557,'vancouver-south-yellow','2009-09-10','Y');
-INSERT INTO "pickup" VALUES(558,'vancouver-south-yellow','2009-09-17','');
-INSERT INTO "pickup" VALUES(559,'vancouver-south-yellow','2009-09-24','Y');
-INSERT INTO "pickup" VALUES(560,'vancouver-south-yellow','2009-10-01','');
-INSERT INTO "pickup" VALUES(561,'vancouver-south-yellow','2009-10-08','Y');
-INSERT INTO "pickup" VALUES(562,'vancouver-south-yellow','2009-10-16','');
-INSERT INTO "pickup" VALUES(563,'vancouver-south-yellow','2009-10-23','Y');
-INSERT INTO "pickup" VALUES(564,'vancouver-south-yellow','2009-10-30','');
-INSERT INTO "pickup" VALUES(565,'vancouver-south-yellow','2009-11-06','Y');
-INSERT INTO "pickup" VALUES(566,'vancouver-south-yellow','2009-11-16','');
-INSERT INTO "pickup" VALUES(567,'vancouver-south-yellow','2009-11-23','Y');
-INSERT INTO "pickup" VALUES(568,'vancouver-south-yellow','2009-11-30','');
-INSERT INTO "pickup" VALUES(569,'vancouver-south-yellow','2009-12-07','Y');
-INSERT INTO "pickup" VALUES(570,'vancouver-south-yellow','2009-12-14','');
-INSERT INTO "pickup" VALUES(571,'vancouver-south-yellow','2009-12-21','Y');
-INSERT INTO "pickup" VALUES(572,'vancouver-south-yellow','2009-12-30','');
-INSERT INTO "pickup" VALUES(573,'vancouver-south-yellow','2010-01-07','Y');
-INSERT INTO "pickup" VALUES(574,'vancouver-south-yellow','2010-01-14','');
-INSERT INTO "pickup" VALUES(575,'vancouver-south-yellow','2010-01-21','Y');
-INSERT INTO "pickup" VALUES(576,'vancouver-south-yellow','2010-01-28','');
-INSERT INTO "pickup" VALUES(577,'vancouver-south-yellow','2010-02-04','Y');
-INSERT INTO "pickup" VALUES(578,'vancouver-south-yellow','2010-02-11','');
-INSERT INTO "pickup" VALUES(579,'vancouver-south-yellow','2010-02-18','Y');
-INSERT INTO "pickup" VALUES(580,'vancouver-south-yellow','2010-02-25','');
-INSERT INTO "pickup" VALUES(581,'vancouver-north-purple','2010-03-03','');
-INSERT INTO "pickup" VALUES(582,'vancouver-north-purple','2010-03-10','Y');
-INSERT INTO "pickup" VALUES(583,'vancouver-north-purple','2010-03-17','');
-INSERT INTO "pickup" VALUES(584,'vancouver-north-purple','2010-03-24','Y');
-INSERT INTO "pickup" VALUES(585,'vancouver-north-purple','2010-03-31','');
-INSERT INTO "pickup" VALUES(586,'vancouver-north-purple','2010-04-09','Y');
-INSERT INTO "pickup" VALUES(587,'vancouver-north-purple','2010-04-16','');
-INSERT INTO "pickup" VALUES(588,'vancouver-north-purple','2010-04-23','Y');
-INSERT INTO "pickup" VALUES(589,'vancouver-north-purple','2010-04-30','');
-INSERT INTO "pickup" VALUES(590,'vancouver-north-purple','2010-05-07','Y');
-INSERT INTO "pickup" VALUES(591,'vancouver-north-purple','2010-05-14','');
-INSERT INTO "pickup" VALUES(592,'vancouver-north-purple','2010-05-21','Y');
-INSERT INTO "pickup" VALUES(593,'vancouver-north-purple','2010-05-31','');
-INSERT INTO "pickup" VALUES(594,'vancouver-north-purple','2010-06-07','Y');
-INSERT INTO "pickup" VALUES(595,'vancouver-north-purple','2010-06-14','');
-INSERT INTO "pickup" VALUES(596,'vancouver-north-purple','2010-06-21','Y');
-INSERT INTO "pickup" VALUES(597,'vancouver-north-purple','2010-06-28','');
-INSERT INTO "pickup" VALUES(598,'vancouver-north-purple','2010-07-06','Y');
-INSERT INTO "pickup" VALUES(599,'vancouver-north-purple','2010-07-13','');
-INSERT INTO "pickup" VALUES(600,'vancouver-north-purple','2010-07-20','Y');
-INSERT INTO "pickup" VALUES(601,'vancouver-north-purple','2010-07-27','');
-INSERT INTO "pickup" VALUES(602,'vancouver-north-purple','2010-08-04','Y');
-INSERT INTO "pickup" VALUES(603,'vancouver-north-purple','2010-08-11','');
-INSERT INTO "pickup" VALUES(604,'vancouver-north-purple','2010-08-18','Y');
-INSERT INTO "pickup" VALUES(605,'vancouver-north-purple','2010-08-25','');
-INSERT INTO "pickup" VALUES(606,'vancouver-north-purple','2010-09-01','Y');
-INSERT INTO "pickup" VALUES(607,'vancouver-north-purple','2010-09-09','');
-INSERT INTO "pickup" VALUES(608,'vancouver-north-purple','2010-09-16','Y');
-INSERT INTO "pickup" VALUES(609,'vancouver-north-purple','2010-09-23','');
-INSERT INTO "pickup" VALUES(610,'vancouver-north-purple','2010-09-30','Y');
-INSERT INTO "pickup" VALUES(611,'vancouver-north-purple','2010-10-07','');
-INSERT INTO "pickup" VALUES(612,'vancouver-north-purple','2010-10-15','Y');
-INSERT INTO "pickup" VALUES(613,'vancouver-north-purple','2010-10-22','');
-INSERT INTO "pickup" VALUES(614,'vancouver-north-purple','2010-10-29','Y');
-INSERT INTO "pickup" VALUES(615,'vancouver-north-purple','2010-11-05','');
-INSERT INTO "pickup" VALUES(616,'vancouver-north-purple','2010-11-15','Y');
-INSERT INTO "pickup" VALUES(617,'vancouver-north-purple','2010-11-22','');
-INSERT INTO "pickup" VALUES(618,'vancouver-north-purple','2010-11-29','Y');
-INSERT INTO "pickup" VALUES(619,'vancouver-north-purple','2010-12-06','');
-INSERT INTO "pickup" VALUES(620,'vancouver-north-purple','2010-12-13','Y');
-INSERT INTO "pickup" VALUES(621,'vancouver-north-purple','2010-12-20','');
-INSERT INTO "pickup" VALUES(622,'vancouver-north-purple','2010-12-29','Y');
-INSERT INTO "pickup" VALUES(623,'vancouver-north-purple','2011-01-06','');
-INSERT INTO "pickup" VALUES(624,'vancouver-north-purple','2011-01-13','Y');
-INSERT INTO "pickup" VALUES(625,'vancouver-north-purple','2011-01-20','');
-INSERT INTO "pickup" VALUES(626,'vancouver-north-purple','2011-01-27','Y');
-INSERT INTO "pickup" VALUES(627,'vancouver-north-purple','2011-02-03','');
-INSERT INTO "pickup" VALUES(628,'vancouver-north-purple','2011-02-10','Y');
-INSERT INTO "pickup" VALUES(629,'vancouver-north-purple','2011-02-17','');
-INSERT INTO "pickup" VALUES(630,'vancouver-north-purple','2011-02-24','Y');
-INSERT INTO "pickup" VALUES(631,'vancouver-north-red','2010-03-05','');
-INSERT INTO "pickup" VALUES(632,'vancouver-north-red','2010-03-12','Y');
-INSERT INTO "pickup" VALUES(633,'vancouver-north-red','2010-03-19','');
-INSERT INTO "pickup" VALUES(634,'vancouver-north-red','2010-03-26','Y');
-INSERT INTO "pickup" VALUES(635,'vancouver-north-red','2010-04-06','');
-INSERT INTO "pickup" VALUES(636,'vancouver-north-red','2010-04-13','Y');
-INSERT INTO "pickup" VALUES(637,'vancouver-north-red','2010-04-20','');
-INSERT INTO "pickup" VALUES(638,'vancouver-north-red','2010-04-27','Y');
-INSERT INTO "pickup" VALUES(639,'vancouver-north-red','2010-05-04','');
-INSERT INTO "pickup" VALUES(640,'vancouver-north-red','2010-05-11','Y');
-INSERT INTO "pickup" VALUES(641,'vancouver-north-red','2010-05-18','');
-INSERT INTO "pickup" VALUES(642,'vancouver-north-red','2010-05-26','Y');
-INSERT INTO "pickup" VALUES(643,'vancouver-north-red','2010-06-02','');
-INSERT INTO "pickup" VALUES(644,'vancouver-north-red','2010-06-09','Y');
-INSERT INTO "pickup" VALUES(645,'vancouver-north-red','2010-06-16','');
-INSERT INTO "pickup" VALUES(646,'vancouver-north-red','2010-06-23','Y');
-INSERT INTO "pickup" VALUES(647,'vancouver-north-red','2010-06-30','');
-INSERT INTO "pickup" VALUES(648,'vancouver-north-red','2010-07-08','Y');
-INSERT INTO "pickup" VALUES(649,'vancouver-north-red','2010-07-15','');
-INSERT INTO "pickup" VALUES(650,'vancouver-north-red','2010-07-22','Y');
-INSERT INTO "pickup" VALUES(651,'vancouver-north-red','2010-07-29','');
-INSERT INTO "pickup" VALUES(652,'vancouver-north-red','2010-08-06','Y');
-INSERT INTO "pickup" VALUES(653,'vancouver-north-red','2010-08-13','');
-INSERT INTO "pickup" VALUES(654,'vancouver-north-red','2010-08-20','Y');
-INSERT INTO "pickup" VALUES(655,'vancouver-north-red','2010-08-27','');
-INSERT INTO "pickup" VALUES(656,'vancouver-north-red','2010-09-03','Y');
-INSERT INTO "pickup" VALUES(657,'vancouver-north-red','2010-09-13','');
-INSERT INTO "pickup" VALUES(658,'vancouver-north-red','2010-09-20','Y');
-INSERT INTO "pickup" VALUES(659,'vancouver-north-red','2010-09-27','');
-INSERT INTO "pickup" VALUES(660,'vancouver-north-red','2010-10-04','Y');
-INSERT INTO "pickup" VALUES(661,'vancouver-north-red','2010-10-12','');
-INSERT INTO "pickup" VALUES(662,'vancouver-north-red','2010-10-19','Y');
-INSERT INTO "pickup" VALUES(663,'vancouver-north-red','2010-10-26','');
-INSERT INTO "pickup" VALUES(664,'vancouver-north-red','2010-11-02','Y');
-INSERT INTO "pickup" VALUES(665,'vancouver-north-red','2010-11-09','');
-INSERT INTO "pickup" VALUES(666,'vancouver-north-red','2010-11-17','Y');
-INSERT INTO "pickup" VALUES(667,'vancouver-north-red','2010-11-24','');
-INSERT INTO "pickup" VALUES(668,'vancouver-north-red','2010-12-01','Y');
-INSERT INTO "pickup" VALUES(669,'vancouver-north-red','2010-12-08','');
-INSERT INTO "pickup" VALUES(670,'vancouver-north-red','2010-12-15','Y');
-INSERT INTO "pickup" VALUES(671,'vancouver-north-red','2010-12-22','');
-INSERT INTO "pickup" VALUES(672,'vancouver-north-red','2010-12-31','Y');
-INSERT INTO "pickup" VALUES(673,'vancouver-north-red','2011-01-10','');
-INSERT INTO "pickup" VALUES(674,'vancouver-north-red','2011-01-17','Y');
-INSERT INTO "pickup" VALUES(675,'vancouver-north-red','2011-01-24','');
-INSERT INTO "pickup" VALUES(676,'vancouver-north-red','2011-01-31','Y');
-INSERT INTO "pickup" VALUES(677,'vancouver-north-red','2011-02-07','');
-INSERT INTO "pickup" VALUES(678,'vancouver-north-red','2011-02-14','Y');
-INSERT INTO "pickup" VALUES(679,'vancouver-north-red','2011-02-21','');
-INSERT INTO "pickup" VALUES(680,'vancouver-north-red','2011-02-28','Y');
-INSERT INTO "pickup" VALUES(681,'vancouver-north-blue','2010-03-01','');
-INSERT INTO "pickup" VALUES(682,'vancouver-north-blue','2010-03-08','Y');
-INSERT INTO "pickup" VALUES(683,'vancouver-north-blue','2010-03-15','');
-INSERT INTO "pickup" VALUES(684,'vancouver-north-blue','2010-03-22','Y');
-INSERT INTO "pickup" VALUES(685,'vancouver-north-blue','2010-03-29','');
-INSERT INTO "pickup" VALUES(686,'vancouver-north-blue','2010-04-07','Y');
-INSERT INTO "pickup" VALUES(687,'vancouver-north-blue','2010-04-14','');
-INSERT INTO "pickup" VALUES(688,'vancouver-north-blue','2010-04-21','Y');
-INSERT INTO "pickup" VALUES(689,'vancouver-north-blue','2010-04-28','');
-INSERT INTO "pickup" VALUES(690,'vancouver-north-blue','2010-05-05','Y');
-INSERT INTO "pickup" VALUES(691,'vancouver-north-blue','2010-05-12','');
-INSERT INTO "pickup" VALUES(692,'vancouver-north-blue','2010-05-19','Y');
-INSERT INTO "pickup" VALUES(693,'vancouver-north-blue','2010-05-27','');
-INSERT INTO "pickup" VALUES(694,'vancouver-north-blue','2010-06-03','Y');
-INSERT INTO "pickup" VALUES(695,'vancouver-north-blue','2010-06-10','');
-INSERT INTO "pickup" VALUES(696,'vancouver-north-blue','2010-06-17','Y');
-INSERT INTO "pickup" VALUES(697,'vancouver-north-blue','2010-06-24','');
-INSERT INTO "pickup" VALUES(698,'vancouver-north-blue','2010-07-02','Y');
-INSERT INTO "pickup" VALUES(699,'vancouver-north-blue','2010-07-09','');
-INSERT INTO "pickup" VALUES(700,'vancouver-north-blue','2010-07-16','Y');
-INSERT INTO "pickup" VALUES(701,'vancouver-north-blue','2010-07-23','');
-INSERT INTO "pickup" VALUES(702,'vancouver-north-blue','2010-07-30','Y');
-INSERT INTO "pickup" VALUES(703,'vancouver-north-blue','2010-08-09','');
-INSERT INTO "pickup" VALUES(704,'vancouver-north-blue','2010-08-16','Y');
-INSERT INTO "pickup" VALUES(705,'vancouver-north-blue','2010-08-23','');
-INSERT INTO "pickup" VALUES(706,'vancouver-north-blue','2010-08-30','Y');
-INSERT INTO "pickup" VALUES(707,'vancouver-north-blue','2010-09-07','');
-INSERT INTO "pickup" VALUES(708,'vancouver-north-blue','2010-09-14','Y');
-INSERT INTO "pickup" VALUES(709,'vancouver-north-blue','2010-09-21','');
-INSERT INTO "pickup" VALUES(710,'vancouver-north-blue','2010-09-28','Y');
-INSERT INTO "pickup" VALUES(711,'vancouver-north-blue','2010-10-05','');
-INSERT INTO "pickup" VALUES(712,'vancouver-north-blue','2010-10-13','Y');
-INSERT INTO "pickup" VALUES(713,'vancouver-north-blue','2010-10-20','');
-INSERT INTO "pickup" VALUES(714,'vancouver-north-blue','2010-10-27','Y');
-INSERT INTO "pickup" VALUES(715,'vancouver-north-blue','2010-11-03','');
-INSERT INTO "pickup" VALUES(716,'vancouver-north-blue','2010-11-10','Y');
-INSERT INTO "pickup" VALUES(717,'vancouver-north-blue','2010-11-18','');
-INSERT INTO "pickup" VALUES(718,'vancouver-north-blue','2010-11-25','Y');
-INSERT INTO "pickup" VALUES(719,'vancouver-north-blue','2010-12-02','');
-INSERT INTO "pickup" VALUES(720,'vancouver-north-blue','2010-12-09','Y');
-INSERT INTO "pickup" VALUES(721,'vancouver-north-blue','2010-12-16','');
-INSERT INTO "pickup" VALUES(722,'vancouver-north-blue','2010-12-23','Y');
-INSERT INTO "pickup" VALUES(723,'vancouver-north-blue','2011-01-04','');
-INSERT INTO "pickup" VALUES(724,'vancouver-north-blue','2011-01-11','Y');
-INSERT INTO "pickup" VALUES(725,'vancouver-north-blue','2011-01-18','');
-INSERT INTO "pickup" VALUES(726,'vancouver-north-blue','2011-01-25','Y');
-INSERT INTO "pickup" VALUES(727,'vancouver-north-blue','2011-02-01','');
-INSERT INTO "pickup" VALUES(728,'vancouver-north-blue','2011-02-08','Y');
-INSERT INTO "pickup" VALUES(729,'vancouver-north-blue','2011-02-15','');
-INSERT INTO "pickup" VALUES(730,'vancouver-north-blue','2011-02-22','Y');
-INSERT INTO "pickup" VALUES(731,'vancouver-north-green','2010-03-02','');
-INSERT INTO "pickup" VALUES(732,'vancouver-north-green','2010-03-09','Y');
-INSERT INTO "pickup" VALUES(733,'vancouver-north-green','2010-03-16','');
-INSERT INTO "pickup" VALUES(734,'vancouver-north-green','2010-03-23','Y');
-INSERT INTO "pickup" VALUES(735,'vancouver-north-green','2010-03-30','');
-INSERT INTO "pickup" VALUES(736,'vancouver-north-green','2010-04-08','Y');
-INSERT INTO "pickup" VALUES(737,'vancouver-north-green','2010-04-15','');
-INSERT INTO "pickup" VALUES(738,'vancouver-north-green','2010-04-22','Y');
-INSERT INTO "pickup" VALUES(739,'vancouver-north-green','2010-04-29','');
-INSERT INTO "pickup" VALUES(740,'vancouver-north-green','2010-05-06','Y');
-INSERT INTO "pickup" VALUES(741,'vancouver-north-green','2010-05-13','');
-INSERT INTO "pickup" VALUES(742,'vancouver-north-green','2010-05-20','Y');
-INSERT INTO "pickup" VALUES(743,'vancouver-north-green','2010-05-28','');
-INSERT INTO "pickup" VALUES(744,'vancouver-north-green','2010-06-04','Y');
-INSERT INTO "pickup" VALUES(745,'vancouver-north-green','2010-06-11','');
-INSERT INTO "pickup" VALUES(746,'vancouver-north-green','2010-06-18','Y');
-INSERT INTO "pickup" VALUES(747,'vancouver-north-green','2010-06-25','');
-INSERT INTO "pickup" VALUES(748,'vancouver-north-green','2010-07-05','Y');
-INSERT INTO "pickup" VALUES(749,'vancouver-north-green','2010-07-12','');
-INSERT INTO "pickup" VALUES(750,'vancouver-north-green','2010-07-19','Y');
-INSERT INTO "pickup" VALUES(751,'vancouver-north-green','2010-07-26','');
-INSERT INTO "pickup" VALUES(752,'vancouver-north-green','2010-08-03','Y');
-INSERT INTO "pickup" VALUES(753,'vancouver-north-green','2010-08-10','');
-INSERT INTO "pickup" VALUES(754,'vancouver-north-green','2010-08-17','Y');
-INSERT INTO "pickup" VALUES(755,'vancouver-north-green','2010-08-24','');
-INSERT INTO "pickup" VALUES(756,'vancouver-north-green','2010-08-31','Y');
-INSERT INTO "pickup" VALUES(757,'vancouver-north-green','2010-09-08','');
-INSERT INTO "pickup" VALUES(758,'vancouver-north-green','2010-09-15','Y');
-INSERT INTO "pickup" VALUES(759,'vancouver-north-green','2010-09-22','');
-INSERT INTO "pickup" VALUES(760,'vancouver-north-green','2010-09-29','Y');
-INSERT INTO "pickup" VALUES(761,'vancouver-north-green','2010-10-06','');
-INSERT INTO "pickup" VALUES(762,'vancouver-north-green','2010-10-14','Y');
-INSERT INTO "pickup" VALUES(763,'vancouver-north-green','2010-10-21','');
-INSERT INTO "pickup" VALUES(764,'vancouver-north-green','2010-10-28','Y');
-INSERT INTO "pickup" VALUES(765,'vancouver-north-green','2010-11-04','');
-INSERT INTO "pickup" VALUES(766,'vancouver-north-green','2010-11-12','Y');
-INSERT INTO "pickup" VALUES(767,'vancouver-north-green','2010-11-19','');
-INSERT INTO "pickup" VALUES(768,'vancouver-north-green','2010-11-26','Y');
-INSERT INTO "pickup" VALUES(769,'vancouver-north-green','2010-12-03','');
-INSERT INTO "pickup" VALUES(770,'vancouver-north-green','2010-12-10','Y');
-INSERT INTO "pickup" VALUES(771,'vancouver-north-green','2010-12-17','');
-INSERT INTO "pickup" VALUES(772,'vancouver-north-green','2010-12-24','Y');
-INSERT INTO "pickup" VALUES(773,'vancouver-north-green','2011-01-05','');
-INSERT INTO "pickup" VALUES(774,'vancouver-north-green','2011-01-12','Y');
-INSERT INTO "pickup" VALUES(775,'vancouver-north-green','2011-01-19','');
-INSERT INTO "pickup" VALUES(776,'vancouver-north-green','2011-01-26','Y');
-INSERT INTO "pickup" VALUES(777,'vancouver-north-green','2011-02-02','');
-INSERT INTO "pickup" VALUES(778,'vancouver-north-green','2011-02-09','Y');
-INSERT INTO "pickup" VALUES(779,'vancouver-north-green','2011-02-16','');
-INSERT INTO "pickup" VALUES(780,'vancouver-north-green','2011-02-23','Y');
-INSERT INTO "pickup" VALUES(781,'vancouver-north-yellow','2010-03-04','');
-INSERT INTO "pickup" VALUES(782,'vancouver-north-yellow','2010-03-11','Y');
-INSERT INTO "pickup" VALUES(783,'vancouver-north-yellow','2010-03-18','');
-INSERT INTO "pickup" VALUES(784,'vancouver-north-yellow','2010-03-25','Y');
-INSERT INTO "pickup" VALUES(785,'vancouver-north-yellow','2010-04-01','');
-INSERT INTO "pickup" VALUES(786,'vancouver-north-yellow','2010-04-12','Y');
-INSERT INTO "pickup" VALUES(787,'vancouver-north-yellow','2010-04-19','');
-INSERT INTO "pickup" VALUES(788,'vancouver-north-yellow','2010-04-26','Y');
-INSERT INTO "pickup" VALUES(789,'vancouver-north-yellow','2010-05-03','');
-INSERT INTO "pickup" VALUES(790,'vancouver-north-yellow','2010-05-10','Y');
-INSERT INTO "pickup" VALUES(791,'vancouver-north-yellow','2010-05-17','');
-INSERT INTO "pickup" VALUES(792,'vancouver-north-yellow','2010-05-25','Y');
-INSERT INTO "pickup" VALUES(793,'vancouver-north-yellow','2010-06-01','');
-INSERT INTO "pickup" VALUES(794,'vancouver-north-yellow','2010-06-08','Y');
-INSERT INTO "pickup" VALUES(795,'vancouver-north-yellow','2010-06-15','');
-INSERT INTO "pickup" VALUES(796,'vancouver-north-yellow','2010-06-22','Y');
-INSERT INTO "pickup" VALUES(797,'vancouver-north-yellow','2010-06-29','');
-INSERT INTO "pickup" VALUES(798,'vancouver-north-yellow','2010-07-07','Y');
-INSERT INTO "pickup" VALUES(799,'vancouver-north-yellow','2010-07-14','');
-INSERT INTO "pickup" VALUES(800,'vancouver-north-yellow','2010-07-21','Y');
-INSERT INTO "pickup" VALUES(801,'vancouver-north-yellow','2010-07-28','');
-INSERT INTO "pickup" VALUES(802,'vancouver-north-yellow','2010-08-05','Y');
-INSERT INTO "pickup" VALUES(803,'vancouver-north-yellow','2010-08-12','');
-INSERT INTO "pickup" VALUES(804,'vancouver-north-yellow','2010-08-19','Y');
-INSERT INTO "pickup" VALUES(805,'vancouver-north-yellow','2010-08-26','');
-INSERT INTO "pickup" VALUES(806,'vancouver-north-yellow','2010-09-02','Y');
-INSERT INTO "pickup" VALUES(807,'vancouver-north-yellow','2010-09-10','');
-INSERT INTO "pickup" VALUES(808,'vancouver-north-yellow','2010-09-17','Y');
-INSERT INTO "pickup" VALUES(809,'vancouver-north-yellow','2010-09-24','');
-INSERT INTO "pickup" VALUES(810,'vancouver-north-yellow','2010-10-01','Y');
-INSERT INTO "pickup" VALUES(811,'vancouver-north-yellow','2010-10-08','');
-INSERT INTO "pickup" VALUES(812,'vancouver-north-yellow','2010-10-18','Y');
-INSERT INTO "pickup" VALUES(813,'vancouver-north-yellow','2010-10-25','');
-INSERT INTO "pickup" VALUES(814,'vancouver-north-yellow','2010-11-01','Y');
-INSERT INTO "pickup" VALUES(815,'vancouver-north-yellow','2010-11-08','');
-INSERT INTO "pickup" VALUES(816,'vancouver-north-yellow','2010-11-16','Y');
-INSERT INTO "pickup" VALUES(817,'vancouver-north-yellow','2010-11-23','');
-INSERT INTO "pickup" VALUES(818,'vancouver-north-yellow','2010-11-30','Y');
-INSERT INTO "pickup" VALUES(819,'vancouver-north-yellow','2010-12-07','');
-INSERT INTO "pickup" VALUES(820,'vancouver-north-yellow','2010-12-14','Y');
-INSERT INTO "pickup" VALUES(821,'vancouver-north-yellow','2010-12-21','');
-INSERT INTO "pickup" VALUES(822,'vancouver-north-yellow','2010-12-30','Y');
-INSERT INTO "pickup" VALUES(823,'vancouver-north-yellow','2011-01-07','');
-INSERT INTO "pickup" VALUES(824,'vancouver-north-yellow','2011-01-14','Y');
-INSERT INTO "pickup" VALUES(825,'vancouver-north-yellow','2011-01-21','');
-INSERT INTO "pickup" VALUES(826,'vancouver-north-yellow','2011-01-28','Y');
-INSERT INTO "pickup" VALUES(827,'vancouver-north-yellow','2011-02-04','');
-INSERT INTO "pickup" VALUES(828,'vancouver-north-yellow','2011-02-11','Y');
-INSERT INTO "pickup" VALUES(829,'vancouver-north-yellow','2011-02-18','');
-INSERT INTO "pickup" VALUES(830,'vancouver-north-yellow','2011-02-25','Y');
-INSERT INTO "pickup" VALUES(831,'vancouver-south-purple','2010-03-03','Y');
-INSERT INTO "pickup" VALUES(832,'vancouver-south-purple','2010-03-10','');
-INSERT INTO "pickup" VALUES(833,'vancouver-south-purple','2010-03-17','Y');
-INSERT INTO "pickup" VALUES(834,'vancouver-south-purple','2010-03-24','');
-INSERT INTO "pickup" VALUES(835,'vancouver-south-purple','2010-03-31','Y');
-INSERT INTO "pickup" VALUES(836,'vancouver-south-purple','2010-04-09','');
-INSERT INTO "pickup" VALUES(837,'vancouver-south-purple','2010-04-16','Y');
-INSERT INTO "pickup" VALUES(838,'vancouver-south-purple','2010-04-23','');
-INSERT INTO "pickup" VALUES(839,'vancouver-south-purple','2010-04-30','Y');
-INSERT INTO "pickup" VALUES(840,'vancouver-south-purple','2010-05-07','');
-INSERT INTO "pickup" VALUES(841,'vancouver-south-purple','2010-05-14','Y');
-INSERT INTO "pickup" VALUES(842,'vancouver-south-purple','2010-05-21','');
-INSERT INTO "pickup" VALUES(843,'vancouver-south-purple','2010-05-31','Y');
-INSERT INTO "pickup" VALUES(844,'vancouver-south-purple','2010-06-07','');
-INSERT INTO "pickup" VALUES(845,'vancouver-south-purple','2010-06-14','Y');
-INSERT INTO "pickup" VALUES(846,'vancouver-south-purple','2010-06-21','');
-INSERT INTO "pickup" VALUES(847,'vancouver-south-purple','2010-06-28','Y');
-INSERT INTO "pickup" VALUES(848,'vancouver-south-purple','2010-07-06','');
-INSERT INTO "pickup" VALUES(849,'vancouver-south-purple','2010-07-13','Y');
-INSERT INTO "pickup" VALUES(850,'vancouver-south-purple','2010-07-20','');
-INSERT INTO "pickup" VALUES(851,'vancouver-south-purple','2010-07-27','Y');
-INSERT INTO "pickup" VALUES(852,'vancouver-south-purple','2010-08-04','');
-INSERT INTO "pickup" VALUES(853,'vancouver-south-purple','2010-08-11','Y');
-INSERT INTO "pickup" VALUES(854,'vancouver-south-purple','2010-08-18','');
-INSERT INTO "pickup" VALUES(855,'vancouver-south-purple','2010-08-25','Y');
-INSERT INTO "pickup" VALUES(856,'vancouver-south-purple','2010-09-01','');
-INSERT INTO "pickup" VALUES(857,'vancouver-south-purple','2010-09-09','Y');
-INSERT INTO "pickup" VALUES(858,'vancouver-south-purple','2010-09-16','');
-INSERT INTO "pickup" VALUES(859,'vancouver-south-purple','2010-09-23','Y');
-INSERT INTO "pickup" VALUES(860,'vancouver-south-purple','2010-09-30','');
-INSERT INTO "pickup" VALUES(861,'vancouver-south-purple','2010-10-07','Y');
-INSERT INTO "pickup" VALUES(862,'vancouver-south-purple','2010-10-15','');
-INSERT INTO "pickup" VALUES(863,'vancouver-south-purple','2010-10-22','Y');
-INSERT INTO "pickup" VALUES(864,'vancouver-south-purple','2010-10-29','');
-INSERT INTO "pickup" VALUES(865,'vancouver-south-purple','2010-11-05','Y');
-INSERT INTO "pickup" VALUES(866,'vancouver-south-purple','2010-11-15','');
-INSERT INTO "pickup" VALUES(867,'vancouver-south-purple','2010-11-22','Y');
-INSERT INTO "pickup" VALUES(868,'vancouver-south-purple','2010-11-29','');
-INSERT INTO "pickup" VALUES(869,'vancouver-south-purple','2010-12-06','Y');
-INSERT INTO "pickup" VALUES(870,'vancouver-south-purple','2010-12-13','');
-INSERT INTO "pickup" VALUES(871,'vancouver-south-purple','2010-12-20','Y');
-INSERT INTO "pickup" VALUES(872,'vancouver-south-purple','2010-12-29','');
-INSERT INTO "pickup" VALUES(873,'vancouver-south-purple','2011-01-06','Y');
-INSERT INTO "pickup" VALUES(874,'vancouver-south-purple','2011-01-13','');
-INSERT INTO "pickup" VALUES(875,'vancouver-south-purple','2011-01-20','Y');
-INSERT INTO "pickup" VALUES(876,'vancouver-south-purple','2011-01-27','');
-INSERT INTO "pickup" VALUES(877,'vancouver-south-purple','2011-02-03','Y');
-INSERT INTO "pickup" VALUES(878,'vancouver-south-purple','2011-02-10','');
-INSERT INTO "pickup" VALUES(879,'vancouver-south-purple','2011-02-17','Y');
-INSERT INTO "pickup" VALUES(880,'vancouver-south-purple','2011-02-24','');
-INSERT INTO "pickup" VALUES(881,'vancouver-south-red','2010-03-05','Y');
-INSERT INTO "pickup" VALUES(882,'vancouver-south-red','2010-03-12','');
-INSERT INTO "pickup" VALUES(883,'vancouver-south-red','2010-03-19','Y');
-INSERT INTO "pickup" VALUES(884,'vancouver-south-red','2010-03-26','');
-INSERT INTO "pickup" VALUES(885,'vancouver-south-red','2010-04-06','Y');
-INSERT INTO "pickup" VALUES(886,'vancouver-south-red','2010-04-13','');
-INSERT INTO "pickup" VALUES(887,'vancouver-south-red','2010-04-20','Y');
-INSERT INTO "pickup" VALUES(888,'vancouver-south-red','2010-04-27','');
-INSERT INTO "pickup" VALUES(889,'vancouver-south-red','2010-05-04','Y');
-INSERT INTO "pickup" VALUES(890,'vancouver-south-red','2010-05-11','');
-INSERT INTO "pickup" VALUES(891,'vancouver-south-red','2010-05-18','Y');
-INSERT INTO "pickup" VALUES(892,'vancouver-south-red','2010-05-26','');
-INSERT INTO "pickup" VALUES(893,'vancouver-south-red','2010-06-02','Y');
-INSERT INTO "pickup" VALUES(894,'vancouver-south-red','2010-06-09','');
-INSERT INTO "pickup" VALUES(895,'vancouver-south-red','2010-06-16','Y');
-INSERT INTO "pickup" VALUES(896,'vancouver-south-red','2010-06-23','');
-INSERT INTO "pickup" VALUES(897,'vancouver-south-red','2010-06-30','Y');
-INSERT INTO "pickup" VALUES(898,'vancouver-south-red','2010-07-08','');
-INSERT INTO "pickup" VALUES(899,'vancouver-south-red','2010-07-15','Y');
-INSERT INTO "pickup" VALUES(900,'vancouver-south-red','2010-07-22','');
-INSERT INTO "pickup" VALUES(901,'vancouver-south-red','2010-07-29','Y');
-INSERT INTO "pickup" VALUES(902,'vancouver-south-red','2010-08-06','');
-INSERT INTO "pickup" VALUES(903,'vancouver-south-red','2010-08-13','Y');
-INSERT INTO "pickup" VALUES(904,'vancouver-south-red','2010-08-20','');
-INSERT INTO "pickup" VALUES(905,'vancouver-south-red','2010-08-27','Y');
-INSERT INTO "pickup" VALUES(906,'vancouver-south-red','2010-09-03','');
-INSERT INTO "pickup" VALUES(907,'vancouver-south-red','2010-09-13','Y');
-INSERT INTO "pickup" VALUES(908,'vancouver-south-red','2010-09-20','');
-INSERT INTO "pickup" VALUES(909,'vancouver-south-red','2010-09-27','Y');
-INSERT INTO "pickup" VALUES(910,'vancouver-south-red','2010-10-04','');
-INSERT INTO "pickup" VALUES(911,'vancouver-south-red','2010-10-12','Y');
-INSERT INTO "pickup" VALUES(912,'vancouver-south-red','2010-10-19','');
-INSERT INTO "pickup" VALUES(913,'vancouver-south-red','2010-10-26','Y');
-INSERT INTO "pickup" VALUES(914,'vancouver-south-red','2010-11-02','');
-INSERT INTO "pickup" VALUES(915,'vancouver-south-red','2010-11-09','Y');
-INSERT INTO "pickup" VALUES(916,'vancouver-south-red','2010-11-17','');
-INSERT INTO "pickup" VALUES(917,'vancouver-south-red','2010-11-24','Y');
-INSERT INTO "pickup" VALUES(918,'vancouver-south-red','2010-12-01','');
-INSERT INTO "pickup" VALUES(919,'vancouver-south-red','2010-12-08','Y');
-INSERT INTO "pickup" VALUES(920,'vancouver-south-red','2010-12-15','');
-INSERT INTO "pickup" VALUES(921,'vancouver-south-red','2010-12-22','Y');
-INSERT INTO "pickup" VALUES(922,'vancouver-south-red','2010-12-31','');
-INSERT INTO "pickup" VALUES(923,'vancouver-south-red','2011-01-10','Y');
-INSERT INTO "pickup" VALUES(924,'vancouver-south-red','2011-01-17','');
-INSERT INTO "pickup" VALUES(925,'vancouver-south-red','2011-01-24','Y');
-INSERT INTO "pickup" VALUES(926,'vancouver-south-red','2011-01-31','');
-INSERT INTO "pickup" VALUES(927,'vancouver-south-red','2011-02-07','Y');
-INSERT INTO "pickup" VALUES(928,'vancouver-south-red','2011-02-14','');
-INSERT INTO "pickup" VALUES(929,'vancouver-south-red','2011-02-21','Y');
-INSERT INTO "pickup" VALUES(930,'vancouver-south-red','2011-02-28','');
-INSERT INTO "pickup" VALUES(931,'vancouver-south-blue','2010-03-01','Y');
-INSERT INTO "pickup" VALUES(932,'vancouver-south-blue','2010-03-08','');
-INSERT INTO "pickup" VALUES(933,'vancouver-south-blue','2010-03-15','Y');
-INSERT INTO "pickup" VALUES(934,'vancouver-south-blue','2010-03-22','');
-INSERT INTO "pickup" VALUES(935,'vancouver-south-blue','2010-03-29','Y');
-INSERT INTO "pickup" VALUES(936,'vancouver-south-blue','2010-04-07','');
-INSERT INTO "pickup" VALUES(937,'vancouver-south-blue','2010-04-14','Y');
-INSERT INTO "pickup" VALUES(938,'vancouver-south-blue','2010-04-21','');
-INSERT INTO "pickup" VALUES(939,'vancouver-south-blue','2010-04-28','Y');
-INSERT INTO "pickup" VALUES(940,'vancouver-south-blue','2010-05-05','');
-INSERT INTO "pickup" VALUES(941,'vancouver-south-blue','2010-05-12','Y');
-INSERT INTO "pickup" VALUES(942,'vancouver-south-blue','2010-05-19','');
-INSERT INTO "pickup" VALUES(943,'vancouver-south-blue','2010-05-27','Y');
-INSERT INTO "pickup" VALUES(944,'vancouver-south-blue','2010-06-03','');
-INSERT INTO "pickup" VALUES(945,'vancouver-south-blue','2010-06-10','Y');
-INSERT INTO "pickup" VALUES(946,'vancouver-south-blue','2010-06-17','');
-INSERT INTO "pickup" VALUES(947,'vancouver-south-blue','2010-06-24','Y');
-INSERT INTO "pickup" VALUES(948,'vancouver-south-blue','2010-07-02','');
-INSERT INTO "pickup" VALUES(949,'vancouver-south-blue','2010-07-09','Y');
-INSERT INTO "pickup" VALUES(950,'vancouver-south-blue','2010-07-16','');
-INSERT INTO "pickup" VALUES(951,'vancouver-south-blue','2010-07-23','Y');
-INSERT INTO "pickup" VALUES(952,'vancouver-south-blue','2010-07-30','');
-INSERT INTO "pickup" VALUES(953,'vancouver-south-blue','2010-08-09','Y');
-INSERT INTO "pickup" VALUES(954,'vancouver-south-blue','2010-08-16','');
-INSERT INTO "pickup" VALUES(955,'vancouver-south-blue','2010-08-23','Y');
-INSERT INTO "pickup" VALUES(956,'vancouver-south-blue','2010-08-30','');
-INSERT INTO "pickup" VALUES(957,'vancouver-south-blue','2010-09-07','Y');
-INSERT INTO "pickup" VALUES(958,'vancouver-south-blue','2010-09-14','');
-INSERT INTO "pickup" VALUES(959,'vancouver-south-blue','2010-09-21','Y');
-INSERT INTO "pickup" VALUES(960,'vancouver-south-blue','2010-09-28','');
-INSERT INTO "pickup" VALUES(961,'vancouver-south-blue','2010-10-05','Y');
-INSERT INTO "pickup" VALUES(962,'vancouver-south-blue','2010-10-13','');
-INSERT INTO "pickup" VALUES(963,'vancouver-south-blue','2010-10-20','Y');
-INSERT INTO "pickup" VALUES(964,'vancouver-south-blue','2010-10-27','');
-INSERT INTO "pickup" VALUES(965,'vancouver-south-blue','2010-11-03','Y');
-INSERT INTO "pickup" VALUES(966,'vancouver-south-blue','2010-11-10','');
-INSERT INTO "pickup" VALUES(967,'vancouver-south-blue','2010-11-18','Y');
-INSERT INTO "pickup" VALUES(968,'vancouver-south-blue','2010-11-25','');
-INSERT INTO "pickup" VALUES(969,'vancouver-south-blue','2010-12-02','Y');
-INSERT INTO "pickup" VALUES(970,'vancouver-south-blue','2010-12-09','');
-INSERT INTO "pickup" VALUES(971,'vancouver-south-blue','2010-12-16','Y');
-INSERT INTO "pickup" VALUES(972,'vancouver-south-blue','2010-12-23','');
-INSERT INTO "pickup" VALUES(973,'vancouver-south-blue','2011-01-04','Y');
-INSERT INTO "pickup" VALUES(974,'vancouver-south-blue','2011-01-11','');
-INSERT INTO "pickup" VALUES(975,'vancouver-south-blue','2011-01-18','Y');
-INSERT INTO "pickup" VALUES(976,'vancouver-south-blue','2011-01-25','');
-INSERT INTO "pickup" VALUES(977,'vancouver-south-blue','2011-02-01','Y');
-INSERT INTO "pickup" VALUES(978,'vancouver-south-blue','2011-02-08','');
-INSERT INTO "pickup" VALUES(979,'vancouver-south-blue','2011-02-15','Y');
-INSERT INTO "pickup" VALUES(980,'vancouver-south-blue','2011-02-22','');
-INSERT INTO "pickup" VALUES(981,'vancouver-south-green','2010-03-02','Y');
-INSERT INTO "pickup" VALUES(982,'vancouver-south-green','2010-03-09','');
-INSERT INTO "pickup" VALUES(983,'vancouver-south-green','2010-03-16','Y');
-INSERT INTO "pickup" VALUES(984,'vancouver-south-green','2010-03-23','');
-INSERT INTO "pickup" VALUES(985,'vancouver-south-green','2010-03-30','Y');
-INSERT INTO "pickup" VALUES(986,'vancouver-south-green','2010-04-08','');
-INSERT INTO "pickup" VALUES(987,'vancouver-south-green','2010-04-15','Y');
-INSERT INTO "pickup" VALUES(988,'vancouver-south-green','2010-04-22','');
-INSERT INTO "pickup" VALUES(989,'vancouver-south-green','2010-04-29','Y');
-INSERT INTO "pickup" VALUES(990,'vancouver-south-green','2010-05-06','');
-INSERT INTO "pickup" VALUES(991,'vancouver-south-green','2010-05-13','Y');
-INSERT INTO "pickup" VALUES(992,'vancouver-south-green','2010-05-20','');
-INSERT INTO "pickup" VALUES(993,'vancouver-south-green','2010-05-28','Y');
-INSERT INTO "pickup" VALUES(994,'vancouver-south-green','2010-06-04','');
-INSERT INTO "pickup" VALUES(995,'vancouver-south-green','2010-06-11','Y');
-INSERT INTO "pickup" VALUES(996,'vancouver-south-green','2010-06-18','');
-INSERT INTO "pickup" VALUES(997,'vancouver-south-green','2010-06-25','Y');
-INSERT INTO "pickup" VALUES(998,'vancouver-south-green','2010-07-05','');
-INSERT INTO "pickup" VALUES(999,'vancouver-south-green','2010-07-12','Y');
-INSERT INTO "pickup" VALUES(1000,'vancouver-south-green','2010-07-19','');
-INSERT INTO "pickup" VALUES(1001,'vancouver-south-green','2010-07-26','');
-INSERT INTO "pickup" VALUES(1002,'vancouver-south-green','2010-08-03','');
-INSERT INTO "pickup" VALUES(1003,'vancouver-south-green','2010-08-10','Y');
-INSERT INTO "pickup" VALUES(1004,'vancouver-south-green','2010-08-17','');
-INSERT INTO "pickup" VALUES(1005,'vancouver-south-green','2010-08-24','');
-INSERT INTO "pickup" VALUES(1006,'vancouver-south-green','2010-08-31','');
-INSERT INTO "pickup" VALUES(1007,'vancouver-south-green','2010-09-08','Y');
-INSERT INTO "pickup" VALUES(1008,'vancouver-south-green','2010-09-15','');
-INSERT INTO "pickup" VALUES(1009,'vancouver-south-green','2010-09-22','Y');
-INSERT INTO "pickup" VALUES(1010,'vancouver-south-green','2010-09-29','');
-INSERT INTO "pickup" VALUES(1011,'vancouver-south-green','2010-10-06','Y');
-INSERT INTO "pickup" VALUES(1012,'vancouver-south-green','2010-10-14','');
-INSERT INTO "pickup" VALUES(1013,'vancouver-south-green','2010-10-21','Y');
-INSERT INTO "pickup" VALUES(1014,'vancouver-south-green','2010-10-28','');
-INSERT INTO "pickup" VALUES(1015,'vancouver-south-green','2010-11-04','Y');
-INSERT INTO "pickup" VALUES(1016,'vancouver-south-green','2010-11-12','');
-INSERT INTO "pickup" VALUES(1017,'vancouver-south-green','2010-11-19','Y');
-INSERT INTO "pickup" VALUES(1018,'vancouver-south-green','2010-11-26','');
-INSERT INTO "pickup" VALUES(1019,'vancouver-south-green','2010-12-03','Y');
-INSERT INTO "pickup" VALUES(1020,'vancouver-south-green','2010-12-10','');
-INSERT INTO "pickup" VALUES(1021,'vancouver-south-green','2010-12-17','Y');
-INSERT INTO "pickup" VALUES(1022,'vancouver-south-green','2010-12-24','');
-INSERT INTO "pickup" VALUES(1023,'vancouver-south-green','2011-01-05','Y');
-INSERT INTO "pickup" VALUES(1024,'vancouver-south-green','2011-01-12','');
-INSERT INTO "pickup" VALUES(1025,'vancouver-south-green','2011-01-19','Y');
-INSERT INTO "pickup" VALUES(1026,'vancouver-south-green','2011-01-26','');
-INSERT INTO "pickup" VALUES(1027,'vancouver-south-green','2011-02-02','Y');
-INSERT INTO "pickup" VALUES(1028,'vancouver-south-green','2011-02-09','');
-INSERT INTO "pickup" VALUES(1029,'vancouver-south-green','2011-02-16','Y');
-INSERT INTO "pickup" VALUES(1030,'vancouver-south-green','2011-02-23','');
-INSERT INTO "pickup" VALUES(1031,'vancouver-south-yellow','2010-03-04','Y');
-INSERT INTO "pickup" VALUES(1032,'vancouver-south-yellow','2010-03-11','');
-INSERT INTO "pickup" VALUES(1033,'vancouver-south-yellow','2010-03-18','Y');
-INSERT INTO "pickup" VALUES(1034,'vancouver-south-yellow','2010-03-25','');
-INSERT INTO "pickup" VALUES(1035,'vancouver-south-yellow','2010-04-01','Y');
-INSERT INTO "pickup" VALUES(1036,'vancouver-south-yellow','2010-04-12','');
-INSERT INTO "pickup" VALUES(1037,'vancouver-south-yellow','2010-04-19','Y');
-INSERT INTO "pickup" VALUES(1038,'vancouver-south-yellow','2010-04-26','');
-INSERT INTO "pickup" VALUES(1039,'vancouver-south-yellow','2010-05-03','Y');
-INSERT INTO "pickup" VALUES(1040,'vancouver-south-yellow','2010-05-10','');
-INSERT INTO "pickup" VALUES(1041,'vancouver-south-yellow','2010-05-17','Y');
-INSERT INTO "pickup" VALUES(1042,'vancouver-south-yellow','2010-05-25','');
-INSERT INTO "pickup" VALUES(1043,'vancouver-south-yellow','2010-06-01','Y');
-INSERT INTO "pickup" VALUES(1044,'vancouver-south-yellow','2010-06-08','');
-INSERT INTO "pickup" VALUES(1045,'vancouver-south-yellow','2010-06-15','Y');
-INSERT INTO "pickup" VALUES(1046,'vancouver-south-yellow','2010-06-22','');
-INSERT INTO "pickup" VALUES(1047,'vancouver-south-yellow','2010-06-29','Y');
-INSERT INTO "pickup" VALUES(1048,'vancouver-south-yellow','2010-07-07','');
-INSERT INTO "pickup" VALUES(1049,'vancouver-south-yellow','2010-07-14','Y');
-INSERT INTO "pickup" VALUES(1050,'vancouver-south-yellow','2010-07-21','');
-INSERT INTO "pickup" VALUES(1051,'vancouver-south-yellow','2010-07-28','Y');
-INSERT INTO "pickup" VALUES(1052,'vancouver-south-yellow','2010-08-05','');
-INSERT INTO "pickup" VALUES(1053,'vancouver-south-yellow','2010-08-12','Y');
-INSERT INTO "pickup" VALUES(1054,'vancouver-south-yellow','2010-08-19','');
-INSERT INTO "pickup" VALUES(1055,'vancouver-south-yellow','2010-08-26','Y');
-INSERT INTO "pickup" VALUES(1056,'vancouver-south-yellow','2010-09-02','');
-INSERT INTO "pickup" VALUES(1057,'vancouver-south-yellow','2010-09-10','Y');
-INSERT INTO "pickup" VALUES(1058,'vancouver-south-yellow','2010-09-17','');
-INSERT INTO "pickup" VALUES(1059,'vancouver-south-yellow','2010-09-24','Y');
-INSERT INTO "pickup" VALUES(1060,'vancouver-south-yellow','2010-10-01','');
-INSERT INTO "pickup" VALUES(1061,'vancouver-south-yellow','2010-10-08','Y');
-INSERT INTO "pickup" VALUES(1062,'vancouver-south-yellow','2010-10-18','');
-INSERT INTO "pickup" VALUES(1063,'vancouver-south-yellow','2010-10-25','Y');
-INSERT INTO "pickup" VALUES(1064,'vancouver-south-yellow','2010-11-01','');
-INSERT INTO "pickup" VALUES(1065,'vancouver-south-yellow','2010-11-08','Y');
-INSERT INTO "pickup" VALUES(1066,'vancouver-south-yellow','2010-11-16','');
-INSERT INTO "pickup" VALUES(1067,'vancouver-south-yellow','2010-11-23','Y');
-INSERT INTO "pickup" VALUES(1068,'vancouver-south-yellow','2010-11-30','');
-INSERT INTO "pickup" VALUES(1069,'vancouver-south-yellow','2010-12-07','Y');
-INSERT INTO "pickup" VALUES(1070,'vancouver-south-yellow','2010-12-14','');
-INSERT INTO "pickup" VALUES(1071,'vancouver-south-yellow','2010-12-21','Y');
-INSERT INTO "pickup" VALUES(1072,'vancouver-south-yellow','2010-12-30','');
-INSERT INTO "pickup" VALUES(1073,'vancouver-south-yellow','2011-01-07','Y');
-INSERT INTO "pickup" VALUES(1074,'vancouver-south-yellow','2011-01-14','');
-INSERT INTO "pickup" VALUES(1075,'vancouver-south-yellow','2011-01-21','Y');
-INSERT INTO "pickup" VALUES(1076,'vancouver-south-yellow','2011-01-28','');
-INSERT INTO "pickup" VALUES(1077,'vancouver-south-yellow','2011-02-04','Y');
-INSERT INTO "pickup" VALUES(1078,'vancouver-south-yellow','2011-02-11','');
-INSERT INTO "pickup" VALUES(1079,'vancouver-south-yellow','2011-02-18','Y');
-INSERT INTO "pickup" VALUES(1080,'vancouver-south-yellow','2011-02-25','');
-CREATE TABLE reminder (
-    id TEXT PRIMARY KEY,
-    name TEXT NOT NULL,
-    email TEXT NOT NULL,
-    target TEXT NOT NULL,
-    zone TEXT NOT NULL,
-    offset INTEGER NOT NULL,
-    confirmed BOOLEAN NOT NULL,
-    created_at INTEGER NOT NULL,
-    next_pickup INTEGER NOT NULL,
-    last_notified INTEGER NOT NULL,
-    confirm_hash TEXT NOT NULL,
-    payment_period TEXT,
-    expiry INTEGER NOT NULL,
-    coupon TEXT,
-    subscription_profile_id TEXT
+
+
+ALTER TABLE public.reminders OWNER TO ubuntu;
+
+--
+-- Name: subscriptions; Type: TABLE; Schema: public; Owner: ubuntu; Tablespace: 
+--
+
+CREATE TABLE subscriptions (
+    id integer NOT NULL,
+    user_id integer,
+    created_at timestamp with time zone DEFAULT ('now'::text)::timestamp without time zone,
+    period text NOT NULL,
+    profile_id text NOT NULL,
+    expiry timestamp with time zone DEFAULT 'infinity'::timestamp with time zone,
+    coupon text DEFAULT ''::text
 );
-COMMIT;
+
+
+ALTER TABLE public.subscriptions OWNER TO ubuntu;
+
+--
+-- Name: users; Type: TABLE; Schema: public; Owner: ubuntu; Tablespace: 
+--
+
+CREATE TABLE users (
+    id integer NOT NULL,
+    email text NOT NULL,
+    created_at timestamp with time zone DEFAULT ('now'::text)::timestamp without time zone
+);
+
+
+ALTER TABLE public.users OWNER TO ubuntu;
+
+--
+-- Name: zone_seq; Type: SEQUENCE; Schema: public; Owner: ubuntu
+--
+
+CREATE SEQUENCE zone_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.zone_seq OWNER TO ubuntu;
+
+--
+-- Name: zone_seq; Type: SEQUENCE SET; Schema: public; Owner: ubuntu
+--
+
+SELECT pg_catalog.setval('zone_seq', 10, true);
+
+
+--
+-- Name: zones; Type: TABLE; Schema: public; Owner: ubuntu; Tablespace: 
+--
+
+CREATE TABLE zones (
+    id integer DEFAULT nextval('zone_seq'::regclass) NOT NULL,
+    area_id integer,
+    name text NOT NULL,
+    title text NOT NULL,
+    colour text NOT NULL
+);
+
+
+ALTER TABLE public.zones OWNER TO ubuntu;
+
+--
+-- Data for Name: areas; Type: TABLE DATA; Schema: public; Owner: ubuntu
+--
+
+COPY areas (id, name, centre) FROM stdin;
+1	Vancouver	49.26422,-123.138542
+\.
+
+
+--
+-- Data for Name: pickups; Type: TABLE DATA; Schema: public; Owner: ubuntu
+--
+
+COPY pickups (id, zone_id, day, flags) FROM stdin;
+320	1	2010-01-08	
+321	1	2010-01-15	 Y
+322	1	2010-01-22	
+323	1	2010-01-29	 Y
+324	1	2010-02-05	
+325	1	2010-02-12	 Y
+326	1	2010-02-19	
+327	1	2010-02-26	 Y
+328	1	2010-03-05	
+329	1	2010-03-12	 Y
+330	1	2010-03-19	
+331	1	2010-03-26	 Y
+332	1	2010-04-06	
+333	1	2010-04-13	 Y
+334	1	2010-04-20	
+335	1	2010-04-27	 Y
+336	1	2010-05-04	
+337	1	2010-05-11	 Y
+338	1	2010-05-18	
+339	1	2010-05-26	 Y
+340	1	2010-06-02	
+341	1	2010-06-09	 Y
+342	1	2010-06-16	
+343	1	2010-06-23	 Y
+344	1	2010-06-30	
+345	1	2010-07-08	 Y
+346	1	2010-07-15	
+347	1	2010-07-22	 Y
+348	1	2010-07-29	
+349	1	2010-08-06	 Y
+350	1	2010-08-13	
+351	1	2010-08-20	 Y
+352	1	2010-08-27	
+353	1	2010-09-03	 Y
+354	1	2010-09-13	
+355	1	2010-09-20	 Y
+356	1	2010-09-27	
+357	1	2010-10-04	 Y
+358	1	2010-10-12	
+359	1	2010-10-19	 Y
+360	1	2010-10-26	
+361	1	2010-11-02	 Y
+362	1	2010-11-09	
+363	1	2010-11-17	 Y
+364	1	2010-11-24	
+365	1	2010-12-01	 Y
+366	1	2010-12-08	
+367	1	2010-12-15	 Y
+368	1	2010-12-22	
+369	1	2010-12-31	 Y
+370	1	2011-01-10	
+371	1	2011-01-17	 Y
+372	1	2011-01-24	
+373	1	2011-01-31	 Y
+374	1	2011-02-07	
+375	1	2011-02-14	 Y
+376	1	2011-02-21	
+377	1	2011-02-28	 Y
+378	2	2010-01-05	
+379	2	2010-01-12	 Y
+380	2	2010-01-19	
+381	2	2010-01-26	 Y
+382	2	2010-02-02	
+383	2	2010-02-09	 Y
+384	2	2010-02-16	
+385	2	2010-02-23	 Y
+386	2	2010-03-02	
+387	2	2010-03-09	 Y
+388	2	2010-03-16	
+389	2	2010-03-23	 Y
+390	2	2010-03-30	
+391	2	2010-04-08	 Y
+392	2	2010-04-15	
+393	2	2010-04-22	 Y
+394	2	2010-04-29	
+395	2	2010-05-06	 Y
+396	2	2010-05-13	
+397	2	2010-05-20	 Y
+398	2	2010-05-28	
+399	2	2010-06-04	 Y
+400	2	2010-06-11	
+401	2	2010-06-18	 Y
+402	2	2010-06-25	
+403	2	2010-07-05	 Y
+404	2	2010-07-12	
+405	2	2010-07-19	 Y
+406	2	2010-07-26	
+407	2	2010-08-03	 Y
+408	2	2010-08-10	
+409	2	2010-08-17	 Y
+410	2	2010-08-24	
+411	2	2010-08-31	 Y
+412	2	2010-09-08	
+413	2	2010-09-15	 Y
+414	2	2010-09-22	
+415	2	2010-09-29	 Y
+416	2	2010-10-06	
+417	2	2010-10-14	 Y
+418	2	2010-10-21	
+419	2	2010-10-28	 Y
+420	2	2010-11-04	
+421	2	2010-11-12	 Y
+422	2	2010-11-19	
+423	2	2010-11-26	 Y
+424	2	2010-12-03	
+425	2	2010-12-10	 Y
+426	2	2010-12-17	
+427	2	2010-12-24	 Y
+428	2	2011-01-05	
+429	2	2011-01-12	 Y
+430	2	2011-01-19	
+431	2	2011-01-26	 Y
+432	2	2011-02-02	
+433	2	2011-02-09	 Y
+434	2	2011-02-16	
+435	2	2011-02-23	 Y
+436	3	2010-01-04	
+437	3	2010-01-11	 Y
+438	3	2010-01-18	
+439	3	2010-01-25	 Y
+440	3	2010-02-01	
+441	3	2010-02-08	 Y
+442	3	2010-02-15	
+443	3	2010-02-22	 Y
+444	3	2010-03-01	
+445	3	2010-03-08	 Y
+446	3	2010-03-15	
+447	3	2010-03-22	 Y
+448	3	2010-03-29	
+449	3	2010-04-07	 Y
+450	3	2010-04-14	
+451	3	2010-04-21	 Y
+452	3	2010-04-28	
+453	3	2010-05-05	 Y
+454	3	2010-05-12	
+455	3	2010-05-19	 Y
+456	3	2010-05-27	
+457	3	2010-06-03	 Y
+458	3	2010-06-10	
+459	3	2010-06-17	 Y
+460	3	2010-06-24	
+461	3	2010-07-02	 Y
+462	3	2010-07-09	
+463	3	2010-07-16	 Y
+464	3	2010-07-23	
+465	3	2010-07-30	 Y
+466	3	2010-08-09	
+467	3	2010-08-16	 Y
+468	3	2010-08-23	
+469	3	2010-08-30	 Y
+470	3	2010-09-07	
+471	3	2010-09-14	 Y
+472	3	2010-09-21	
+473	3	2010-09-28	 Y
+474	3	2010-10-05	
+475	3	2010-10-13	 Y
+476	3	2010-10-20	
+477	3	2010-10-27	 Y
+478	3	2010-11-03	
+479	3	2010-11-10	 Y
+480	3	2010-11-18	
+481	3	2010-11-25	 Y
+482	3	2010-12-02	
+483	3	2010-12-09	 Y
+484	3	2010-12-16	
+485	3	2010-12-23	 Y
+486	3	2011-01-04	
+487	3	2011-01-11	 Y
+488	3	2011-01-18	
+489	3	2011-01-25	 Y
+490	3	2011-02-01	
+491	3	2011-02-08	 Y
+492	3	2011-02-15	
+493	3	2011-02-22	 Y
+494	4	2010-01-07	
+495	4	2010-01-14	 Y
+496	4	2010-01-21	
+497	4	2010-01-28	 Y
+498	4	2010-02-04	
+499	4	2010-02-11	 Y
+500	4	2010-02-18	
+501	4	2010-02-25	 Y
+502	4	2010-03-04	
+503	4	2010-03-11	 Y
+504	4	2010-03-18	
+505	4	2010-03-25	 Y
+506	4	2010-04-01	
+507	4	2010-04-12	 Y
+508	4	2010-04-19	
+509	4	2010-04-26	 Y
+510	4	2010-05-03	
+511	4	2010-05-10	 Y
+512	4	2010-05-17	
+513	4	2010-05-25	 Y
+514	4	2010-06-01	
+515	4	2010-06-08	 Y
+516	4	2010-06-15	
+517	4	2010-06-22	 Y
+518	4	2010-06-29	
+519	4	2010-07-07	 Y
+520	4	2010-07-14	
+521	4	2010-07-21	 Y
+522	4	2010-07-28	
+523	4	2010-08-05	 Y
+524	4	2010-08-12	
+525	4	2010-08-19	 Y
+526	4	2010-08-26	
+527	4	2010-09-02	 Y
+528	4	2010-09-10	
+529	4	2010-09-17	 Y
+530	4	2010-09-24	
+531	4	2010-10-01	 Y
+532	4	2010-10-08	
+533	4	2010-10-18	 Y
+534	4	2010-10-25	
+535	4	2010-11-01	 Y
+536	4	2010-11-08	
+537	4	2010-11-16	 Y
+538	4	2010-11-23	
+539	4	2010-11-30	 Y
+540	4	2010-12-07	
+541	4	2010-12-14	 Y
+542	4	2010-12-21	
+543	4	2010-12-30	 Y
+544	4	2011-01-07	
+545	4	2011-01-14	 Y
+546	4	2011-01-21	
+547	4	2011-01-28	 Y
+548	4	2011-02-04	
+549	4	2011-02-11	 Y
+550	4	2011-02-18	
+551	4	2011-02-25	 Y
+552	5	2010-01-06	
+553	5	2010-01-13	 Y
+554	5	2010-01-20	
+555	5	2010-01-27	 Y
+556	5	2010-02-03	
+557	5	2010-02-10	 Y
+558	5	2010-02-17	
+559	5	2010-02-24	 Y
+560	5	2010-03-03	
+561	5	2010-03-10	 Y
+562	5	2010-03-17	
+563	5	2010-03-24	 Y
+564	5	2010-03-31	
+565	5	2010-04-09	 Y
+566	5	2010-04-16	
+567	5	2010-04-23	 Y
+568	5	2010-04-30	
+569	5	2010-05-07	 Y
+570	5	2010-05-14	
+571	5	2010-05-21	 Y
+572	5	2010-05-31	
+573	5	2010-06-07	 Y
+574	5	2010-06-14	
+575	5	2010-06-21	 Y
+576	5	2010-06-28	
+577	5	2010-07-06	 Y
+578	5	2010-07-13	
+579	5	2010-07-20	 Y
+580	5	2010-07-27	
+581	5	2010-08-04	 Y
+582	5	2010-08-11	
+583	5	2010-08-18	 Y
+584	5	2010-08-25	
+585	5	2010-09-01	 Y
+586	5	2010-09-09	
+587	5	2010-09-16	 Y
+588	5	2010-09-23	
+589	5	2010-09-30	 Y
+590	5	2010-10-07	
+591	5	2010-10-15	 Y
+592	5	2010-10-22	
+593	5	2010-10-29	 Y
+594	5	2010-11-05	
+595	5	2010-11-15	 Y
+596	5	2010-11-22	
+597	5	2010-11-29	 Y
+598	5	2010-12-06	
+599	5	2010-12-13	 Y
+600	5	2010-12-20	
+601	5	2010-12-29	 Y
+602	5	2011-01-06	
+603	5	2011-01-13	 Y
+604	5	2011-01-20	
+605	5	2011-01-27	 Y
+606	5	2011-02-03	
+607	5	2011-02-10	 Y
+608	5	2011-02-17	
+609	5	2011-02-24	 Y
+610	6	2010-01-08	 Y
+611	6	2010-01-15	
+612	6	2010-01-22	 Y
+613	6	2010-01-29	
+614	6	2010-02-05	 Y
+615	6	2010-02-12	
+616	6	2010-02-19	 Y
+617	6	2010-02-26	
+618	6	2010-03-05	 Y
+619	6	2010-03-12	
+620	6	2010-03-19	 Y
+621	6	2010-03-26	
+622	6	2010-04-06	 Y
+623	6	2010-04-13	
+624	6	2010-04-20	 Y
+625	6	2010-04-27	
+626	6	2010-05-04	 Y
+627	6	2010-05-11	
+628	6	2010-05-18	 Y
+629	6	2010-05-26	
+630	6	2010-06-02	 Y
+631	6	2010-06-09	
+632	6	2010-06-16	 Y
+633	6	2010-06-23	
+634	6	2010-06-30	 Y
+635	6	2010-07-08	
+636	6	2010-07-15	 Y
+637	6	2010-07-22	
+638	6	2010-07-29	 Y
+639	6	2010-08-06	
+640	6	2010-08-13	 Y
+641	6	2010-08-20	
+642	6	2010-08-27	 Y
+643	6	2010-09-03	
+644	6	2010-09-13	 Y
+645	6	2010-09-20	
+646	6	2010-09-27	 Y
+647	6	2010-10-04	
+648	6	2010-10-12	 Y
+649	6	2010-10-19	
+650	6	2010-10-26	 Y
+651	6	2010-11-02	
+652	6	2010-11-09	 Y
+653	6	2010-11-17	
+654	6	2010-11-24	 Y
+655	6	2010-12-01	
+656	6	2010-12-08	 Y
+657	6	2010-12-15	
+658	6	2010-12-22	 Y
+659	6	2010-12-31	
+660	6	2011-01-10	 Y
+661	6	2011-01-17	
+662	6	2011-01-24	 Y
+663	6	2011-01-31	
+664	6	2011-02-07	 Y
+665	6	2011-02-14	
+666	6	2011-02-21	 Y
+667	6	2011-02-28	
+668	7	2010-01-05	 Y
+669	7	2010-01-12	
+670	7	2010-01-19	 Y
+671	7	2010-01-26	
+672	7	2010-02-02	 Y
+673	7	2010-02-09	
+674	7	2010-02-16	 Y
+675	7	2010-02-23	
+676	7	2010-03-02	 Y
+677	7	2010-03-09	
+678	7	2010-03-16	 Y
+679	7	2010-03-23	
+680	7	2010-03-30	 Y
+681	7	2010-04-08	
+682	7	2010-04-15	 Y
+683	7	2010-04-22	
+684	7	2010-04-29	 Y
+685	7	2010-05-06	
+686	7	2010-05-13	 Y
+687	7	2010-05-20	
+688	7	2010-05-28	 Y
+689	7	2010-06-04	
+690	7	2010-06-11	 Y
+691	7	2010-06-18	
+692	7	2010-06-25	 Y
+693	7	2010-07-05	
+694	7	2010-07-12	 Y
+695	7	2010-07-19	
+696	7	2010-07-26	
+697	7	2010-08-03	
+698	7	2010-08-10	 Y
+699	7	2010-08-17	
+700	7	2010-08-24	
+701	7	2010-08-31	
+702	7	2010-09-08	 Y
+703	7	2010-09-15	
+704	7	2010-09-22	 Y
+705	7	2010-09-29	
+706	7	2010-10-06	 Y
+707	7	2010-10-14	
+708	7	2010-10-21	 Y
+709	7	2010-10-28	
+710	7	2010-11-04	 Y
+711	7	2010-11-12	
+712	7	2010-11-19	 Y
+713	7	2010-11-26	
+714	7	2010-12-03	 Y
+715	7	2010-12-10	
+716	7	2010-12-17	 Y
+717	7	2010-12-24	
+718	7	2011-01-05	 Y
+719	7	2011-01-12	
+720	7	2011-01-19	 Y
+721	7	2011-01-26	
+722	7	2011-02-02	 Y
+723	7	2011-02-09	
+724	7	2011-02-16	 Y
+725	7	2011-02-23	
+726	8	2010-01-04	 Y
+727	8	2010-01-11	
+728	8	2010-01-18	 Y
+729	8	2010-01-25	
+730	8	2010-02-01	 Y
+731	8	2010-02-08	
+732	8	2010-02-15	 Y
+733	8	2010-02-22	
+734	8	2010-03-01	 Y
+735	8	2010-03-08	
+736	8	2010-03-15	 Y
+737	8	2010-03-22	
+738	8	2010-03-29	 Y
+739	8	2010-04-07	
+740	8	2010-04-14	 Y
+741	8	2010-04-21	
+742	8	2010-04-28	 Y
+743	8	2010-05-05	
+744	8	2010-05-12	 Y
+745	8	2010-05-19	
+746	8	2010-05-27	 Y
+747	8	2010-06-03	
+748	8	2010-06-10	 Y
+749	8	2010-06-17	
+750	8	2010-06-24	 Y
+751	8	2010-07-02	
+752	8	2010-07-09	 Y
+753	8	2010-07-16	
+754	8	2010-07-23	 Y
+755	8	2010-07-30	
+756	8	2010-08-09	 Y
+757	8	2010-08-16	
+758	8	2010-08-23	 Y
+759	8	2010-08-30	
+760	8	2010-09-07	 Y
+761	8	2010-09-14	
+762	8	2010-09-21	 Y
+763	8	2010-09-28	
+764	8	2010-10-05	 Y
+765	8	2010-10-13	
+766	8	2010-10-20	 Y
+767	8	2010-10-27	
+768	8	2010-11-03	 Y
+769	8	2010-11-10	
+770	8	2010-11-18	 Y
+771	8	2010-11-25	
+772	8	2010-12-02	 Y
+773	8	2010-12-09	
+774	8	2010-12-16	 Y
+775	8	2010-12-23	
+776	8	2011-01-04	 Y
+777	8	2011-01-11	
+778	8	2011-01-18	 Y
+779	8	2011-01-25	
+780	8	2011-02-01	 Y
+781	8	2011-02-08	
+782	8	2011-02-15	 Y
+783	8	2011-02-22	
+784	9	2010-01-07	 Y
+785	9	2010-01-14	
+786	9	2010-01-21	 Y
+787	9	2010-01-28	
+788	9	2010-02-04	 Y
+789	9	2010-02-11	
+790	9	2010-02-18	 Y
+791	9	2010-02-25	
+792	9	2010-03-04	 Y
+793	9	2010-03-11	
+794	9	2010-03-18	 Y
+795	9	2010-03-25	
+796	9	2010-04-01	 Y
+797	9	2010-04-12	
+798	9	2010-04-19	 Y
+799	9	2010-04-26	
+800	9	2010-05-03	 Y
+801	9	2010-05-10	
+802	9	2010-05-17	 Y
+803	9	2010-05-25	
+804	9	2010-06-01	 Y
+805	9	2010-06-08	
+806	9	2010-06-15	 Y
+807	9	2010-06-22	
+808	9	2010-06-29	 Y
+809	9	2010-07-07	
+810	9	2010-07-14	 Y
+811	9	2010-07-21	
+812	9	2010-07-28	 Y
+813	9	2010-08-05	
+814	9	2010-08-12	 Y
+815	9	2010-08-19	
+816	9	2010-08-26	 Y
+817	9	2010-09-02	
+818	9	2010-09-10	 Y
+819	9	2010-09-17	
+820	9	2010-09-24	 Y
+821	9	2010-10-01	
+822	9	2010-10-08	 Y
+823	9	2010-10-18	
+824	9	2010-10-25	 Y
+825	9	2010-11-01	
+826	9	2010-11-08	 Y
+827	9	2010-11-16	
+828	9	2010-11-23	 Y
+829	9	2010-11-30	
+830	9	2010-12-07	 Y
+831	9	2010-12-14	
+832	9	2010-12-21	 Y
+833	9	2010-12-30	
+834	9	2011-01-07	 Y
+835	9	2011-01-14	
+836	9	2011-01-21	 Y
+837	9	2011-01-28	
+838	9	2011-02-04	 Y
+839	9	2011-02-11	
+840	9	2011-02-18	 Y
+841	9	2011-02-25	
+842	10	2010-01-06	 Y
+843	10	2010-01-13	
+844	10	2010-01-20	 Y
+845	10	2010-01-27	
+846	10	2010-02-03	 Y
+847	10	2010-02-10	
+848	10	2010-02-17	 Y
+849	10	2010-02-24	
+850	10	2010-03-03	 Y
+851	10	2010-03-10	
+852	10	2010-03-17	 Y
+853	10	2010-03-24	
+854	10	2010-03-31	 Y
+855	10	2010-04-09	
+856	10	2010-04-16	 Y
+857	10	2010-04-23	
+858	10	2010-04-30	 Y
+859	10	2010-05-07	
+860	10	2010-05-14	 Y
+861	10	2010-05-21	
+862	10	2010-05-31	 Y
+863	10	2010-06-07	
+864	10	2010-06-14	 Y
+865	10	2010-06-21	
+866	10	2010-06-28	 Y
+867	10	2010-07-06	
+868	10	2010-07-13	 Y
+869	10	2010-07-20	
+870	10	2010-07-27	 Y
+871	10	2010-08-04	
+872	10	2010-08-11	 Y
+873	10	2010-08-18	
+874	10	2010-08-25	 Y
+875	10	2010-09-01	
+876	10	2010-09-09	 Y
+877	10	2010-09-16	
+878	10	2010-09-23	 Y
+879	10	2010-09-30	
+880	10	2010-10-07	 Y
+881	10	2010-10-15	
+882	10	2010-10-22	 Y
+883	10	2010-10-29	
+884	10	2010-11-05	 Y
+885	10	2010-11-15	
+886	10	2010-11-22	 Y
+887	10	2010-11-29	
+888	10	2010-12-06	 Y
+889	10	2010-12-13	
+890	10	2010-12-20	 Y
+891	10	2010-12-29	
+892	10	2011-01-06	 Y
+893	10	2011-01-13	
+894	10	2011-01-20	 Y
+895	10	2011-01-27	
+896	10	2011-02-03	 Y
+897	10	2011-02-10	
+898	10	2011-02-17	 Y
+899	10	2011-02-24	
+\.
+
+
+--
+-- Data for Name: reminders; Type: TABLE DATA; Schema: public; Owner: ubuntu
+--
+
+COPY reminders (id, user_id, zone_id, created_at, last_notified, delivery_offset, target, active, confirmed, confirm_hash) FROM stdin;
+\.
+
+
+--
+-- Data for Name: subscriptions; Type: TABLE DATA; Schema: public; Owner: ubuntu
+--
+
+COPY subscriptions (id, user_id, created_at, period, profile_id, expiry, coupon) FROM stdin;
+\.
+
+
+--
+-- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: ubuntu
+--
+
+COPY users (id, email, created_at) FROM stdin;
+\.
+
+
+--
+-- Data for Name: zones; Type: TABLE DATA; Schema: public; Owner: ubuntu
+--
+
+COPY zones (id, area_id, name, title, colour) FROM stdin;
+1	1	vancouver-north-red	Vancouver North Red	red
+2	1	vancouver-north-green	Vancouver North Green	green
+3	1	vancouver-north-blue	Vancouver North Blue	blue
+4	1	vancouver-north-yellow	Vancouver North Yellow	yellow
+5	1	vancouver-north-purple	Vancouver North Purple	purple
+6	1	vancouver-south-red	Vancouver South Red	red
+7	1	vancouver-south-green	Vancouver South Green	green
+8	1	vancouver-south-blue	Vancouver South Blue	blue
+9	1	vancouver-south-yellow	Vancouver South Yellow	yellow
+10	1	vancouver-south-purple	Vancouver South Purple	purple
+\.
+
+
+--
+-- Name: areas_pkey; Type: CONSTRAINT; Schema: public; Owner: ubuntu; Tablespace: 
+--
+
+ALTER TABLE ONLY areas
+    ADD CONSTRAINT areas_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: pickups_pkey; Type: CONSTRAINT; Schema: public; Owner: ubuntu; Tablespace: 
+--
+
+ALTER TABLE ONLY pickups
+    ADD CONSTRAINT pickups_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: reminders_pkey; Type: CONSTRAINT; Schema: public; Owner: ubuntu; Tablespace: 
+--
+
+ALTER TABLE ONLY reminders
+    ADD CONSTRAINT reminders_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: subscriptions_pkey; Type: CONSTRAINT; Schema: public; Owner: ubuntu; Tablespace: 
+--
+
+ALTER TABLE ONLY subscriptions
+    ADD CONSTRAINT subscriptions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: ubuntu; Tablespace: 
+--
+
+ALTER TABLE ONLY users
+    ADD CONSTRAINT users_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: zones_pkey; Type: CONSTRAINT; Schema: public; Owner: ubuntu; Tablespace: 
+--
+
+ALTER TABLE ONLY zones
+    ADD CONSTRAINT zones_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: pickups_day_idx; Type: INDEX; Schema: public; Owner: ubuntu; Tablespace: 
+--
+
+CREATE INDEX pickups_day_idx ON pickups USING btree (day);
+
+
+--
+-- Name: pickups_zone_day_idx; Type: INDEX; Schema: public; Owner: ubuntu; Tablespace: 
+--
+
+CREATE UNIQUE INDEX pickups_zone_day_idx ON pickups USING btree (zone_id, day);
+
+
+--
+-- Name: pickups_zone_idx; Type: INDEX; Schema: public; Owner: ubuntu; Tablespace: 
+--
+
+CREATE INDEX pickups_zone_idx ON pickups USING btree (zone_id);
+
+
+--
+-- Name: reminders_confirm_hash_idx; Type: INDEX; Schema: public; Owner: ubuntu; Tablespace: 
+--
+
+CREATE INDEX reminders_confirm_hash_idx ON reminders USING btree (confirm_hash);
+
+
+--
+-- Name: reminders_last_notified_idx; Type: INDEX; Schema: public; Owner: ubuntu; Tablespace: 
+--
+
+CREATE INDEX reminders_last_notified_idx ON reminders USING btree (last_notified);
+
+
+--
+-- Name: reminders_user_idx; Type: INDEX; Schema: public; Owner: ubuntu; Tablespace: 
+--
+
+CREATE INDEX reminders_user_idx ON reminders USING btree (user_id);
+
+
+--
+-- Name: reminders_zone_idx; Type: INDEX; Schema: public; Owner: ubuntu; Tablespace: 
+--
+
+CREATE INDEX reminders_zone_idx ON reminders USING btree (zone_id) WHERE (active IS TRUE);
+
+
+--
+-- Name: subscriptions_expiry_idx; Type: INDEX; Schema: public; Owner: ubuntu; Tablespace: 
+--
+
+CREATE INDEX subscriptions_expiry_idx ON subscriptions USING btree (expiry);
+
+
+--
+-- Name: subscriptions_profile_id_idx; Type: INDEX; Schema: public; Owner: ubuntu; Tablespace: 
+--
+
+CREATE INDEX subscriptions_profile_id_idx ON subscriptions USING btree (profile_id);
+
+
+--
+-- Name: subscriptions_user_idx; Type: INDEX; Schema: public; Owner: ubuntu; Tablespace: 
+--
+
+CREATE INDEX subscriptions_user_idx ON subscriptions USING btree (user_id);
+
+
+--
+-- Name: users_email_idx; Type: INDEX; Schema: public; Owner: ubuntu; Tablespace: 
+--
+
+CREATE INDEX users_email_idx ON users USING btree (email);
+
+
+--
+-- Name: zone_name_idx; Type: INDEX; Schema: public; Owner: ubuntu; Tablespace: 
+--
+
+CREATE UNIQUE INDEX zone_name_idx ON areas USING btree (name);
+
+
+--
+-- Name: zones_area_name_idx; Type: INDEX; Schema: public; Owner: ubuntu; Tablespace: 
+--
+
+CREATE UNIQUE INDEX zones_area_name_idx ON zones USING btree (area_id, name);
+
+
+--
+-- Name: zones_name_idx; Type: INDEX; Schema: public; Owner: ubuntu; Tablespace: 
+--
+
+CREATE INDEX zones_name_idx ON zones USING btree (name);
+
+
+--
+-- Name: pickups_zone_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: ubuntu
+--
+
+ALTER TABLE ONLY pickups
+    ADD CONSTRAINT pickups_zone_id_fkey FOREIGN KEY (zone_id) REFERENCES zones(id);
+
+
+--
+-- Name: reminders_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: ubuntu
+--
+
+ALTER TABLE ONLY reminders
+    ADD CONSTRAINT reminders_user_id_fkey FOREIGN KEY (user_id) REFERENCES users(id);
+
+
+--
+-- Name: reminders_zone_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: ubuntu
+--
+
+ALTER TABLE ONLY reminders
+    ADD CONSTRAINT reminders_zone_id_fkey FOREIGN KEY (zone_id) REFERENCES zones(id);
+
+
+--
+-- Name: subscriptions_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: ubuntu
+--
+
+ALTER TABLE ONLY subscriptions
+    ADD CONSTRAINT subscriptions_user_id_fkey FOREIGN KEY (user_id) REFERENCES users(id);
+
+
+--
+-- Name: zones_area_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: ubuntu
+--
+
+ALTER TABLE ONLY zones
+    ADD CONSTRAINT zones_area_id_fkey FOREIGN KEY (area_id) REFERENCES areas(id);
+
+
+--
+-- Name: public; Type: ACL; Schema: -; Owner: postgres
+--
+
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM postgres;
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+--
+-- PostgreSQL database dump complete
+--
+

@@ -6,7 +6,7 @@ use Recollect::Area;
 use Getopt::Long;
 
 my $zone = shift;
-my $area = Recollect::Area->By_name('vancouver');
+my $area = Recollect::Area->By_name('Vancouver');
 unless ($area) {
     warn "Adding Vancouver area\n";
     $area = Recollect::Area->Create(
