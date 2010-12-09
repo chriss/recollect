@@ -44,7 +44,13 @@ is $zone->area->id, $area->id, 'zone has area constructor';
 is_deeply $zone->pickups, [], 'zone has no pickups initially';
 
 # Now try to add that zone again.
-ok 0;
+eval { $area->add_zone(
+    name   => 'vancouver-north-blue',
+    title  => 'Vancouver North Blue',
+    colour => 'blue',
+) };
+ok $@, "Failed to add a duplicate zone ($@)";
+
 
 # Now add some pickup days to this zone
 $zone->add_pickups(
