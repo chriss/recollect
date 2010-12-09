@@ -43,6 +43,9 @@ is $zone->area_id, $area->id, 'zone area_id matches';
 is $zone->area->id, $area->id, 'zone has area constructor';
 is_deeply $zone->pickups, [], 'zone has no pickups initially';
 
+# Now try to add that zone again.
+ok 0;
+
 # Now add some pickup days to this zone
 $zone->add_pickups(
     [
