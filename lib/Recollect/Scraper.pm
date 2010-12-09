@@ -4,53 +4,32 @@ use Moose;
 use FindBin;
 use Web::Scraper;
 use YAML qw/LoadFile/;
-use Recollect::Model;
 use namespace::clean -except => 'meta';
 
 has 'zone'  => (is => 'ro', isa => 'Str');
-has 'area'  => (is => 'ro', isa => 'Str', required => 1);
-has 'areas' => (is => 'ro', isa => 'HashRef', lazy_build => 1);
-has 'model' => (is => 'ro', isa => 'Object', lazy_build => 1);
+has 'area'  => (is => 'ro', isa => 'Object', required => 1);
 
 sub scrape {
-    my $self      = shift;
-    my $area_name = $self->area or die "area is mandatory!";
+    my $self = shift;
+    my $area = $self->area;
     my $only_zone = $self->zone;
 
-    my $area = $self->areas->{$area_name};
-    die "Sorry, '$area_name' is not a valid area" unless $area;
-    my $zones = $area->{zones};
-    die "Sorry, '$area_name' has no zones defined!" unless @$zones;
-
-    if (! $self->model->areas->by_name($area_name)) {
-        $self->model->areas->add({
-                name => $area_name,
-                desc => $area->{desc},
-                centre => $area->{centre},
-            },
-        );
-    }
+    my $zones = $area->zones;
+    die "Sorry, '" . $area->name . "' has no zones defined!" unless @$zones;
 
     for my $zone (@$zones) {
         next if $only_zone and $zone->{name} ne $only_zone;
-        print "Scraping $zone->{name}\n";
-        $self->scrape_zone($zone);
+        print "Scraping " . $zone->name . "\n";
+        my $pickups = $self->scrape_zone($zone);
 
-        my $zobj = $self->model->zones->add({
-            name => $zone->{name},
-            desc => $zone->{desc},
-            area => $area_name,
-            colour => $zone->{colour},
-            days => $zone->{days},
-            }
-        );
+        $zone->add_pickups($pickups);
     }
 }
 
 sub scrape_zone {
     my $self = shift;
     my $zone = shift;
-    my $debug = $ENV{RECOLLECT_DEBUG};
+    my $debug = $ENV{RECOLLECT_DEBUG} = 1;
 
     my $row_scraper = scraper {
         process 'td.headings', 'months[]' => 'TEXT';
@@ -66,7 +45,8 @@ sub scrape_zone {
         process 'tr', "rows[]" => $row_scraper;
     };
 
-    my $res = $zone_scraper->scrape( URI->new( $zone->{url} ) );
+    my $uri = uri_for_zone($zone);
+    my $res = $zone_scraper->scrape( URI->new( $uri ) );
 
     my @days;
     my @current_months;
@@ -93,21 +73,21 @@ sub scrape_zone {
                 my $month_num = _month_to_num($month);
                 my $date = sprintf '%4d-%02d-%02d', $year,$month_num,$day;
 
+                my $flags = '';
                 if ($row->{"month${i}yard"}) {
-                    $date .= ' Y';
+                    $flags = ' Y';
                 }
 
-                push @days, $date;
+                push @days, {
+                    day => $date,
+                    flags => $flags,
+                };
             }
         }
 
     }
 
-    $zone->{days} = [ sort @days ];
-
-    # In Vancouver, the colour always comes at the end of the zone name..
-    ($zone->{colour} = $zone->{name}) =~ s/.+-//;
-
+    return [ sort {$a->{day} cmp $b->{day}} @days ];
 }
 
 
@@ -129,17 +109,15 @@ sub _month_to_num {
     }->{lc $name} || die "No month for $name";
 }
 
-sub _build_areas {
-    my $self = shift;
-    my $file = "$FindBin::Bin/../etc/areas.yaml";
-    die "Can't find area file: $file!" unless -e $file;
-    return LoadFile($file);
+sub uri_for_zone {
+    my $zone = shift;
+    die "Do not know how to scrape for area " . $zone->area->name
+        unless $zone->area->name eq 'Vancouver';
 
-}
-
-sub _build_model {
-    my $self = shift;
-    return Recollect::Model->new(base_path => "$FindBin::Bin/..");
+    # http://vancouver.ca/ENGSVCS/solidwaste/garbage/north-purple.htm
+    my $uri_base = 'http://vancouver.ca/ENGSVCS/solidwaste/garbage';
+    $zone->name =~ m/^vancouver-(\w+)-(\w+)$/;
+    return "$uri_base/$1-$2.htm";
 }
 
 __PACKAGE__->meta->make_immutable;

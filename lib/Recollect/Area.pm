@@ -17,6 +17,12 @@ sub to_hash {
     };
 }
 
+sub By_name {
+    my $class = shift;
+    my $sth = $class->By_field(name => shift);
+    return $class->_first_row_as_obj($sth);
+}
+
 sub add_zone {
     my $self = shift;
     my %opts = @_;

@@ -26,8 +26,16 @@ sub By_id {
     my $class = shift;
     my $id = shift;
     my $sth = $class->By_field(id => $id);
+    my $obj = $class->_first_row_as_obj($sth);
+    die "Could not lookup $class id $id" unless $obj;
+    return $obj;
+}
+
+sub _first_row_as_obj {
+    my $class = shift;
+    my $sth = shift;
     my $row = $sth->fetchrow_hashref;
-    return $class->new($row);
+    return $row ? $class->new($row) : undef;
 }
 
 sub By_field {
