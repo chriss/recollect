@@ -62,14 +62,12 @@ sub _build_base_path {
     
     # Create the SQL db
     my $psql = "psql $config->{db_name}";
+    my $sql_file = "$FindBin::Bin/../data/recollect.dump";
     if ($ENV{RECOLLECT_EMPTY_DB_PLS}) {
-        system("dropdb $config->{db_name} 2> /dev/null");
+        $config->{db_name} .= "-$$";
+        $sql_file = "$FindBin::Bin/../etc/sql/recollect.sql";
     }
     if (system("createdb $config->{db_name} 2> /dev/null") == 0) {
-        my $sql_file = "$FindBin::Bin/../etc/sql/recollect.sql";
-        if ($ENV{RECOLLECT_LOAD_DATA}) {
-            $sql_file = "$FindBin::Bin/../data/recollect.dump";
-        }
         diag "created database $config->{db_name}, loading $sql_file";
         system("$psql -f $sql_file > /dev/null 2>&1")
             and die "Couldn't psql $config->{db_name} -f $sql_file";
