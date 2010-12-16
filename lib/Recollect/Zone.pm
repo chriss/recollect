@@ -101,7 +101,8 @@ sub _build_area {
 
 sub _build_pickups {
     my $self = shift;
-    return Recollect::Pickup->By_zone_id($self->id);
+    my $pickups = eval { Recollect::Pickup->By_zone_id($self->id) } || [];
+    return $pickups;
 }
 
 sub _now {

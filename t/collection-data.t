@@ -5,6 +5,8 @@ use Test::More;
 use t::Recollect;
 use Recollect::Area;
 
+$ENV{RECOLLECT_EMPTY_DB_PLS} = 1;
+
 my $model = t::Recollect->model;
 isa_ok $model, 'Recollect::Model';
 
@@ -35,6 +37,8 @@ $area->add_zone(
 my $zones = $area->zones;
 is scalar(@$zones), 1, 'area has one zone now';
 my $zone = shift @$zones;
+use Data::Dumper;
+warn Dumper $zones;
 ok $zone->id > 0;
 is $zone->name, 'vancouver-north-blue';
 is $zone->title, 'Vancouver North Blue';
@@ -55,9 +59,9 @@ ok $@, "Failed to add a duplicate zone ($@)";
 # Now add some pickup days to this zone
 $zone->add_pickups(
     [
-        { day => '2010-01-01', flags => ''  },
-        { day => '2010-01-08', flags => 'Y' },
-        { day => '2010-01-15', flags => ''  },
+        { day => '2010-01-01 07:00', flags => ''  },
+        { day => '2010-01-08 07:00', flags => 'Y' },
+        { day => '2010-01-15 07:00', flags => ''  },
     ],
 );
 my $pickups = $zone->pickups;
@@ -65,16 +69,16 @@ is scalar(@$pickups), 3, 'zone has 3 pickups';
 ok $pickups->[0]{id};
 ok $pickups->[1]{id};
 ok $pickups->[2]{id};
-is $pickups->[0]{day}, '2010-01-01';
-is $pickups->[1]{day}, '2010-01-08';
-is $pickups->[2]{day}, '2010-01-15';
+is $pickups->[0]{day}, '2010-01-01 07:00:00-08';
+is $pickups->[1]{day}, '2010-01-08 07:00:00-08';
+is $pickups->[2]{day}, '2010-01-15 07:00:00-08';
 is $pickups->[0]{flags}, '';
 is $pickups->[1]{flags}, 'Y';
 is $pickups->[2]{flags}, '';
 
 # Now try adding a duplicate pickup
 # Can use a pg UNIQUE constraint?
-eval { $zone->add_pickups( [ { day => '2010-01-01', flags => ''  } ] ) };
+eval { $zone->add_pickups( [ { day => '2010-01-01 07:00', flags => ''  } ] ) };
 ok $@, "Failed to add a duplicate pickup ($@)";
 
 done_testing();

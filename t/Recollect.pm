@@ -15,6 +15,8 @@ use mocked 'Business::PayPal::IPN';
 use lib 'lib';
 use namespace::clean -except => 'meta';
 
+my $config = LoadFile("$FindBin::Bin/../etc/recollect.yaml.DEFAULT");
+
 BEGIN {
     $ENV{RECOLLECT_EMAIL} = "/tmp/email.$$";
     $ENV{RECOLLECT_DEV_ENV} = 1;
@@ -27,6 +29,9 @@ BEGIN {
 
 END { 
     unlink $ENV{RECOLLECT_EMAIL} if $ENV{RECOLLECT_EMAIL};
+    if ($ENV{RECOLLECT_EMPTY_DB_PLS}) {
+        system("dropdb $config->{db_name} 2> /dev/null");
+    }
     # Uncomment this for debugging
     # warn qx(cat $ENV{RECOLLECT_LOG_FILE}) if -e $ENV{RECOLLECT_LOG_FILE};
 }
@@ -46,7 +51,6 @@ sub _build_base_path {
     mkdir "$tmp_dir/data";
     symlink "$FindBin::Bin/../template", "$tmp_dir/template";
     mkdir "$tmp_dir/etc";
-    my $config = LoadFile("$FindBin::Bin/../etc/recollect.yaml.DEFAULT");
     my $user = $ENV{USER} eq 'ubuntu' ? '' : $ENV{USER};
     $config->{db_name} = "recollect_${user}_test";
     $config->{db_user} = $ENV{USER};
@@ -58,6 +62,9 @@ sub _build_base_path {
     
     # Create the SQL db
     my $psql = "psql $config->{db_name}";
+    if ($ENV{RECOLLECT_EMPTY_DB_PLS}) {
+        system("dropdb $config->{db_name} 2> /dev/null");
+    }
     if (system("createdb $config->{db_name} 2> /dev/null") == 0) {
         my $sql_file = "$FindBin::Bin/../etc/sql/recollect.sql";
         if ($ENV{RECOLLECT_LOAD_DATA}) {

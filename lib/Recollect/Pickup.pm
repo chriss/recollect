@@ -2,6 +2,7 @@ package Recollect::Pickup;
 use Moose;
 use DateTime::Functions;
 use DateTime::Format::Pg;
+use Carp qw/croak/;
 use namespace::clean -except => 'meta';
 
 extends 'Recollect::Collection';
@@ -34,7 +35,7 @@ sub By_zone_id {
     while (my $row = $sth->fetchrow_hashref) {
         push @pickups, $class->new($row);
     }
-    die "Could not find any pickups for zone_id=$zone_id" unless @pickups;
+    croak "Could not find any pickups for zone_id=$zone_id" unless @pickups;
     return \@pickups;
 }
 
