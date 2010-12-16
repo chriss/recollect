@@ -53,59 +53,6 @@ sub ical {
     return $ical->as_string;
 }
 
-sub next_pickup {
-    my $self = shift;
-    my $zone = shift;
-    my $limit = shift || 1;
-    my $datetime = shift;
-    my $obj_please = shift;
-
-    my $days = $self->days($zone, $obj_please);
-    die "Not a valid zone: '$zone'\n" unless @$days;
-    my $tonight = $self->tonight;
-    my @return;
-    for my $d (@$days) {
-        my $dh = $obj_please ? $d->to_hash : $d;
-        my $dt = DateTime->new(
-            (map { $_ => $dh->{$_} } qw/year month day/),
-            time_zone => 'America/Vancouver',
-        );
-        next if $tonight > $dt;
-        push @return, ($datetime ? $dt : $obj_please ? $d : $d->{string});
-        last if @return == $limit;
-    }
-    return wantarray ? @return : @return == 1 ? $return[0] : \@return;
-}
-
-sub next_dow_change {
-    my $self = shift;
-    my $zone = shift;
-    my $return_dt   = shift;
-
-    my $days = $self->days($zone);
-    die "Not a valid zone: '$zone'\n" unless @$days;
-    my $tonight = $self->tonight;
-
-    my $prev_dow;
-    my $prev_day;
-    for my $d (@$days) {
-        my $dt = DateTime->new(
-            (map { $_ => $d->{$_} } qw/year month day/),
-            time_zone => 'America/Vancouver',
-        );
-        my $dow = $dt->day_of_week;
-        if ($tonight < $dt and $prev_dow != $dow) {
-            return (
-                last => ($return_dt ? $prev_day : $prev_day->epoch),
-                first => ($return_dt ? $dt : $dt->epoch),
-            );
-        }
-        $prev_dow = $dow;
-        $prev_day = $dt;
-    }
-    return;
-}
-
 sub Payment_required_for {
     my $class = shift;
     my $target = shift;

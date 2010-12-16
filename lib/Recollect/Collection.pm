@@ -31,18 +31,32 @@ sub By_id {
     return $obj;
 }
 
-sub _first_row_as_obj {
+sub By_name {
     my $class = shift;
-    my $sth = shift;
-    my $row = $sth->fetchrow_hashref;
-    return $row ? $class->new($row) : undef;
+    die "$class has no name field!" unless $class->can('name');
+    my $sth = $class->By_field(name => shift);
+    return $class->_first_row_as_obj($sth);
 }
 
 sub By_field {
     my $class = shift;
     my $field = shift;
     my $value = shift;
-    return $class->_select('*', { $field => $value });
+    my %opts  = @_;
+    
+    return $class->_select('*', {
+            $field => $value,
+            @{ $opts{where} || [] },
+        },
+        @{ $opts{args} || [] },
+    );
+}
+
+sub _first_row_as_obj {
+    my $class = shift;
+    my $sth = shift;
+    my $row = $sth->fetchrow_hashref;
+    return $row ? $class->new($row) : undef;
 }
 
 sub _sequence_nextval {

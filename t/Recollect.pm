@@ -21,7 +21,8 @@ BEGIN {
 
     use_ok 'Recollect::Model';
     use_ok 'Recollect::Log';
-    $Recollect::Log::VERBOSE = 1;
+    use_ok 'Recollect::SQL';
+    $Recollect::SQL::DEBUG = $Recollect::Log::VERBOSE = 1;
 }
 
 END { 
@@ -44,11 +45,10 @@ sub _build_base_path {
     my $tmp_dir = tempdir( CLEANUP => 0 );
     mkdir "$tmp_dir/data";
     symlink "$FindBin::Bin/../template", "$tmp_dir/template";
-    copy "$FindBin::Bin/../data/trash-zone-times.yaml",
-        "$tmp_dir/data/trash-zone-times.yaml";
     mkdir "$tmp_dir/etc";
     my $config = LoadFile("$FindBin::Bin/../etc/recollect.yaml.DEFAULT");
-    $config->{db_name} = "recollect_$$";
+    my $user = $ENV{USER} eq 'ubuntu' ? '' : $ENV{USER};
+    $config->{db_name} = "recollect_${user}_test";
     $config->{db_user} = $ENV{USER};
     my $test_config = "$tmp_dir/etc/recollect.yaml";
     DumpFile($test_config, $config);
@@ -57,16 +57,19 @@ sub _build_base_path {
     $ENV{RECOLLECT_LOG_FILE} = "$tmp_dir/recollect.log";
     
     # Create the SQL db
-    diag "createdb $config->{db_name}";
-    system("createdb $config->{db_name}");
-
-    my $sql_file = "$FindBin::Bin/../etc/sql/recollect.sql";
-    if ($ENV{RECOLLECT_LOAD_DATA}) {
-        $sql_file = "$FindBin::Bin/../etc/sql/recollect.dump";
+    my $psql = "psql $config->{db_name}";
+    if (system("createdb $config->{db_name} 2> /dev/null") == 0) {
+        my $sql_file = "$FindBin::Bin/../etc/sql/recollect.sql";
+        if ($ENV{RECOLLECT_LOAD_DATA}) {
+            $sql_file = "$FindBin::Bin/../data/recollect.dump";
+        }
+        diag "created database $config->{db_name}, loading $sql_file";
+        system("$psql -f $sql_file > /dev/null 2>&1")
+            and die "Couldn't psql $config->{db_name} -f $sql_file";
     }
-    diag "Loading schema from $sql_file";
-    system("psql $config->{db_name} -f $sql_file > /dev/null 2>&1")
-        and die "Couldn't psql $config->{db_name} -f $sql_file";
+    system(qq{$psql -c 'DELETE FROM users'});
+    system(qq{$psql -c 'DELETE FROM reminders'});
+    system(qq{$psql -c 'DELETE FROM subscriptions'});
     return $tmp_dir;
 }
 
@@ -86,10 +89,8 @@ sub app {
 sub model {
     my $self = shift;
     my $test_base = t::Recollect->base_path;
-    return Recollect::Model->new(
-        base_path => $test_base,
-        log_file  => "$test_base/recollect.log",
-    );
+    $ENV{RECOLLECT_LOG_FILE} = "$test_base/recollect.log",
+    return Recollect::Model->new( base_path => $test_base );
 }
 
 sub email_content {

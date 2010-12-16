@@ -71,11 +71,11 @@ sub scrape_zone {
                 }
 
                 my $month_num = _month_to_num($month);
-                my $date = sprintf '%4d-%02d-%02d', $year,$month_num,$day;
+                my $date = sprintf '%4d-%02d-%02d 07:00', $year,$month_num,$day;
 
                 my $flags = '';
                 if ($row->{"month${i}yard"}) {
-                    $flags = ' Y';
+                    $flags = 'Y';
                 }
 
                 push @days, {

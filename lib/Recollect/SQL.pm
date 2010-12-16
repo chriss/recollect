@@ -3,7 +3,7 @@ use MooseX::Singleton;
 use DateTime::Format::Pg;
 use DBI;
 use Carp qw/croak/;
-use SQL::Abstract;
+use SQL::Abstract::Limit;
 use namespace::clean -except => 'meta';
 
 with 'Recollect::Config';
@@ -45,7 +45,9 @@ sub nextval {
     return $row->[0];
 }
 
-sub _build__sql { SQL::Abstract->new }
+sub _build__sql {
+    SQL::Abstract::Limit->new(limit_dialect => 'LimitOffset');
+}
 
 sub _build_dbh {
     my $self = shift;
