@@ -6,8 +6,9 @@ use Email::MIME::Creator;
 use Email::Send::IO;
 use Net::SMTP::SSL;
 use Recollect::Template;
-use Recollect::Config;
 use namespace::clean -except => 'meta';
+
+with 'Recollect::Config';
 
 has 'base_path' => (is => 'ro', isa => 'Str',    required   => 1);
 has 'mailer'    => (is => 'ro', isa => 'Object', lazy_build => 1);
@@ -19,7 +20,7 @@ sub send_email {
 
     my $body;
     my $template = "email/$args{template}";
-    $args{template_args}{base} = Recollect::Config->instance->base_url();
+    $args{template_args}{base} = $self->base_url();
     $self->template->process($template, $args{template_args}, \$body) 
         || die $self->template->error;
 
