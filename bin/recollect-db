@@ -7,12 +7,13 @@ use lib "$FindBin::Bin/../lib";
 my $command = shift;
 die "USAGE: $0 <command>\n" unless $command;
 
-my $db_file = "$FindBin::Bin/../data/recollect.db";
-my $schema  = "$FindBin::Bin/../etc/sql/recollect.sql";
+my $db = $ENV{PGDATABASE};
 if ($command eq 'recreate') {
+    my $file = shift || "$FindBin::Bin/../data/recollect.dump";
     print "Re-creating database ...\n";
-    rename $db_file, "$db_file.old" if $db_file;
-    system("sqlite3 $db_file < $schema");
+    system("dropdb $db");
+    system("createdb -E UTF8 $db");
+    system("psql -f $file");
 }
 
 exit;
