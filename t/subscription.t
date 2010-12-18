@@ -4,21 +4,19 @@ use warnings;
 use Test::More;
 use t::Recollect;
 
-$ENV{RECOLLECT_LOAD_DATA} = 1;
-
-Add_a_reminder: {
+Add_a_subscription: {
     my $model = t::Recollect->model;
     isa_ok $model, 'Recollect::Model';
 
-    my $zones = $model->zones->all;
+    my $zones = Recollect::Zone->All;
     isa_ok $zones, 'ARRAY';
     @$zones = sort { $a->{name} cmp $b->{name} } @$zones;
     my $zone = shift @$zones;
 
-    is_deeply $model->reminders->all, [], 'is empty';
+    is scalar(@{ Recollect::Reminder->All }), 0, 'no reminders to start';
+    is scalar(@{ Recollect::Subscription->All }), 0, 'no Subscriptions to start';
 
     my $rem = $model->add_reminder({
-            name => "Test Reminder",
             email => 'test@recollect.net',
             zone => $zone->{name},
             target => 'email:test@recollect.net',
@@ -32,6 +30,9 @@ Add_a_reminder: {
     is scalar(@{ $model->reminders->all }), 1, 'one reminder';
     ok !$rem->is_expired, 'not expired';
 }
+
+exit;
+
 
 Check_if_model_persists: {
     my $model = t::Recollect->model();
