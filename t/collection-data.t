@@ -37,8 +37,6 @@ $area->add_zone(
 my $zones = $area->zones;
 is scalar(@$zones), 1, 'area has one zone now';
 my $zone = shift @$zones;
-use Data::Dumper;
-warn Dumper $zones;
 ok $zone->id > 0;
 is $zone->name, 'vancouver-north-blue';
 is $zone->title, 'Vancouver North Blue';

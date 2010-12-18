@@ -8,7 +8,9 @@ extends 'Recollect::Collection';
 has 'id'     => (is => 'ro', isa => 'Int',              required   => 1);
 has 'name'   => (is => 'ro', isa => 'Str',              required   => 1);
 has 'centre' => (is => 'ro', isa => 'Str',              required   => 1);
-has 'zones'  => (is => 'ro', isa => 'ArrayRef[Object]', lazy_build => 1);
+
+has 'uri'   => (is => 'ro', isa => 'Str',              lazy_build => 1);
+has 'zones' => (is => 'ro', isa => 'ArrayRef[Object]', lazy_build => 1);
 
 sub to_hash {
     my $self = shift;
@@ -30,6 +32,11 @@ sub add_zone {
 sub _build_zones {
     my $self = shift;
     return Recollect::Zone->By_area_id($self->id);
+}
+
+sub _build_uri {
+    my $self = shift;
+    return "/api/areas/" . $self->id;
 }
 
 __PACKAGE__->meta->make_immutable;

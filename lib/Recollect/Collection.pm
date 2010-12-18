@@ -34,7 +34,7 @@ sub By_id {
 sub By_name {
     my $class = shift;
     die "$class has no name field!" unless $class->can('name');
-    my $sth = $class->By_field(name => shift);
+    my $sth = $class->By_field('LOWER(name)' => lc shift);
     return $class->_first_row_as_obj($sth);
 }
 

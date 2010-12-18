@@ -1,0 +1,3 @@
+id: [% area.id %]
+name: [% area.name %]
+centre: [% area.centre %]

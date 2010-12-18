@@ -6,7 +6,7 @@ CREATE TABLE areas (
     name   text NOT NULL,
     centre text NOT NULL
 );
-CREATE UNIQUE INDEX zone_name_idx ON areas (name);
+CREATE UNIQUE INDEX zone_name_idx ON areas (LOWER(name));
 
 
 CREATE SEQUENCE zone_seq;

@@ -53,22 +53,25 @@ sub _build_base_path {
     $config->{db_name} = "recollect_${user}_test";
     $config->{db_user} = $ENV{USER};
     my $test_config = "$tmp_dir/etc/recollect.yaml";
-    DumpFile($test_config, $config);
     $ENV{RECOLLECT_TEST_CONFIG_FILE} = $test_config;
 
     $ENV{RECOLLECT_LOG_FILE} = "$tmp_dir/recollect.log";
     
     # Create the SQL db
-    my $psql = "psql $config->{db_name}";
+    my $db_name = $config->{db_name};
     my $sql_file = "$FindBin::Bin/../data/recollect.dump";
     if ($ENV{RECOLLECT_EMPTY_DB_PLS}) {
-        $config->{db_name} .= "-$$";
+        $db_name .= "-$$";
+        $config->{db_name} = $db_name;
         $sql_file = "$FindBin::Bin/../etc/sql/recollect.sql";
     }
-    if (system("createdb $config->{db_name} 2> /dev/null") == 0) {
-        diag "created database $config->{db_name}, loading $sql_file";
+    DumpFile($test_config, $config);
+    my $psql = "psql $db_name";
+
+    if (system("createdb $db_name 2> /dev/null") == 0) {
+        diag "created database $db_name, loading $sql_file";
         system("$psql -f $sql_file > /dev/null 2>&1")
-            and die "Couldn't psql $config->{db_name} -f $sql_file";
+            and die "Couldn't psql $db_name -f $sql_file";
     }
     system(qq{$psql -c 'DELETE FROM users'});
     system(qq{$psql -c 'DELETE FROM reminders'});

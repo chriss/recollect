@@ -1,0 +1,3 @@
+[% FOREACH area IN areas -%]
+[% area.id %] - [% area.name %]: [% area.centre %]
+[% END -%]

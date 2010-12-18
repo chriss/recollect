@@ -22,6 +22,19 @@ sub run {
         return $self->$sub_name(@_);
     };
 
+    my $area_wrapper = sub {
+        my ($area_id, $sub_name) = @_;
+
+        my $area;
+        if ($area_id =~ m/^\d+$/) {
+            $area = Recollect::Area->By_id($area_id);
+        }
+        else {
+            $area = Recollect::Area->By_name($area_id);
+        }
+        return $wrapper->($sub_name, $area);
+    };
+
     my $coord = qr{[+-]?\d+\.\d+};
     given ($req->method) {
         when ('GET') {
@@ -33,6 +46,16 @@ sub run {
                 when ('/version.json') {
                     return $wrapper->('api_version_json')
                 }
+
+                # Areas Collection
+                when ('/areas')      { return $wrapper->('areas') }
+                when ('/areas.txt')  { return $wrapper->('areas_txt') }
+                when ('/areas.json') { return $wrapper->('areas_json') }
+
+                # Area Resource
+                when (m#^/areas/([\w ]+)$#)      { return $area_wrapper->($1, 'area') }
+                when (m#^/areas/([\w ]+).txt$#)  { return $area_wrapper->($1, 'area_txt') }
+                when (m#^/areas/([\w ]+).json$#) { return $area_wrapper->($1, 'area_json') }
             }
         }
         when ('POST') {
@@ -67,13 +90,56 @@ sub api_version {
 
 sub api_version_json {
     my $self = shift;
-    return $self->process_json($self->_api_version_data);
+    return $self->process_json($self->_api_version_data->{details});
 }
 
 sub api_version_txt {
     my $self = shift;
     return $self->process_template('version.txt', $self->_api_version_data);
 }
+
+
+sub _areas_data {
+    return {
+        areas => Recollect::Area->All,
+    };
+}
+
+sub areas {
+    my $self = shift;
+    return $self->process_template('areas.html', $self->_areas_data);
+}
+
+sub areas_json {
+    my $self = shift;
+    return $self->process_json(
+        [ map { $_->to_hash } @{ $self->_areas_data->{areas} } ]
+    );
+}
+
+sub areas_txt {
+    my $self = shift;
+    return $self->process_template('areas.txt', $self->_areas_data);
+}
+
+sub area {
+    my $self = shift;
+    my $area = shift;
+    return $self->process_template('area.html', { area => $area });
+}
+
+sub area_json {
+    my $self = shift;
+    my $area = shift;
+    return $self->process_json( $area->to_hash );
+}
+
+sub area_txt {
+    my $self = shift;
+    my $area = shift;
+    return $self->process_template('area.txt', { area => $area });
+}
+
 
 #     my $path = $req->path;
 #     my %func_map = (
@@ -101,33 +167,8 @@ sub api_version_txt {
 #     }
 # 
 
-sub zones_html {
-    my $self = shift;
-    $self->log("ZONES HTML");
 
-    my %param = (
-        zones => $self->model->zones->all,
-        zone_uri => "/zones",
-    );
-    return $self->process_template('zones/zones.html', \%param)->finalize;
-}
-
-sub zones_txt {
-    my $self = shift;
-    $self->log("ZONES TXT");
-
-    my $body = join("\n", map { $_->{name} } @{ $self->model->zones->all });
-    return $self->response('text/plain' => $body);
-}
-
-sub zones_json {
-    my $self = shift;
-    $self->log("ZONES JSON");
-
-    my $body = encode_json $self->model->zones->all;
-    return $self->response('application/json' => $body);
-}
-
+#             [ qr{^/zones/($coord),($coord)(.*)?}    => \&zone_at_latlng ],
 sub zone_at_latlng {
     my $self = shift;
     my $req  = shift;
@@ -145,43 +186,6 @@ sub zone_at_latlng {
         $resp->body("Sorry, no zone exists at $lat,$lng!");
     }
     return $resp->finalize
-}
-
-sub zone_html {
-    my $self = shift;
-    my $req  = shift;
-    my $zone = shift;
-    $self->log("ZONE $zone HTML");
-
-    my %param = (
-        zone => $self->_load_zone($zone),
-    );
-    return $self->process_template('zones/zone.html', \%param)->finalize;
-}
-
-sub zone_txt {
-    my $self = shift;
-    my $req  = shift;
-    my $zone = shift;
-    $self->log("ZONE $zone TXT");
-
-    my $zone_hash = $self->_load_zone($zone)->to_hash;
-    my $body = '';
-    for my $key (keys %$zone_hash) {
-        $body .= "$key: $zone_hash->{$key}\n";
-    }
-
-    return $self->response('text/plain' => $body);
-}
-
-sub zone_json {
-    my $self = shift;
-    my $req  = shift;
-    my $zone = shift;
-    $self->log("ZONE $zone JSON");
-
-    my $body = encode_json $self->_load_zone($zone)->to_hash;
-    return $self->response('application/json' => $body);
 }
 
 sub zone_days_html {
