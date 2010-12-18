@@ -1,0 +1,8 @@
+[% WRAPPER api/wrapper.html %]
+<h1>API Version</h1>
+<ul>
+[% FOREACH detail IN details %]
+  <li><strong>[% detail.name %]:</strong> [% detail.value %]></li>
+[% END %]
+</ul>
+[% END %]

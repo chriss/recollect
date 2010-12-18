@@ -1,0 +1,3 @@
+[% FOREACH detail IN details -%]
+[% detail.name %]: [% detail.value %]
+[% END -%]

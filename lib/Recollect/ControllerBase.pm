@@ -5,10 +5,11 @@ use Recollect::Model;
 use Recollect::Paypal;
 use JSON qw/encode_json decode_json/;
 
-with 'Recollect::Base';
+with 'Recollect::Config';
+with 'Recollect::Log';
 requires 'Version';
 
-has 'base_path' => (is => 'ro', isa => 'Str',    required   => 1);
+has 'base_path' => (is => 'ro', isa => 'Str',    lazy_build => 1);
 has 'template'  => (is => 'ro', isa => 'Object', lazy_build => 1);
 has 'request'   => (is => 'rw', isa => 'Plack::Request');
 has 'model' => (is => 'ro', isa => 'Recollect::Model', lazy_build => 1);
@@ -32,6 +33,11 @@ sub _build_model {
     return $model;
 }
 
+sub _build_base_path {
+    my $self = shift;
+    return $ENV{RECOLLECT_BASE_PATH} || '/var/www/recollect';
+}
+
 sub _build_template {
     my $self = shift;
     return Recollect::Template->new( base_path => $self->base_path );
@@ -50,7 +56,7 @@ sub render_template {
     my $param = shift;
     my $html;
     $param->{version} = $self->Version;
-    $param->{base} = $self->config->base_url,
+    $param->{base} = $self->base_url,
     $param->{request_uri} = $self->request->request_uri;
     $self->template->process($template, $param, \$html) 
         || die $self->template->error;
@@ -68,7 +74,7 @@ sub process_template {
     return $resp;
 }
 
-sub _400_bad_request {
+sub bad_request {
     my $self = shift;
     my $msg  = shift;
     
@@ -80,8 +86,14 @@ sub _400_bad_request {
     return $resp->finalize;
 }
 
+sub process_json {
+    my $self = shift;
+    my $data = shift;
 
-sub _400_bad_request_json {
+    return $self->response('application/json' => encode_json($data));
+}
+
+sub bad_request_json {
     my $self = shift;
     my $msg  = shift;
     
@@ -89,6 +101,17 @@ sub _400_bad_request_json {
     $resp->content_type('application/json');
     $resp->body(encode_json { msg => $msg });
     return $resp->finalize;
+}
+
+sub not_found {
+    my $self = shift;
+    $self->log("BAD API: " . $self->request->path);
+    return Plack::Response->new(404, ['Content-Type' => 'text/plain'], '')->finalize;
+}
+
+sub ok {
+    return Plack::Response->new(200, ['Content-Type' => 'text/plain'],
+            'KTHXBYE')->finalize;
 }
 
 

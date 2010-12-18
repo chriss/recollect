@@ -1,5 +1,6 @@
 package t::Recollect;
 use MooseX::Singleton;
+use Plack::Builder;
 use File::Temp qw/tempdir/;
 use File::Copy qw/copy/;
 use FindBin;
@@ -19,7 +20,6 @@ my $config = LoadFile("$FindBin::Bin/../etc/recollect.yaml.DEFAULT");
 
 BEGIN {
     $ENV{RECOLLECT_EMAIL} = "/tmp/email.$$";
-    $ENV{RECOLLECT_DEV_ENV} = 1;
 
     use_ok 'Recollect::Model';
     use_ok 'Recollect::Log';
@@ -32,8 +32,6 @@ END {
     if ($ENV{RECOLLECT_EMPTY_DB_PLS}) {
         system("dropdb $config->{db_name} 2> /dev/null");
     }
-    # Uncomment this for debugging
-    # warn qx(cat $ENV{RECOLLECT_LOG_FILE}) if -e $ENV{RECOLLECT_LOG_FILE};
 }
 
 has 'base_path' => (is => 'ro', lazy_build => 1);
@@ -79,15 +77,14 @@ sub _build_base_path {
 }
 
 sub app {
-    local $ENV{RECOLLECT_LOAD_DATA} = 1;
-    my $test_base = t::Recollect->base_path;
-    Recollect::Config->new( config_file => "$test_base/etc/recollect.yaml");
-    return sub {
-        Recollect::Controller->new(
-            base_path => $test_base,
-            log_file  => "$test_base/recollect.log",
-        )->run(@_);
-
+    my $class = shift;
+    my $controller = shift or die "Requires a controller";
+    my $base = t::Recollect->base_path;
+    return sub { 
+        local $ENV{RECOLLECT_BASE_PATH}        = $base;
+        local $ENV{RECOLLECT_TEST_CONFIG_FILE} = "$base/etc/recollect.yaml";
+        local $ENV{RECOLLECT_LOG_FILE}         = "$base/recollect.log";
+        $controller->new->run(@_) 
     };
 }
 

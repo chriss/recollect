@@ -13,18 +13,8 @@ builder {
     enable "Plack::Middleware::AccessLog::Timed",
             format => "%h %l %u %t \"%r\" %>s %b %D";
 
-    mount "/call" => sub {
-        Recollect::CallController->new(
-            base_path => $root,
-            log_file => $log,
-        )->run(@_);
-    };
-
-    mount "/" => sub {
-        Recollect::Controller->new(
-            base_path => $root,
-            log_file => $log,
-        )->run(@_);
-    }
+    mount "/call" => sub { Recollect::CallController->new->run(@_) };
+    mount "/api"  => sub { Recollect::APIController->new->run(@_) };
+    mount "/"     => sub { Recollect::Controller->new->run(@_) }
 };
 

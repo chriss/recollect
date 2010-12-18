@@ -5,10 +5,8 @@
 use Plack::Builder;
 use lib "lib";
 use Recollect::CallController;
+use Recollect::APIController;
 use Recollect::Controller;
-use Recollect::Config;
-
-Recollect::Config->new(config_file => 'etc/recollect.yaml');
 
 builder {
     enable 'Debug', panels => [qw(
@@ -25,19 +23,10 @@ builder {
            path => sub { s!^/(javascript|css)/(?:\d+\.\d+)/(.+)!/$1/$2! },
            root => './static/';
 
-    mount "/call" => sub {
-        Recollect::CallController->new(
-            base_path => ".",
-            log_file => 'recollect.log',
-        )->run(@_);
-    };
+    my $set_env = sub { $ENV{RECOLLECT_BASE_PATH} = '.' };
 
-    mount "/" => sub {
-        local $ENV{RECOLLECT_DEV_ENV} = 1;
-        Recollect::Controller->new(
-            base_path => ".",
-            log_file => 'recollect.log',
-        )->run(@_);
-    }
+    mount "/call" => sub { $set_env->(); Recollect::CallController->new->run(@_) };
+    mount "/api"  => sub { $set_env->(); Recollect::APIController->new->run(@_) };
+    mount "/"     => sub { $set_env->(); Recollect::Controller->new->run(@_) }
 };
 
