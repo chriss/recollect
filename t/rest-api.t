@@ -5,7 +5,6 @@ use Plack::Test;
 use Test::More;
 use HTTP::Request::Common qw/GET POST DELETE/;
 use t::Recollect;
-use Recollect::Controller;
 use JSON qw/encode_json decode_json/;
 
 no warnings 'redefine';
