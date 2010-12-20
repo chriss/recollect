@@ -16,8 +16,6 @@ with 'Recollect::ControllerBase';
 
 has 'paypal' => (is => 'ro', isa => 'Recollect::Paypal', lazy_build => 1);
 
-use constant Version => 1.7;
-
 sub run {
     my $self = shift;
     my $env = shift;

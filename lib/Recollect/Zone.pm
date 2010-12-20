@@ -18,7 +18,7 @@ has 'pickups' => (is => 'ro', isa => 'ArrayRef[Object]', lazy_build => 1);
 sub By_area_id {
     my $class = shift;
     my $area_id = shift;
-    my $sth = $class->By_field(area_id => $area_id);
+    my $sth = $class->By_field(area_id => $area_id, args => [ ['name ASC'] ]);
     my @zones;
     while (my $row = $sth->fetchrow_hashref) {
         push @zones, $class->new($row);

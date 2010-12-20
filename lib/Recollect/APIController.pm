@@ -8,7 +8,7 @@ use namespace::clean -except => 'meta';
 
 with 'Recollect::ControllerBase';
 
-use constant Version => 1.0;
+our $API_Version = 1.0;
 
 sub run {
     my $self = shift;
@@ -35,28 +35,33 @@ sub run {
             $area = Recollect::Area->By_name($area_id);
         }
 
-        return $wrapper->($sub_name, $area);
+        return $wrapper->($sub_name, $resource_type, $area);
     };
 
     my $coord_regex = qr{[+-]?\d+\.\d+};
-    my $resource_type_regex = qr{(?:\.(txt|json))?};
+    my $resource_type_regex = qr{(?:\.(txt|json))?$};
     given ($req->method) {
         when ('GET') {
             given ($path) {
                 # API Version
                 when ('/') { return $wrapper->('api_version') }
-                when (qr{^/version$resource_type_regex$}) {
-                    return $wrapper->('api_version')
+                when (qr{^/version$resource_type_regex}) {
+                    return $wrapper->('api_version', $1);
                 }
 
                 # Areas Collection
-                when (qr{^/areas$resource_type_regex$}) {
-                    return $wrapper->('areas')
+                when (qr{^/areas$resource_type_regex}) {
+                    return $wrapper->('areas', $1)
                 }
 
                 # Area Resource
-                when (m{^/areas/([\w ]+?)(?:\.(txt|json))?$}) {
+                when (m{^/areas/([\w ]+?)$resource_type_regex}) {
                     return $area_wrapper->($1, $2, 'area')
+                }
+
+                # Zones Collection
+                when (m{^/areas/([\w ]+?)/zones$resource_type_regex}) {
+                    return $area_wrapper->($1, $2, 'zones')
                 }
             }
         }
@@ -80,7 +85,7 @@ around 'process_template' => sub {
 sub _api_version_data {
     return {
         details => [
-            { name => 'API Version', value => Version },
+            { name => 'API Version', value => $API_Version },
         ]
     };
 }
@@ -140,6 +145,24 @@ sub area_txt {
     my $self = shift;
     my $area = shift;
     return $self->process_template('area.txt', { area => $area });
+}
+
+sub zones {
+    my $self = shift;
+    my $area = shift;
+    return $self->process_template('zones.html', { area => $area });
+}
+
+sub zones_json {
+    my $self = shift;
+    my $area = shift;
+    return $self->process_json([ map { $_->to_hash } @{ $area->zones } ]);
+}
+
+sub zones_txt {
+    my $self = shift;
+    my $area = shift;
+    return $self->process_template('zones.txt', { zones => $area->zones });
 }
 
 

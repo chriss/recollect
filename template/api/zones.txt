@@ -1,0 +1,3 @@
+[% FOREACH zone IN zones -%]
+[% zone.id %] - [% zone.name %]: [% zone.title %]
+[% END -%]

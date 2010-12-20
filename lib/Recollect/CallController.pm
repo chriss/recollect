@@ -7,8 +7,6 @@ use namespace::clean -except => 'meta';
 
 with 'Recollect::ControllerBase';
 
-use constant Version => 1.6;
-
 sub run {
     my $self = shift;
     my $req = $self->request;

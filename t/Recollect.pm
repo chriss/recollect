@@ -24,7 +24,7 @@ BEGIN {
     use_ok 'Recollect::Model';
     use_ok 'Recollect::Log';
     use_ok 'Recollect::SQL';
-    $Recollect::SQL::DEBUG = $Recollect::Log::VERBOSE = 1;
+    $Recollect::SQL::DEBUG = $Recollect::Log::VERBOSE = 0;
 }
 
 END { 
@@ -73,9 +73,9 @@ sub _build_base_path {
         system("$psql -f $sql_file > /dev/null 2>&1")
             and die "Couldn't psql $db_name -f $sql_file";
     }
-    system(qq{$psql -c 'DELETE FROM users'});
-    system(qq{$psql -c 'DELETE FROM reminders'});
-    system(qq{$psql -c 'DELETE FROM subscriptions'});
+    system(qq{$psql -c 'DELETE FROM users' > /dev/null});
+    system(qq{$psql -c 'DELETE FROM reminders' > /dev/null});
+    system(qq{$psql -c 'DELETE FROM subscriptions' > /dev/null});
     return $tmp_dir;
 }
 

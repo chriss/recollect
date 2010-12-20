@@ -7,7 +7,8 @@ use JSON qw/encode_json decode_json/;
 
 with 'Recollect::Config';
 with 'Recollect::Log';
-requires 'Version';
+
+our $Recollect_version = '0.9';
 
 has 'base_path' => (is => 'ro', isa => 'Str',    lazy_build => 1);
 has 'template'  => (is => 'ro', isa => 'Object', lazy_build => 1);
@@ -55,7 +56,7 @@ sub render_template {
     my $template = shift;
     my $param = shift;
     my $html;
-    $param->{version} = $self->Version;
+    $param->{version} = $Recollect_version;
     $param->{base} = $self->base_url,
     $param->{request_uri} = $self->request->request_uri;
     $self->template->process($template, $param, \$html) 
