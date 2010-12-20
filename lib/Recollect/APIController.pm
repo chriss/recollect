@@ -18,12 +18,14 @@ sub run {
 
     my $wrapper = sub {
         my $sub_name = shift;
+        my $resource_type = shift;
+        $sub_name .= '_' . $resource_type if $resource_type;
         $self->log("API: $path");
         return $self->$sub_name(@_);
     };
 
     my $area_wrapper = sub {
-        my ($area_id, $sub_name) = @_;
+        my ($area_id, $resource_type, $sub_name) = @_;
 
         my $area;
         if ($area_id =~ m/^\d+$/) {
@@ -32,30 +34,30 @@ sub run {
         else {
             $area = Recollect::Area->By_name($area_id);
         }
+
         return $wrapper->($sub_name, $area);
     };
 
-    my $coord = qr{[+-]?\d+\.\d+};
+    my $coord_regex = qr{[+-]?\d+\.\d+};
+    my $resource_type_regex = qr{(?:\.(txt|json))?};
     given ($req->method) {
         when ('GET') {
             given ($path) {
                 # API Version
-                when ('/')            { return $wrapper->('api_version') }
-                when ('/version')     { return $wrapper->('api_version') }
-                when ('/version.txt') { return $wrapper->('api_version_txt') }
-                when ('/version.json') {
-                    return $wrapper->('api_version_json')
+                when ('/') { return $wrapper->('api_version') }
+                when (qr{^/version$resource_type_regex$}) {
+                    return $wrapper->('api_version')
                 }
 
                 # Areas Collection
-                when ('/areas')      { return $wrapper->('areas') }
-                when ('/areas.txt')  { return $wrapper->('areas_txt') }
-                when ('/areas.json') { return $wrapper->('areas_json') }
+                when (qr{^/areas$resource_type_regex$}) {
+                    return $wrapper->('areas')
+                }
 
                 # Area Resource
-                when (m#^/areas/([\w ]+)$#)      { return $area_wrapper->($1, 'area') }
-                when (m#^/areas/([\w ]+).txt$#)  { return $area_wrapper->($1, 'area_txt') }
-                when (m#^/areas/([\w ]+).json$#) { return $area_wrapper->($1, 'area_json') }
+                when (m{^/areas/([\w ]+?)(?:\.(txt|json))?$}) {
+                    return $area_wrapper->($1, $2, 'area')
+                }
             }
         }
         when ('POST') {
@@ -143,7 +145,7 @@ sub area_txt {
 
 #     my $path = $req->path;
 #     my %func_map = (
-#             [ qr{^/zones/($coord),($coord)(.*)?}    => \&zone_at_latlng ],
+#             [ qr{^/zones/($coord_regex),($coord_regex)(.*)?}    => \&zone_at_latlng ],
 #             [ qr{^/zones/([^/]+)\.txt$}             => \&zone_txt ],
 #                     \&show_reminder ],
 #             [ qr{^/zones/([^/]+)/reminders/([\w\d-]+)/confirm$} =>
@@ -168,7 +170,7 @@ sub area_txt {
 # 
 
 
-#             [ qr{^/zones/($coord),($coord)(.*)?}    => \&zone_at_latlng ],
+#             [ qr{^/zones/($coord_regex),($coord_regex)(.*)?}    => \&zone_at_latlng ],
 sub zone_at_latlng {
     my $self = shift;
     my $req  = shift;
