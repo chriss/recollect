@@ -43,7 +43,7 @@ sub to_hash {
     my $self = shift;
     return {
         day => $self->datetime->ymd,
-        zone => $self->zone,
+        zone_id => $self->zone_id,
         string => $self->string,
         flags => $self->flags,
     };

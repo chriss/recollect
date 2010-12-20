@@ -74,10 +74,19 @@ sub next_dow_change {
 
 sub to_hash {
     my $self = shift;
-    return {
+    my %opts = @_;
+
+    my $hash = {
         area => $self->area->to_hash,
         map { $_ => $self->$_() } qw/id name title colour/
     };
+
+    if ($opts{verbose}) {
+        $hash->{pickupdays} = [ map { $_->to_hash } @{ $self->pickups } ];
+        $hash->{nextpickup} = $self->next_pickup->to_hash;
+    }
+
+    return $hash;
 }
 
 sub add_pickups {

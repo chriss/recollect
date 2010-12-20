@@ -40,7 +40,7 @@ sub run {
     my $coord_rx = qr{[+-]?\d+\.\d+};
     my $ext_rx   = qr{(?:\.(txt|json))?$};
     my $area_rx  = qr{([\w ]+?)};
-    my $zone_rx  = qr{([\w-_]+?)};
+    my $zone_rx  = qr{([\w\-_]+?)};
     given ($req->method) {
         when ('GET') {
             given ($path) {
@@ -182,7 +182,8 @@ sub zone_json {
     my $self = shift;
     my $area = shift;
     my $zone = shift;
-    return $self->process_json( $zone->to_hash );
+    my $verbose = $self->request->param('verbose');
+    return $self->process_json( $zone->to_hash(verbose => $verbose) );
 }
 
 sub zone_txt {

@@ -29,7 +29,7 @@ test_the_api_for(
         like $content, qr/^API Version: $test_version$/,
             'text contains version';
     },
-    json => sub {    # JSON tests
+    json => sub {
         my $data = shift;
         is $data->[0]{name}, 'API Version', 'json has api name';
         is $data->[0]{value}, $test_version, 'json has api version';
@@ -51,7 +51,7 @@ test_the_api_for(
         unlike $content, qr/<\w+.+?>/, 'text has no html tags';
         is $content, "1 - Vancouver: $vancouver_latlng\n";
     },
-    json => sub {    # JSON tests
+    json => sub {
         my $data = shift;
         is ref($data), 'ARRAY';
         is scalar(@$data), 1;
@@ -62,7 +62,7 @@ test_the_api_for(
 # GET /api/areas/:area
 #    * :area can be id or Vancouver or vancouver
 Area_tests: {
-    my %tests = (
+    my %area_tests = (
         html => sub {
             my $content = shift;
             like $content, qr/Area - Vancouver/;
@@ -75,16 +75,16 @@ Area_tests: {
             is $content,
                 "id: 1\nname: Vancouver\ncentre: $vancouver_latlng\n";
         },
-        json => sub {    # JSON tests
+        json => sub {
             my $data = shift;
             is $data->{id},     1;
             is $data->{name},   'Vancouver';
             is $data->{centre}, $vancouver_latlng;
         },
     );
-    test_the_api_for('/areas/1',         %tests);
-    test_the_api_for('/areas/Vancouver', %tests);
-    test_the_api_for('/areas/vancouver', %tests);
+    test_the_api_for('/areas/1',         %area_tests);
+    test_the_api_for('/areas/Vancouver', %area_tests);
+    test_the_api_for('/areas/vancouver', %area_tests);
 }
 
 test_the_api_for(
@@ -109,7 +109,7 @@ test_the_api_for(
         unlike $content, qr/<\w+.+?>/, 'text has no html tags';
         like $content, qr/^\d+ - vancouver-north-blue: Vancouver North Blue/;
     },
-    json => sub {    # JSON tests
+    json => sub {
         my $data = shift;
         return unless is ref($data), 'ARRAY';
         is scalar(@$data), 10;
@@ -119,8 +119,7 @@ test_the_api_for(
 );
 
 # GET /api/areas/:area/zones/:zone
-#    * should include pickupdays + nextpickup
-my %tests = (
+my %zone_tests = (
     html => sub {
         my $content = shift;
         like $content, qr/Zone - Vancouver North Red in Vancouver/;
@@ -137,15 +136,28 @@ name: vancouver-north-red
 title: Vancouver North Red
 EOT
     },
-    json => sub {    # JSON tests
+    json => sub {
         my $data = shift;
         is $data->{id},    1;
         is $data->{name},  'vancouver-north-red';
         is $data->{title}, 'Vancouver North Red';
+        ok !$data->{pickupdays}, 'no pickupdays, not verbose';
+        ok !$data->{nextpickup}, 'no nextpickup, not verbose';
     },
 );
-test_the_api_for('/areas/Vancouver/zones/1',                    %tests);
-test_the_api_for('/areas/Vancouver/zones/vancouver-north-red', %tests);
+test_the_api_for('/areas/Vancouver/zones/1',                   %zone_tests);
+test_the_api_for('/areas/Vancouver/zones/vancouver-north-red', %zone_tests);
+
+test_the_api_for('/areas/Vancouver/zones/vancouver-north-red?verbose=1',
+    json => sub {
+        my $data = shift;
+        is $data->{id},    1;
+        is $data->{name},  'vancouver-north-red';
+        is $data->{title}, 'Vancouver North Red';
+        isa_ok $data->{pickupdays}, 'ARRAY', 'pickupdays should be an arrayref';
+        isa_ok $data->{nextpickup}, 'HASH', 'nextpickup should be an hashref';
+    },
+);
 
 # GET /api/areas/:area/zones/:zone/pickupdays +ics
 # GET /api/areas/:area/zones/:zone/nextpickup
@@ -180,8 +192,9 @@ sub test_the_api_for {
                 $test_uri->($uri . '.txt', $test);
             }
             if (my $test = $tests{json}) {
+                $uri =~ s/(\?(.+)$|$)/.json$1/;
                 $test_uri->(
-                    $uri . '.json',
+                    $uri,
                     sub {
                         my $json = shift;
                         my $data = eval { decode_json($json) };
