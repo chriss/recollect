@@ -16,7 +16,7 @@ my $vancouver_latlng = '49.26422,-123.138542';
 
 my $app = t::Recollect->app('Recollect::APIController');
 
-test_html_txt_json(
+test_the_api_for(
     '/version',
     html => sub {
         my $content = shift;
@@ -38,7 +38,7 @@ test_html_txt_json(
 
 
 # GET /api/areas
-test_html_txt_json(
+test_the_api_for(
     '/areas',
     html => sub {
         my $content = shift;
@@ -82,15 +82,16 @@ Area_tests: {
             is $data->{centre}, $vancouver_latlng;
         },
     );
-    test_html_txt_json('/areas/1',         %tests);
-    test_html_txt_json('/areas/Vancouver', %tests);
-    test_html_txt_json('/areas/vancouver', %tests);
+    test_the_api_for('/areas/1',         %tests);
+    test_the_api_for('/areas/Vancouver', %tests);
+    test_the_api_for('/areas/vancouver', %tests);
 }
 
-test_html_txt_json(
+test_the_api_for(
     '/areas/Vancouver/zones',
     html => sub {
         my $content = shift;
+        like $content, qr/<body>/, 'html has a body tag';
         like $content, qr/Recollect Zones in Vancouver/;
         like $content, qr/north-blue/;
         like $content, qr/north-green/;
@@ -105,6 +106,7 @@ test_html_txt_json(
     },
     text => sub {
         my $content = shift;
+        unlike $content, qr/<\w+.+?>/, 'text has no html tags';
         like $content, qr/^\d+ - vancouver-north-blue: Vancouver North Blue/;
     },
     json => sub {    # JSON tests
@@ -118,6 +120,33 @@ test_html_txt_json(
 
 # GET /api/areas/:area/zones/:zone
 #    * should include pickupdays + nextpickup
+my %tests = (
+    html => sub {
+        my $content = shift;
+        like $content, qr/Zone - Vancouver North Red in Vancouver/;
+        like $content, qr/<body>/, 'html has a body tag';
+        like $content, qr{>Pickup Days</a>}, 'html has a link to Pickup Days';
+        like $content, qr{>Next Pickup</a>}, 'html has a link to Next Pickup';
+    },
+    text => sub {
+        my $content = shift;
+        unlike $content, qr/<\w+.+?>/, 'text has no html tags';
+        is $content, <<EOT, 'text content';
+id: 1
+name: vancouver-north-red
+title: Vancouver North Red
+EOT
+    },
+    json => sub {    # JSON tests
+        my $data = shift;
+        is $data->{id},    1;
+        is $data->{name},  'vancouver-north-red';
+        is $data->{title}, 'Vancouver North Red';
+    },
+);
+test_the_api_for('/areas/Vancouver/zones/1',                    %tests);
+test_the_api_for('/areas/Vancouver/zones/vancouver-north-red', %tests);
+
 # GET /api/areas/:area/zones/:zone/pickupdays +ics
 # GET /api/areas/:area/zones/:zone/nextpickup
 # GET /api/areas/:area/zones/:zone/nextdowchange
@@ -127,7 +156,7 @@ done_testing();
 
 exit;
 
-sub test_html_txt_json {
+sub test_the_api_for {
     my $uri   = shift;
     my %tests = @_;
 

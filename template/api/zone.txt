@@ -1,0 +1,3 @@
+id: [% zone.id %]
+name: [% zone.name %]
+title: [% zone.title %]

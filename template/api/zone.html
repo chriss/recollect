@@ -1,0 +1,16 @@
+[% WRAPPER api/wrapper.html %]
+<h1>Zone - [% zone.title %] in [% area.name %]</h1>
+<h2>Attributes</h2>
+<ul>
+  <li><strong>name</strong>: [% zone.name %]</li>
+  <li><strong>title</strong>: [% zone.title %]</li>
+  <li><strong>area</strong>: <a href="[% area.uri %]">[% area.name %]</a></li>
+  <li><strong>colour</strong>: [% zone.colour %]</li>
+</ul>
+<h2>Related Resources</h2>
+<ul>
+  <li><a href="[% zone.uri %]/pickupdays">Pickup Days</a> (<a href="[% zone.uri %]/pickupdays.ics">iCal</a>)</li>
+  <li><a href="[% zone.uri %]/nextpickup">Next Pickup</a></li>
+  <li><a href="[% zone.uri %]/nextdowchange">Next Day of Week Change</a></li>
+</ul>
+[% END %]

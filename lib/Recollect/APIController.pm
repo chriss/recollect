@@ -26,42 +26,48 @@ sub run {
 
     my $area_wrapper = sub {
         my ($area_id, $resource_type, $sub_name) = @_;
-
-        my $area;
-        if ($area_id =~ m/^\d+$/) {
-            $area = Recollect::Area->By_id($area_id);
-        }
-        else {
-            $area = Recollect::Area->By_name($area_id);
-        }
-
+        my $area = Recollect::Area->Resolve($area_id);
         return $wrapper->($sub_name, $resource_type, $area);
     };
 
-    my $coord_regex = qr{[+-]?\d+\.\d+};
-    my $resource_type_regex = qr{(?:\.(txt|json))?$};
+    my $zone_wrapper = sub {
+        my ($area_id, $zone_id, $resource_type, $sub_name) = @_;
+        my $area = Recollect::Area->Resolve($area_id);
+        my $zone = Recollect::Zone->Resolve($zone_id);
+        return $wrapper->($sub_name, $resource_type, $area, $zone);
+    };
+
+    my $coord_rx = qr{[+-]?\d+\.\d+};
+    my $ext_rx   = qr{(?:\.(txt|json))?$};
+    my $area_rx  = qr{([\w ]+?)};
+    my $zone_rx  = qr{([\w-_]+?)};
     given ($req->method) {
         when ('GET') {
             given ($path) {
                 # API Version
                 when ('/') { return $wrapper->('api_version') }
-                when (qr{^/version$resource_type_regex}) {
+                when (qr{^/version$ext_rx}) {
                     return $wrapper->('api_version', $1);
                 }
 
                 # Areas Collection
-                when (qr{^/areas$resource_type_regex}) {
+                when (qr{^/areas$ext_rx}) {
                     return $wrapper->('areas', $1)
                 }
 
                 # Area Resource
-                when (m{^/areas/([\w ]+?)$resource_type_regex}) {
+                when (m{^/areas/$area_rx$ext_rx}) {
                     return $area_wrapper->($1, $2, 'area')
                 }
 
                 # Zones Collection
-                when (m{^/areas/([\w ]+?)/zones$resource_type_regex}) {
+                when (m{^/areas/$area_rx/zones$ext_rx}) {
                     return $area_wrapper->($1, $2, 'zones')
+                }
+
+                # Zone Resource
+                when (m{^/areas/$area_rx/zones/$zone_rx$ext_rx}) {
+                    return $zone_wrapper->($1, $2, $3, 'zone')
                 }
             }
         }
@@ -165,10 +171,31 @@ sub zones_txt {
     return $self->process_template('zones.txt', { zones => $area->zones });
 }
 
+sub zone {
+    my $self = shift;
+    my $area = shift;
+    my $zone = shift;
+    return $self->process_template('zone.html', { area => $area, zone => $zone });
+}
+
+sub zone_json {
+    my $self = shift;
+    my $area = shift;
+    my $zone = shift;
+    return $self->process_json( $zone->to_hash );
+}
+
+sub zone_txt {
+    my $self = shift;
+    my $area = shift;
+    my $zone = shift;
+    return $self->process_template('zone.txt', { area => $area, zone => $zone });
+}
+
 
 #     my $path = $req->path;
 #     my %func_map = (
-#             [ qr{^/zones/($coord_regex),($coord_regex)(.*)?}    => \&zone_at_latlng ],
+#             [ qr{^/zones/($coord_rx),($coord_rx)(.*)?}    => \&zone_at_latlng ],
 #             [ qr{^/zones/([^/]+)\.txt$}             => \&zone_txt ],
 #                     \&show_reminder ],
 #             [ qr{^/zones/([^/]+)/reminders/([\w\d-]+)/confirm$} =>
@@ -193,7 +220,7 @@ sub zones_txt {
 # 
 
 
-#             [ qr{^/zones/($coord_regex),($coord_regex)(.*)?}    => \&zone_at_latlng ],
+#             [ qr{^/zones/($coord_rx),($coord_rx)(.*)?}    => \&zone_at_latlng ],
 sub zone_at_latlng {
     my $self = shift;
     my $req  = shift;

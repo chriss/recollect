@@ -22,6 +22,13 @@ sub Create {
     return $class->By_id($args{id});
 }
 
+sub Resolve {
+    my $class = shift;
+    my $id = shift;
+    return $class->By_id($id) if $id =~ m/^\d+$/;;
+    return $class->By_name($id);
+}
+
 sub By_id {
     my $class = shift;
     my $id = shift;

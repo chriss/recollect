@@ -14,6 +14,7 @@ has 'colour'  => (is => 'ro', isa => 'Str',              required   => 1);
 has 'area_id' => (is => 'ro', isa => 'Int',              required   => 1);
 has 'area'    => (is => 'ro', isa => 'Object',           lazy_build => 1);
 has 'pickups' => (is => 'ro', isa => 'ArrayRef[Object]', lazy_build => 1);
+has 'uri'     => (is => 'ro', isa => 'Str',              lazy_build => 1);
 
 sub By_area_id {
     my $class = shift;
@@ -79,11 +80,6 @@ sub to_hash {
     };
 }
 
-sub uri {
-    my $self = shift;
-    return '/zones/' . $self->name;
-}
-
 sub add_pickups {
     my $self = shift;
     my $days = shift;
@@ -110,6 +106,11 @@ sub _now {
         return join ' ', $now->ymd, $now->hms;
     }
     return 'now';
+}
+
+sub _build_uri {
+    my $self = shift;
+    return "/api/areas/" . $self->area_id . "/zones/" . $self->name;
 }
 
 __PACKAGE__->meta->make_immutable;
