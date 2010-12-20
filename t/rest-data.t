@@ -160,6 +160,30 @@ test_the_api_for('/areas/Vancouver/zones/vancouver-north-red?verbose=1',
 );
 
 # GET /api/areas/:area/zones/:zone/pickupdays +ics
+test_the_api_for(
+    '/areas/Vancouver/zones/vancouver-north-red/pickupdays',
+    html => sub {
+        my $content = shift;
+        like $content, qr/<body>/, 'html has a body tag';
+        like $content, qr/2010-12-15 Y/, 'html has a date';
+    },
+    text => sub {
+        my $content = shift;
+        unlike $content, qr/<\w+.+?>/, 'text has no html tags';
+        like $content, qr/^2010-01-08\n/, 'text has a date';
+    },
+    json => sub {
+        my $data = shift;
+        return unless is ref($data), 'ARRAY';
+        is $data->[0]{day}, '2010-01-08', 'json has a day';
+        like $data->[0]{zone_id}, qr/^\d+$/, 'json has a zone_id';
+        is $data->[0]{string}, '2010-01-08', 'json has a string form';
+        is $data->[0]{flags}, '', 'json has flags';
+        is $data->[1]{string}, '2010-01-15 Y', 'json has a string form';
+        is $data->[1]{flags}, 'Y', 'json has flags';
+    },
+);
+
 # GET /api/areas/:area/zones/:zone/nextpickup
 # GET /api/areas/:area/zones/:zone/nextdowchange
 # GET /api/areas/:area/zones/:lat,:lng(.+)

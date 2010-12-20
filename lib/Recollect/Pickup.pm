@@ -42,7 +42,7 @@ sub By_zone_id {
 sub to_hash {
     my $self = shift;
     return {
-        day => $self->datetime->ymd,
+        day => $self->ymd,
         zone_id => $self->zone_id,
         string => $self->string,
         flags => $self->flags,
@@ -56,7 +56,7 @@ sub _build_zone {
 
 sub _build_string {
     my $self = shift;
-    return join ' ', $self->day, ($self->flags ? $self->flags : ());
+    return join ' ', $self->ymd, ($self->flags ? $self->flags : ());
 }
 
 sub _build_pretty_day {

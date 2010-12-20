@@ -69,6 +69,11 @@ sub run {
                 when (m{^/areas/$area_rx/zones/$zone_rx$ext_rx}) {
                     return $zone_wrapper->($1, $2, $3, 'zone')
                 }
+
+                # Zone Pickupdays Collection
+                when (m{^/areas/$area_rx/zones/$zone_rx/pickupdays$ext_rx}) {
+                    return $zone_wrapper->($1, $2, $3, 'pickupdays')
+                }
             }
         }
         when ('POST') {
@@ -191,6 +196,29 @@ sub zone_txt {
     my $area = shift;
     my $zone = shift;
     return $self->process_template('zone.txt', { area => $area, zone => $zone });
+}
+
+sub pickupdays {
+    my $self = shift;
+    my $area = shift;
+    my $zone = shift;
+    return $self->process_template('pickupdays.html',
+        { area => $area, zone => $zone });
+}
+
+sub pickupdays_json {
+    my $self = shift;
+    my $area = shift;
+    my $zone = shift;
+    return $self->process_json([ map { $_->to_hash } @{ $zone->pickups } ]);
+}
+
+sub pickupdays_txt {
+    my $self = shift;
+    my $area = shift;
+    my $zone = shift;
+    return $self->process_template('pickupdays.txt',
+        { area => $area, zone => $zone });
 }
 
 
