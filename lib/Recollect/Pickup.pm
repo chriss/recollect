@@ -1,4 +1,5 @@
 package Recollect::Pickup;
+use feature 'switch';
 use Moose;
 use DateTime::Functions;
 use DateTime::Format::Pg;
@@ -15,8 +16,10 @@ has 'flags'      => (is => 'ro', isa => 'Str',      required   => 1);
 has 'zone'       => (is => 'ro', isa => 'Object',   lazy_build => 1);
 has 'string'     => (is => 'ro', isa => 'Str',      lazy_build => 1);
 has 'pretty_day' => (is => 'ro', isa => 'Str',      lazy_build => 1);
+has 'desc'       => (is => 'ro', isa => 'Str',      lazy_build => 1);
 has 'datetime'   => (is => 'ro', isa => 'DateTime', lazy_build => 1,
                      handles => ['ymd', 'day_of_week']);
+
 
 sub By_zone {
     my $self = shift;
@@ -30,7 +33,7 @@ sub By_zone_id {
     my $zone_id = shift;
     my %opts = @_;
 
-    my $sth = $class->By_field(zone_id => $zone_id, %opts);
+    my $sth = $class->By_field(zone_id => $zone_id, %opts, handle_pls => 1);
     my @pickups;
     while (my $row = $sth->fetchrow_hashref) {
         push @pickups, $class->new($row);
@@ -63,6 +66,14 @@ sub _build_pretty_day {
     my $self = shift;
     my $dt = $self->datetime;
     return $dt->day_name . ', ' . $dt->month_name . ' ' . $dt->day;
+}
+
+sub _build_desc {
+    my $self = shift;
+    given ($self->flags) {
+        when (m/Y/) { return "Garbage & Yard Trimmings Pickup" }
+        default     { return "Garbage Pickup" }
+    }
 }
 
 sub _build_datetime {

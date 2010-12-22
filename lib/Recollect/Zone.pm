@@ -19,7 +19,8 @@ has 'uri'     => (is => 'ro', isa => 'Str',              lazy_build => 1);
 sub By_area_id {
     my $class = shift;
     my $area_id = shift;
-    my $sth = $class->By_field(area_id => $area_id, args => [ ['name ASC'] ]);
+    my $sth = $class->By_field(area_id => $area_id, args => [ ['name ASC'] ],
+        handle_pls => 1);
     my @zones;
     while (my $row = $sth->fetchrow_hashref) {
         push @zones, $class->new($row);
@@ -34,7 +35,7 @@ sub next_pickup {
     my $pickups = Recollect::Pickup->By_zone_id(
         $self->id,
         args  => [ 'day ASC', $limit ],
-        where => [ 'day', => { '>', $self->_now } ],
+        where => [ 'day' => { '>', $self->_now } ],
     );
 
     return $pickups->[0] if $limit == 1;

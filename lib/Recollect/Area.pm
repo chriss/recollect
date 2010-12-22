@@ -19,6 +19,22 @@ sub to_hash {
     };
 }
 
+sub resolve_zone_id {
+    my $self    = shift;
+    my $zone_id = shift;
+    my $sth;
+    if ($zone_id =~ m/^\d+$/) {
+        return Recollect::Zone->By_field(
+            id    => $zone_id,
+            where => [ area_id => $self->id ],
+        );
+    }
+    return Recollect::Zone->By_field(
+        name  => $zone_id,
+        where => [ area_id => $self->id ],
+    );
+}
+
 sub add_zone {
     my $self = shift;
     my %opts = @_;

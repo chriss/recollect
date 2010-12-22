@@ -1,9 +1,12 @@
 package Recollect::APIController;
+use feature 'switch';
 use Moose;
 use Recollect::CallController;
 use Plack::Request;
 use Plack::Response;
-use feature 'switch';
+use Data::ICal::Entry::Event;
+use Data::ICal;
+use Date::ICal;
 use namespace::clean -except => 'meta';
 
 with 'Recollect::ControllerBase';
@@ -33,7 +36,7 @@ sub run {
     my $zone_wrapper = sub {
         my ($area_id, $zone_id, $resource_type, $sub_name) = @_;
         my $area = Recollect::Area->Resolve($area_id);
-        my $zone = Recollect::Zone->Resolve($zone_id);
+        my $zone = $area->resolve_zone_id($zone_id);
         return $wrapper->($sub_name, $resource_type, $area, $zone);
     };
 
@@ -73,6 +76,11 @@ sub run {
                 # Zone Pickupdays Collection
                 when (m{^/areas/$area_rx/zones/$zone_rx/pickupdays$ext_rx}) {
                     return $zone_wrapper->($1, $2, $3, 'pickupdays')
+                }
+
+                # Zone Pickupdays Collection as iCal (RFC 2445)
+                when (m{^/areas/$area_rx/zones/$zone_rx/pickupdays\.ics$}) {
+                    return $zone_wrapper->($1, $2, $3, 'pickupdays_ical')
                 }
             }
         }
@@ -221,35 +229,24 @@ sub pickupdays_txt {
         { area => $area, zone => $zone });
 }
 
+sub pickupdays_ical {
+    my $self = shift;
+    my $area = shift;
+    my $zone = shift;
 
-#     my $path = $req->path;
-#     my %func_map = (
-#             [ qr{^/zones/($coord_rx),($coord_rx)(.*)?}    => \&zone_at_latlng ],
-#             [ qr{^/zones/([^/]+)\.txt$}             => \&zone_txt ],
-#                     \&show_reminder ],
-#             [ qr{^/zones/([^/]+)/reminders/([\w\d-]+)/confirm$} =>
-#                     \&confirm_reminder ],
-#             [ qr{^/zones/([^/]+)/reminders/([\w\d-]+)/delete$} => 
-#                     \&delete_reminder_html ],
-#             # API
-#             [ qr{^/zones/([^/]+)/reminders$} => \&post_reminder ],
-#         ],
-#         DELETE => [
-#             [ qr{^/zones/([^/]+)/reminders/(.+)$} => \&delete_reminder ],
-#         ],
-#     );
-#     
-#     my $method = $req->method;
-#     for my $match (@{ $func_map{$method}}) {
-#         my ($regex, $todo) = @$match;
-#         if ($path =~ $regex) {
-#             return $todo->($self, $req, $1, $2, $3, $4);
-#         }
-#     }
-# 
+    my $ical = Data::ICal->new;
+    for my $pickup (@{ $zone->pickups }) {
+        my $evt = Data::ICal::Entry::Event->new;
+        $evt->add_properties(
+            summary => $pickup->desc,
+            dtstart => $pickup->ymd,
+        );
+        $ical->add_entry($evt);
+    }
 
+    return $self->response('text/calendar', $ical->as_string);
+}
 
-#             [ qr{^/zones/($coord_rx),($coord_rx)(.*)?}    => \&zone_at_latlng ],
 sub zone_at_latlng {
     my $self = shift;
     my $req  = shift;
@@ -257,6 +254,8 @@ sub zone_at_latlng {
     my $lng  = shift;
     my $rest = shift || "";
 
+    warn "This has not been re-implemented, it may not be correct.";
+    warn "Please remove this warning when you review zone_at_latlng()";
     my $zone = $self->model->kml->find_zone_for_latlng($lat,$lng);
     my $resp = Plack::Response->new;
     if ($zone) {

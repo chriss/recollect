@@ -32,8 +32,7 @@ sub Resolve {
 sub By_id {
     my $class = shift;
     my $id = shift;
-    my $sth = $class->By_field(id => $id);
-    my $obj = $class->_first_row_as_obj($sth);
+    my $obj = $class->By_field(id => $id);
     die "Could not lookup $class id $id" unless $obj;
     return $obj;
 }
@@ -41,26 +40,38 @@ sub By_id {
 sub By_name {
     my $class = shift;
     die "$class has no name field!" unless $class->can('name');
-    my $sth = $class->By_field('LOWER(name)' => lc shift);
-    return $class->_first_row_as_obj($sth);
+    return $class->By_field('LOWER(name)' => lc shift);
 }
 
+# Examples
+#   Straight lookup by id
+#     $class->By_field( id => $id );
+#   Lookup with additional where clauses
+#     $class->By_field( this => $that, where => [ foo => 'bar' ] );
+#     $class->By_field( this => $that, where => [ day => { '>', $time } ] );
+#   Return results sorted
+#     $class->By_field( this => $that, args => [ ['name ASC'] ] );
+#   Return results sorted & limited
+#     $class->By_field( this => $that, args => [ ['name ASC', $limit] ] );
 sub By_field {
     my $class = shift;
     my $field = shift;
     my $value = shift;
     my %opts  = @_;
     
-    return $class->_select('*', {
+    my $sth = $class->_select('*', {
             $field => $value,
             @{ $opts{where} || [] },
         },
         @{ $opts{args} || [] },
     );
+    return $sth if $opts{handle_pls};
+    return $class->_first_row_as_obj($sth);
 }
 
 sub _first_row_as_obj {
-    my $class = shift;
+    my $self_or_class = shift;
+    my $class = ref($self_or_class) || $self_or_class;
     my $sth = shift;
     my $row = $sth->fetchrow_hashref;
     return $row ? $class->new($row) : undef;

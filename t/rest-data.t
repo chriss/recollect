@@ -6,6 +6,7 @@ use Test::More;
 use HTTP::Request::Common qw/GET POST DELETE/;
 use t::Recollect;
 use JSON qw/encode_json decode_json/;
+use Data::ICal;
 
 no warnings 'redefine';
 no warnings 'once';
@@ -159,7 +160,7 @@ test_the_api_for('/areas/Vancouver/zones/vancouver-north-red?verbose=1',
     },
 );
 
-# GET /api/areas/:area/zones/:zone/pickupdays +ics
+# GET /api/areas/:area/zones/:zone/pickupdays
 test_the_api_for(
     '/areas/Vancouver/zones/vancouver-north-red/pickupdays',
     html => sub {
@@ -181,6 +182,16 @@ test_the_api_for(
         is $data->[0]{flags}, '', 'json has flags';
         is $data->[1]{string}, '2010-01-15 Y', 'json has a string form';
         is $data->[1]{flags}, 'Y', 'json has flags';
+    },
+);
+
+# GET /api/areas/:area/zones/:zone/pickupdays.ics
+test_the_api_for(
+    '/areas/Vancouver/zones/vancouver-north-red/pickupdays',
+    ics => sub {
+        my $ical = shift;
+        my $entries = $ical->entries;
+        is scalar(@$entries), 58;
     },
 );
 
@@ -214,6 +225,14 @@ sub test_the_api_for {
             }
             if (my $test = $tests{text}) {
                 $test_uri->($uri . '.txt', $test);
+            }
+            if (my $test = $tests{ics}) {
+                $test_uri->($uri . '.ics', sub {
+                        my $text = shift;
+                        my $ical = Data::ICal->new(data => $text);
+                        $test->($ical);
+                    },
+                );
             }
             if (my $test = $tests{json}) {
                 $uri =~ s/(\?(.+)$|$)/.json$1/;
