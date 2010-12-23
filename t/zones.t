@@ -22,7 +22,7 @@ Set_now_time: {
 
 my $redzone = Recollect::Zone->By_name('vancouver-south-red');
 Next_pickup: {
-    my $np = $redzone->next_pickup;
+    my $np = $redzone->next_pickup->[0];
     is $np->ymd, '2010-12-08', 'next-pickup';
     is $np->flags, 'Y', 'date has correct flags';
 }
@@ -39,8 +39,8 @@ Next_pickups: {
 
 Next_dow_change: {
     my $np = $redzone->next_dow_change;
-    is $np->ymd, '2010-12-31', 'next-pickup';
-    is $np->flags, '', 'date has correct flags';
+    is $np->{last}->string, '2010-12-22 Y', 'last pickup is correct';
+    is $np->{next}->string, '2010-12-31', 'next pickup is correct';
 }
 
 done_testing();
