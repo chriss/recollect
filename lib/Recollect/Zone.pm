@@ -57,7 +57,6 @@ sub next_dow_change {
 
     my $last_pickup = $self->last_pickup;
     my $last_dow = $last_pickup->day_of_week;
-    warn "last_pickpp: " . $last_pickup->ymd . ' dow: ' . $last_dow;
     
     my $pickups = Recollect::Pickup->By_zone_id(
         $self->id,
