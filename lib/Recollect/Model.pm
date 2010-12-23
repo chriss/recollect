@@ -21,35 +21,6 @@ has 'mailer'    => (is => 'ro', isa => 'Object', lazy_build => 1);
 has 'notifier'  => (is => 'ro', isa => 'Object', lazy_build => 1);
 has 'kml'       => (is => 'ro', isa => 'Object', lazy_build => 1);
 
-sub days {
-    my $self = shift;
-    my $zone = shift;
-    my $obj_please = shift;
-
-    return $self->pickups->by_zone($zone, $obj_please);
-}
-
-sub ical {
-    my $self = shift;
-    my $zone = shift;
-    my $days = $self->days($zone);
-
-    my $ical = Data::ICal->new();
-    for my $day (@$days) {
-        my $evt = Data::ICal::Entry::Event->new;
-        my $summary = 'Garbage pickup day';
-        $summary .= ' & Yard trimmings day' if $day->{flags} eq 'Y';
-        my $date = join('', map { $day->{$_} } qw(year month day));
-        $evt->add_properties(
-            summary => $summary,
-            dtstart => $date,
-        );
-        $ical->add_entry($evt);
-    }
-
-    return $ical->as_string;
-}
-
 sub Payment_required_for {
     my $class = shift;
     my $target = shift;
@@ -156,11 +127,6 @@ sub _load_file {
     $self->{_modified}{$file} = $stats[9];
     $self->{_size}{$file} = $stats[7];
     return LoadFile($file) || {};
-}
-
-sub _build_zonefile {
-    my $self = shift;
-    return $self->base_path . "/data/trash-zone-times.yaml";
 }
 
 sub _build_mailer {
