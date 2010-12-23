@@ -1,4 +1,5 @@
 package Recollect::Controller;
+use feature 'switch';
 use Moose;
 use Fatal qw/open/;
 use Template;
