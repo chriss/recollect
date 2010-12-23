@@ -1,0 +1,8 @@
+[% WRAPPER api/wrapper.html %]
+<h1>[% zone.title %] Pickup Days</h1>
+<ul>
+  [% FOREACH day IN zone.pickups %]
+    <li>[% day.string %]</li>
+  [% END %]
+</ul>
+[% END %]

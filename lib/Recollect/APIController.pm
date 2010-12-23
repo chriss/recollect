@@ -82,6 +82,11 @@ sub run {
                 when (m{^/areas/$area_rx/zones/$zone_rx/pickupdays\.ics$}) {
                     return $zone_wrapper->($1, $2, $3, 'pickupdays_ical')
                 }
+
+                # Zone Next Pickup
+                when (m{^/areas/$area_rx/zones/$zone_rx/nextpickup$ext_rx$}) {
+                    return $zone_wrapper->($1, $2, $3, 'next_pickup')
+                }
             }
         }
         when ('POST') {
@@ -246,6 +251,36 @@ sub pickupdays_ical {
 
     return $self->response('text/calendar', $ical->as_string);
 }
+
+sub _next_pickups {
+    my $self = shift;
+    my $zone = shift;
+    my $limit = $self->request->param('limit');
+    return $zone->next_pickup($limit);
+}
+
+sub next_pickup {
+    my $self = shift;
+    my $area = shift;
+    my $zone = shift;
+    return $self->process_template('next_pickup.html',
+        { area => $area, zone => $zone, pickups => $self->_next_pickups($zone) });
+}
+
+sub next_pickup_json {
+    my $self = shift;
+    my $area = shift;
+    my $zone = shift;
+    return $self->process_json([ map { $_->to_hash } @{ $self->_next_pickups($zone) } ]);
+}
+
+sub next_pickup_txt {
+    my $self = shift;
+    my $area = shift;
+    my $zone = shift;
+    return $self->process_text(join "\n", map { $_->string } @{ $self->_next_pickups($zone) });
+}
+
 
 sub zone_at_latlng {
     my $self = shift;

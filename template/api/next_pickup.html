@@ -1,0 +1,8 @@
+[% WRAPPER api/wrapper.html %]
+<h1>[% zone.name %] Next Pickup</h1>
+<ul>
+  [% FOREACH p IN pickups %]
+    <li>[% p.string %]</li>
+  [% END %]
+</ul>
+[% END %]

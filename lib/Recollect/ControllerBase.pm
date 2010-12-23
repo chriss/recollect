@@ -94,6 +94,12 @@ sub process_json {
     return $self->response('application/json' => encode_json($data));
 }
 
+sub process_text {
+    my $self = shift;
+    my $body = shift;
+    return $self->response('text/plain' => $body);
+}
+    
 sub bad_request_json {
     my $self = shift;
     my $msg  = shift;

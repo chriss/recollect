@@ -3,6 +3,7 @@ use strict;
 use warnings;
 use Plack::Test;
 use Test::More;
+use DateTime::Functions;
 use HTTP::Request::Common qw/GET POST DELETE/;
 use t::Recollect;
 use JSON qw/encode_json decode_json/;
@@ -15,18 +16,14 @@ use_ok 'Recollect::APIController';
 my ($test_version) = $Recollect::APIController::API_Version = '1.42';
 my $vancouver_latlng = '49.26422,-123.138542';
 
-my $app = t::Recollect->app('Recollect::APIController');
-
 test_the_api_for(
     '/version',
     html => sub {
         my $content = shift;
-        like $content, qr/<body>/,        'html has a body tag';
         like $content, qr/$test_version/, 'html contains the API Version';
     },
     text => sub {
         my $content = shift;
-        unlike $content, qr/<\w+.+?>/, 'text has no html tags';
         like $content, qr/^API Version: $test_version$/,
             'text contains version';
     },
@@ -43,13 +40,11 @@ test_the_api_for(
     '/areas',
     html => sub {
         my $content = shift;
-        like $content, qr/<body>/,        'html has a body tag';
         like $content, qr/Recollect Areas/;
         like $content, qr/Vancouver/;
     },
     text => sub {
         my $content = shift;
-        unlike $content, qr/<\w+.+?>/, 'text has no html tags';
         is $content, "1 - Vancouver: $vancouver_latlng\n";
     },
     json => sub {
@@ -67,12 +62,10 @@ Area_tests: {
         html => sub {
             my $content = shift;
             like $content, qr/Area - Vancouver/;
-            like $content, qr/<body>/,        'html has a body tag';
             like $content, qr/$vancouver_latlng/;
         },
         text => sub {
             my $content = shift;
-            unlike $content, qr/<\w+.+?>/, 'text has no html tags';
             is $content,
                 "id: 1\nname: Vancouver\ncentre: $vancouver_latlng\n";
         },
@@ -92,7 +85,6 @@ test_the_api_for(
     '/areas/Vancouver/zones',
     html => sub {
         my $content = shift;
-        like $content, qr/<body>/, 'html has a body tag';
         like $content, qr/Recollect Zones in Vancouver/;
         like $content, qr/north-blue/;
         like $content, qr/north-green/;
@@ -107,7 +99,6 @@ test_the_api_for(
     },
     text => sub {
         my $content = shift;
-        unlike $content, qr/<\w+.+?>/, 'text has no html tags';
         like $content, qr/^\d+ - vancouver-north-blue: Vancouver North Blue/;
     },
     json => sub {
@@ -124,13 +115,11 @@ my %zone_tests = (
     html => sub {
         my $content = shift;
         like $content, qr/Zone - Vancouver North Red in Vancouver/;
-        like $content, qr/<body>/, 'html has a body tag';
         like $content, qr{>Pickup Days</a>}, 'html has a link to Pickup Days';
         like $content, qr{>Next Pickup</a>}, 'html has a link to Next Pickup';
     },
     text => sub {
         my $content = shift;
-        unlike $content, qr/<\w+.+?>/, 'text has no html tags';
         is $content, <<EOT, 'text content';
 id: 1
 name: vancouver-north-red
@@ -165,12 +154,10 @@ test_the_api_for(
     '/areas/Vancouver/zones/vancouver-north-red/pickupdays',
     html => sub {
         my $content = shift;
-        like $content, qr/<body>/, 'html has a body tag';
         like $content, qr/2010-12-15 Y/, 'html has a date';
     },
     text => sub {
         my $content = shift;
-        unlike $content, qr/<\w+.+?>/, 'text has no html tags';
         like $content, qr/^2010-01-08\n/, 'text has a date';
     },
     json => sub {
@@ -196,6 +183,52 @@ test_the_api_for(
 );
 
 # GET /api/areas/:area/zones/:zone/nextpickup
+test_the_api_for(
+    '/areas/Vancouver/zones/vancouver-north-purple/nextpickup',
+    now => datetime(year => 2010, month => 12, day => 1),
+    html => sub {
+        my $content = shift;
+        like $content, qr/2010-12-06/, 'html has a date';
+        unlike $content, qr/2010-12-06 Y/, 'is not yard pickup';
+    },
+    text => sub {
+        my $content = shift;
+        is $content, "2010-12-06", 'text is just the date';
+    },
+    json => sub {
+        my $data = shift;
+        return unless is ref($data), 'ARRAY';
+        is scalar(@$data), 1, 'only one result';
+        is $data->[0]{string}, '2010-12-06', 'date is correct';
+    },
+);
+
+# GET /api/areas/:area/zones/:zone/nextpickup?limit=3
+test_the_api_for(
+    '/areas/Vancouver/zones/vancouver-north-purple/nextpickup?limit=3',
+    now => datetime(year => 2010, month => 12, day => 1),
+    html => sub {
+        my $content = shift;
+        like $content, qr/2010-12-06/, 'html has a date';
+        unlike $content, qr/2010-12-06 Y/, 'is not yard pickup';
+        like $content, qr/2010-12-13 Y/, 'second date is a yard pickup';
+        like $content, qr/2010-12-20/, 'third date is present';
+        unlike $content, qr/2010-12-29/, 'fourth date is not present';
+    },
+    text => sub {
+        my $content = shift;
+        is $content, "2010-12-06\n2010-12-13 Y\n2010-12-20", 'text is just the date';
+    },
+    json => sub {
+        my $data = shift;
+        return unless is ref($data), 'ARRAY';
+        is scalar(@$data), 3, 'only one result';
+        is $data->[0]{string}, '2010-12-06', 'date is correct';
+        is $data->[1]{string}, '2010-12-13 Y', 'date is correct';
+        is $data->[2]{string}, '2010-12-20', 'date is correct';
+    },
+);
+
 # GET /api/areas/:area/zones/:zone/nextdowchange
 # GET /api/areas/:area/zones/:lat,:lng(.+)
 
@@ -206,6 +239,8 @@ exit;
 sub test_the_api_for {
     my $uri   = shift;
     my %tests = @_;
+    local $ENV{RECOLLECT_NOW} = delete $tests{now};
+    my $app = t::Recollect->app('Recollect::APIController');
 
     subtest "GET $uri" => sub {
         test_psgi $app, sub {
@@ -221,10 +256,21 @@ sub test_the_api_for {
                 $test_block->($res->content, @_);
             };
             if (my $test = $tests{html}) {
-                $test_uri->($uri, $test);
+                $test_uri->($uri, sub {
+                        my $content = shift;
+                        like $content, qr/<body>/, 'html has a body tag';
+                        $test->($content, @_);
+                    },
+                );
             }
             if (my $test = $tests{text}) {
-                $test_uri->($uri . '.txt', $test);
+                (my $txt_uri = $uri) =~ s/(\?(.+)$|$)/.txt$1/;
+                $test_uri->($txt_uri, sub {
+                        my $content = shift;
+                        unlike $content, qr/<\w+.+?>/, 'text has no html tags';
+                        $test->($content, @_);
+                    },
+                );
             }
             if (my $test = $tests{ics}) {
                 $test_uri->($uri . '.ics', sub {
@@ -235,9 +281,9 @@ sub test_the_api_for {
                 );
             }
             if (my $test = $tests{json}) {
-                $uri =~ s/(\?(.+)$|$)/.json$1/;
+                (my $json_uri = $uri) =~ s/(\?(.+)$|$)/.json$1/;
                 $test_uri->(
-                    $uri,
+                    $json_uri,
                     sub {
                         my $json = shift;
                         my $data = eval { decode_json($json) };

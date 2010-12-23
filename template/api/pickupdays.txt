@@ -1,0 +1,3 @@
+[% FOREACH day IN zone.pickups -%]
+[% day.string %]
+[% END -%]

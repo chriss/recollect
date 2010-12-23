@@ -38,7 +38,6 @@ sub next_pickup {
         where => [ 'day' => { '>', $self->_now } ],
     );
 
-    return $pickups->[0] if $limit == 1;
     return $pickups;
 }
 
@@ -84,7 +83,7 @@ sub to_hash {
 
     if ($opts{verbose}) {
         $hash->{pickupdays} = [ map { $_->to_hash } @{ $self->pickups } ];
-        $hash->{nextpickup} = $self->next_pickup->to_hash;
+        $hash->{nextpickup} = $self->next_pickup->[0]->to_hash;
     }
 
     return $hash;

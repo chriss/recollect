@@ -83,10 +83,12 @@ sub app {
     my $class = shift;
     my $controller = shift or die "Requires a controller";
     my $base = t::Recollect->base_path;
+    my $now = $ENV{RECOLLECT_NOW};
     return sub { 
         local $ENV{RECOLLECT_BASE_PATH}        = $base;
         local $ENV{RECOLLECT_TEST_CONFIG_FILE} = "$base/etc/recollect.yaml";
         local $ENV{RECOLLECT_LOG_FILE}         = "$base/recollect.log";
+        local $ENV{RECOLLECT_NOW}              = $now if $now;
         $controller->new->run(@_) 
     };
 }
