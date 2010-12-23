@@ -230,6 +230,28 @@ test_the_api_for(
 );
 
 # GET /api/areas/:area/zones/:zone/nextdowchange
+test_the_api_for(
+    '/areas/Vancouver/zones/vancouver-north-purple/nextdowchange',
+    now => datetime(year => 2010, month => 12, day => 1),
+    html => sub {
+        my $content = shift;
+        unlike $content, qr/2010-12-06/, 'next pickup is not mentioned';
+        unlike $content, qr/2010-12-13/, 'second date is not mentioned';
+        like $content, qr/2010-12-20/, 'third date is mentioned as the last on the old sched';
+        like $content, qr/2010-12-29/, 'fourth date is present';
+    },
+    text => sub {
+        my $content = shift;
+        is $content, "2010-12-29 Y", 'text is just the date';
+    },
+    json => sub {
+        my $data = shift;
+        return unless is ref($data), 'HASH';
+        is $data->{last}{string}, '2010-12-20', 'date is correct';
+        is $data->{next}{string}, '2010-12-29 Y', 'date is correct';
+    },
+);
+
 # GET /api/areas/:area/zones/:lat,:lng(.+)
 
 done_testing();

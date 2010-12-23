@@ -64,8 +64,13 @@ sub next_dow_change {
         where => [ 'day', => { '>', $self->_now } ],
     );
     for my $p (@$pickups) {
-        next if $p->day_of_week == $last_dow;
-        return $p;
+        if ($p->day_of_week != $last_dow) {
+            return {
+                last => $last_pickup,
+                next => $p,
+            };
+        }
+        $last_pickup = $p;
     }
 
     die "Could not find the next dow change for zone " . $self->name;

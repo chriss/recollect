@@ -87,6 +87,11 @@ sub run {
                 when (m{^/areas/$area_rx/zones/$zone_rx/nextpickup$ext_rx$}) {
                     return $zone_wrapper->($1, $2, $3, 'next_pickup')
                 }
+
+                # Zone Next DOW Change
+                when (m{^/areas/$area_rx/zones/$zone_rx/nextdowchange$ext_rx$}) {
+                    return $zone_wrapper->($1, $2, $3, 'next_dow_change')
+                }
             }
         }
         when ('POST') {
@@ -279,6 +284,33 @@ sub next_pickup_txt {
     my $area = shift;
     my $zone = shift;
     return $self->process_text(join "\n", map { $_->string } @{ $self->_next_pickups($zone) });
+}
+
+sub next_dow_change {
+    my $self = shift;
+    my $area = shift;
+    my $zone = shift;
+    return $self->process_template('next_dow_change.html',
+        { area => $area, zone => $zone, %{ $zone->next_dow_change } });
+}
+
+sub next_dow_change_json {
+    my $self = shift;
+    my $area = shift;
+    my $zone = shift;
+    my $days = $zone->next_dow_change;
+    return $self->process_json( {
+            last => $days->{last}->to_hash,
+            next => $days->{next}->to_hash,
+        }
+    );
+}
+
+sub next_dow_change_txt {
+    my $self = shift;
+    my $area = shift;
+    my $zone = shift;
+    return $self->process_text($zone->next_dow_change->{next}->string);
 }
 
 
