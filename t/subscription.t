@@ -33,14 +33,6 @@ Add_a_subscription: {
 
 exit;
 
-
-Check_if_model_persists: {
-    my $model = t::Recollect->model();
-    my $rems = $model->reminders->all('objects');
-    is scalar(@$rems), 1, 'one reminder';
-    ok !$rems->[0]->confirmed, 'not confirmed';
-}
-
 Confirm_reminder: {
     my $model = t::Recollect->model();
     my $rems = $model->reminders->all('objects');
@@ -49,23 +41,11 @@ Confirm_reminder: {
     ok $rems->[0]->confirmed, 'confirmed';
 }
 
-Reload_and_check_confirmation: {
-    my $model = t::Recollect->model();
-    my $rems = $model->reminders->all('objects');
-    ok $rems->[0]->confirmed, 'confirmed';
-}
-
 Delete_reminder: {
     my $model = t::Recollect->model();
     my $rems = $model->reminders->all('objects');
     $rems->[0]->delete;
     $rems = $model->reminders->all;
-    is scalar(@$rems), 0, 'no reminders';
-}
-
-Reload_and_check_delete: {
-    my $model = t::Recollect->model();
-    my $rems = $model->reminders->all;
     is scalar(@$rems), 0, 'no reminders';
 }
 
