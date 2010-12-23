@@ -5,11 +5,12 @@ use Plack::Test;
 use Test::More;
 use HTTP::Request::Common qw/GET POST DELETE/;
 use t::Recollect;
+use Recollect::APIController;
 use JSON qw/encode_json decode_json/;
 
 no warnings 'redefine';
 
-my $app = t::Recollect->app;
+my $app = t::Recollect->app('Recollect::APIController');
 test_psgi $app, sub {
     my $cb = shift;
 
