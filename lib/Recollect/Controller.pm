@@ -30,25 +30,11 @@ sub run {
             [ qr{^/$}                               => \&ui_html ],
             [ qr{^/m/?$}                            => \&ui_html ],
             [ qr{^/(.+)\.html$}                     => \&ui_html ],
-
-            # Confirmations
-#             [ qr{^/zones/([^/]+)/reminders/([\w\d-]+)/confirm$} =>
-#                     \&confirm_reminder ],
-#             [ qr{^/zones/([^/]+)/reminders/([\w\d-]+)/delete$} => 
-#                     \&delete_reminder_html ],
-
-
-            # Billing
-            [ qr{^/billing/proceed$} => \&payment_proceed ],
-            [ qr{^/billing/cancel$}  => \&payment_cancel ],
         ],
 
         POST => [
             # Website Actions
             [ qr{^/action/tell-friends$} => \&tell_friends ],
-
-            # Billing
-            [ qr{^/billing/ipn$} => \&handle_paypal_ipn ],
         ],
     );
     
@@ -79,9 +65,8 @@ sub ui_html {
     my ($self, $req, $tmpl) = @_;
     $tmpl ||= $self->default_page($req);
     my $params = $req->parameters;
-    $params->{zones} = $self->model->zones->all;
     $params->{host_port} = $req->uri->host_port;
-    $params->{twitter} = $self->config->Value('twitter_username');
+    $params->{twitter} = $self->config->{twitter_username};
     return $self->process_template("$tmpl.tt2", $params)->finalize;
 }
 
@@ -279,7 +264,7 @@ sub _log_unknown_ipn {
     
     my $dump_str = Dumper $ipn->dump(undef, 2);
     eval {
-        my $addr = Recollect::Config->Value('errors_to_email')
+        my $addr = $self->config->{errors_to_email}
                     || 'paypal-problem@recollect.net';
         $self->model->mailer->send_email(
             to => $addr,

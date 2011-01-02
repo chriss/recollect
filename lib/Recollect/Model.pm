@@ -21,53 +21,6 @@ has 'mailer'    => (is => 'ro', isa => 'Object', lazy_build => 1);
 has 'notifier'  => (is => 'ro', isa => 'Object', lazy_build => 1);
 has 'kml'       => (is => 'ro', isa => 'Object', lazy_build => 1);
 
-sub Payment_required_for {
-    my $class = shift;
-    my $target = shift;
-    return $target =~ m/^(?:voice|sms):/;
-}
-
-sub add_reminder {
-    my $self = shift;
-    my $rem  = shift or croak "A reminder is mandatory!";
-
-    unless ($self->zones->by_name($rem->{zone})) {
-        croak "Sorry, '$rem->{zone}' is not a valid zone!";
-    }
-    unless ($rem->{email}) {
-        croak "You must enter an email address.";
-    }
-
-    my $next_pickup_dt = $self->next_pickup($rem->{zone}, 1, 'dt');
-    $rem->{next_pickup} = $next_pickup_dt->epoch;
-
-    my $payment_req = $self->Payment_required_for($rem->{target});
-    if ($payment_req) {
-        my $dt = DateTime->today + DateTime::Duration->new(weeks => 2);
-        $rem->{expiry} = $dt->epoch;
-    }
-
-    my $robj = eval { $self->reminders->add($rem) };
-    my $err = "Unknown error";
-    if ($err = $@) {
-        warn "Error inserting reminder ($err): " . Dumper($rem);
-
-        # Perhaps the reminder exists already?
-        if (my @rem = $self->reminders->by_email($rem->{email})) {
-            for my $r (@rem) {
-                next if $r->confirmed;
-                warn "Duplicate reminder, but we found this unconfirmed reminder for $rem->{email}";
-                $robj = $r;
-                last;
-            }
-        }
-    }
-    die $err unless $robj;
-
-    $self->send_reminder_confirm_email($robj) unless $payment_req;
-    return $robj;
-}
-
 sub send_reminder_confirm_email {
     my $self = shift;
     my $robj = shift;
@@ -101,32 +54,6 @@ sub confirm_reminder {
     );
 
     $rem->confirm;
-}
-
-sub delete_reminder {
-    my $self = shift;
-    my $id   = shift or croak 'An id is mandatory!';
-
-    my $rem = $self->reminders->by_id($id);
-    return unless $rem;
-
-    if (my $profile_id = $rem->subscription_profile_id) {
-        Recollect::Paypal->cancel_subscription($profile_id);
-    }
-
-    $rem->delete;
-    return $rem;
-}
-
-sub _load_file {
-    my $self = shift;
-    my $name = $_[0] . 'file';
-    my $file = $self->$name;
-    return {} unless -e $file;
-    my @stats = stat($file);
-    $self->{_modified}{$file} = $stats[9];
-    $self->{_size}{$file} = $stats[7];
-    return LoadFile($file) || {};
 }
 
 sub _build_mailer {
