@@ -2,6 +2,7 @@ package Recollect::Collection;
 use Moose;
 use Carp qw/croak/;
 use Recollect::SQL;
+use Data::UUID;
 use namespace::clean -except => 'meta';
 
 sub _sql { Recollect::SQL->new }
@@ -66,6 +67,13 @@ sub By_field {
         @{ $opts{args} || [] },
     );
     return $sth if $opts{handle_pls};
+    if ($opts{all}) {
+        my @objs;
+        while (my $row = $sth->fetchrow_hashref) {
+            push @objs, $class->new($row);
+        }
+        return \@objs;
+    }
     return $class->_first_row_as_obj($sth);
 }
 
@@ -88,6 +96,7 @@ sub db_table {
     return $table;
 }
 
+sub _build_uuid { Data::UUID->new->create_str }
 
 __PACKAGE__->meta->make_immutable;
 1;

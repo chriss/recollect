@@ -5,8 +5,6 @@ use Test::More;
 use t::Recollect;
 use Recollect::Zone;
 
-$ENV{RECOLLECT_LOAD_DATA} = 1;
-
 Set_now_time: {
     my $model = t::Recollect->model;
 

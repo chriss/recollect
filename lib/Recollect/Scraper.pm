@@ -69,6 +69,7 @@ sub scrape_zone {
                 if ($month =~ s/^(\w+) (\d+)/$1/) {
                     $year = $2;
                 }
+                $month =~ s/\s+$//;
 
                 my $month_num = _month_to_num($month);
                 my $date = sprintf '%4d-%02d-%02d 07:00', $year,$month_num,$day;
@@ -106,7 +107,7 @@ sub _month_to_num {
         october => 10,
         november => 11,
         december => 12,
-    }->{lc $name} || die "No month for $name";
+    }->{lc $name} || die "No month for '$name'";
 }
 
 sub uri_for_zone {

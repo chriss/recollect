@@ -20,27 +20,7 @@ has 'desc'       => (is => 'ro', isa => 'Str',      lazy_build => 1);
 has 'datetime'   => (is => 'ro', isa => 'DateTime', lazy_build => 1,
                      handles => ['ymd', 'day_of_week']);
 
-
-sub By_zone {
-    my $self = shift;
-    my $zone = shift;
-    my $obj_please = shift;
-    die 'todo';
-}
-
-sub By_zone_id {
-    my $class = shift;
-    my $zone_id = shift;
-    my %opts = @_;
-
-    my $sth = $class->By_field(zone_id => $zone_id, %opts, handle_pls => 1);
-    my @pickups;
-    while (my $row = $sth->fetchrow_hashref) {
-        push @pickups, $class->new($row);
-    }
-    croak "Could not find any pickups for zone_id=$zone_id" unless @pickups;
-    return \@pickups;
-}
+with 'Recollect::Roles::HasZone';
 
 sub to_hash {
     my $self = shift;
@@ -50,11 +30,6 @@ sub to_hash {
         string => $self->string,
         flags => $self->flags,
     };
-}
-
-sub _build_zone {
-    my $self = shift;
-    die 'todo';
 }
 
 sub _build_string {

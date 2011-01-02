@@ -68,14 +68,15 @@ sub _build_base_path {
     DumpFile($test_config, $config);
     my $psql = "psql $db_name";
 
+    warn "Testing with db $db_name";
     if (system("createdb $db_name 2> /dev/null") == 0) {
         diag "created database $db_name, loading $sql_file";
         system("$psql -f $sql_file > /dev/null 2>&1")
             and die "Couldn't psql $db_name -f $sql_file";
     }
-    system(qq{$psql -c 'DELETE FROM users' > /dev/null});
     system(qq{$psql -c 'DELETE FROM reminders' > /dev/null});
     system(qq{$psql -c 'DELETE FROM subscriptions' > /dev/null});
+    system(qq{$psql -c 'DELETE FROM users' > /dev/null});
     return $tmp_dir;
 }
 

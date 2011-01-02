@@ -1,5 +1,6 @@
 package Recollect::APIController;
 use feature 'switch';
+use Email::Valid;
 use Moose;
 use Recollect::CallController;
 use Plack::Request;
@@ -95,6 +96,10 @@ sub run {
             }
         }
         when ('POST') {
+            given ($path) {
+                # API Version
+                when ('/subscriptions') { return $wrapper->('subscriptions') }
+            }
         }
         when ('DELETE') {
         }
@@ -110,6 +115,59 @@ around 'process_template' => sub {
     my $template = 'api/' . shift;
     $orig->($self, $template, @_)->finalize;
 };
+
+sub subscriptions {
+    my $self = shift;
+    my $req  = $self->request;
+    my $args = $req->parameters;
+
+    my %new_sub;
+    if (my $email = $args->{email}) {
+        if (Email::Valid->address($email)) {
+            $new_sub{email} = $email;
+        }
+        else { return $self->bad_request_json('Bad email address') }
+    }
+    else { return $self->bad_request_json('Missing email address') }
+
+    if (my $zone_id = $args->{zone_id}) {
+        my $zone_id = eval { my $zone = Recollect::Zone->By_id($zone_id) };
+        return $self->bad_request_json('Invalid zone_id') if $@;;
+        $new_sub{zone_id} = $zone_id;
+    }
+    else { return $self->bad_request_json('Missing zone_id') }
+
+    if (my $target = $args->{target}) {
+        if (Recollect::Reminder->Is_valid_target($target)) {
+        }
+        else { return $self->bad_request_json('target is unsupported') }
+    }
+    else { return $self->bad_request_json('Missing target') }
+
+    my $payment_required = $self->model->Payment_required_for($args->{target});
+
+#     my $reminder = eval { 
+#         $self->model->add_reminder({
+#             name => $args->{name},
+#             email => $addr,
+#             offset => $args->{offset},
+#             target => $args->{target},
+#             zone => $zone,
+#         });
+#     };
+#     return $self->bad_request_json($@) if $@;
+# 
+#     $self->log(join ' ', 'ADD', $zone, $reminder->id, $reminder->email, $reminder->target );
+     my @headers;
+#     push @headers, Location => "/zones/$zone/reminders/" . $reminder->id;
+     push @headers, 'Content-Type' => 'application/json';
+# 
+     my $body = "{}";
+#     if ($payment_required) {
+#         $body = q|{"payment_url":"| . $reminder->payment_url . q|"}|;
+#     }
+    return Plack::Response->new(201, \@headers, $body)->finalize;
+}
 
 sub _api_version_data {
     return {
@@ -477,7 +535,7 @@ sub payment_proceed {
     my $rem = eval {$self->paypal->create_subscription($token)};
     if ($@) {
         $self->log("PAYMENT_PROCEED_FAIL $@");
-        return $self->_400_bad_request("Sorry, we had some trouble.");
+        return $self->bad_request("Sorry, we had some trouble.");
     }
 
     $self->model->confirm_reminder($rem);
@@ -493,7 +551,7 @@ sub show_reminder {
     my $hash = shift;
             
     my $rem = $self->model->reminders->by_id($hash);
-    return $self->_400_bad_request("Cannot find reminder $hash") unless $rem;
+    return $self->bad_request("Cannot find reminder $hash") unless $rem;
 
     my $body = encode_json $rem->to_hash;
     return $self->response('application/json' => $body);
@@ -539,49 +597,6 @@ sub post_reminder {
     my $req  = shift;
     my $zone = shift;
     
-    my $args = eval { decode_json $req->raw_body };
-    return $self->_400_bad_request_json("Bad JSON") if $@;
-
-    my $addr;
-    if ($args->{email}) {
-        $addr = Email::Valid->address($args->{email});
-    }
-    return $self->_400_bad_request_json("Bad email address") unless $addr;
-    return $self->_400_bad_request_json("name is required") unless $args->{name};
-    return $self->_400_bad_request_json("target is required") unless $args->{target};
-    return $self->_400_bad_request_json("target is unsupported") unless $self->model->reminders->Is_valid_target($args->{target});
-
-    my $payment_required = $self->model->Payment_required_for($args->{target});
-    return $self->_400_bad_request_json("voice/sms reminders require payment period")
-        if $payment_required and !$args->{payment_period};
-
-    if (my $coupon = $args->{coupon} and $payment_required) {
-        return $self->_400_bad_request_json("coupons are only valid for annual subscriptions") unless $args->{payment_period} eq 'year';
-    }
-
-    my $reminder = eval { 
-        $self->model->add_reminder({
-            name => $args->{name},
-            email => $addr,
-            offset => $args->{offset},
-            target => $args->{target},
-            zone => $zone,
-            ($payment_required ? (payment_period => $args->{payment_period}) : ()),
-            coupon => $args->{coupon},
-        });
-    };
-    return $self->_400_bad_request_json($@) if $@;
-
-    $self->log(join ' ', 'ADD', $zone, $reminder->id, $reminder->email, $reminder->target );
-    my @headers;
-    push @headers, Location => "/zones/$zone/reminders/" . $reminder->id;
-    push @headers, 'Content-Type' => 'application/json';
-
-    my $body = "{}";
-    if ($payment_required) {
-        $body = q|{"payment_url":"| . $reminder->payment_url . q|"}|;
-    }
-    return Plack::Response->new(201, \@headers, $body)->finalize;
 }
 
 sub _remove_slash {
@@ -667,7 +682,7 @@ sub delete_reminder {
     }
 
     $self->log("DELETE_FAIL $zone $id");
-    return $self->_400_bad_request_json("Could not delete $id");
+    return $self->bad_request("Could not delete $id");
 }
 
 sub _load_zone {

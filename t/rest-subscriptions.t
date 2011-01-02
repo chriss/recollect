@@ -11,72 +11,72 @@ use JSON qw/encode_json decode_json/;
 no warnings 'redefine';
 
 my $app = t::Recollect->app('Recollect::APIController');
+my $subscribe_url = '/subscriptions';
+my $test_email = 'test@recollect.net';
+
+# Rainy Day Subscription creation tests
+my $cb;
 test_psgi $app, sub {
-    my $cb = shift;
+    $cb = shift;
 
-    # Sanity; check we have data in the DB
-    my $res = $cb->(GET "/zones.txt");
-    is $res->code, 200;
-    like $res->content, qr/vancouver-north/;
-    like $res->content, qr/vancouver-south/;
+    sub bad_post_ok {
+        my ($content_hash, $match, $desc) = @_;
+        $desc ||= '';
+        my $res = $cb->(POST $subscribe_url, $content_hash);
+        is $res->code, 400, "$desc - status code";
+        like $res->content, $match, "$desc - content"; 
+        is $res->header('Content-Type'), 'application/json',
+            "$desc content-type";
+    }
 
-    # Rainy day: no email
-    $res = $cb->(POST "/zones/vancouver-north-blue/reminders", Content => q|{}| );
-    is $res->code, 400;
-    like $res->content, qr/Bad email/;
-
-    # Rainy day: no name
-    $res = $cb->(POST "/zones/vancouver-north-blue/reminders", 
-        Content => q|{"email":"test@recollect.net"}|
+    bad_post_ok({} => qr/Missing email/, 'no email present');
+    bad_post_ok({ email => 'blur' } => qr/Bad email/, 'bad email address');
+    bad_post_ok({ email => $test_email } => qr/Missing zone_id/,
+        'no zone_id present');
+    bad_post_ok(
+        { email => $test_email, zone_id => 0xBEEF }, qr/Invalid zone_id/,
+        'invalid zone_id'
     );
-    is $res->code, 400;
-    like $res->content, qr/name is required/;
 
-    # Rainy day: no target
-    $res = $cb->(POST "/zones/vancouver-north-blue/reminders", 
-        Content => q|{"email":"test@recollect.net","name":"Test"}|
+    bad_post_ok({ email => $test_email, zone_id => $test_zone_id }, qr/Missing target/,
+        'no target present');
+    bad_post_ok(
+        { email => $test_email, zone_id => $test_zone_id, target => 'invalid' },
+        qr/target is unsupported/,
+        'invalid target present'
     );
-    is $res->code, 400;
-    like $res->content, qr/target is required/;
-
-    # Rainy day: bad target
-    $res = $cb->(POST "/zones/vancouver-north-blue/reminders", 
-        Content => q|{"email":"test@recollect.net","name":"Test","target":"invalid"}|
-    );
-    is $res->code, 400;
-    like $res->content, qr/target is unsupported/;
-
-    # Rainy day: paid target w/o payment_period
-    $res = $cb->(POST "/zones/vancouver-north-blue/reminders", 
-        Content => q|{"email":"test@recollect.net","name":"Test","target":"voice:7787851357"}|
-    );
-    is $res->code, 400;
-    like $res->content, qr/require payment period/;
 };
 
 
 # Create free reminder types
-for my $target (qw{email:test@recollect.net twitter:vanhackspace webhook:http://recollect.net/webhook-eg}) {
+for my $target ("email:$test_email", "twitter:vanhackspace",
+                "webhook:http://recollect.net/webhook-eg") {
     test_psgi $app, sub {
         my $cb = shift;
-        my $res = $cb->(POST "/zones/vancouver-north-blue/reminders", 
-            Content => qq|{"email":"test\@recollect.net","name":"Test","target":"$target"}|
+        my $res = $cb->(POST $subscribe_url, {
+                email => $test_email,
+                target => $target,
+                zone_id => $test_zone_id,
+            }
         );
         is $res->code, 201, "create reminder - $target";
-        is $res->content, '{}';
-        ok $res->header('Location') =~ m#^/zones/vancouver-north-blue/reminders/([\w-]+)$#;
+        ok $res->content =~ m{^{"id":"([\w-]+)"}$}, 'content contains id';
         my $reminder_id = $1;
-        $res = $cb->(GET "/zones/vancouver-north-blue/reminders/$reminder_id");
+        diag $res->content unless $reminder_id;
+        warn $reminder_id;
+        exit;
+        $res = $cb->(GET "$subscribe_url/$reminder_id");
         is $res->code, 200;
         is $res->header('Content-Type'), 'application/json';
         my $blob = decode_json $res->content;
         ok !$blob->{payment_period}, 'free reminders have no payment_period';
         ok !$blob->{expiry}, 'free reminders have no expiry';
-        $res = $cb->(DELETE "/zones/vancouver-north-blue/reminders/$reminder_id");
+        $res = $cb->(DELETE "$subscribe_url/$reminder_id");
         is $res->code, 204, 'delete success';
-        $res = $cb->(DELETE "/zones/vancouver-north-blue/reminders/$reminder_id");
+        $res = $cb->(DELETE "$subscribe_url/$reminder_id");
         is $res->code, 400, 'cannot delete twice';
     };
+    exit;
 }
 
 
@@ -84,7 +84,7 @@ for my $target (qw{email:test@recollect.net twitter:vanhackspace webhook:http://
 for my $target (qw{voice:7787851357 sms:7787851357}) {
     test_psgi $app, sub {
         my $cb = shift;
-        my $res = $cb->(POST "/zones/vancouver-north-blue/reminders", 
+        my $res = $cb->(POST $subscribe_url, 
             Content => encode_json(
                 {
                     email => 'test@recollect.net',
@@ -99,7 +99,7 @@ for my $target (qw{voice:7787851357 sms:7787851357}) {
         my $reminder_id = $1;
         ok $res->header('Content-Type') =~ m#json#;
         like $res->content, qr|{"payment_url":"https://www\.sandbox\.paypal.+fake-paypal-token"}|;
-        $res = $cb->(GET "/zones/vancouver-north-blue/reminders/$reminder_id");
+        $res = $cb->(GET "$subscribe_url/$reminder_id");
         is $res->code, 200;
         is $res->header('Content-Type'), 'application/json';
         my $blob = decode_json $res->content;
@@ -162,7 +162,7 @@ for my $target (qw{voice:7787851357 sms:7787851357}) {
         is $Business::PayPal::NVP::CHECKOUT{AMT}, '1.50';
 
         # Now check the expiry was bumped ahead
-        $res = $cb->(GET "/zones/vancouver-north-blue/reminders/$reminder_id");
+        $res = $cb->(GET "$subscribe_url/$reminder_id");
         is $res->code, 200;
         is $res->header('Content-Type'), 'application/json';
         $blob = decode_json $res->content;
@@ -172,15 +172,15 @@ for my $target (qw{voice:7787851357 sms:7787851357}) {
         is $blob->{expiry}, $next_expiry->epoch, 'expires in 1 month + 1 week';
 
         # Now delete the reminder
-        $res = $cb->(DELETE "/zones/vancouver-north-blue/reminders/$reminder_id");
+        $res = $cb->(DELETE "$subscribe_url/$reminder_id");
         is $res->code, 204;
-        $res = $cb->(DELETE "/zones/vancouver-north-blue/reminders/$reminder_id");
+        $res = $cb->(DELETE "$subscribe_url/$reminder_id");
         is $res->code, 400;
 
         # Coupon codes
         my $config = Recollect::Config->instance;
         $config->config_hash->{coupons}{test} = '10.00';
-        $res = $cb->(POST "/zones/vancouver-north-blue/reminders", 
+        $res = $cb->(POST $subscribe_url, 
             Content => encode_json(
                 {
                     email => 'test@recollect.net',
@@ -192,7 +192,7 @@ for my $target (qw{voice:7787851357 sms:7787851357}) {
             ),
         );
         is $res->code, 400, 'coupons must be on an annual reminder';
-        $res = $cb->(POST "/zones/vancouver-north-blue/reminders", 
+        $res = $cb->(POST $subscribe_url, 
             Content => encode_json(
                 {
                     email => 'test@recollect.net',

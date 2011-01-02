@@ -33,44 +33,35 @@ CREATE INDEX pickups_day_idx  ON pickups (day);
 CREATE UNIQUE INDEX pickups_zone_day_idx ON pickups (zone_id, day);
 
 
+CREATE SEQUENCE user_seq;
 CREATE TABLE users (
     id    integer PRIMARY KEY,
     email text NOT NULL,
     created_at  timestamptz DEFAULT LOCALTIMESTAMP
 );
-CREATE INDEX users_email_idx ON users (email);
+CREATE UNIQUE INDEX users_email_idx ON users (email);
+
+CREATE TABLE subscriptions (
+    id         text    PRIMARY KEY,
+    user_id    integer references users(id),
+    created_at timestamptz DEFAULT LOCALTIMESTAMP,
+    free       BOOLEAN NOT NULL
+);
+CREATE INDEX subscriptions_user_idx ON subscriptions (user_id);
 
 
+CREATE SEQUENCE reminder_seq;
 CREATE TABLE reminders (
-    id      text    PRIMARY KEY,
-    user_id integer references users(id),
-    zone_id integer references zones(id),
+    id              integer PRIMARY KEY,
+    subscription_id text    references subscriptions(id),
+    zone_id         integer references zones(id),
     created_at      timestamptz DEFAULT LOCALTIMESTAMP,
     last_notified   timestamptz DEFAULT '-infinity'::timestamptz,
     delivery_offset interval DAY TO MINUTE DEFAULT '-6hours'::interval,
-    target      text NOT NULL,
-    active      BOOLEAN NOT NULL DEFAULT TRUE,
-    confirmed   BOOLEAN NOT NULL,
-    confirm_hash text DEFAULT ''
+    target          text NOT NULL
 );
-CREATE INDEX reminders_user_idx ON reminders (user_id);
-CREATE INDEX reminders_zone_idx ON reminders (zone_id) WHERE active IS TRUE;
+CREATE INDEX reminders_sub_idx ON reminders (subscription_id);
 CREATE INDEX reminders_last_notified_idx ON reminders (last_notified);
-CREATE INDEX reminders_confirm_hash_idx ON reminders (confirm_hash);
-
-
-CREATE TABLE subscriptions (
-    id         integer PRIMARY KEY,
-    user_id    integer references users(id),
-    created_at timestamptz DEFAULT LOCALTIMESTAMP,
-    period     text NOT NULL,
-    profile_id text NOT NULL,
-    expiry     timestamptz DEFAULT 'infinity'::timestamptz,
-    coupon     text DEFAULT ''
-);
-CREATE INDEX subscriptions_user_idx ON subscriptions (user_id);
-CREATE INDEX subscriptions_profile_id_idx ON subscriptions (profile_id);
-CREATE INDEX subscriptions_expiry_idx ON subscriptions (expiry);
 
 
 COMMIT;
