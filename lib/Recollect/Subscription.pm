@@ -3,6 +3,7 @@ use Moose;
 use DateTime;
 use Recollect::User;
 use Recollect::Zone;
+use URI::Encode qw/uri_encode/;
 use namespace::clean -except => 'meta';
 
 extends 'Recollect::Collection';
@@ -12,10 +13,10 @@ has 'user_id'    => (is => 'ro', isa => 'Int',  required => 1);
 has 'created_at' => (is => 'ro', isa => 'Str',  required => 1);
 has 'free'       => (is => 'ro', isa => 'Str');
 
-has 'user'        => (is => 'ro', isa => 'Object', lazy_build => 1);
-has 'payment_url' => (is => 'ro', isa => 'Str',    lazy_build => 1);
+has 'user'        => (is => 'ro', isa => 'Object',           lazy_build => 1);
+has 'payment_url' => (is => 'ro', isa => 'Maybe[Str]',       lazy_build => 1);
 has 'reminders'   => (is => 'ro', isa => 'ArrayRef[Object]', lazy_build => 1);
-has 'created_date'=> (is => 'ro', isa => 'Object', lazy_build => 1);
+has 'created_date' => (is => 'ro', isa => 'Object', lazy_build => 1);
 
 around 'Create' => sub {
     my $orig = shift;
@@ -78,6 +79,15 @@ sub _build_user {
 sub _build_reminders {
     my $self = shift;
     return Recollect::Reminder->By_subscription($self->id);
+}
+
+sub _build_payment_url {
+    my $self = shift;
+    return if $self->free;
+    my $host = $self->config->{payment_host} || 'https://recollect.recurly.com';
+    my $plan = $self->config->{payment_plan} || 'recollect';
+    my $email = uri_encode $self->user->email;
+    return "$host/subscribe/$plan?email=$email";
 }
 
 __PACKAGE__->meta->make_immutable;

@@ -5,6 +5,8 @@ use Recollect::SQL;
 use Data::UUID;
 use namespace::clean -except => 'meta';
 
+with 'Recollect::Config';
+
 sub _sql { Recollect::SQL->new }
 sub _select { _sql()->execute('select', shift->db_table, @_) }
 
