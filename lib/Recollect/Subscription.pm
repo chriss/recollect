@@ -14,6 +14,7 @@ has 'created_at' => (is => 'ro', isa => 'Str',  required => 1);
 has 'free'       => (is => 'ro', isa => 'Str');
 
 has 'user'        => (is => 'ro', isa => 'Object',           lazy_build => 1);
+has 'url'         => (is => 'ro', isa => 'Str',              lazy_build => 1);
 has 'payment_url' => (is => 'ro', isa => 'Maybe[Str]',       lazy_build => 1);
 has 'reminders'   => (is => 'ro', isa => 'ArrayRef[Object]', lazy_build => 1);
 has 'created_date' => (is => 'ro', isa => 'Object', lazy_build => 1);
@@ -65,7 +66,7 @@ sub to_hash {
     my $self = shift;
     return {
         user => $self->user->to_hash,
-        reminders => $self->reminders,
+        reminders => [ map { $_->to_hash } @{$self->reminders} ],
         map { $_ => $self->$_() }
             qw/id created_at free/,
     };
@@ -85,9 +86,19 @@ sub _build_payment_url {
     my $self = shift;
     return if $self->free;
     my $host = $self->config->{payment_host} || 'https://recollect.recurly.com';
-    my $plan = $self->config->{payment_plan} || 'recollect';
+    my $plan = $self->config->{payment_plan}
+        || die "payment_plan must be defined in the config file";
     my $email = uri_encode $self->user->email;
-    return "$host/subscribe/$plan?email=$email";
+    return
+          "$host/subscribe/$plan/"
+        . $self->id . "/"
+        . $self->user->email
+        . "?email=$email";
+}
+
+sub _build_url {
+    my $self = shift;
+    return '/api/subscriptions/' . $self->id;
 }
 
 __PACKAGE__->meta->make_immutable;

@@ -11,6 +11,7 @@
   twilio_from_number_sms: '123456789'
   twilio_from_number_voice: '123456789'
   payment_host: 'https://recollect-test.recurly.com'
+  payment_plan: 'vancouver'
   price_per_month: "1.50"
   price_per_year: "15.00"
   errors_to_email: 'recollect-errors@localhost'

@@ -48,7 +48,9 @@ sub response {
     my $self = shift;
     my $ct   = shift;
     my $body = shift;
-    return Plack::Response->new(200, ['Content-Type' => $ct], $body)->finalize;
+    my $code = shift || 200;
+    return Plack::Response->new($code, [ 'Content-Type' => $ct ], $body)
+        ->finalize;
 }
 
 sub render_template {
@@ -87,11 +89,20 @@ sub bad_request {
     return $resp->finalize;
 }
 
+sub bad_request_text {
+    my $self = shift;
+    my $msg  = shift;
+    my $code = shift || 400;
+
+    return $self->response('text/plain' => $msg, $code);
+}
+
 sub process_json {
     my $self = shift;
     my $data = shift;
+    my $code = shift;
 
-    return $self->response('application/json' => encode_json($data));
+    return $self->response('application/json' => encode_json($data), $code);
 }
 
 sub process_text {

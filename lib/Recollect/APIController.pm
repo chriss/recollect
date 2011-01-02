@@ -3,11 +3,13 @@ use feature 'switch';
 use Email::Valid;
 use Moose;
 use Recollect::CallController;
+use Recollect::Subscription;
 use Plack::Request;
 use Plack::Response;
 use Data::ICal::Entry::Event;
 use Data::ICal;
 use Date::ICal;
+use JSON qw/decode_json/;
 use namespace::clean -except => 'meta';
 
 with 'Recollect::ControllerBase';
@@ -119,7 +121,11 @@ around 'process_template' => sub {
 sub subscriptions {
     my $self = shift;
     my $req  = $self->request;
-    my $args = $req->parameters;
+    return $self->bad_request_text(
+        'Only application/json content type is supported', 415)
+        unless $req->content_type =~ m/json/;
+    my $args = eval { decode_json $req->raw_body };
+    return $self->bad_request_json("Could not decode json: $@") if $@;
 
     my %new_sub;
     if (my $email = $args->{email}) {
@@ -130,43 +136,39 @@ sub subscriptions {
     }
     else { return $self->bad_request_json('Missing email address') }
 
-    if (my $zone_id = $args->{zone_id}) {
-        my $zone_id = eval { my $zone = Recollect::Zone->By_id($zone_id) };
-        return $self->bad_request_json('Invalid zone_id') if $@;;
-        $new_sub{zone_id} = $zone_id;
+    my $reminders = $args->{reminders};
+    unless ($reminders and ref($reminders) eq 'ARRAY' and @$reminders) {
+        return $self->bad_request_json('reminders missing or not an array');
     }
-    else { return $self->bad_request_json('Missing zone_id') }
-
-    if (my $target = $args->{target}) {
-        if (Recollect::Reminder->Is_valid_target($target)) {
+    for my $r (@{ $reminders }) {
+        return $self->bad_request_json('Reminders must be a hash')
+            unless ref($r) eq 'HASH';
+        if (my $zone_id = $r->{zone_id}) {
+            my $zone_id = eval { my $zone = Recollect::Zone->By_id($zone_id) };
+            return $self->bad_request_json('Invalid zone_id') if $@;
         }
-        else { return $self->bad_request_json('target is unsupported') }
+        else { return $self->bad_request_json('Missing zone_id') }
+
+        if (my $target = $r->{target}) {
+            if (!Recollect::Reminder->Is_valid_target($target)) {
+                return $self->bad_request_json('target is unsupported');
+            }
+        }
+        else { return $self->bad_request_json('Missing target') }
     }
-    else { return $self->bad_request_json('Missing target') }
+    $new_sub{reminders} = $reminders;
 
-    my $payment_required = $self->model->Payment_required_for($args->{target});
+    my $payment_required = Recollect::Subscription::Is_free($reminders);
+    my $subscr = eval { Recollect::Subscription->Create(%new_sub) };
+    return $self->bad_request_json($@) if $@;
 
-#     my $reminder = eval { 
-#         $self->model->add_reminder({
-#             name => $args->{name},
-#             email => $addr,
-#             offset => $args->{offset},
-#             target => $args->{target},
-#             zone => $zone,
-#         });
-#     };
-#     return $self->bad_request_json($@) if $@;
-# 
-#     $self->log(join ' ', 'ADD', $zone, $reminder->id, $reminder->email, $reminder->target );
-     my @headers;
-#     push @headers, Location => "/zones/$zone/reminders/" . $reminder->id;
-     push @headers, 'Content-Type' => 'application/json';
-# 
-     my $body = "{}";
-#     if ($payment_required) {
-#         $body = q|{"payment_url":"| . $reminder->payment_url . q|"}|;
-#     }
-    return Plack::Response->new(201, \@headers, $body)->finalize;
+    my @headers;
+    push @headers, Location => $subscr->url;
+    push @headers, 'Content-Type' => 'application/json';
+
+    my $response = $subscr->to_hash;
+    $response->{payment_url} = $subscr->payment_url if $payment_required;
+    return $self->process_json($response, 201);
 }
 
 sub _api_version_data {
