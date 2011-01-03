@@ -31,8 +31,8 @@ sub insert {
     my $self = shift;
     my $dbh  = $self->dbh;
     my ($stmt, @bind) = $self->_sql->insert(@_);
-    my $sth = $dbh->prepare($stmt) or die $dbh->errstr;
-    $sth->execute(@bind)           or die $dbh->errstr;
+    my $sth = $dbh->prepare($stmt) or croak "SQL error ($stmt): ".$dbh->errstr;
+    $sth->execute(@bind)           or croak "SQL error ($stmt): ".$dbh->errstr;
 }
 
 sub nextval {
@@ -73,7 +73,7 @@ sub _connect_dbh {
         PrintError => 0,
         RaiseError => 0,
     });
-    die "Could not connect to database with dsn: $dsn: $!\n" unless $dbh;
+    croak "Could not connect to database with dsn: $dsn: $!\n" unless $dbh;
     return $dbh;
 }
 
