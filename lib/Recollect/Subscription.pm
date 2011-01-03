@@ -8,10 +8,11 @@ use namespace::clean -except => 'meta';
 
 extends 'Recollect::Collection';
 
-has 'id'         => (is => 'ro', isa => 'Str',  required => 1);
-has 'user_id'    => (is => 'ro', isa => 'Int',  required => 1);
-has 'created_at' => (is => 'ro', isa => 'Str',  required => 1);
+has 'id'         => (is => 'ro', isa => 'Str', required => 1);
+has 'user_id'    => (is => 'ro', isa => 'Int', required => 1);
+has 'created_at' => (is => 'ro', isa => 'Str', required => 1);
 has 'free'       => (is => 'ro', isa => 'Str');
+has 'last_payment' => (is => 'ro', isa => 'Maybe[Str]');
 
 has 'user'        => (is => 'ro', isa => 'Object',           lazy_build => 1);
 has 'url'         => (is => 'ro', isa => 'Str',              lazy_build => 1);
@@ -47,6 +48,28 @@ sub Is_free {
         return 0 if $rem->{target} =~ m/^(voice|sms):/;
     }
     return 1;
+}
+
+sub payment_received {
+    my $self = shift;
+    my $dbh = Recollect::SQL->dbh;
+
+    Update_database: {
+        my $sth = $dbh->prepare(
+            "UPDATE subscriptions SET last_payment = 'now'::timestamptz
+                WHERE id = ?"
+        );
+        $sth->execute($self->id);
+    }
+
+    Update_our_object: {
+        my $sth = $dbh->prepare(
+            "SELECT last_payment FROM subscriptions WHERE id = ?"
+        );
+        $sth->execute($self->id);
+        my $row = $sth->fetchrow_arrayref();
+        $self->{last_payment} = $row->[0];
+    };
 }
 
 sub add_reminders {

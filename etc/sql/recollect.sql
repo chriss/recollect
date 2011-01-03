@@ -46,6 +46,7 @@ CREATE TABLE subscriptions (
     user_id    integer references users(id),
     created_at timestamptz DEFAULT LOCALTIMESTAMP,
     free       BOOLEAN NOT NULL
+    last_payment timestamptz,
 );
 CREATE INDEX subscriptions_user_idx ON subscriptions (user_id);
 
