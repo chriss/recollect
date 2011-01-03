@@ -23,7 +23,6 @@ sub By_email {
 sub to_hash {
     my $self = shift;
     return {
-        id => $self->id,
         email => $self->email,
         created_at => $self->created_at,
     };
