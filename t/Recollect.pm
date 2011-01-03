@@ -30,7 +30,8 @@ BEGIN {
 END { 
     unlink $ENV{RECOLLECT_EMAIL} if $ENV{RECOLLECT_EMAIL};
     if ($ENV{RECOLLECT_EMPTY_DB_PLS}) {
-        system("dropdb $config->{db_name} 2> /dev/null");
+        Recollect::SQL->dbh->disconnect;
+        system("dropdb $config->{db_name}");
     }
 }
 
@@ -68,9 +69,9 @@ sub _build_base_path {
     DumpFile($test_config, $config);
     my $psql = "psql $db_name";
 
-    warn "Testing with db $db_name";
+#    warn "Testing with db $db_name";
     if (system("createdb $db_name 2> /dev/null") == 0) {
-        diag "created database $db_name, loading $sql_file";
+#         diag "created database $db_name, loading $sql_file";
         system("$psql -f $sql_file > /dev/null 2>&1")
             and die "Couldn't psql $db_name -f $sql_file";
     }

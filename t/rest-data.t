@@ -270,9 +270,8 @@ sub test_the_api_for {
             my $test_uri = sub {
                 my $uri        = shift;
                 my $test_block = shift;
-                diag "GET $uri";
                 my $res = $cb->(GET $uri);
-                is $res->code, 200;
+                is $res->code, 200, "GET $uri returns 200";
                 diag $res->content if $res->code == 500;
                 $test_block->($res->content, @_);
             };
