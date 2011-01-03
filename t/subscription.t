@@ -72,8 +72,9 @@ Add_a_paid_subscription: {
     is $rems->[0]->subscription->id, $subscr->id, 'rem sub id is correct';
     ok !$rems->[0]->subscription->free, 'rem sub is not free';
     is $rems->[0]->subscription->payment_url,
-        'https://recollect-test.recurly.com/subscribe/recollect'
-            . '?email=test@recollect.net',
+        'https://recollect-test.recurly.com/subscribe/vancouver/'
+            . $rems->[0]->subscription->id
+            . '/test@recollect.net?email=test@recollect.net',
         'payment url is correct';
 
     is scalar(@{ Recollect::Subscription->All }), 2, 'one new Subscriptions';
