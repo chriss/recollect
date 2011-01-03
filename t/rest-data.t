@@ -154,20 +154,20 @@ test_the_api_for(
     '/areas/Vancouver/zones/vancouver-north-red/pickupdays',
     html => sub {
         my $content = shift;
-        like $content, qr/2010-12-15 Y/, 'html has a date';
+        like $content, qr/2011-01-10/, 'html has a date';
     },
     text => sub {
         my $content = shift;
-        like $content, qr/^2010-01-08\n/, 'text has a date';
+        like $content, qr/^2011-01-10\n/, 'text has a date';
     },
     json => sub {
         my $data = shift;
         return unless is ref($data), 'ARRAY';
-        is $data->[0]{day}, '2010-01-08', 'json has a day';
+        is $data->[0]{day}, '2011-01-10', 'json has a day';
         like $data->[0]{zone_id}, qr/^\d+$/, 'json has a zone_id';
-        is $data->[0]{string}, '2010-01-08', 'json has a string form';
+        is $data->[0]{string}, '2011-01-10', 'json has a string form';
         is $data->[0]{flags}, '', 'json has flags';
-        is $data->[1]{string}, '2010-01-15 Y', 'json has a string form';
+        is $data->[1]{string}, '2011-01-17 Y', 'json has a string form';
         is $data->[1]{flags}, 'Y', 'json has flags';
     },
 );
@@ -185,70 +185,69 @@ test_the_api_for(
 # GET /api/areas/:area/zones/:zone/nextpickup
 test_the_api_for(
     '/areas/Vancouver/zones/vancouver-north-purple/nextpickup',
-    now => datetime(year => 2010, month => 12, day => 1),
+    now => datetime(year => 2011, month => 1, day => 1),
     html => sub {
         my $content = shift;
-        like $content, qr/2010-12-06/, 'html has a date';
-        unlike $content, qr/2010-12-06 Y/, 'is not yard pickup';
+        like $content, qr/2011-01-06/, 'html has a date';
+        unlike $content, qr/2011-01-06 Y/, 'is not yard pickup';
     },
     text => sub {
         my $content = shift;
-        is $content, "2010-12-06", 'text is just the date';
+        is $content, "2011-01-06", 'text is just the date';
     },
     json => sub {
         my $data = shift;
         return unless is ref($data), 'ARRAY';
         is scalar(@$data), 1, 'only one result';
-        is $data->[0]{string}, '2010-12-06', 'date is correct';
+        is $data->[0]{string}, '2011-01-06', 'date is correct';
     },
 );
 
 # GET /api/areas/:area/zones/:zone/nextpickup?limit=3
 test_the_api_for(
     '/areas/Vancouver/zones/vancouver-north-purple/nextpickup?limit=3',
-    now => datetime(year => 2010, month => 12, day => 1),
+    now => datetime(year => 2011, month => 1, day => 1),
     html => sub {
         my $content = shift;
-        like $content, qr/2010-12-06/, 'html has a date';
-        unlike $content, qr/2010-12-06 Y/, 'is not yard pickup';
-        like $content, qr/2010-12-13 Y/, 'second date is a yard pickup';
-        like $content, qr/2010-12-20/, 'third date is present';
-        unlike $content, qr/2010-12-29/, 'fourth date is not present';
+        like $content, qr/2011-01-06/, 'html has a date';
+        unlike $content, qr/2011-01-06 Y/, 'is not yard pickup';
+        like $content, qr/2011-01-13 Y/, 'second date is a yard pickup';
+        like $content, qr/2011-01-20/, 'third date is present';
+        unlike $content, qr/2011-01-29/, 'fourth date is not present';
     },
     text => sub {
         my $content = shift;
-        is $content, "2010-12-06\n2010-12-13 Y\n2010-12-20", 'text is just the date';
+        is $content, "2011-01-06\n2011-01-13 Y\n2011-01-20", 'text is just the date';
     },
     json => sub {
         my $data = shift;
         return unless is ref($data), 'ARRAY';
         is scalar(@$data), 3, 'only one result';
-        is $data->[0]{string}, '2010-12-06', 'date is correct';
-        is $data->[1]{string}, '2010-12-13 Y', 'date is correct';
-        is $data->[2]{string}, '2010-12-20', 'date is correct';
+        is $data->[0]{string}, '2011-01-06', 'date is correct';
+        is $data->[1]{string}, '2011-01-13 Y', 'date is correct';
+        is $data->[2]{string}, '2011-01-20', 'date is correct';
     },
 );
 
 # GET /api/areas/:area/zones/:zone/nextdowchange
 test_the_api_for(
     '/areas/Vancouver/zones/vancouver-north-purple/nextdowchange',
-    now => datetime(year => 2010, month => 12, day => 1),
+    now => datetime(year => 2011, month => 1, day => 11),
     html => sub {
         my $content = shift;
-        unlike $content, qr/2010-12-06/, 'next pickup is not mentioned';
-        unlike $content, qr/2010-12-13/, 'second date is not mentioned';
-        like $content, qr/2010-12-20/, 'third date is mentioned as the last on the old sched';
-        like $content, qr/2010-12-29/, 'fourth date is present';
+        unlike $content, qr/2011-01-13/, 'next pickup is not mentioned';
+        unlike $content, qr/2011-01-20/, 'second date is not mentioned';
+        like $content, qr/2011-05-02/, 'third date is mentioned as the last on the old sched';
     },
     text => sub {
         my $content = shift;
-        is $content, "2010-12-29 Y", 'text is just the date';
+        is $content, "2011-05-02", 'text is just the date';
     },
     json => sub {
         my $data = shift;
         return unless is ref($data), 'HASH';
-        is $data->{last}{string}, '2010-12-20', 'date is correct';
-        is $data->{next}{string}, '2010-12-29 Y', 'date is correct';
+        is $data->{last}{string}, '2011-04-21 Y', 'date is correct';
+        is $data->{next}{string}, '2011-05-02', 'date is correct';
     },
 );
 
