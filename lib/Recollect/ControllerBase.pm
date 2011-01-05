@@ -2,11 +2,10 @@ package Recollect::ControllerBase;
 use Moose::Role;
 use Recollect::Template;
 use Recollect::Model;
-use Recollect::Paypal;
 use JSON qw/encode_json decode_json/;
 
-with 'Recollect::Config';
-with 'Recollect::Log';
+with 'Recollect::Roles::Config';
+with 'Recollect::Roles::Log';
 
 our $Recollect_version = '0.9';
 
@@ -29,8 +28,6 @@ sub _build_model {
     my $model = Recollect::Model->new(
         base_path => $self->base_path,
     );
-    # Set the model in the Paypal singleton.
-    Recollect::Paypal->new(model => $model);
     return $model;
 }
 
@@ -131,6 +128,5 @@ sub ok {
     return Plack::Response->new(200, ['Content-Type' => 'text/plain'],
             'KTHXBYE')->finalize;
 }
-
 
 1;

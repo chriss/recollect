@@ -1,8 +1,6 @@
 package Recollect::Reminder;
 use Moose;
 use WWW::Shorten::isgd;
-use Recollect::Config;
-use Recollect::Paypal;
 use Recollect::Twilio;
 use DateTime;
 use DateTime::Duration;

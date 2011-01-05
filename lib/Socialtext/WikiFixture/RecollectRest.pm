@@ -7,6 +7,7 @@ use Test::HTTP;
 use namespace::clean -except => 'meta';
 
 extends 'Socialtext::WikiFixture';
+with 'Recollect::Roles::Config';
 
 has 'http' => (
     is => 'ro', isa => 'Test::HTTP', lazy_build => 1
@@ -16,14 +17,6 @@ sub set_scheme {
     my ($self, $var, $scheme) = @_;
     $self->{$var} =~ s{http://}{$scheme};
     diag "Set $var to $self->{$var}";
-}
-
-has 'config' => (
-    is => 'ro', isa => 'Recollect::Config', lazy_build => 1,
-);
-
-sub _build_config {
-    Recollect::Config->new(config_file => './etc/recollect.yaml');
 }
 
 sub _build_http {
@@ -123,8 +116,8 @@ sub wait_for_email_ok {
     require Mail::POP3Client;
 
     my $pop = new Mail::POP3Client(
-        USER     => $self->config->Value('tester_username'),
-        PASSWORD => $self->config->Value('tester_password'),
+        USER     => $self->config->{tester_username},
+        PASSWORD => $self->config->{tester_password},
         HOST     => "pop.gmail.com",
         USESSL   => 1,
     );

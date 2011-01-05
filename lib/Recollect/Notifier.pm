@@ -1,7 +1,6 @@
 package Recollect::Notifier;
 use Moose;
 use DateTime;
-use Recollect::Log;
 use Recollect::Twitter;
 use Recollect::Twilio;
 use JSON qw/encode_json/;
@@ -15,7 +14,7 @@ has 'sender_factory' => (is => 'ro', isa => 'Object', lazy_build => 1);
 has 'twitter'        => (is => 'ro', isa => 'Object', lazy_build => 1);
 has 'twilio'         => (is => 'ro', isa => 'Object', lazy_build => 1);
 
-with 'Recollect::Log';
+with 'Recollect::Roles::Log';
 
 sub need_notification {
     my $self = shift;

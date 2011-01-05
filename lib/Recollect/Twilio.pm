@@ -1,20 +1,20 @@
 package Recollect::Twilio;
 use MooseX::Singleton;
 use WWW::Twilio::API;
-use Recollect::Config;
 use URI::Encode qw/uri_encode/;
 use namespace::clean -except => 'meta';
 
 has 'api' => (is => 'ro', isa => 'WWW::Twilio::API', lazy_build => 1);
+
+with 'Recollect::Roles::Config';
 
 sub _build_api {
     my $self = shift;
 
     return WWW::Twilio::API->new(
         API_VERSION => '2010-04-01',
-        map { $_ => Recollect::Config->Value('twilio_' . $_) }
-            qw(AccountSid AuthToken))
-        or die "Could not create a twilio!";
+        map { $_ => $self->config->{"twilio_$_"} } qw(AccountSid AuthToken)
+    ) or die "Could not create a twilio!";
 }
 
 sub send_sms {
@@ -45,8 +45,8 @@ sub voice_call {
 
     return if $number eq '000-000-0000'; # testing number - invalid
 
-    my $url = Recollect::Config->base_url . $path;
-    $opts{StatusCallback} = Recollect::Config->base_url . $opts{StatusCallback}
+    my $url = $self->base_url . $path;
+    $opts{StatusCallback} = $self->base_url . $opts{StatusCallback}
         if $opts{StatusCallback};
 
     my $response = $self->api->POST(
@@ -64,14 +64,13 @@ sub voice_call {
     warn "Placing call to $number\n";
 }
 
-sub sms_from_number {
-    Recollect::Config->Value('twilio_from_number_sms')
-        || die "twilio_from_number_voice must be set in the config file!";
-}
+sub sms_from_number   { shift->_config_value('twilio_from_number_sms') }
+sub voice_from_number { shift->_config_value('twilio_from_number_voice') }
 
-sub voice_from_number {
-    Recollect::Config->Value('twilio_from_number_voice')
-        || die "twilio_from_number_voice must be set in the config file!";
+sub _config_value {
+    my $self = shift;
+    my $key  = shift;
+    $self->config->{$key} || die "$key must be set in the config file!";
 }
 
 __PACKAGE__->meta->make_immutable;

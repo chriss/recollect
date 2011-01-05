@@ -1,7 +1,6 @@
-package Recollect::Log;
+package Recollect::Roles::Log;
 use Moose::Role;
 use Fatal qw/open close syswrite/;
-use namespace::clean -except => 'meta';
 
 our $VERBOSE = 0;
 

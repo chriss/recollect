@@ -3,16 +3,18 @@ use Moose;
 use DateTime;
 use Recollect::User;
 use Recollect::Zone;
+use Recollect::Reminder;
 use URI::Encode qw/uri_encode/;
 use namespace::clean -except => 'meta';
 
 extends 'Recollect::Collection';
+with 'Recollect::Roles::SQL';
 
-has 'id'         => (is => 'ro', isa => 'Str', required => 1);
-has 'user_id'    => (is => 'ro', isa => 'Int', required => 1);
-has 'created_at' => (is => 'ro', isa => 'Str', required => 1);
-has 'free'       => (is => 'ro', isa => 'Str');
-has 'last_payment' => (is => 'ro', isa => 'Maybe[Str]');
+has 'id'         => (is => 'ro', isa => 'Str',  required => 1);
+has 'user_id'    => (is => 'ro', isa => 'Int',  required => 1);
+has 'created_at' => (is => 'ro', isa => 'Str',  required => 1);
+has 'free'       => (is => 'ro', isa => 'Str',  required => 1);
+has 'active'     => (is => 'ro', isa => 'Bool', required => 1);
 
 has 'user'        => (is => 'ro', isa => 'Object',           lazy_build => 1);
 has 'url'         => (is => 'ro', isa => 'Str',              lazy_build => 1);
@@ -32,7 +34,7 @@ around 'Create' => sub {
     $args{user_id} = $user->id;
 
     my $reminders = delete $args{reminders};
-    $args{free} = $class->Is_free($reminders);
+    $args{active} = $args{free} = $class->Is_free($reminders);
     $args{id} = $class->_build_uuid;
     my $subscription = $orig->($class, %args);
 
@@ -50,26 +52,21 @@ sub Is_free {
     return 1;
 }
 
-sub payment_received {
+sub mark_as_active   { shift->_set_active_flag(1) }
+sub mark_as_inactive { shift->_set_active_flag(0) }
+
+sub _set_active_flag {
     my $self = shift;
-    my $dbh = Recollect::SQL->dbh;
+    my $value = shift;
+    my $dbh = $self->dbh;
 
-    Update_database: {
-        my $sth = $dbh->prepare(
-            "UPDATE subscriptions SET last_payment = 'now'::timestamptz
-                WHERE id = ?"
-        );
-        $sth->execute($self->id);
-    }
-
-    Update_our_object: {
-        my $sth = $dbh->prepare(
-            "SELECT last_payment FROM subscriptions WHERE id = ?"
-        );
-        $sth->execute($self->id);
-        my $row = $sth->fetchrow_arrayref();
-        $self->{last_payment} = $row->[0];
-    };
+    my $sth = $self->dbh->prepare(
+        "UPDATE subscriptions SET active = ?  WHERE id = ?"
+    );
+    $sth->execute($value, $self->id);
+    $self->{active} = $value;
+    $self->log("Subscription " . $self->id . " is now "
+        . ($value ? '' : 'in') . 'active');
 }
 
 sub add_reminders {

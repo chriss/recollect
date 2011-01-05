@@ -7,7 +7,6 @@ use Date::Parse qw(str2time);
 use POSIX qw(strftime);
 use DateTime;
 use DateTime::Format::Strptime;
-use Recollect::Config;
 use Recollect::Template;
 use namespace::clean -except => 'meta';
 
@@ -15,6 +14,7 @@ extends qw(
     Socialtext::WikiFixture::Selenese
     Socialtext::WikiFixture::RecollectRest
 );
+with 'Recollect::Roles::Config';
 
 # Recollect stuff
 
@@ -235,8 +235,8 @@ sub login_paypal_dev_ok {
     my $self = shift;
     $self->open_ok('http://developer.paypal.com');
     $self->wait_for_text_present_ok('Member Log In');
-    $self->type_ok('login_email', $self->config->Value('paypal_dev_user'));
-    $self->type_ok('login_password', $self->config->Value('paypal_dev_pwd'));
+    $self->type_ok('login_email', $self->config->{paypal_dev_user});
+    $self->type_ok('login_password', $self->config->{paypal_dev_pwd});
     $self->click_ok('css=form[name=login_form] *[type=submit]');
     $self->wait_for_text_present_ok('Log Out');
 }
@@ -244,8 +244,8 @@ sub login_paypal_dev_ok {
 sub login_paypal_ok {
     my $self = shift;
     $self->is_text_present_ok('Create a PayPal Account or Log In');
-    $self->type_ok('login_email', $self->config->Value('paypal_cust_user'));
-    $self->type_ok('login_password', $self->config->Value('paypal_cust_pwd'));
+    $self->type_ok('login_email', $self->config->{paypal_cust_user});
+    $self->type_ok('login_password', $self->config->{paypal_cust_pwd});
     $self->click_ok('login.x');
     $self->wait_for_text_present_ok('Review your information');
 }

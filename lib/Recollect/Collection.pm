@@ -1,14 +1,18 @@
 package Recollect::Collection;
 use Moose;
 use Carp qw/croak/;
-use Recollect::SQL;
 use Data::UUID;
 use namespace::clean -except => 'meta';
 
-with 'Recollect::Config';
+with 'Recollect::Roles::Config';
+with 'Recollect::Roles::SQL';
+with 'Recollect::Roles::Log';
 
-sub _sql { Recollect::SQL->new }
-sub _select { _sql()->execute('select', shift->db_table, @_) }
+sub _select {
+    my $self = shift;
+    $self->execute('select', $self->db_table, @_);
+}
+
 
 sub All {
     my $class = shift;
@@ -21,7 +25,7 @@ sub Create {
     my %args = @_;
 
     $args{id} ||= do { $class->_sequence_nextval };
-    _sql()->insert($class->db_table, \%args);
+    $class->insert($class->db_table, \%args);
     return $class->By_id($args{id});
 }
 
@@ -36,7 +40,6 @@ sub By_id {
     my $class = shift;
     my $id = shift;
     my $obj = $class->By_field(id => $id);
-    die "Could not lookup $class id $id" unless $obj;
     return $obj;
 }
 
@@ -79,6 +82,12 @@ sub By_field {
     return $class->_first_row_as_obj($sth);
 }
 
+sub delete {
+    my $self = shift;
+
+    my ($stmt, @bind) = $self->_sql->delete($self->db_table, { id => $self->id });
+}
+
 sub _first_row_as_obj {
     my $self_or_class = shift;
     my $class = ref($self_or_class) || $self_or_class;
@@ -89,7 +98,7 @@ sub _first_row_as_obj {
 
 sub _sequence_nextval {
     my $class = shift;
-    return _sql()->nextval($class->db_table);
+    return $class->nextval($class->db_table);
 }
 
 sub db_table {

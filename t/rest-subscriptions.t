@@ -4,16 +4,19 @@ use warnings;
 use Plack::Test;
 use Test::More;
 use HTTP::Request::Common qw/GET POST DELETE/;
+use mocked 'Net::Recurly';
 use t::Recollect;
 use Recollect::APIController;
+use Recollect::Subscription;
 use JSON qw/encode_json decode_json/;
 
 no warnings 'redefine';
 
 my $app = t::Recollect->app('Recollect::APIController');
 my $subscribe_url = '/subscriptions';
-my $test_email = 'test@recollect.net';
-my $test_zone_id = 1;
+my $billing_url   = '/billing';
+my $test_email    = 'test@recollect.net';
+my $test_zone_id  = 1;
 
 # Rainy Day Subscription creation tests
 my $cb;
@@ -97,6 +100,7 @@ for my $target ("email:$test_email", "twitter:vanhackspace",
 
 # Create Premium reminder types
 for my $target (qw{voice:7787851357 sms:7787851357}) {
+    my $subscription_id;
     test_psgi $app, sub {
         my $cb = shift;
         my $res = $cb->(POST $subscribe_url, 
@@ -116,9 +120,56 @@ for my $target (qw{voice:7787851357 sms:7787851357}) {
         );
         is $res->code, 201, "create reminder - $target";
         my $hash = decode_json $res->content;
-        my $subscription_id = $hash->{id};
+        $subscription_id = $hash->{id};
         ok $subscription_id, 'subscription has an id';
         ok $hash->{payment_url}, 'non-free reminder has payment url';
     };
+
+    Subscription_has_not_been_paid: {
+        my $subscr = Recollect::Subscription->By_id($subscription_id);
+        ok $subscr, 'subscription object exists';
+        ok !$subscr->active, 'subscription has not been paid';
+    }
+
+    test_psgi $app, sub {
+        my $cb = shift;
+        local $Net::Recurly::STATE = 'active';
+        my $res = $cb->(POST $billing_url, 
+            'Content-Type' => 'application/xml',
+            Content => <<EOT,
+<?xml version="1.0" encoding="UTF-8"?><new_subscription_notification><account><account_code>$subscription_id</account_code><username>test\@5thplane.com</username><email>test\@5thplane.com</email><first_name>first</first_name><last_name>last</last_name><company_name></company_name></account><subscription><plan><plan_code>vancouver</plan_code><name>Vancouver Reminder</name></plan><state>active</state><quantity type="integer">1</quantity><total_amount_in_cents type="integer">500</total_amount_in_cents><activated_at type="datetime">2011-01-02T07:06:56Z</activated_at><canceled_at nil="true" type="datetime"></canceled_at><expires_at nil="true" type="datetime"></expires_at><current_period_started_at type="datetime">2011-01-02T07:06:56Z</current_period_started_at><current_period_ends_at type="datetime">2011-04-02T07:06:56Z</current_period_ends_at><trial_started_at nil="true" type="datetime"></trial_started_at><trial_ends_at nil="true" type="datetime"></trial_ends_at></subscription></new_subscription_notification>
+EOT
+        );
+        is $res->code, 200, "payment notification";
+        diag $res->content unless $res->code eq 200;
+    };
+
+    Subscription_has_now_been_paid: {
+        my $subscr = Recollect::Subscription->By_id($subscription_id);
+        ok $subscr, 'subscription object exists';
+        ok $subscr->active, 'subscription has now been paid';
+    }
+
+    Subscription_is_cancelled: {
+        test_psgi $app, sub {
+            my $cb = shift;
+            local $Net::Recurly::STATE = 'canceled';
+            my $res = $cb->(POST $billing_url, 
+                'Content-Type' => 'application/xml',
+                Content => <<EOT,
+<?xml version="1.0" encoding="UTF-8"?><canceled_subscription_notification><account><account_code>$subscription_id</account_code><username>test\@5thplane.com</username><email>test\@5thplane.com</email><first_name>first</first_name><last_name>last</last_name><company_name></company_name></account><subscription><plan><plan_code>vancouver</plan_code><name>Vancouver Reminder</name></plan><state>canceled</state><quantity type="integer">1</quantity><total_amount_in_cents type="integer">500</total_amount_in_cents><activated_at type="datetime">2011-01-02T07:06:56Z</activated_at><canceled_at nil="true" type="datetime"></canceled_at><expires_at nil="true" type="datetime"></expires_at><current_period_started_at type="datetime">2011-01-02T07:06:56Z</current_period_started_at><current_period_ends_at type="datetime">2011-04-02T07:06:56Z</current_period_ends_at><trial_started_at nil="true" type="datetime"></trial_started_at><trial_ends_at nil="true" type="datetime"></trial_ends_at></subscription></canceled_subscription_notification>
+EOT
+            );
+            is $res->code, 200, "payment notification";
+            diag $res->content unless $res->code eq 200;
+        };
+    }
+
+    Subscription_is_no_longer_active: {
+        my $subscr = Recollect::Subscription->By_id($subscription_id);
+        ok $subscr, 'subscription object exists';
+        ok !$subscr->active, 'when cancelled, subscription is not active';
+    }
+
 }
 done_testing();

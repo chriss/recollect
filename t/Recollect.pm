@@ -22,15 +22,16 @@ BEGIN {
     $ENV{RECOLLECT_EMAIL} = "/tmp/email.$$";
 
     use_ok 'Recollect::Model';
-    use_ok 'Recollect::Log';
-    use_ok 'Recollect::SQL';
-    $Recollect::SQL::DEBUG = $Recollect::Log::VERBOSE = 0;
+    use_ok 'Recollect::Roles::Log';
+    use_ok 'Recollect::Roles::SQL';
+    $Recollect::Roles::SQL::DEBUG = $Recollect::Roles::Log::VERBOSE = 0;
 }
 
 END { 
     unlink $ENV{RECOLLECT_EMAIL} if $ENV{RECOLLECT_EMAIL};
     if ($ENV{RECOLLECT_EMPTY_DB_PLS}) {
-        Recollect::SQL->dbh->disconnect;
+        my $dbh = $Recollect::Roles::SQL::DBH;
+        $dbh->disconnect if $dbh;
         system("dropdb $config->{db_name}");
     }
 }

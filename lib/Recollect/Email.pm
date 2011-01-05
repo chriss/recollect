@@ -8,7 +8,7 @@ use Net::SMTP::SSL;
 use Recollect::Template;
 use namespace::clean -except => 'meta';
 
-with 'Recollect::Config';
+with 'Recollect::Roles::Config';
 
 has 'base_path' => (is => 'ro', isa => 'Str',    required   => 1);
 has 'mailer'    => (is => 'ro', isa => 'Object', lazy_build => 1);
@@ -52,8 +52,7 @@ sub _build_mailer {
         });
     }
 
-    my $config = Recollect::Config->instance;
-    my $mailer_config = $config->Value('mailer') || 'Sendmail';
+    my $mailer_config = $self->config->{mailer} || 'Sendmail';
 
     my $mailer;
     if ($mailer_config eq 'Sendmail') {
@@ -64,8 +63,8 @@ sub _build_mailer {
         $mailer = Email::Send->new({
             mailer => 'Gmail',
             mailer_args => [
-                username => $config->Value('gmail_username'),
-                password => $config->Value('gmail_password'),
+                username => $self->config->{gmail_username},
+                password => $self->config->{gmail_password},
             ]
         });
     }

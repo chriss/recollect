@@ -39,7 +39,7 @@ Add_a_free_subscription: {
     is $rems->[0]->subscription->id, $subscr->id, 'rem sub id is correct';
     ok $rems->[0]->subscription->free, 'rem sub is free';
     is $rems->[0]->subscription->payment_url, undef, 'no payment url';
-    is $rems->[0]->subscription->last_payment, undef, 'no payment has been made';
+    is $rems->[0]->subscription->active, 1, 'free subscriptions become active immediately';
 
     is scalar(@{ Recollect::Subscription->All }), 1, 'one Subscriptions';
 }
@@ -77,11 +77,11 @@ Add_a_paid_subscription: {
             . $rems->[0]->subscription->id
             . '/test@recollect.net?email=test@recollect.net',
         'payment url is correct';
-    is $rems->[0]->subscription->last_payment, undef, 'no payment has been made';
+    is $rems->[0]->subscription->active, 0, 'paid subscriptions start out inactive';
 
     # Now pretend a payment came in
-    $rems->[0]->subscription->payment_received;
-    ok $rems->[0]->subscription->last_payment, 'payment has been made';
+    $rems->[0]->subscription->mark_as_active;
+    is $rems->[0]->subscription->active, 1, 'paid subscriptions become active after payment';
 
     is scalar(@{ Recollect::Subscription->All }), 2, 'one new Subscriptions';
 }
