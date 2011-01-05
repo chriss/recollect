@@ -117,7 +117,7 @@ CREATE TABLE subscriptions (
     user_id integer,
     created_at timestamp with time zone DEFAULT ('now'::text)::timestamp without time zone,
     free boolean NOT NULL,
-    last_payment timestamptz
+    active boolean DEFAULT FALSE
 );
 
 
