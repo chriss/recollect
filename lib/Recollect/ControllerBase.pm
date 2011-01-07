@@ -2,6 +2,7 @@ package Recollect::ControllerBase;
 use Moose::Role;
 use Recollect::Template;
 use Recollect::Model;
+use Recollect::Util qw/base_path/;
 use JSON qw/encode_json decode_json/;
 
 with 'Recollect::Roles::Config';
@@ -9,7 +10,6 @@ with 'Recollect::Roles::Log';
 
 our $Recollect_version = '0.9';
 
-has 'base_path' => (is => 'ro', isa => 'Str',    lazy_build => 1);
 has 'template'  => (is => 'ro', isa => 'Object', lazy_build => 1);
 has 'request'   => (is => 'rw', isa => 'Plack::Request');
 has 'model' => (is => 'ro', isa => 'Recollect::Model', lazy_build => 1);
@@ -23,22 +23,13 @@ around 'run' => sub {
     return $orig->($self, $env);
 };
 
-sub _build_model {
-    my $self = shift;
-    my $model = Recollect::Model->new(
-        base_path => $self->base_path,
-    );
-    return $model;
-}
+sub _build_model { Recollect::Model->new }
 
-sub _build_base_path {
-    my $self = shift;
-    return $ENV{RECOLLECT_BASE_PATH} || '/var/www/recollect';
-}
+sub _build_base_path { base_path() }
 
 sub _build_template {
     my $self = shift;
-    return Recollect::Template->new( base_path => $self->base_path );
+    return Recollect::Template->new;
 }
 
 sub response {

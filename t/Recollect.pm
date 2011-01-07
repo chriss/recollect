@@ -20,6 +20,7 @@ my $config = LoadFile("$FindBin::Bin/../etc/recollect.yaml.DEFAULT");
 
 BEGIN {
     $ENV{RECOLLECT_EMAIL} = "/tmp/email.$$";
+    $ENV{RECOLLECT_BASE_PATH} = '.';
 
     use_ok 'Recollect::Model';
     use_ok 'Recollect::Roles::Log';

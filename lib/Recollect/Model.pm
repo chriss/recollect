@@ -7,8 +7,6 @@ use namespace::clean -except => 'meta';
 with 'Recollect::Roles::Config';
 
 has 'base_path' => (is => 'ro', isa => 'Str',    required   => 1);
-has 'mailer'    => (is => 'ro', isa => 'Object', lazy_build => 1);
-has 'notifier'  => (is => 'ro', isa => 'Object', lazy_build => 1);
 has 'kml'       => (is => 'ro', isa => 'Object', lazy_build => 1);
 
 sub now {
