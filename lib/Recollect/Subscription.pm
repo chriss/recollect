@@ -78,6 +78,7 @@ sub add_reminders {
             subscription_id => $self->id,
             zone_id => $rem->{zone_id},
             target  => $rem->{target},
+            delivery_offset => $rem->{offset},
         );
     }
 }
