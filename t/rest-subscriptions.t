@@ -8,6 +8,7 @@ use mocked 'Net::Recurly';
 use t::Recollect;
 use Recollect::APIController;
 use Recollect::Subscription;
+use Recollect::Notifier;
 use JSON qw/encode_json decode_json/;
 
 no warnings 'redefine';
@@ -75,6 +76,7 @@ test_psgi $app, sub {
 # Create free reminder types
 for my $target ("email:$test_email", "twitter:vanhackspace",
                 "webhook:http://recollect.net/webhook-eg") {
+    my $subscription_id;
     test_psgi $app, sub {
         my $cb = shift;
         my $res = $cb->(POST $subscribe_url, 
@@ -92,12 +94,12 @@ for my $target ("email:$test_email", "twitter:vanhackspace",
         );
         is $res->code, 201, "create reminder - $target";
         my $hash = decode_json $res->content;
-        my $subscription_id = $hash->{id};
-        ok $subscription_id, 'subscription has an id';
+        ok $hash->{id}, 'subscription has an id';
         ok !$hash->{payment_url}, 'free reminder has no payment url';
         ok $hash->{free}, 'reminder is free';
         ok $hash->{active}, 'free reminders are immediately active';
         is $hash->{reminders}[0]{delivery_offset}, '00:00:00', 'offset is correct';
+
     };
 }
 
@@ -128,6 +130,7 @@ for my $target (qw{voice:7787851357 sms:7787851357}) {
         ok $hash->{payment_url}, 'non-free reminder has payment url';
         ok !$hash->{free}, 'non-free reminders are not free';
         ok !$hash->{active}, 'non-free reminders are not active initially';
+
         is $hash->{reminders}[0]{delivery_offset}, '00:00:00', 'offset is correct';
     };
 

@@ -2,10 +2,10 @@ package Recollect::CallController;
 use Moose;
 use Email::MIME;
 use Plack::Response;
-use Recollect::Email;
 use namespace::clean -except => 'meta';
 
 with 'Recollect::ControllerBase';
+with 'Recollect::Roles::Email';
 
 sub run {
     my $self = shift;
@@ -235,10 +235,7 @@ sub receive_message {
     );
     $email->header_set($_ => $headers{$_}) for keys %headers;
 
-    my $emailer = Recollect::Email->new(
-        base_path => $self->base_path,
-    );
-    $emailer->mailer->send($email);
+    $self->send_email($email);
 }
 
 sub goodbye { "<Say voice=\"woman\">Goodbye.</Say><Hangup/>" }

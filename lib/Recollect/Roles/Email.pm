@@ -1,28 +1,32 @@
-package Recollect::Email;
-use Moose;
+package Recollect::Roles::Email;
+use Moose::Role;
 use Email::Send;
 use Email::MIME;
 use Email::MIME::Creator;
 use Email::Send::IO;
 use Net::SMTP::SSL;
 use Recollect::Template;
-use namespace::clean -except => 'meta';
 
-with 'Recollect::Roles::Config';
+requires 'config';
+requires 'base_url';
 
-has 'base_path' => (is => 'ro', isa => 'Str',    required   => 1);
-has 'mailer'    => (is => 'ro', isa => 'Object', lazy_build => 1);
-has 'template' => (is => 'ro', lazy_build => 1);
+has '_mailer' => (is => 'ro', isa => 'Object', lazy_build => 1);
+has '_template' => (is => 'ro', lazy_build => 1);
 
 sub send_email {
     my $self = shift;
-    my %args = @_;
 
+    if (@_ == 1) {
+        $self->_mailer->send($_[0]);
+        return;
+    }
+
+    my %args = @_;
     my $body;
     my $template = "email/$args{template}";
     $args{template_args}{base} = $self->base_url();
-    $self->template->process($template, $args{template_args}, \$body) 
-        || die $self->template->error;
+    $self->_template->process($template, $args{template_args}, \$body) 
+        || die $self->_template->error;
 
     my %headers = (
         From => $args{from} || 'Recollect <noreply@recollect.net>',
@@ -39,10 +43,10 @@ sub send_email {
     );
     $email->header_set( $_ => $headers{$_}) for keys %headers;
 
-    $self->mailer->send($email);
+    $self->_mailer->send($email);
 }
 
-sub _build_mailer {
+sub _build__mailer {
     my $self = shift;
 
     if ($ENV{RECOLLECT_EMAIL}) {
@@ -58,16 +62,6 @@ sub _build_mailer {
     if ($mailer_config eq 'Sendmail') {
         $mailer = Email::Send->new({ mailer => 'Sendmail' });
     }
-    elsif ($mailer_config eq 'Gmail') {
-        require Email::Send::Gmail;
-        $mailer = Email::Send->new({
-            mailer => 'Gmail',
-            mailer_args => [
-                username => $self->config->{gmail_username},
-                password => $self->config->{gmail_password},
-            ]
-        });
-    }
     else {
         die "Unknown mailer: $mailer_config";
     }
@@ -75,10 +69,9 @@ sub _build_mailer {
     return $mailer;
 }
 
-sub _build_template {
+sub _build__template {
     my $self = shift;
-    return Recollect::Template->new( base_path => $self->base_path );
+    return Recollect::Template->new;
 }
 
-__PACKAGE__->meta->make_immutable;
 1;

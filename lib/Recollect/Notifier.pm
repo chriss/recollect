@@ -3,25 +3,23 @@ use Moose;
 use DateTime;
 use Recollect::Twitter;
 use Recollect::Twilio;
+use Recollect::Util qw/now/;
 use JSON qw/encode_json/;
 use namespace::clean -except => 'meta';
 
-has 'model'          => (is => 'ro', isa => 'Object', required   => 1);
-has 'mailer'         => (is => 'ro', isa => 'Object', required   => 1);
-has 'reminders'      => (is => 'ro', isa => 'Object', required   => 1);
-has 'pickups'        => (is => 'ro', isa => 'Object', required   => 1);
-has 'sender_factory' => (is => 'ro', isa => 'Object', lazy_build => 1);
 has 'twitter'        => (is => 'ro', isa => 'Object', lazy_build => 1);
 has 'twilio'         => (is => 'ro', isa => 'Object', lazy_build => 1);
 
+with 'Recollect::Roles::Config';
 with 'Recollect::Roles::Log';
+with 'Recollect::Roles::Email';
 
 sub need_notification {
     my $self = shift;
     my %args = @_;
     my $debug = $args{debug} || $ENV{RECOLLECT_DEBUG};
 
-    my $as_of = $args{as_of} || $self->model->now;
+    my $as_of = $args{as_of} || now();
     $as_of = $as_of->epoch;
 
     my @due;
@@ -34,7 +32,7 @@ sub need_notification {
         }
         
         my $garbage_epoch = $rem->next_pickup;
-        if ($garbage_epoch + 24*3600 < $self->model->now->epoch) {
+        if ($garbage_epoch + 24*3600 < now()->epoch) {
             my $next = $self->model->next_pickup($rem->zone, 1, 'dt');
 #            warn "The next_pickup is out of date - next pickup is " 
 #                . $next->ymd . "\n";
@@ -69,7 +67,7 @@ sub notify {
     }
     
     if ($self->_send_notification($rem, $pobj)) {
-        $rem->last_notified( $self->now() );
+        $rem->last_notified( now() );
         $rem->update;
     }
 }
@@ -159,7 +157,7 @@ sub _send_notification_webhook {
         pickup => $args{pickup}->to_hash,
     };
 
-    $self->http_post( $args{target}, $body );
+    LWP::UserAgent->new->post($args{target}, payload => $body);
     return 1;
 }
 
@@ -197,21 +195,8 @@ sub _send_notification_voice {
     return 1;
 }
 
-
-sub http_post {
-    my $self = shift;
-    my $url  = shift;
-    my $body = shift;
-
-    my $ua = LWP::UserAgent->new;
-    $ua->post( $url, payload => $body );
-}
-
 sub _build_twitter { Recollect::Twitter->new }
 sub _build_twilio { Recollect::Twilio->new }
-
-# Tests can override this
-sub now { time() }
 
 __PACKAGE__->meta->make_immutable;
 1;
