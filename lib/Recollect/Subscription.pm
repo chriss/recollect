@@ -88,7 +88,7 @@ sub to_hash {
         user => $self->user->to_hash,
         reminders => [ map { $_->to_hash } @{$self->reminders} ],
         map { $_ => $self->$_() }
-            qw/id created_at free/,
+            qw/id created_at free active/,
     };
 }
 

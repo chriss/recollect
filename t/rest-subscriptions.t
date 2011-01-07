@@ -95,6 +95,8 @@ for my $target ("email:$test_email", "twitter:vanhackspace",
         my $subscription_id = $hash->{id};
         ok $subscription_id, 'subscription has an id';
         ok !$hash->{payment_url}, 'free reminder has no payment url';
+        ok $hash->{free}, 'reminder is free';
+        ok $hash->{active}, 'free reminders are immediately active';
     };
 }
 
@@ -123,6 +125,8 @@ for my $target (qw{voice:7787851357 sms:7787851357}) {
         $subscription_id = $hash->{id};
         ok $subscription_id, 'subscription has an id';
         ok $hash->{payment_url}, 'non-free reminder has payment url';
+        ok !$hash->{free}, 'non-free reminders are not free';
+        ok !$hash->{active}, 'non-free reminders are not active initially';
     };
 
     Subscription_has_not_been_paid: {
@@ -148,6 +152,7 @@ EOT
         my $subscr = Recollect::Subscription->By_id($subscription_id);
         ok $subscr, 'subscription object exists';
         ok $subscr->active, 'subscription has now been paid';
+        ok !$subscr->free, 'non-free reminders are not free';
     }
 
     Subscription_is_cancelled: {
