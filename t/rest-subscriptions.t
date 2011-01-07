@@ -85,7 +85,7 @@ for my $target ("email:$test_email", "twitter:vanhackspace",
                     {
                         target => $target,
                         zone_id => $test_zone_id,
-                        offset => '6',
+                        offset => 0,
                     }
                 ],
             }
@@ -97,6 +97,7 @@ for my $target ("email:$test_email", "twitter:vanhackspace",
         ok !$hash->{payment_url}, 'free reminder has no payment url';
         ok $hash->{free}, 'reminder is free';
         ok $hash->{active}, 'free reminders are immediately active';
+        is $hash->{reminders}[0]{delivery_offset}, '00:00:00', 'offset is correct';
     };
 }
 
@@ -114,7 +115,7 @@ for my $target (qw{voice:7787851357 sms:7787851357}) {
                         {
                             target => $target,
                             zone_id => $test_zone_id,
-                            offset  => 6,
+                            offset  => 0,
                         },
                     ],
                 },
@@ -127,6 +128,7 @@ for my $target (qw{voice:7787851357 sms:7787851357}) {
         ok $hash->{payment_url}, 'non-free reminder has payment url';
         ok !$hash->{free}, 'non-free reminders are not free';
         ok !$hash->{active}, 'non-free reminders are not active initially';
+        is $hash->{reminders}[0]{delivery_offset}, '00:00:00', 'offset is correct';
     };
 
     Subscription_has_not_been_paid: {
