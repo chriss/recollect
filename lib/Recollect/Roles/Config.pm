@@ -4,11 +4,23 @@ use YAML;
 use namespace::clean -except => 'meta';
 
 our $CONFIG;
+our $LAST_MODIFIED = _config_last_modified();
 
 sub base_url {
     my $self = shift;
     return $self->config->{base_url} || 'http://recollect.net';
 }
+
+around [qw/base_url config/] => sub {
+    my $orig = shift;
+
+    if ($LAST_MODIFIED < _config_last_modified()) {
+        $CONFIG = _load_config();
+        $LAST_MODIFIED = _config_last_modified();
+    }
+
+    $orig->(@_);
+};
 
 sub config {
     my $self = shift;
@@ -27,10 +39,9 @@ sub _config_filename {
     return '/etc/recollect.yaml';
 }
 
-sub _build__config_hash {
-    my $self = shift;
-    $self->_load_config;
-}
+sub _config_last_modified { (stat(_config_filename()))[9] }
+
+sub _build__config_hash { shift->_load_config }
 
 sub _load_config {
     return YAML::LoadFile(_config_filename());
