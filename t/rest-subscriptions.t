@@ -4,7 +4,6 @@ use warnings;
 use Plack::Test;
 use Test::More;
 use HTTP::Request::Common qw/GET POST DELETE/;
-use mocked 'Net::Recurly';
 use t::Recollect;
 use Recollect::APIController;
 use Recollect::Subscription;
@@ -23,19 +22,6 @@ my $test_zone_id  = 1;
 my $cb;
 test_psgi $app, sub {
     $cb = shift;
-
-    sub bad_post_ok {
-        my ($content_hash, $match, $desc) = @_;
-        $desc ||= '';
-        my $res = $cb->(POST $subscribe_url,
-            'Content-Type' => 'application/json',
-            Content => encode_json($content_hash));
-        
-        is $res->code, 400, "$desc - status code";
-        like $res->content, $match, "$desc - content"; 
-        is $res->header('Content-Type'), 'application/json',
-            "$desc content-type";
-    }
 
     bad_post_ok({} => qr/Missing email/, 'no email present');
     bad_post_ok({ email => 'blur' } => qr/Bad email/, 'bad email address');
@@ -94,12 +80,18 @@ for my $target ("email:$test_email", "twitter:vanhackspace",
         );
         is $res->code, 201, "create reminder - $target";
         my $hash = decode_json $res->content;
-        ok $hash->{id}, 'subscription has an id';
+        ok $subscription_id = $hash->{id}, 'subscription has an id';
         ok !$hash->{payment_url}, 'free reminder has no payment url';
         ok $hash->{free}, 'reminder is free';
         ok $hash->{active}, 'free reminders are immediately active';
         is $hash->{reminders}[0]{delivery_offset}, '00:00:00', 'offset is correct';
+    };
 
+    my $sub_url = "$subscribe_url/$subscription_id";
+    test_psgi $app, sub {
+        my $cb = shift;
+        my $res = $cb->(DELETE $sub_url);
+        is $res->code, 204, "Can delete subscription $subscription_id";
     };
 }
 
@@ -182,4 +174,20 @@ EOT
     }
 
 }
+
 done_testing();
+exit;
+
+sub bad_post_ok {
+    my ($content_hash, $match, $desc) = @_;
+    $desc ||= '';
+    my $res = $cb->(POST $subscribe_url,
+        'Content-Type' => 'application/json',
+        Content => encode_json($content_hash));
+    
+    is $res->code, 400, "$desc - status code";
+    like $res->content, $match, "$desc - content"; 
+    is $res->header('Content-Type'), 'application/json',
+        "$desc content-type";
+}
+
