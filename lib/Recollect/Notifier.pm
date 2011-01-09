@@ -42,8 +42,6 @@ sub notify {
 sub _send_notification {
     my $self   = shift;
     my $rem    = shift;
-    use Data::Dumper;
-    warn Dumper $rem;
     my $pickup = $rem->zone->next_pickup->[0];
 
     my $target = $rem->target;
