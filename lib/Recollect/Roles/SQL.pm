@@ -15,19 +15,28 @@ our $SQL = SQL::Abstract::Limit->new(limit_dialect => 'LimitOffset');
 sub _sql { $SQL }
 sub dbh { $DBH }
 
-before [qw/dbh execute insert nextval/] => sub { $DBH ||= shift->_connect_dbh };
+before [qw/dbh execute insert nextval run_sql/] =>
+    sub { $DBH ||= shift->_connect_dbh };
 
 sub execute {
     my $self = shift;
     my $func = shift;
 
     my ($stmt, @bind) = $SQL->$func(@_);
+    return $self->run_sql($stmt, \@bind);
+}
+
+sub run_sql {
+    my $self = shift;
+    my ($stmt, $bind) = @_;
+
     if ($DEBUG) {
-        warn "About to execute:\n" . $stmt . "\nWith (@bind)\n";
+        warn "About to execute:\n" . $stmt . "\nWith (@$bind)\n";
     }
+    
     my $sth = $DBH->prepare($stmt);
     die "Could not prepare query: " .$sth->errstr if $sth->err;
-    $sth->execute(@bind);
+    $sth->execute(@$bind);
     die "Could not execute query: " .$sth->errstr if $sth->err;
     return $sth;
 }
