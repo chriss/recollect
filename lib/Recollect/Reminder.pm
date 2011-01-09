@@ -4,9 +4,8 @@ use WWW::Shorten::isgd;
 use Recollect::Twilio;
 use DateTime;
 use DateTime::Duration;
+use Carp qw/croak/;
 use namespace::clean -except => 'meta';
-
-extends 'Recollect::Collection';
 
 has 'id'              => (is => 'ro', isa => 'Str', required => 1);
 has 'subscription_id' => (is => 'ro', isa => 'Str', required => 1);
@@ -17,19 +16,49 @@ has 'delivery_offset' => (is => 'ro', isa => 'Str', required => 1);
 has 'target'          => (is => 'ro', isa => 'Str', required => 1);
 
 has 'zone'             => (is => 'ro', isa => 'Object', lazy_build => 1);
-has 'subscription',    => (is => 'ro', isa => 'Object', lazy_build => 1);
+has 'subscription'     => (is => 'ro', isa => 'Object', lazy_build => 1);
+has 'offset_duration'  => (is => 'ro', isa => 'Object', lazy_build => 1);
 has 'nice_name'        => (is => 'ro', isa => 'Str', lazy_build => 1);
 has 'nice_zone'        => (is => 'ro', isa => 'Str', lazy_build => 1);
 has 'delete_url'       => (is => 'ro', isa => 'Str', lazy_build => 1);
 has 'short_delete_url' => (is => 'ro', isa => 'Str', lazy_build => 1);
 has 'zone_url'         => (is => 'ro', isa => 'Str', lazy_build => 1);
 
+extends 'Recollect::Collection';
 with 'Recollect::Roles::HasZone';
 
 sub By_subscription {
     my $class = shift;
     my $sub_id = shift;
     return $class->By_field('subscription_id' => $sub_id, all => 1);
+}
+
+sub All_due {
+    my $class = shift;
+    my %opts  = @_;
+    die "as_of is required!" unless $opts{as_of};
+
+    my $sql = <<EOSQL;
+SELECT r.id 
+    FROM reminders r 
+    JOIN subscriptions s ON (r.subscription_id = s.id)
+    JOIN (
+        SELECT zone_id, min(day) AS next_pickup
+          FROM pickups
+         WHERE day > \$1::timestamptz - '1day'::interval
+         GROUP BY zone_id
+         ) AS p ON (r.zone_id = p.zone_id)
+    WHERE s.active
+      AND \$1::timestamptz > p.next_pickup - r.delivery_offset
+      AND p.next_pickup - r.delivery_offset > r.last_notified
+EOSQL
+    my $sth = $class->dbh->prepare($sql);
+    die "Could not prepare query: " .$sth->errstr if $sth->err;
+    $sth->execute($opts{as_of});
+    die "Could not execute query: " .$sth->errstr if $sth->err;
+    return [
+        map { $_->[0] } @{ $sth->fetchall_arrayref }
+    ];
 }
 
 sub to_hash {
@@ -40,6 +69,17 @@ sub to_hash {
             qw/id subscription_id created_at last_notified delivery_offset
             target/
     };
+}
+
+sub update_last_notified {
+    my $self = shift;
+    my $when = shift || 'now';
+
+    my $sth = $self->dbh->prepare(
+        "UPDATE reminders SET last_notified = ?::timestamptz WHERE id = ?");
+    die "Could not prepare query: " .$sth->errstr if $sth->err;
+    $sth->execute($when, $self->id);
+    die "Could not execute query: " .$sth->errstr if $sth->err;
 }
 
 sub email_target { shift->target =~ m/^email:(.+)/ and return $1}
@@ -79,6 +119,15 @@ sub Is_valid_target {
     my $class = shift;
     my $target = shift;
     return $target =~ m/^(?:email|twitter|webhook|sms|voice):/;
+}
+
+sub _build_offset_duration {
+    my $self = shift;
+    my ($h,$m) = split ':', $self->delivery_offset;
+    return DateTime::Duration->new(
+        hours => $h,
+        minutes => $m,
+    );
 }
 
 __PACKAGE__->meta->make_immutable;
