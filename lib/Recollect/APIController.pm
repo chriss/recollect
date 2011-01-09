@@ -101,9 +101,15 @@ sub run {
         }
         when ('POST') {
             given ($path) {
-                # API Version
                 when ('/subscriptions') { return $wrapper->('subscriptions') }
                 when ('/billing') { return $wrapper->('billing') }
+            }
+        }
+        when ('DELETE') {
+            given ($path) {
+                when (qr#^/subscriptions/([\w-]+)$#) {
+                    return $wrapper->('delete_subscription', undef, $1);
+                }
             }
         }
         default {
@@ -171,6 +177,21 @@ sub subscriptions {
     $response->{payment_url} = $subscr->payment_url if $payment_required;
     return $self->process_json($response, 201);
 }
+
+sub delete_subscription {
+    my $self   = shift;
+    my $sub_id = shift;
+    my $req    = $self->request;
+
+    my $sub = Recollect::Subscription->By_id($sub_id);
+    return $self->not_found unless $sub;
+
+    $self->recurly->delete_account($sub_id);
+    $sub->delete;
+    $self->log("Deleted subscription $sub_id");
+    return $self->no_content;
+}
+
 
 sub billing {
     my $self = shift;
