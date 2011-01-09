@@ -47,13 +47,20 @@ subtest 'Free reminder notification' => sub {
     my $after_offset = $next_pickup - $rem->offset_duration + $one_hour;
     $rems = $notifier->need_notification(as_of => $after_offset);
     is scalar(@$rems), 1, 'reminder after works correctly';
+    use Data::Dumper;
+    warn Dumper $rems;
 
-    # Now fire the notification
     $notifier->notify($rems->[0]);
-    # XXX check the email was sent
 
+    my $content = t::Recollect::email_content(); t::Recollect::clear_email();
+    like $content, qr#/subscription/delete/[\w-]+#, 'email has delete url';
+
+    # Now move the clock forward and check again
+#     $ENV{RECOLLECT_NOW}
+#         = DateTime->new(year => 2011, month => 1, day => 15, hour => 1);
     $rems = $notifier->need_notification(as_of => $after_offset);
     is scalar(@$rems), 0, 'reminder was sent';
+    warn Dumper $rems;
 };
 
 # fake send them
