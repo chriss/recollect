@@ -9,6 +9,7 @@ use namespace::clean -except => 'meta';
 
 extends 'Recollect::Collection';
 with 'Recollect::Roles::SQL';
+with 'Recollect::Roles::HasRecurly';
 
 has 'id'         => (is => 'ro', isa => 'Str',  required => 1);
 has 'user_id'    => (is => 'ro', isa => 'Int',  required => 1);
@@ -21,6 +22,7 @@ has 'url'         => (is => 'ro', isa => 'Str',              lazy_build => 1);
 has 'payment_url' => (is => 'ro', isa => 'Maybe[Str]',       lazy_build => 1);
 has 'reminders'   => (is => 'ro', isa => 'ArrayRef[Object]', lazy_build => 1);
 has 'created_date' => (is => 'ro', isa => 'Object', lazy_build => 1);
+has 'delete_url'   => (is => 'ro', isa => 'Str', lazy_build => 1);
 
 around 'Create' => sub {
     my $orig = shift;
@@ -37,6 +39,14 @@ around 'Create' => sub {
     $args{active} = $args{free} = $class->Is_free($reminders);
     $args{id} = $class->_build_uuid;
     my $subscription = $orig->($class, %args);
+
+    if ($args{free}) {
+        $subscription->recurly->create_account(
+            account_code => $args{id},
+            username => $email,
+            email => $email,
+        );
+    }
 
     $subscription->add_reminders($reminders);
     return $subscription;
@@ -120,6 +130,11 @@ sub _build_payment_url {
 sub _build_url {
     my $self = shift;
     return '/api/subscriptions/' . $self->id;
+}
+
+sub _build_delete_url {
+    my $self = shift;
+    return '/subscription/delete/' . $self->id;
 }
 
 __PACKAGE__->meta->make_immutable;
