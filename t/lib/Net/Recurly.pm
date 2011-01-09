@@ -9,4 +9,7 @@ sub get_subscription {
     };
 }
 
+sub delete_account {}
+sub create_account {}
+
 1;
