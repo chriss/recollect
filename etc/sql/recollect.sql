@@ -26,7 +26,7 @@ CREATE TABLE pickups (
     id      integer PRIMARY KEY DEFAULT nextval('pickup_seq'),
     zone_id integer references zones(id) NOT NULL,
     day     timestamptz NOT NULL,
-    flags   text DEFAULT '' NOT NULL,
+    flags   text DEFAULT '' NOT NULL
 );
 CREATE INDEX pickups_zone_idx ON pickups (zone_id);
 CREATE INDEX pickups_day_idx  ON pickups (day);
