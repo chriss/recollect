@@ -64,5 +64,12 @@ CREATE TABLE reminders (
 CREATE INDEX reminders_sub_idx ON reminders (subscription_id);
 CREATE INDEX reminders_last_notified_idx ON reminders (last_notified);
 
+--- Views to make life easier
+CREATE VIEW next_pickup AS
+    SELECT zone_id, min(day) AS next_pickup
+      FROM pickups
+     WHERE day > 'now'::timestamptz
+     GROUP BY zone_id;
+
 
 COMMIT;
