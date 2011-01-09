@@ -9,6 +9,7 @@ use Test::More;
 use File::Slurp;
 use YAML qw/LoadFile DumpFile/;
 use mocked 'Net::Twitter';
+use mocked 'Net::Recurly';
 use mocked 'WWW::Twilio::API';
 use mocked 'Business::PayPal::NVP';
 use mocked 'Business::PayPal::IPN';
@@ -16,10 +17,11 @@ use mocked 'Business::PayPal::IPN';
 use lib 'lib';
 use namespace::clean -except => 'meta';
 
-my $DEBUG = 0;
+our $DEBUG;
 my $config = LoadFile("$FindBin::Bin/../etc/recollect.yaml.DEFAULT");
 
 BEGIN {
+    $DEBUG = 0;
     $ENV{RECOLLECT_EMAIL} = "/tmp/email.$$";
     $ENV{RECOLLECT_BASE_PATH} = '.';
 
