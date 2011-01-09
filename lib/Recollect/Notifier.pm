@@ -3,6 +3,7 @@ use Moose;
 use DateTime;
 use Recollect::Twitter;
 use Recollect::Twilio;
+use Recollect::Reminder;
 use Recollect::Util qw/now/;
 use JSON qw/encode_json/;
 use namespace::clean -except => 'meta';
@@ -19,56 +20,21 @@ sub need_notification {
     my %args = @_;
     my $debug = $args{debug} || $ENV{RECOLLECT_DEBUG};
 
-    my $as_of = $args{as_of} || now();
-    $as_of = $as_of->epoch;
+    my $due = Recollect::Reminder->All_due(
+        as_of => $args{as_of} || now(),
+    );
+    $self->log("Found " . @$due . " reminders due.");
 
-    my @due;
-    for my $rem (@{ $self->reminders->all('objects') }) {
-        my $name = $rem->nice_name;
-        warn "Examining $name ...\n" if $debug;
-        unless ($rem->confirmed) {
-            warn "reminder is not yet confirmed: $name\n" if $debug;
-            next;
-        }
-        
-        my $garbage_epoch = $rem->next_pickup;
-        if ($garbage_epoch + 24*3600 < now()->epoch) {
-            my $next = $self->model->next_pickup($rem->zone, 1, 'dt');
-#            warn "The next_pickup is out of date - next pickup is " 
-#                . $next->ymd . "\n";
-            $rem->next_pickup($garbage_epoch = $next->epoch);
-            $rem->update unless $debug;
-        }
-        my $rem_time = $garbage_epoch + $rem->offset * 3600;
-        if ($rem->last_notified > $rem_time) {
-            warn "reminder notification already sent for $name\n" if $debug;
-            next;
-        }
-        if ($as_of < $rem_time) {
-            warn "It is too early to send for $name\n" if $debug;
-            next;
-        }
-
-        push @due, $rem;
-    }
-    $self->log("Found " . @due . " reminders due.");
-
-    return \@due;
+    return $due;
 }
 
 sub notify {
     my $self = shift;
-    my $rem  = shift or die "reminder is undef!";
+    my $rem_id = shift or die "reminder is undef!";
 
-    my $pobj = $self->pickups->by_epoch($rem->zone, $rem->next_pickup);
-    unless ($pobj) {
-        warn "Cannot find '" . $rem->zone . "/" . $rem->next_pickup . "'\n";
-        return;
-    }
-    
-    if ($self->_send_notification($rem, $pobj)) {
-        $rem->last_notified( now() );
-        $rem->update;
+    my $rem = Recollect::Reminder->By_id($rem_id);
+    if ($self->_send_notification($rem)) {
+        $rem->update_last_notified(now());
     }
 }
 
@@ -76,7 +42,9 @@ sub notify {
 sub _send_notification {
     my $self   = shift;
     my $rem    = shift;
-    my $pickup = shift;
+    use Data::Dumper;
+    warn Dumper $rem;
+    my $pickup = $rem->zone->next_pickup->[0];
 
     my $target = $rem->target;
     unless ($target =~ m/^(\w+):(.+)/) {
@@ -102,7 +70,7 @@ sub _send_notification_email {
     my $self = shift;
     my %args = @_;
 
-    $self->mailer->send_email(
+    $self->send_email(
         to            => $args{target},
         subject       => 'It is garbage day',
         template      => 'notification.html',
@@ -124,7 +92,7 @@ sub _send_notification_twitter {
             use Data::Dumper;
             warn Dumper $error;
             if ($error->{error} =~ m/not following you/) {
-                $self->mailer->send_email(
+                $self->send_email(
                     to            => $args{reminder}->email,
                     subject       => 'Twitter VanTrash reminder failed!',
                     template      => 'twitter-fail.html',

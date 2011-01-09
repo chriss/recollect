@@ -1,105 +1,73 @@
 #!/usr/bin/perl
 use strict;
 use warnings;
-no warnings 'redefine';
 use Test::More;
 use t::Recollect;
 use DateTime;
+use DateTime::Duration;
 
-
-$ENV{RECOLLECT_LOAD_DATA} = 1;
-t::Recollect->set_time( DateTime->new(year => 2009, month => 6, day => 1) );
-
-
-Create_and_send_reminder: {
-    my $model = t::Recollect->model;
-    my $zones = $model->zones->all('objects');
-    is_deeply $model->reminders->all, [], 'is empty';
-
-    my $zone = $zones->[0];
-    my $robj = $model->add_reminder({
-        name => "Test Reminder",
-        email => 'test@recollect.net',
-        zone => $zone->name,
-        target => 'email:test@recollect.net',
-        offset => 0,
-    });
-    my $next_pickup = $model->next_pickup($zone->name);
-    my ($y, $m, $d) = split m/[-\s]/, $next_pickup;
-    my $pud = DateTime->new(
-        year      => $y, month => $m, day => $d,
-        time_zone => 'America/Vancouver',
-        hour => 1, # 1 hour ahead of offset => 0
-    );
-
-    Not_sent_before_confirmation: {
-        my $reminders = $model->notifier->need_notification( as_of => $pud);
-        is scalar(@$reminders), 0, 'no more notifications needed';
-        $reminders = $model->reminders->all('objects');
-        is scalar(@$reminders), 1, '1 reminder exists';
-        $model->confirm_reminder($reminders->[0]);
-    }
-
-    Email_is_sent: {
-        my $reminders = $model->notifier->need_notification( as_of => $pud);
-        is scalar(@$reminders), 1, 'found 1 reminder needing notification';
-        is $reminders->[0]->name, 'Test Reminder', 'and it had the right name';
-
-        t::Recollect->clear_email;
-
-        t::Recollect->set_time($pud);
-        $model->notifier->notify($reminders->[0]);
-        my $email = t::Recollect->email_content();
-        like $email, qr/garbage day/, 'email matches';
-    }
-
-    $pud->set(minute => 10);
-    Email_is_not_double_sent: {
-        my $reminders = $model->notifier->need_notification( as_of => $pud);
-        is scalar(@$reminders), 0, 'no more notifications needed';
-    }
-
-    Unknown_target: {
-        # Set up reminder to be able to do another update
-        $robj->target('unknown:monkey');
-        $robj->last_notified(0);
-        $robj->update;
-
-        my $reminders = $model->notifier->need_notification( as_of => $pud);
-        is scalar(@$reminders), 1, 'reminder needs notification again';
-        eval { $model->notifier->notify($reminders->[0]) };
-        like $@, qr/No such target/, 'error was raised';
-    }
-
-    Twitter: {
-        # Set up reminder to be able to do another update
-        $robj->target('twitter:lukec');
-        $robj->last_notified(0);
-        $robj->update;
-
-        my $reminders = $model->notifier->need_notification( as_of => $pud);
-        is scalar(@$reminders), 1, 'reminder needs notification again';
-        $model->notifier->notify($reminders->[0]);
-        my $tweets = t::Recollect->twitters;
-        is scalar(@$tweets), 1, '1 tweet message found';
-        is $tweets->[0]{to}, 'lukec', 'to correct user';
-        like $tweets->[0]{msg}, qr/It's garbage day on \w+ for [\w\-]+/, 'message is correct';
-    }
-
-    WebHooks: {
-        # Set up reminder to be able to do another update
-        $robj = $model->reminders->by_id($robj->id);
-        $robj->target('webhook:http://example.com/your-special-webhook-here');
-        $robj->last_notified(0);
-        $robj->update;
-
-        my $reminders = $model->notifier->need_notification( as_of => $pud, debug => 1);
-        is scalar(@$reminders), 1, 'reminder needs notification again';
-        $model->notifier->notify($reminders->[0]);
-        my $reqs = t::Recollect->http_requests;
-        is scalar(@$reqs), 1, '1 http request found';
-    }
+BEGIN {
+    use_ok 'Recollect::Notifier';
+    use_ok 'Recollect::Subscription';
 }
+
+t::Recollect->model(); # set up the db model
+
+my $notifier = Recollect::Notifier->new;
+ok $notifier, 'notifier exists';
+
+my $TEST_EMAIL = 'unittest@recollect.net';
+my $one_hour = DateTime::Duration->new(hours => 1);
+$ENV{RECOLLECT_NOW} = DateTime->new(year => 2011, month => 1, day => 15);
+
+subtest 'No reminders need notification initially' => sub {
+    my $rems = $notifier->need_notification;
+    is scalar(@$rems), 0;
+};
+
+subtest 'Free reminder notification' => sub {
+    my $sub = Recollect::Subscription->Create(
+        email => $TEST_EMAIL,
+        reminders => [
+            {
+                zone_id => 1,
+                target => "email:$TEST_EMAIL",
+                offset => 0,
+            },
+        ],
+    );
+    ok $sub, 'subscription was created';
+
+    my $rem = $sub->reminders->[0];
+    my $next_pickup = $rem->zone->next_pickup->[0]->datetime;
+
+    my $before_offset = $next_pickup - $rem->offset_duration - $one_hour;
+    my $rems = $notifier->need_notification(as_of => $before_offset);
+    is scalar(@$rems), 0, 'no reminder before the right time';
+    my $after_offset = $next_pickup - $rem->offset_duration + $one_hour;
+    $rems = $notifier->need_notification(as_of => $after_offset);
+    is scalar(@$rems), 1, 'reminder after works correctly';
+
+    # Now fire the notification
+    $notifier->notify($rems->[0]);
+    # XXX check the email was sent
+
+    $rems = $notifier->need_notification(as_of => $after_offset);
+    is scalar(@$rems), 0, 'reminder was sent';
+};
+
+# fake send them
+# Check how many reminders need to be sent: 0
+# Test that offset works properly
+# create a paid+free subscription
+# no notifications until paid
+# notification should not be double sent
+# email notifications work & match
+# twitter notifications work & match
+# webhooks notifications work & match
+# sms notifications work & match
+# voice notifications work & match
+
 
 done_testing();
 exit;
