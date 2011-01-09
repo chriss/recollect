@@ -26,7 +26,9 @@ sub execute {
         warn "About to execute:\n" . $stmt . "\nWith (@bind)\n";
     }
     my $sth = $DBH->prepare($stmt);
+    die "Could not prepare query: " .$sth->errstr if $sth->err;
     $sth->execute(@bind);
+    die "Could not execute query: " .$sth->errstr if $sth->err;
     return $sth;
 }
 
