@@ -52,10 +52,7 @@ SELECT r.id
       AND \$1::timestamptz > p.next_pickup - r.delivery_offset
       AND p.next_pickup - r.delivery_offset > r.last_notified
 EOSQL
-    my $sth = $class->dbh->prepare($sql);
-    die "Could not prepare query: " .$sth->errstr if $sth->err;
-    $sth->execute($opts{as_of});
-    die "Could not execute query: " .$sth->errstr if $sth->err;
+    my $sth = $class->run_sql($sql, [$opts{as_of}]);
     return [
         map { $_->[0] } @{ $sth->fetchall_arrayref }
     ];
@@ -107,7 +104,7 @@ sub _build_nice_zone {
 
 sub _build_delete_url {
     my $self = shift;
-    die 'todo';
+    return $self->subscription->delete_url;
 }
 
 sub _build_short_delete_url {
