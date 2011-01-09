@@ -6,8 +6,6 @@ use DateTime::Format::Pg;
 use Carp qw/croak/;
 use namespace::clean -except => 'meta';
 
-extends 'Recollect::Collection';
-
 has 'id'         => (is => 'ro', isa => 'Int',      required   => 1);
 has 'zone_id'    => (is => 'ro', isa => 'Int',      required   => 1);
 has 'day'        => (is => 'ro', isa => 'Str',      required   => 1);
@@ -20,7 +18,10 @@ has 'desc'       => (is => 'ro', isa => 'Str',      lazy_build => 1);
 has 'datetime'   => (is => 'ro', isa => 'DateTime', lazy_build => 1,
                      handles => ['ymd', 'day_of_week']);
 
+extends 'Recollect::Collection';
 with 'Recollect::Roles::HasZone';
+
+sub By_zone_id { Recollect::Roles::HasZone::By_zone_id(@_) }
 
 sub to_hash {
     my $self = shift;
