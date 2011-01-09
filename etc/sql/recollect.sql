@@ -12,7 +12,7 @@ CREATE UNIQUE INDEX zone_name_idx ON areas (LOWER(name));
 CREATE SEQUENCE zone_seq;
 CREATE TABLE zones (
     id     integer PRIMARY KEY DEFAULT nextval('zone_seq'),
-    area_id integer references areas(id),
+    area_id integer references areas(id) NOT NULL,
     name   text NOT NULL,
     title  text NOT NULL,
     colour text NOT NULL
@@ -24,9 +24,9 @@ CREATE UNIQUE INDEX zones_area_name_idx ON zones (area_id, name);
 CREATE SEQUENCE pickup_seq;
 CREATE TABLE pickups (
     id      integer PRIMARY KEY DEFAULT nextval('pickup_seq'),
-    zone_id integer references zones(id),
+    zone_id integer references zones(id) NOT NULL,
     day     timestamptz NOT NULL,
-    flags   text DEFAULT ''
+    flags   text DEFAULT '' NOT NULL,
 );
 CREATE INDEX pickups_zone_idx ON pickups (zone_id);
 CREATE INDEX pickups_day_idx  ON pickups (day);
@@ -37,14 +37,14 @@ CREATE SEQUENCE user_seq;
 CREATE TABLE users (
     id    integer PRIMARY KEY,
     email text NOT NULL,
-    created_at  timestamptz DEFAULT LOCALTIMESTAMP
+    created_at  timestamptz DEFAULT LOCALTIMESTAMP NOT NULL
 );
 CREATE UNIQUE INDEX users_email_idx ON users (email);
 
 CREATE TABLE subscriptions (
     id         text    PRIMARY KEY,
-    user_id    integer references users(id),
-    created_at timestamptz DEFAULT LOCALTIMESTAMP,
+    user_id    integer references users(id) NOT NULL,
+    created_at timestamptz DEFAULT LOCALTIMESTAMP NOT NULL,
     free       BOOLEAN NOT NULL,
     active     BOOLEAN DEFAULT FALSE
 );
@@ -54,11 +54,11 @@ CREATE INDEX subscriptions_user_idx ON subscriptions (user_id);
 CREATE SEQUENCE reminder_seq;
 CREATE TABLE reminders (
     id              integer PRIMARY KEY,
-    subscription_id text    references subscriptions(id),
-    zone_id         integer references zones(id),
-    created_at      timestamptz DEFAULT LOCALTIMESTAMP,
-    last_notified   timestamptz DEFAULT '-infinity'::timestamptz,
-    delivery_offset interval DAY TO MINUTE DEFAULT '-6hours'::interval,
+    subscription_id text    references subscriptions(id) NOT NULL,
+    zone_id         integer references zones(id) NOT NULL,
+    created_at      timestamptz DEFAULT LOCALTIMESTAMP NOT NULL,
+    last_notified   timestamptz DEFAULT '-infinity'::timestamptz NOT NULL,
+    delivery_offset interval DAY TO MINUTE DEFAULT '-6hours'::interval NOT NULL,
     target          text NOT NULL
 );
 CREATE INDEX reminders_sub_idx ON reminders (subscription_id);
