@@ -16,6 +16,7 @@ use mocked 'Business::PayPal::IPN';
 use lib 'lib';
 use namespace::clean -except => 'meta';
 
+my $DEBUG = 0;
 my $config = LoadFile("$FindBin::Bin/../etc/recollect.yaml.DEFAULT");
 
 BEGIN {
@@ -25,7 +26,7 @@ BEGIN {
     use_ok 'Recollect::Model';
     use_ok 'Recollect::Roles::Log';
     use_ok 'Recollect::Roles::SQL';
-    $Recollect::Roles::SQL::DEBUG = $Recollect::Roles::Log::VERBOSE = 0;
+    $Recollect::Roles::SQL::DEBUG = $Recollect::Roles::Log::VERBOSE = $DEBUG;
 }
 
 END { 
@@ -71,10 +72,10 @@ sub _build_base_path {
     DumpFile($test_config, $config);
     my $psql = "psql $db_name";
 
-#    warn "Testing with db $db_name";
+    warn "Testing with db $db_name" if $DEBUG;
     if (system("createdb $db_name 2> /dev/null") == 0) {
-#         diag "created database $db_name, loading $sql_file";
-        system("$psql -f $sql_file > /dev/null 2>&1")
+        diag "created database $db_name, loading $sql_file" if $DEBUG;
+        system("$psql -f $sql_file 2>&1 | grep -v WARNING")
             and die "Couldn't psql $db_name -f $sql_file";
     }
     system(qq{$psql -c 'DELETE FROM reminders' > /dev/null});
