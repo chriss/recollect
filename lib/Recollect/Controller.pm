@@ -4,6 +4,7 @@ use Moose;
 use Fatal qw/open/;
 use Template;
 use Recollect::CallController;
+use Recollect::Subscription;
 use JSON qw/encode_json decode_json/;
 use Email::Valid;
 use Plack::Request;
@@ -23,9 +24,10 @@ sub run {
     my $path = $req->path;
     my %func_map = (
         GET => [
-            [ qr{^/$}                               => \&ui_html ],
-            [ qr{^/m/?$}                            => \&ui_html ],
-            [ qr{^/(.+)\.html$}                     => \&ui_html ],
+            [ qr{^/$}           => \&ui_html ],
+            [ qr{^/m/?$}        => \&ui_html ],
+            [ qr{^/(.+)\.html$} => \&ui_html ],
+            [ qr{^/subscription/delete/([\w-]+)$} => \&delete_subscription_page ],
         ],
 
         POST => [
@@ -66,33 +68,20 @@ sub ui_html {
     return $self->process_template("$tmpl.tt2", $params)->finalize;
 }
 
-sub delete_reminder_html {
+sub delete_subscription_page {
     my $self = shift;
     my $req  = shift;
-    my $zone = shift;
     my $id   = shift;
 
-    my $rem = $self->model->reminders->by_id($id);
-    unless ($rem) {
-        $self->log("DELETE_FAIL $zone $id");
-        my $resp = $self->process_template(
-            'zones/reminders/bad_delete.html'
-        );
-        $resp->header('Content-Type' => 'text/html; charset=utf8');
-        $resp->status(404);
-        return $resp->finalize;
+    my $sub = Recollect::Subscription->By_id($id);
+    unless ($sub) {
+        return $self->process_template("invalid_subscription.html", {
+            account_code => $id,
+        })->finalize;
     }
 
-    my $template = 'zones/reminders/confirm_delete.html';
-    if ($req->parameters->{confirm}) {
-        $template = 'zones/reminders/good_delete.html';
-        $self->model->delete_reminder($id);
-        $self->log("DELETE $zone $id");
-    }
-
-    return $self->process_template($template, {
-        reminder => $rem,
-    })->finalize;
+    return $self->process_template("delete_subscription.html", $sub->to_hash)
+        ->finalize;
 }
 
 sub tell_friends {
