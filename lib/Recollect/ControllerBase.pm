@@ -115,9 +115,13 @@ sub not_found {
     return Plack::Response->new(404, ['Content-Type' => 'text/plain'], '')->finalize;
 }
 
-sub ok {
-    return Plack::Response->new(200, ['Content-Type' => 'text/plain'],
+sub _kthx {
+    my $code = shift;
+    return Plack::Response->new($code, ['Content-Type' => 'text/plain'],
             'KTHXBYE')->finalize;
 }
+
+sub ok         { _kthx(200) }
+sub no_content { _kthx(204) }
 
 1;
