@@ -8,8 +8,9 @@ use Recollect::Util qw/now/;
 use JSON qw/encode_json/;
 use namespace::clean -except => 'meta';
 
-has 'twitter'        => (is => 'ro', isa => 'Object', lazy_build => 1);
-has 'twilio'         => (is => 'ro', isa => 'Object', lazy_build => 1);
+has 'twitter' => (is => 'ro', isa => 'Object', lazy_build => 1);
+has 'twilio'  => (is => 'ro', isa => 'Object', lazy_build => 1);
+has 'now'     => (is => 'rw', isa => 'Object', default    => sub { now() });
 
 with 'Recollect::Roles::Config';
 with 'Recollect::Roles::Log';
@@ -21,7 +22,7 @@ sub need_notification {
     my $debug = $args{debug} || $ENV{RECOLLECT_DEBUG};
 
     my $due = Recollect::Reminder->All_due(
-        as_of => $args{as_of} || now(),
+        as_of => $self->now,
     );
     $self->log("Found " . @$due . " reminders due.");
 
@@ -34,7 +35,7 @@ sub notify {
 
     my $rem = Recollect::Reminder->By_id($rem_id);
     if ($self->_send_notification($rem)) {
-        $rem->update_last_notified(now());
+        $rem->update_last_notified($self->now);
     }
 }
 

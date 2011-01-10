@@ -127,13 +127,5 @@ sub http_requests {
     return [ @http_requests ];
 }
 
-sub set_time {
-    my $self = shift;
-    my $dt   = shift;
-
-    no warnings 'redefine';
-    *Recollect::Notifier::now = sub { $dt->epoch };
-}
-
 __PACKAGE__->meta->make_immutable;
 1;

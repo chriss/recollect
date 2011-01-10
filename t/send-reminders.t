@@ -42,13 +42,13 @@ subtest 'Free reminder notification' => sub {
     my $next_pickup = $rem->zone->next_pickup->[0]->datetime;
 
     my $before_offset = $next_pickup - $rem->offset_duration - $one_hour;
-    my $rems = $notifier->need_notification(as_of => $before_offset);
+    $notifier->now($before_offset);
+    my $rems = $notifier->need_notification;
     is scalar(@$rems), 0, 'no reminder before the right time';
     my $after_offset = $next_pickup - $rem->offset_duration + $one_hour;
-    $rems = $notifier->need_notification(as_of => $after_offset);
+    $notifier->now($after_offset);
+    $rems = $notifier->need_notification;
     is scalar(@$rems), 1, 'reminder after works correctly';
-    use Data::Dumper;
-    warn Dumper $rems;
 
     $notifier->notify($rems->[0]);
 
@@ -56,11 +56,9 @@ subtest 'Free reminder notification' => sub {
     like $content, qr#/subscription/delete/[\w-]+#, 'email has delete url';
 
     # Now move the clock forward and check again
-#     $ENV{RECOLLECT_NOW}
-#         = DateTime->new(year => 2011, month => 1, day => 15, hour => 1);
-    $rems = $notifier->need_notification(as_of => $after_offset);
+    $notifier->now($after_offset);
+    $rems = $notifier->need_notification;
     is scalar(@$rems), 0, 'reminder was sent';
-    warn Dumper $rems;
 };
 
 # fake send them
