@@ -9,13 +9,11 @@ Set_now_time: {
     my $model = t::Recollect->model;
 
     # Set the time to right before a day change
-    my $now = $model->now;
-    $now->set(
+    $ENV{RECOLLECT_NOW} = DateTime->new(
         month => 1,
         day   => 11,
         year  => 2011,
     );
-    $ENV{RECOLLECT_NOW} = $now;
 }
 
 my $redzone = Recollect::Zone->By_name('vancouver-south-red');
