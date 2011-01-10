@@ -1,20 +1,18 @@
 package Recollect::Notifier;
 use Moose;
 use DateTime;
-use Recollect::Twitter;
-use Recollect::Twilio;
 use Recollect::Reminder;
 use Recollect::Util qw/now/;
 use JSON qw/encode_json/;
 use namespace::clean -except => 'meta';
 
-has 'twitter' => (is => 'ro', isa => 'Object', lazy_build => 1);
-has 'twilio'  => (is => 'ro', isa => 'Object', lazy_build => 1);
 has 'now'     => (is => 'rw', isa => 'Object', default    => sub { now() });
 
 with 'Recollect::Roles::Config';
 with 'Recollect::Roles::Log';
 with 'Recollect::Roles::Email';
+with 'Recollect::Roles::Twilio';
+with 'Recollect::Roles::Twitter';
 
 sub need_notification {
     my $self = shift;
@@ -146,7 +144,7 @@ sub _send_notification_sms {
     my $self = shift;
     my %args = @_;
 
-    $self->twilio->send_sms($args{target}, $self->short_and_sweet_message(%args));
+    $self->send_sms($args{target}, $self->short_and_sweet_message(%args));
     return 1;
 }
 
@@ -154,16 +152,13 @@ sub _send_notification_voice {
     my $self = shift;
     my %args = @_;
 
-    my $url = '/call/notify/' . $args{reminder}->zone;
-    $self->twilio->voice_call($args{target}, $url,
+    my $url = '/call/notify/' . $args{reminder}->zone->name;
+    $self->voice_call($args{target}, $url,
         StatusCallback => $url . "/status?id=" . $args{reminder}->id,
     );
 
     return 1;
 }
-
-sub _build_twitter { Recollect::Twitter->new }
-sub _build_twilio { Recollect::Twilio->new }
 
 __PACKAGE__->meta->make_immutable;
 1;

@@ -54,7 +54,6 @@ subtest 'Free email notification' => sub {
         [ $next_pickup - $one_hour + $one_hour => 1 => 'hour after due' ],
         [ $next_pickup - $one_hour + $one_hour + $one_hour => 1 => '2 hours after due' ],
     );
-
     my $rems;
     for my $t (@tests) {
         my $before_offset = $t->[0];
@@ -128,15 +127,83 @@ subtest 'Free webhook notification' => sub {
     is scalar(@{ $notifier->need_notification }), 0, 'reminder was sent';
 };
 
-# create a paid+free subscription
-# no notifications until paid
-# notification should not be double sent
-# email notifications work & match
-# twitter notifications work & match
-# webhooks notifications work & match
-# sms notifications work & match
-# voice notifications work & match
+subtest 'Paid sms notification' => sub {
+    my $sub = Recollect::Subscription->Create(
+        email => $TEST_EMAIL,
+        reminders => [
+            {
+                zone_id => 1,
+                target => "sms:7787851357",
+                offset => '0:00',
+            },
+        ],
+    );
+    ok $sub, 'subscription was created';
 
+    my $rem = $sub->reminders->[0];
+    my $next_pickup = $rem->zone->next_pickup->[0]->datetime;
+
+    my @tests = (
+        [ $next_pickup - $one_hour - $one_hour => 0 => 'hour before due' ],
+        [ $next_pickup - $one_hour - $one_min  => 0 => 'min before due' ],
+        [ $next_pickup - $one_hour             => 0 => 'exactly due' ],
+        [ $next_pickup - $one_hour + $one_min  => 0 => 'min after due' ],
+        [ $next_pickup - $one_hour + $one_hour => 0 => 'hour after due' ],
+        [ $next_pickup - $one_hour + $one_hour + $one_hour => 0 => '2 hours after due' ],
+    );
+    my $rems;
+    for my $t (@tests) {
+        my $before_offset = $t->[0];
+        $notifier->now($before_offset);
+        is scalar(@{ $rems = $notifier->need_notification }), $t->[1], $t->[2];
+    }
+
+    $sub->mark_as_active;
+
+    $notifier->now($next_pickup);
+    $rems = $notifier->need_notification;
+    is scalar(@$rems), 1, 'reminder needing notification is found';
+    @WWW::Twilio::API::POSTS = ();
+    $notifier->notify($rems->[0]);
+    my @posts = @WWW::Twilio::API::POSTS;
+    my $p = shift @posts;
+    my ($type, %args) = @$p;
+    is $type, 'SMS/Messages', 'type';
+    is $args{Body}, q{It's garbage day on Monday for Vancouver North Red - yard trimmings & food scraps will be picked up}, 'body';
+    is scalar(@{ $notifier->need_notification }), 0, 'reminder was sent';
+};
+
+subtest 'Paid voice notification' => sub {
+    my $sub = Recollect::Subscription->Create(
+        email => $TEST_EMAIL,
+        reminders => [
+            {
+                zone_id => 1,
+                target => "voice:7787851357",
+                offset => '0:00',
+            },
+        ],
+    );
+    ok $sub, 'subscription was created';
+
+    my $rem = $sub->reminders->[0];
+    my $next_pickup = $rem->zone->next_pickup->[0]->datetime;
+
+    $sub->mark_as_active;
+
+    $notifier->now($next_pickup);
+    my $rems = $notifier->need_notification;
+    is scalar(@$rems), 1, 'reminder needing notification is found';
+    @WWW::Twilio::API::POSTS = ();
+    $notifier->notify($rems->[0]);
+    my @posts = @WWW::Twilio::API::POSTS;
+    my $p = shift @posts;
+    my ($type, %args) = @$p;
+    is $type, 'Calls', 'type';
+    is $args{Called}, '7787851357', 'called';
+    is $args{Url}, q{http://localhost/call/notify/vancouver-north-red}, 'url';
+    is scalar(@{ $notifier->need_notification }), 0, 'reminder was sent';
+};
 
 done_testing();
 exit;

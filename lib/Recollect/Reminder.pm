@@ -1,7 +1,6 @@
 package Recollect::Reminder;
 use Moose;
 use WWW::Shorten::isgd;
-use Recollect::Twilio;
 use DateTime;
 use DateTime::Duration;
 use Carp qw/croak/;

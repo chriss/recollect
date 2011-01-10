@@ -1,12 +1,12 @@
-package Recollect::Twilio;
-use MooseX::Singleton;
+package Recollect::Roles::Twilio;
+use Moose::Role;
 use WWW::Twilio::API;
 use URI::Encode qw/uri_encode/;
-use namespace::clean -except => 'meta';
 
 has 'api' => (is => 'ro', isa => 'WWW::Twilio::API', lazy_build => 1);
 
-with 'Recollect::Roles::Config';
+requires 'base_url';
+requires 'config';
 
 sub _build_api {
     my $self = shift;
@@ -73,5 +73,4 @@ sub _config_value {
     $self->config->{$key} || die "$key must be set in the config file!";
 }
 
-__PACKAGE__->meta->make_immutable;
 1;

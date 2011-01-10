@@ -1,9 +1,8 @@
-package Recollect::Twitter;
-use MooseX::Singleton;
+package Recollect::Roles::Twitter;
+use Moose::Role;
 use Net::Twitter;
-use namespace::clean -except => 'meta';
 
-with 'Recollect::Roles::Config';
+requires 'config';
 
 has 'twitter' => (is => 'ro', lazy_build => 1, 
     handles => ['new_direct_message', 'get_error']);
@@ -30,5 +29,4 @@ sub _build_twitter {
     return $nt;
 }
 
-__PACKAGE__->meta->make_immutable;
 1;
