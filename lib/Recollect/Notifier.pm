@@ -17,7 +17,6 @@ with 'Recollect::Roles::Twitter';
 sub need_notification {
     my $self = shift;
     my %args = @_;
-    my $debug = $args{debug} || $ENV{RECOLLECT_DEBUG};
 
     my $due = Recollect::Reminder->All_due(
         as_of => $self->now,
@@ -32,6 +31,7 @@ sub notify {
     my $rem_id = shift or die "reminder is undef!";
 
     my $rem = Recollect::Reminder->By_id($rem_id);
+    die "Reminder ID: $rem_id is invalid!" unless $rem;
     if ($self->_send_notification($rem)) {
         $rem->update_last_notified($self->now);
     }

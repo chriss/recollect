@@ -3,31 +3,24 @@ use strict;
 use warnings;
 use FindBin;
 use lib "$FindBin::Bin/../lib";
-use Recollect::Model;
+use Recollect::Notifier;
 use DateTime;
 use Getopt::Long;
 
 my %args;
 GetOptions( \%args,
     'debug',
-    'base-path=s',
 );
 $args{debug} = 1 if $ENV{RECOLLECT_DEBUG};
 
-my $base_path = $args{'base-path'} || "$FindBin::Bin/..";
-
-my $now = DateTime->now(time_zone => 'America/Vancouver');
-my $model = Recollect::Model->new( base_path => $base_path);
-my $reminders = $model->notifier->need_notification(
-    as_of => $now,
-    debug => $args{debug},
-);
+my $notifier = Recollect::Notifier->new;
+my $reminders = $notifier->need_notification;
 for my $r (@$reminders) {
     if ($args{debug}) {
-        print "Would have notified " . $r->target . "\n";
+        print "Would have notified reminder_id: $r\n";
         next;
     }
-    eval { $model->notifier->notify($r) };
+    eval { $notifier->notify($r) };
     if ($@) {
         my $now = localtime;
         warn "$now: $@";

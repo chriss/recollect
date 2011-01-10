@@ -5,6 +5,8 @@ use lib 'lib';
 use FindBin;
 use Email::MIME;
 
+die "Needs rewriting";
+
 use Recollect::Email;
 
 my $emailer = Recollect::Email->new(

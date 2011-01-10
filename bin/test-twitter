@@ -1,9 +1,0 @@
-#!/usr/bin/perl
-use strict;
-use lib 'lib';
-use Recollect::Twitter;
-
-my $t = Recollect::Twitter->new;
-my $statuses = $t->twitter->friends_timeline({ count => 1 });
-use Data::Dumper;
-warn Dumper $statuses;
