@@ -394,6 +394,9 @@ sub pickupdays_ical {
         $ical->add_entry($evt);
     }
 
+
+    my $t = $self->request->param("t") || 'none';
+    $self->log("ICAL: $t");
     return $self->response('text/calendar', $ical->as_string);
 }
 
