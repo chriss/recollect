@@ -13,6 +13,7 @@ use mocked 'Net::Recurly';
 use mocked 'WWW::Twilio::API';
 use mocked 'Business::PayPal::NVP';
 use mocked 'Business::PayPal::IPN';
+use mocked 'LWP::UserAgent';
 
 use lib 'lib';
 use namespace::clean -except => 'meta';

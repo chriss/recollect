@@ -133,7 +133,7 @@ sub short_and_sweet_message {
     my %args = @_;
 
     my $msg = "It's garbage day on " . $args{pickup}->datetime->day_name
-            . " for " . $args{reminder}->nice_zone;
+            . " for " . $args{reminder}->zone->title;
     if ($args{pickup}->flags eq 'Y') {
         $msg .= " - yard trimmings & food scraps will be picked up";
     }

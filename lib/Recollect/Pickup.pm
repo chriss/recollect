@@ -28,7 +28,6 @@ sub to_hash {
     return {
         day => $self->ymd,
         zone_id => $self->zone_id,
-        string => $self->string,
         flags => $self->flags,
     };
 }

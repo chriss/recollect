@@ -19,7 +19,6 @@ has 'zone'             => (is => 'ro', isa => 'Object', lazy_build => 1);
 has 'subscription'     => (is => 'ro', isa => 'Object', lazy_build => 1);
 has 'offset_duration'  => (is => 'ro', isa => 'Object', lazy_build => 1);
 has 'nice_name'        => (is => 'ro', isa => 'Str', lazy_build => 1);
-has 'nice_zone'        => (is => 'ro', isa => 'Str', lazy_build => 1);
 has 'delete_url'       => (is => 'ro', isa => 'Str', lazy_build => 1);
 has 'short_delete_url' => (is => 'ro', isa => 'Str', lazy_build => 1);
 has 'zone_url'         => (is => 'ro', isa => 'Str', lazy_build => 1);
@@ -93,13 +92,6 @@ sub _build_nice_name {
     my $self = shift;
     return join('-', $self->zone, $self->email, $self->name)
         . " (" . $self->target . ")";
-}
-
-sub _build_nice_zone {
-    my $self = shift;
-    my $zone = $self->zone;
-    $zone =~ s/(\w+)/ucfirst($1)/eg;
-    return $zone;
 }
 
 sub _build_delete_url {

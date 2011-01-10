@@ -5,8 +5,10 @@ use Test::More;
 use t::Recollect;
 use DateTime;
 use DateTime::Duration;
+use JSON qw/decode_json/;
 
 BEGIN {
+    use_ok 'Recollect::Zone';
     use_ok 'Recollect::Notifier';
     use_ok 'Recollect::Subscription';
 }
@@ -21,12 +23,14 @@ my $one_hour = DateTime::Duration->new(hours  => 1);
 my $one_min  = DateTime::Duration->new(minutes => 1);
 $ENV{RECOLLECT_NOW} = DateTime->new(year => 2011, month => 1, day => 15);
 
+my $zone = Recollect::Zone->By_id(1);
+
 subtest 'No reminders need notification initially' => sub {
     my $rems = $notifier->need_notification;
     is scalar(@$rems), 0;
 };
 
-subtest 'Free reminder notification' => sub {
+subtest 'Free email notification' => sub {
     my $sub = Recollect::Subscription->Create(
         email => $TEST_EMAIL,
         reminders => [
@@ -55,8 +59,7 @@ subtest 'Free reminder notification' => sub {
     for my $t (@tests) {
         my $before_offset = $t->[0];
         $notifier->now($before_offset);
-        $rems = $notifier->need_notification;
-        is scalar(@$rems), $t->[1], $t->[2];
+        is scalar(@{ $rems = $notifier->need_notification }), $t->[1], $t->[2];
     }
 
     $notifier->notify($rems->[0]);
@@ -64,9 +67,65 @@ subtest 'Free reminder notification' => sub {
     my $content = t::Recollect::email_content(); t::Recollect::clear_email();
     like $content, qr#/subscription/delete/[\w-]+#, 'email has delete url';
 
-    # Now move the clock forward and check again
-    $rems = $notifier->need_notification;
-    is scalar(@$rems), 0, 'reminder was sent';
+    is scalar(@{ $notifier->need_notification }), 0, 'reminder was sent';
+};
+
+subtest 'Free twitter notification' => sub {
+    my $sub = Recollect::Subscription->Create(
+        email => $TEST_EMAIL,
+        reminders => [
+            {
+                zone_id => 1,
+                target => "twitter:test",
+                offset => '0:00',
+            },
+        ],
+    );
+    ok $sub, 'subscription was created';
+
+    my $rem = $sub->reminders->[0];
+    my $next_pickup = $rem->zone->next_pickup->[0]->datetime;
+
+    $notifier->now($next_pickup);
+    my $rems = $notifier->need_notification;
+    is scalar(@$rems), 1, 'reminder needing notification is found';
+    @Net::Twitter::MESSAGES = ();
+    $notifier->notify($rems->[0]);
+    my @msgs = @Net::Twitter::MESSAGES;
+    is scalar(@msgs), 1, 'a twitter dm is found';
+    is $msgs[0]->{to}, 'test', 'twitter recipient';
+    is $msgs[0]->{msg}, qq{It's garbage day on Monday for Vancouver North Red - }
+        . q{yard trimmings & food scraps will be picked up}, 'twitter body';
+    is scalar(@{ $notifier->need_notification }), 0, 'reminder was sent';
+};
+
+subtest 'Free webhook notification' => sub {
+    my $sub = Recollect::Subscription->Create(
+        email => $TEST_EMAIL,
+        reminders => [
+            {
+                zone_id => 1,
+                target => "webhook:http://example.com",
+                offset => '0:00',
+            },
+        ],
+    );
+    ok $sub, 'subscription was created';
+
+    my $rem = $sub->reminders->[0];
+    my $next_pickup = $rem->zone->next_pickup->[0]->datetime;
+
+    $notifier->now($next_pickup);
+    my $rems = $notifier->need_notification;
+    is scalar(@$rems), 1, 'reminder needing notification is found';
+    @Net::Twitter::MESSAGES = ();
+    $notifier->notify($rems->[0]);
+    my @posts = @LWP::UserAgent::POSTS;
+    is scalar(@posts), 1, 'a webhook post is found';
+    is $posts[0][0], 'http://example.com';
+    my $blob = eval { decode_json($posts[0][2]) };
+    ok !$@, 'json okay';
+    is scalar(@{ $notifier->need_notification }), 0, 'reminder was sent';
 };
 
 # create a paid+free subscription

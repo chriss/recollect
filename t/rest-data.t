@@ -165,9 +165,7 @@ test_the_api_for(
         return unless is ref($data), 'ARRAY';
         is $data->[0]{day}, '2011-01-10', 'json has a day';
         like $data->[0]{zone_id}, qr/^\d+$/, 'json has a zone_id';
-        is $data->[0]{string}, '2011-01-10', 'json has a string form';
         is $data->[0]{flags}, '', 'json has flags';
-        is $data->[1]{string}, '2011-01-17 Y', 'json has a string form';
         is $data->[1]{flags}, 'Y', 'json has flags';
     },
 );
@@ -207,7 +205,7 @@ test_the_api_for(
         my $data = shift;
         return unless is ref($data), 'ARRAY';
         is scalar(@$data), 1, 'only one result';
-        is $data->[0]{string}, '2011-01-06', 'date is correct';
+        is $data->[0]{day}, '2011-01-06', 'date is correct';
     },
 );
 
@@ -231,9 +229,9 @@ test_the_api_for(
         my $data = shift;
         return unless is ref($data), 'ARRAY';
         is scalar(@$data), 3, 'only one result';
-        is $data->[0]{string}, '2011-01-06', 'date is correct';
-        is $data->[1]{string}, '2011-01-13 Y', 'date is correct';
-        is $data->[2]{string}, '2011-01-20', 'date is correct';
+        is $data->[0]{day}, '2011-01-06', 'date is correct';
+        is $data->[1]{day}, '2011-01-13', 'date is correct';
+        is $data->[2]{day}, '2011-01-20', 'date is correct';
     },
 );
 
@@ -254,8 +252,8 @@ test_the_api_for(
     json => sub {
         my $data = shift;
         return unless is ref($data), 'HASH';
-        is $data->{last}{string}, '2011-04-21 Y', 'date is correct';
-        is $data->{next}{string}, '2011-05-02', 'date is correct';
+        is $data->{last}{day}, '2011-04-21', 'date is correct';
+        is $data->{next}{day}, '2011-05-02', 'date is correct';
     },
 );
 
