@@ -9,7 +9,7 @@ use namespace::clean -except => 'meta';
 
 extends 'Recollect::Collection';
 with 'Recollect::Roles::SQL';
-with 'Recollect::Roles::HasRecurly';
+with 'Recollect::Roles::Recurly';
 
 has 'id'         => (is => 'ro', isa => 'Str',  required => 1);
 has 'user_id'    => (is => 'ro', isa => 'Int',  required => 1);

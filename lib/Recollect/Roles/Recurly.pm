@@ -1,4 +1,4 @@
-package Recollect::Roles::HasRecurly;
+package Recollect::Roles::Recurly;
 use Moose::Role;
 use Net::Recurly;
 use Carp 'croak';

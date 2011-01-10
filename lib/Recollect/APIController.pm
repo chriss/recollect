@@ -14,7 +14,7 @@ use XML::Simple;
 use namespace::clean -except => 'meta';
 
 with 'Recollect::ControllerBase';
-with 'Recollect::Roles::HasRecurly';
+with 'Recollect::Roles::Recurly';
 
 our $API_Version = 1.0;
 
