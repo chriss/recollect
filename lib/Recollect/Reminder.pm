@@ -49,7 +49,7 @@ SELECT r.id
          GROUP BY zone_id
          ) AS p ON (r.zone_id = p.zone_id)
     WHERE s.active
-      AND \$1::timestamptz > p.next_pickup - r.delivery_offset
+      AND \$1::timestamptz >= p.next_pickup - r.delivery_offset
       AND p.next_pickup - r.delivery_offset > r.last_notified
 EOSQL
     my $sth = $class->run_sql($sql, [$opts{as_of}]);
