@@ -1,3 +1,5 @@
 id: [% zone.id %]
 name: [% zone.name %]
 title: [% zone.title %]
+area_name: [% area.name %]
+area_id: [% area.id %]

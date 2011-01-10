@@ -1,5 +1,6 @@
-[% WRAPPER api/wrapper.html %]
-<h1>[% zone.title %] Pickup Days</h1>
+[% SET title=zone.title _ ' Pickup Days' %]
+[% WRAPPER api/wrapper.html uri=zone.uri _ '/pickupdays'%]
+<h1><a href="[% zone.uri %]">[% zone.title %]</a> Pickup Days</h1>
 <ul>
   [% FOREACH day IN zone.pickups %]
     <li>[% day.string %]</li>

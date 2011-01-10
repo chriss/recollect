@@ -1,5 +1,6 @@
-[% WRAPPER api/wrapper.html %]
-<h1>[% zone.name %] Next Day of Week Change</h1>
+[% SET title=zone.name _ ' Next Day of Week Change' %]
+[% WRAPPER api/wrapper.html uri=zone.uri _ '/nextdowchange' %]
+<h1><a href="[% zone.uri %]">[% zone.name %]</a> Next Day of Week Change</h1>
 Last pickup day before change: <span id="dow_last">[% last.ymd %]</span><br />
 First pickup day on the new schedule: <span id="dow_first">[% next.ymd %]</span><br />
 [% END %]

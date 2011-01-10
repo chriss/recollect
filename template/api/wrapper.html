@@ -1,12 +1,12 @@
 <html>
-  <title>[% zone.uri %]</title>
+  <title>[% title %]</title>
   <body>
     [% content %]
     <hr />
     [% IF has_ical %]
-    <a href="[% zone.uri %][% uri_append %].ics">text/calendar (iCal)</a> | 
+    <a href="[% uri %].ics">text/calendar (iCal)</a> | 
     [% END %]
-    <a href="[% zone.uri %][% uri_append %].txt">text/plain</a> | 
-    <a href="[% zone.uri %][% uri_append %].json">application/json</a>
+    <a href="[% uri %].txt">text/plain</a> | 
+    <a href="[% uri %].json">application/json</a>
   </body>
 </html>

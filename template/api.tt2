@@ -4,82 +4,84 @@
     This page defines the simple REST API that exposes collection times data.
 
       <div class="content">
-        <h2>List of Zones</h2>
+        <h2>List of Areas</h2>
         <p>
-        The zones are defined on the Vancouver city website. There are 2 schedules: <a href="http://vancouver.ca/ENGSVCS/solidwaste/garbage/northSched.htm">North</a> and <a href="http://vancouver.ca/ENGSVCS/solidwaste/garbage/southSched.htm">South</a>.<br />
-        The API lists the available zones at:
+        Each city or district constitutes an Area in Recollect.  <br />
+        You can fetch the list of available areas with the <code>/api/areas</code> API call.
         </p>
         <ul>
-            <li><a href="/zones">/zones</a> - <code>text/html</code></li>
-            <li><a href="/zones.txt">/zones.txt</a> - <code>text/plain</code></li>
-            <li><a href="/zones.json">/zones.json</a> - <code>application/json</code></li>
+            <li><a href="/api/areas">/api/areas</a> - <code>text/html</code></li>
+            <li><a href="/api/areas.txt">/api/areas.txt</a> - <code>text/plain</code></li>
+            <li><a href="/api/areas.json">/api/areas.json</a> - <code>application/json</code></li>
+        </ul>
+
+        <h2>Area Data</h2>
+        <p>
+        You can fetch data for each area using the
+        <code>/api/areas/:area_name</code> API call. <br />
+        <code>:area_name</code> can be either the area id or the text name of
+        the Area.<br />
+        </p>
+        <div class="example">
+            <strong>Example:</strong>
+            <a href="/api/areas/Vancouver">/api/areas/Vancouver</a>
+        </div>
+        <p>
+        This data is also available as <a href="/api/areas/Vancouver.txt"><code>text/plain</code></a> 
+        and <a href="/api/areas/Vancouver.json"><code>application/json</code></a>.
+        </p>
+        <h2>List of Zones</h2>
+        <p>
+        Each Area will have one or more geographic pickup zones.  Each Zone
+        will have it's own set of pickup times.  <br />
+        You can fetch the list of zones for an area with the <code>/api/areas/:area_name/zones</code>
+        API call.
+        </p>
+        <ul>
+            <li><a href="/api/areas/Vancouver/zones">/api/areas/Vancouver/zones</a> - <code>text/html</code></li>
+            <li><a href="/api/areas/Vancouver/zones.txt">/api/areas/Vancouver/zones.txt</a> - <code>text/plain</code></li>
+            <li><a href="/api/areas/Vancouver/zones.json">/api/areas/Vancouver/zones.json</a> - <code>application/json</code></li>
         </ul>
         <h2>Zone Data</h2>
         <p>
-        Each zone has its own resource page. Right now it is very simple, but more data could be added.<br />
-        The zone names are listed at <a href="/zones">/zones</a>, and the URL will look like: <br />
+        Each zone has its own resource page.<br />
+        You can fetch the details for a zone with the
+        <code>/api/areas/:area_name/zones/:zone_name</code> API.
+        <div class="example">
+            <strong>Example:</strong>
+            <a
+                href="/api/areas/Vancouver/zones/vancouver-north-blue">/api/areas/Vancouver/zones/vancouver-north-blue</a>
+        </div>
         </p>
-        <div class="example"><a href="/zones/vancouver-north-blue">/zones/vancouver-north-blue</a></div>
         <p>
-        This data is also available as <a href="/zones/vancouver-north-blue.txt"><code>text/plain</code></a> 
-        and <a href="/zones/vancouver-north-blue.json"><code>application/json</code></a>.
+        This data is also available as <a href="/api/areas/Vancouver/zones/vancouver-north-blue.txt"><code>text/plain</code></a> 
+        and <a href="/api/areas/Vancouver/zones/vancouver-north-blue.json"><code>application/json</code></a>.
         </p>
 
         <p>
         Each zone has several pieces of data available:
         <ul>
-            <li><a href="/zones/vancouver-north-blue/pickupdays">Pickup Days</a> - The list of pickup days for the zone</li>
-            <li><a href="/zones/vancouver-north-blue/nextpickup">Next Pickup</a> - The next pickup day for this zone</li>
-            <li><a href="/zones/vancouver-north-blue/nextdowchange">Next Day of Week Change</a> - The next pickup day that occurs on a different day of the week than its previous pickup</li>
+            <li><a href="/api/areas/Vancouver/zones/vancouver-north-blue/pickupdays">Pickup Days</a> - The list of pickup days for the zone</li>
+            <li><a href="/api/areas/Vancouver/zones/vancouver-north-blue/nextpickup">Next Pickup</a> - The next pickup day for this zone</li>
+            <li><a href="/api/areas/Vancouver/zones/vancouver-north-blue/nextdowchange">Next Day of Week Change</a> - The next pickup day that occurs on a different day of the week than its previous pickup</li>
         </ul>
         </p>
         <p>This data is also has text and JSON representations:</p>
         <ul>
-            <li>Pickup Days:<a href="/zones/vancouver-north-blue/pickupdays.txt"><code>text/plain</code></a>, 
-                <a href="/zones/vancouver-north-blue/pickupdays.json"><code>application/json</code></a>,
-                <a href="/zones/vancouver-north-blue/pickupdays.ics"><code>text/calendar (iCal)</code></a></li>
-            <li>Next Pickup: <a href="/zones/vancouver-north-blue/nextpickup.txt"><code>text/plain</code></a>, 
-                <a href="/zones/vancouver-north-blue/nextpickup.json"><code>application/json</code></a></li>
-            <li>Next DOW Change: <a href="/zones/vancouver-north-blue/nextdowchange.txt"><code>text/plain</code></a>, 
-                <a href="/zones/vancouver-north-blue/nextdowchange.json"><code>application/json</code></a></li>
+            <li>Pickup Days:<a href="/api/areas/Vancouver/zones/vancouver-north-blue/pickupdays.txt"><code>text/plain</code></a>, 
+                <a href="/api/areas/Vancouver/zones/vancouver-north-blue/pickupdays.json"><code>application/json</code></a>,
+                <a href="/api/areas/Vancouver/zones/vancouver-north-blue/pickupdays.ics"><code>text/calendar (iCal)</code></a></li>
+            <li>Next Pickup: <a href="/api/areas/Vancouver/zones/vancouver-north-blue/nextpickup.txt"><code>text/plain</code></a>, 
+                <a href="/api/areas/Vancouver/zones/vancouver-north-blue/nextpickup.json"><code>application/json</code></a></li>
+            <li>Next DOW Change: <a href="/api/areas/Vancouver/zones/vancouver-north-blue/nextdowchange.txt"><code>text/plain</code></a>, 
+                <a href="/api/areas/Vancouver/zones/vancouver-north-blue/nextdowchange.json"><code>application/json</code></a></li>
         </ul>
-        <p>Dates are expressed as <code>YYYY-MM-DD[ F]</code>.  The <code>F</code> is an optional flag (separated from the date with a single space).  The only supported flag currently is <code>Y</code> which means a 'Yard Trimmings Collection' also occurs on that day.</p>
+
+        <p>Dates are expressed as <code>YYYY-MM-DD[ F]</code>.  The <code>F</code> is an optional flag (separated from the date with a single space).  The only supported flag currently is <code>Y</code> which means a 'Yard Trimmings Collection' also occurs on that day.</p>  Lack of a flag means it is a "regular" garbage pickup day.
         <p>
         The <code>nextpickup</code> request accepts a <code>limit</code> GET parameter to show the next several pickups.<br />
-        (eg: <code>/zones/vancouver-north-blue/nextpickup.txt?limit=5).
+        (eg: <code>/api/areas/Vancouver/zones/vancouver-north-blue/nextpickup.txt?limit=5).
         </p>
-
-        <h3>Zone Reminders</h3>
-        <p>You can add and remove reminders through the API as follows.</p>
-        <h4>Adding a reminder</h4>
-        <p>Submit a HTTP POST request to <code>/zones/:zone_id/reminders</code> containing a JSON payload with the following elements in the body:</p>
-        <ul>
-            <li><code>id</code> - A unique identifier for this reminder. Must be 3-30 characters alphanumeric.</li>
-            <li><code>password</code> - An optional password for this reminder</li>
-            <li><code>email</code> - An email address to receive email reminders</li>
-            <li><code>offset</code> - Number of hours to add to midnight of the pickup day. Defaults to -6 (eg: 6pm of the day before pickup).</li>
-            <li><code>target</code> - Notification delivery target.  See below for available targets.</li>
-        </ul>
-        <p>
-        This will initiate creation of a reminder.  Email will be sent to the email address with a confirmation link.<br />
-        <h4>Reminder targets</h4><br />
-        Reminders have a target which is how the reminder should notify the user.  The default target is <code>email:user@example.com</code> (with the email address of the user).  Here are the available reminder targets:<br />
-        </p>
-        <ul>
-            <li><code>email:email_address</code> - Sends a regular email notification to the address.</li>
-            <li><code>twitter:twitter_username</code> - Sends a direct message to the twitter user. They must follow <a href="http://twitter.com/[% twitter %]">@[% twitter %]</a> to receive the DM.</li>
-            <li><code>webhook:http://example.com</code> - Sends a HTTP POST request with a JSON payload that contains details about the reminder to the URL specified. See <a href="http://webhooks.org">Webhooks.org</a> for more details.</li>
-        </ul>
-        <h4>Deleting a reminder</h4>
-        <p>Submit a HTTP DELETE request to <code>/zones/:zone_id/reminders/:id</code>.  Returns 204 on successful delete, 400 on failure.</p>
-        <br />
-        <p>This will send an email to confirm the reminder deletion by loading a confirmation link.</p>
-
-        <h2>Linking to a zone</h2>
-        <p>Zones can be linked to by passing the CGI parameter <code>zone</code>. Therefore, <a href="/?zone=vancouver-south-blue">/?zone=vancouver-south-blue</a> will link to the UI with the Vancouver South Blue zone pre-clicked.</p>
-
-        <h2>Automated Test Specification</h2>
-        <p>We have developed the Recollect API with the help of a executable test specification of how the API should perform.  You can find it in our <a href="http://github.com/deaves/cecollect">Recollect Github Repo</a> <a href="http://github.com/deaves/recollect/blob/master/t/wikitests/reminders.wiki">here</a>.</p>
-      </div>
+    </div>
   </div>
 [% END %]

@@ -1,8 +1,9 @@
-[% WRAPPER api/wrapper.html %]
+[% SET zones_title = "Zones in " _ area.name %]
+[% WRAPPER api/wrapper.html title=zones_title uri=area.uri _ '/zones' %]
 <h1>Recollect Zones in [% area.name %]</h1>
 <ul>
 [% FOREACH zone IN area.zones %]
-    <li><a href="/api/areas/[% area.name %]/zones/[% zone.name %]">[% area.name %]</a></li>
+    <li><a href="/api/areas/[% area.name %]/zones/[% zone.name %]">[% zone.name %]</a></li>
 [% END %]
 </ul>
 [% END %]

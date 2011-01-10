@@ -62,6 +62,9 @@ sub process_template {
     $resp->body($self->render_template($template, $param));
     $resp->header('X-UA-Compatible' => 'IE=EmulateIE7');
     $resp->header('Content-Type' => 'text/html; charset=utf8');
+    if ($template =~ m/\.txt$/) {
+        $resp->header('Content-Type' => 'text/plain');
+    }
     return $resp;
 }
 
