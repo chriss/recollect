@@ -181,6 +181,14 @@ test_the_api_for(
         is scalar(@$entries), 58;
     },
 );
+test_the_api_for(
+    '/areas/Vancouver/zones/vancouver-north-red/pickupdays.ics?t=123456789',
+    ics => sub {
+        my $ical = shift;
+        my $entries = $ical->entries;
+        is scalar(@$entries), 58;
+    },
+);
 
 # GET /api/areas/:area/zones/:zone/nextpickup
 test_the_api_for(
@@ -253,6 +261,8 @@ test_the_api_for(
 
 # GET /api/areas/:area/zones/:lat,:lng(.+)
 
+
+
 done_testing();
 
 exit;
@@ -293,7 +303,8 @@ sub test_the_api_for {
                 );
             }
             if (my $test = $tests{ics}) {
-                $test_uri->($uri . '.ics', sub {
+                $uri .= '.ics' unless $uri =~ m/\.ics/;
+                $test_uri->($uri, sub {
                         my $text = shift;
                         my $ical = Data::ICal->new(data => $text);
                         $test->($ical);
