@@ -84,12 +84,6 @@ sub add_reminders {
     my $reminders = shift;
 
     for my $rem (@$reminders) {
-        my $zone_id = $rem->{zone_id};
-        unless ($zone_id =~ m/^\d+$/) {
-            my $zone = Recollect::Zone->By_name($zone_id);
-            die "Could not find zone '$zone_id'" unless $zone;
-            $zone_id = $zone->id;
-        }
         Recollect::Reminder->Create(
             subscription_id => $self->id,
             zone_id => $rem->{zone_id},
