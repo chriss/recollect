@@ -44,7 +44,7 @@ RECOLLECT_MOBILE_FILES=\
 	 $(JS_DIR)/recollect/reminders.js \
 
 CRONJOB=etc/cron.d/recollect
-PSGI=production.psgi
+PSGI=etc/production.psgi
 
 TESTS=$(wildcard t/*.t)
 WIKITESTS=$(wildcard t/wikitests/*.t)
