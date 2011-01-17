@@ -116,12 +116,11 @@ install: javascript $(INSTALL_DIR)/* $(SOURCE_FILES) $(LIB) \
 	cp $(EXEC) $(INSTALL_DIR)/bin
 	cp -f etc/cron.d/recollect /etc/cron.d/recollect
 	cp -f etc/areas.yaml $(INSTALL_DIR)/etc/areas.yaml
-	svc -d /etc/service/recollect
-	rm -rf $(INSTALL_DIR)/etc/service
 	cp -R etc/service $(INSTALL_DIR)/etc/service
 	if [ ! -d /etc/service/recollect ]; then \
 	    update-service --add $(INSTALL_DIR)/etc/service/recollect recollect; \
 	fi
+	svc -d /etc/service/recollect
 	svc -u /etc/service/recollect
 	cp -f etc/nginx/sites-available/recollect.net /etc/nginx/sites-available
 	ln -sf /etc/nginx/sites-available/recollect.net /etc/nginx/sites-enabled/recollect.net
