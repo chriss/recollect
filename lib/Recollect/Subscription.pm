@@ -43,8 +43,8 @@ around 'Create' => sub {
     if ($args{free}) {
         $subscription->recurly->create_account(
             account_code => $args{id},
-            username => $email,
             email => $email,
+            username => $email,
         );
     }
 
@@ -88,7 +88,7 @@ sub add_reminders {
             subscription_id => $self->id,
             zone_id => $rem->{zone_id},
             target  => $rem->{target},
-            delivery_offset => $rem->{offset},
+            delivery_offset => $rem->{delivery_offset},
         );
     }
 }

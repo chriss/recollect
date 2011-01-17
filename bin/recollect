@@ -54,7 +54,7 @@ sub add_reminder {
                 reminders => [
                     {
                         target => $target,
-                        ($offset ? (offset => $offset) : ()),
+                        (defined $offset ? (delivery_offset => $offset) : ()),
                         zone_id => $zone,
                     },
                 ],
@@ -73,7 +73,7 @@ USAGE: $0 <options>
 
 Creating a reminder:
    $0 --email your\@email --zone your-zone 
-   Optional: [--offset 'offset'] [--target 'twitter:user']
+      --offset 7 --target 'twitter:user'
 
 Confirming a reminder:
    $0 --confirm --id confirm_hash --zone zone

@@ -164,6 +164,14 @@ sub subscriptions {
             }
         }
         else { return $self->bad_request_json('Missing target') }
+
+        my $offset = $r->{delivery_offset};
+        if (defined $offset) {
+            unless ($offset =~ m/^-?\d\d?(?::\d\d)?$/) {
+                return $self->bad_request_json('invalid delivery_offset');
+            }
+        }
+        else { return $self->bad_request_json('Missing delivery_offset') }
     }
     $new_sub{reminders} = $reminders;
 
