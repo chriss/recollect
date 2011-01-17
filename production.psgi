@@ -1,5 +1,6 @@
 #!perl
 use Plack::Builder;
+use Recollect::APIController;
 use Recollect::CallController;
 use Recollect::Controller;
 

@@ -4,7 +4,7 @@ use YAML;
 use namespace::clean -except => 'meta';
 
 our $CONFIG;
-our $LAST_MODIFIED = _config_last_modified();
+our $LAST_MODIFIED;
 
 sub base_url {
     my $self = shift;
@@ -14,6 +14,7 @@ sub base_url {
 around [qw/base_url config/] => sub {
     my $orig = shift;
 
+    $LAST_MODIFIED ||= _config_last_modified();
     if ($LAST_MODIFIED < _config_last_modified()) {
         $CONFIG = _load_config();
         $LAST_MODIFIED = _config_last_modified();
