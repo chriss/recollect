@@ -8,9 +8,11 @@ has 'kml'       => (is => 'ro', isa => 'Object', lazy_build => 1);
 sub _build_kml {
     my $self = shift;
     my $base = $self->base_path;
+
+    # XXX Luke fix this so vancouver isn't hardcoded:
     my $filename = -d "$base/root"
-            ? "$base/root/zones.kml"
-            : "$base/static/zones.kml";
+            ? "$base/root/kml/vancouver.xml"
+            : "$base/static/kml/vancouver.xml";
     return Recollect::KML->new(filename => $filename);
 }
 

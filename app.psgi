@@ -17,7 +17,7 @@ builder {
     enable 'Debug::DBITrace';
 
     enable "Plack::Middleware::Static",
-           path => qr{^/(robots\.txt|zones\.kml|images)}, 
+           path => qr{^/(robots\.txt|kml/.+|images)},
            root => './static/';
     enable "Plack::Middleware::Static",
            path => sub { s!^/(javascript|css)/(?:\d+\.\d+)/(.+)!/$1/$2! },

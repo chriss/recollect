@@ -1,0 +1,239 @@
+[% BLOCK wizardAddress %]
+<div class="wizardStep">
+    <div class="left middle" style="height:100px">
+        <img class="logo" src="/images/recollect_logo.png"/>
+    </div>
+    <div class="right middle">
+        <form>
+            <input class="huge initial address" value="Enter Your Address" type="text"/>
+            <a id="search" class="bigButtonGreen" href="#">Search</a>
+            <input type="submit" style="visibility:hidden"/>
+        </form>
+        <div class="clearfix"></div>
+        <div class="status"></div>
+    </div>
+</div>
+[% END %]
+
+[% BLOCK error %]
+<div class="error">
+    <span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
+    <strong>Error:</strong> [% msg %]
+</div>
+[% END %]
+
+[% BLOCK addresses %]
+    <div class="addresses">
+        Did you mean: <br/>
+        [% FOR result = results %]
+            [% SET loc = result.geometry.location %]
+            <a lat="[% loc.lat %]" lng="[% loc.lng %]" href="#">[% result.formatted_address %]</a><br/>
+        [% END %]
+    </div>
+[% END %]
+
+[% BLOCK wizardZone %]
+<div class="zonePage middle wizardStep">
+    <div class="mapSection">
+        <img class="logo" src="/images/recollect_logo.png"/>
+        <div class="map"></div>
+    </div>
+
+    <div class="centerSectionWrapper">
+        <div class="centerSection">
+            <div class="zoneName">[% desc %]</div>
+            <div class="nextPickup">
+                Next pickup day: [% next %]
+                <div class="yardMsg">[% yard_msg %]</div>
+            </div>
+
+            <div class="signup">
+                <span>SIGN UP NOW!</span>
+                <a id="subscribe" class="bigButtonOrange" href="#">Click Here</a>
+            </div>
+
+            <div class="calendarSection">
+                <div class="calendar"></div>
+            </div>
+
+            <div class="feeds">
+                <div class="title">Subscribe:</div>
+                [% FOR feed = feeds %]
+                    <div>
+                        <a id="[% feed.id %]" href="[% feed.url %]" target="_blank">
+                            <img src="/images/feeds/[% feed.icon %]">
+                            <span>[% feed.name %]</span>
+                        </a>
+                    </div>
+                [% END %]
+            </div>
+        </div>
+    </div>
+
+    <div class="cityImageSection">
+        <a href="http://vancouver.ca/projects/foodWaste/noplastic.htm"
+            alt="Don't trash your food!">
+            <img src="/images/vantrash-ad-no-plastic-borderless.jpg"/>
+        </a>
+    </div>
+</div>
+[% END %]
+
+[% BLOCK wizardSubscribe %]
+<div class="wizardStep">
+    <div class="left middle" style="height:100px">
+        <img class="logo" src="/images/recollect_logo.png"/>
+    </div>
+    <div class="right middle paymentType">
+        <div class="title">Schedule a weekly reminder:</div>
+
+        <form>
+            <div class="premium payclass">
+                <div class="option">
+                    <div class="radio">
+                        <input id="sms-reminder" name="reminder-radio" type="radio" value="premium_sms" checked="checked"/>
+                    </div>
+                    <div class="label">
+                        <label for="sms-reminder">Text Message / SMS</label>
+                    </div>
+                </div>
+                <div class="option">
+                    <div class="radio">
+                        <input id="phone-reminder" name="reminder-radio" type="radio" value="premium_phone"/>
+                    </div>
+                    <div class="label">
+                        <label for="phone-reminder">Phone call</label>
+                    </div>
+                </div>
+                <div class="price">
+                    $1.50 / month
+                    <div class="or">or</div>
+                    $15.00 / year
+                </div>
+            </div>
+            <div class="basic payclass">
+                <div class="option">
+                    <div class="radio">
+                        <input id="email-reminder" name="reminder-radio" type="radio" value="basic_email"/>
+                    </div>
+                    <div class="label">
+                        <label for="email-reminder">E-mail</label>
+                    </div>
+                </div>
+                <div class="option">
+                    <div class="radio">
+                        <input id="twitter-reminder" name="reminder-radio" type="radio" value="basic_twitter"/>
+                    </div>
+                    <div class="label">
+                        <label for="twitter-reminder">Twitter Direct Message</label>
+                    </div>
+                </div>
+                <div class="price">
+                    Free
+                </div>
+            </div>
+        </form>
+        <div class="clearfix"></div>
+        <a class="bigButtonGreen next" href="#">next</a>
+    </div>
+</div>
+[% END %]
+
+[% BLOCK premium %]
+    <form>
+        [% IF type == 'phone' %]
+        <div class="title">Schedule a Telephone Call Reminder:</div>
+        <div class="help">
+            Please enter the 10 digit mobile telephone number that you wish to receive weekly telephone call pickup reminders. We also ask for you to provide your email address. Vantrash will never provide your email to anyone.
+        </div>
+        [% ELSE %]
+        <div class="title">Schedule a Text Message Reminder:</div>
+        <div class="help">
+            Please enter the 10 digit mobile telephone number that you wish to receive weekly text message pickup reminders. We also ask for you to provide your email address. Vantrash will never provide your email to anyone.
+        </div>
+        [% END %]
+        [% INCLUDE field name='phone' title='Telephone' %]
+        [% INCLUDE field name='email' title='Email' %]
+        [% INCLUDE time %]
+        [% INCLUDE payment %]
+    </form>
+[% END %]
+
+[% BLOCK basic_email %]
+    <form>
+        <div class="title">Schedule an E-Mail Reminder:</div>
+        <div class="help">
+            Please enter the valid email address you wish for weekly pickup reminders to be sent to. Vantrash will never provide your email to anyone.
+        </div>
+        [% INCLUDE field name='email' title='Email' %]
+        [% INCLUDE time %]
+    </form>
+[% END %]
+
+[% BLOCK basic_twitter %]
+    <form>
+        <div class="title">Schedule a Twitter Reminder:</div>
+        <div class="help">
+            Please enter your Twitter username that you wish to receive weekly direct messages to. We also ask for you to provide your email address. Vantrash will never provide your email to anyone.
+        </div>
+        [% INCLUDE field name='twitter' title='Twitter Username' %]
+        [% INCLUDE field name='email' title='Email' %]
+        [% INCLUDE time %]
+    </form>
+[% END %]
+
+[% BLOCK field %]
+    <div class="field">
+        <div class="name">[% title %]:</div>
+        <input class="[% name %]" name="[% name %]"/>
+    </div>
+[% END %]
+
+[% BLOCK payment %]
+    <div class="field">
+        <div class="name">Payment Period:</div>
+        <select class="border paymentPeriod">
+            <option id="payment-yearly" value="year">$15.00 / Year</option>
+            <option id="payment-monthly" value="month">$1.50 / Month</option>
+        </select>
+    </div>
+[% END %]
+
+[% BLOCK time %]
+    <div class="field">
+        <div class="name">When:</div>
+        <select class="border simpleOffset">
+            <option value="-12">Noon the day before</option>
+            <option value="-6">6PM the day before</option>
+            <option value="+6">6AM the day of</option>
+            <option value="custom">A custom time</option>
+        </select>
+        <select class="border customOffset" name="offset">
+            <option value="-18">6AM the day before</option>
+            <option value="-17">7AM the day before</option>
+            <option value="-16">8AM the day before</option>
+            <option value="-15">9AM the day before</option>
+            <option value="-14">10AM the day before</option>
+            <option value="-13">11AM the day before</option>
+            <option value="-12">Noon the day before</option>
+            <option value="-11">1PM the day before</option>
+            <option value="-10">2PM the day before</option>
+            <option value="-9">3PM the day before</option>
+            <option value="-8">4PM the day before</option>
+            <option value="-7">5PM the day before</option>
+            <option value="-6">6PM the day before</option>
+            <option value="-5">7PM the day before</option>
+            <option value="-4">8PM the day before</option>
+            <option value="-3">9PM the day before</option>
+            <option value="-2">10PM the day before</option>
+            <option value="-1">11PM the day before</option>
+            <option value="0">Midnight before</option>
+            <option value="+1">1AM the day of</option>
+            <option value="+2">2AM the day of</option>
+            <option value="+3">3AM the day of</option>
+            <option value="+4">4AM the day of</option>
+            <option value="+5">5AM the day of</option>
+            <option value="+6">6AM the day of</option>
+        </select>
+    </div>
+[% END %]

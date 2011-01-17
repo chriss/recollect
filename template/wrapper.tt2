@@ -17,14 +17,14 @@
     <link rel="shortcut icon" href="/favicon.ico">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
-    <link rel="stylesheet" href="/css/[% version %]/style.css?v=2">
-    <link rel="stylesheet" href="/css/[% version %]/jquery-ui-1.8.6.custom.css">
+    <!--link rel="stylesheet" href="/css/[% version %]/jquery-ui-1.8.7.custom.css"/-->
+    <link rel="stylesheet" href="/css/[% version %]/style.css?v=2"/>
 
     <script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script>
     <script src="/javascript/[% version %]/libs/modernizr-1.6.min.js"></script>
 
-    <!-- Recollect stuff -->
-    <script src="/javascript/[% version %]/recollect-mini.js"></script>
+    <!-- vantrash stuff -->
+    <script src="/javascript/[% version %]/compiled-recollect-mini.js"></script>
 
     [% FOR js = javascript %]
     <script src="[% js %]"></script>
@@ -32,25 +32,25 @@
 </head>
 
 <body>
+    <img id="background" src="/images/background.jpg"/>
+
     <div id="container">
         <header>
-            <a href="/"><img id="headerLogo" src="/images/new/recollect_logo.png"/></a>
-            <div id="headerLinks">
-                <a href="/faq.html">Frequently asked questions</a>
-                <a href="/tell-a-friend.html">Tell a friend</a>
-            </div>
         </header>
 
-        <div id="main">
-            [% content %]
-        </div>
+        <div id="whiteBar"></div>
+        <div id="main">[% content %]</div>
 
         <footer>
-            <a class="copyright" href="/copyright.html">&copy;2009,2010 Luke Closs and Kevin Jones</a> |
-            <a href="/api.html">Technical API</a>
         </footer>
-        
     </div> <!-- end of #container -->
+
+    <script>
+        // Keep the whitebar and content in the center
+        $(window).resize(function() {
+            $('#container').height($(window).height());
+        }).resize();
+    </script>
 
     <!--[if lt IE 7 ]>
         <script src="/javascript/[% version %]/libs/dd_belatedpng.js"></script>
@@ -82,26 +82,14 @@
     </script>
 
     <script type="text/javascript" charset="utf-8">
-        var feedback_widget_options = {};
-        feedback_widget_options.display = "overlay";    
-        feedback_widget_options.company = "recollect";
-        feedback_widget_options.placement = "right";
-        feedback_widget_options.color = "#222";
-        feedback_widget_options.style = "idea";
-        var feedback_widget = new GSFN.feedback_widget(feedback_widget_options);
+        var feedback_widget = new GSFN.feedback_widget({
+            display: "overlay",  
+            company: "vantrash",
+            placement: "right",
+            color: "#86c655",
+            style: "idea"
+        });
     </script>
-
-    <!-- twitter follow badge by go2web20 -->
-    <script src='http://www.go2web20.net/twitterfollowbadge/1.0/badge.js' type='text/javascript'></script><script type='text/javascript' charset='utf-8'>
-        tfb.account = 'recollectnet';
-        tfb.label = 'follow-us';
-        tfb.color = '#60a464';
-        tfb.side = 'r';
-        tfb.top = 286;
-        tfb.showbadge();
-    </script>
-    <!-- end of twitter follow badge -->
-
     
 </body>
 </html>

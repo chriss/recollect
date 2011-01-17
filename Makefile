@@ -11,37 +11,18 @@ JS_DIR=static/javascript
 JEMPLATE=$(JS_DIR)/Jemplate.js
 JEMPLATES=$(wildcard $(JS_DIR)/template/*.tt2)
 
-RECOLLECT=$(JS_DIR)/recollect.js
-RECOLLECT_GZ=$(JS_DIR)/recollect.js.gz
-RECOLLECT_MINIFIED=$(JS_DIR)/recollect-mini.js
+RECOLLECT=$(JS_DIR)/compiled-recollect.js
+RECOLLECT_GZ=$(JS_DIR)/compiled-recollect.js.gz
+RECOLLECT_MINIFIED=$(JS_DIR)/compiled-recollect-mini.js
 RECOLLECT_FILES=\
 	 $(JS_DIR)/libs/jquery-1.4.2.min.js \
 	 $(JS_DIR)/libs/jquery-ui-1.8.6.custom.min.js \
 	 $(JS_DIR)/libs/jquery-json-1.3.js \
 	 $(JS_DIR)/libs/jquery-maskedinput-1.2.2.min.js \
 	 $(JS_DIR)/libs/jquery.validate.js \
-	 $(JS_DIR)/recollect/reminders.js \
+	 $(JS_DIR)/libs/geoxml3.js \
+	 $(JS_DIR)/recollect/wizard.js \
 	 $(JEMPLATE) \
-
-RECOLLECT_MAP=$(JS_DIR)/recollect-map.js
-RECOLLECT_MAP_GZ=$(JS_DIR)/recollect-map.js.gz
-RECOLLECT_MAP_MINIFIED=$(JS_DIR)/recollect-map-mini.js
-RECOLLECT_MAP_FILES=\
-	 $(JS_DIR)/libs/egeoxml.js \
-	 $(JS_DIR)/libs/epoly.js \
-	 $(JS_DIR)/recollect/map.js \
-
-RECOLLECT_MOBILE=$(JS_DIR)/recollect-mobile.js
-RECOLLECT_MOBILE_GZ=$(JS_DIR)/recollect-mobile.js.gz
-RECOLLECT_MOBILE_MINIFIED=$(JS_DIR)/recollect-mobile-mini.js
-RECOLLECT_MOBILE_FILES=\
-	 $(JS_DIR)/libs/jquery-1.4.2.min.js \
-	 $(JS_DIR)/libs/jquery-ui-1.8.6.custom.min.js \
-	 $(JS_DIR)/libs/jquery-json-1.3.js \
-	 $(JS_DIR)/libs/gears_init.js \
-	 $(JS_DIR)/recollect/cal.js \
-	 $(JS_DIR)/recollect/map.js \
-	 $(JS_DIR)/recollect/reminders.js \
 
 CRONJOB=etc/cron.d/recollect
 PSGI=etc/production.psgi
@@ -51,8 +32,6 @@ WIKITESTS=$(wildcard t/wikitests/*.t)
 
 BUILT_JS=\
     $(RECOLLECT) $(RECOLLECT_GZ) $(RECOLLECT_MINIFIED) \
-    $(RECOLLECT_MOBILE) $(RECOLLECT_MOBILE_GZ) $(RECOLLECT_MOBILE_MINIFIED) \
-    $(RECOLLECT_MAP) $(RECOLLECT_MAP_GZ) $(RECOLLECT_MAP_MINIFIED) \
 
 all: javascript
 
@@ -75,18 +54,6 @@ $(JEMPLATE): $(JEMPLATES)
 $(RECOLLECT): $(RECOLLECT_FILES) Makefile
 	rm -f $@;
 	for js in $(RECOLLECT_FILES); do \
-	    (echo "// BEGIN $$js"; cat $$js | perl -pe 's/\r//g') >> $@; \
-	done
-
-$(RECOLLECT_MOBILE): $(RECOLLECT_MOBILE_FILES) Makefile
-	rm -f $@;
-	for js in $(RECOLLECT_MOBILE_FILES); do \
-	    (echo "// BEGIN $$js"; cat $$js | perl -pe 's/\r//g') >> $@; \
-	done
-
-$(RECOLLECT_MAP): $(RECOLLECT_MAP_FILES) Makefile
-	rm -f $@;
-	for js in $(RECOLLECT_MAP_FILES); do \
 	    (echo "// BEGIN $$js"; cat $$js | perl -pe 's/\r//g') >> $@; \
 	done
 

@@ -86,16 +86,7 @@ button {  width: auto; overflow: visible; }
     Author: 
  */
 
-.pageError {
-    margin: 10px;
-}
-.pageError .ui-icon-alert {
-    float: left;
-    margin-right: 0.3em;
-}
-
 body {
-    background: #eee;
     font: 12px 'Lucida Grande', Arial, sans-serif;
 }
 
@@ -103,148 +94,285 @@ body#mobile #container {
     margin: 3px;
 }
 
-#container {
-    margin: 4px 100px;
-    border: 1px solid #36533a;
-    background-color: white;
+#background {
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -2;
+}
 
-    /* rounded corners */
-    -webkit-border-radius: 15px;
-    -moz-border-radius: 15px;
-    border-radius: 15px;
+#container {
+    position: relative;
+}
+
+#whiteBar {
+    width: 100%;
+    background: #fff;
+    z-index: -1;
+    opacity: .8;
 }
 
 header {
-    border-bottom: 1px solid #36533a;
-    font-weight: bold;
-    position: relative;
-    height: 80px;
-
-    /* Gradient */
-    background: #60a464; /* for non-css3 browsers */
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#a7cca9', endColorstr='#60a464'); /* for IE */
-    background: -webkit-gradient(linear, left top, left bottom, from(#a7cca9), to(#60a464)); /* for webkit browsers */
-    background: -moz-linear-gradient(top,  #a7cca9,  #60a464); /* for firefox 3.6+ */
-
-    /* rounded corners */
-    -webkit-border-top-left-radius: 15px;
-    -webkit-border-top-right-radius: 15px;
-    -moz-border-radius-topleft: 15px;
-    -moz-border-radius-topright: 15px;
-    border-top-left-radius: 15px;
-    border-top-right-radius: 15px;
 }
 
-#headerLogo {
-    margin: 10px 0 0 10px;
-}
-
-#headerLinks {
+#whiteBar, #main {
     position: absolute;
-    right: 10px;
-    bottom: 0;
-    margin: 5px 0;
-}
-#headerLinks img, #headerLinks iframe, #headerLinks a {
-    vertical-align: middle;
-    color: #000;
-}
-
-#shareButtons {
-    position: absolute;
-    top: 10px;
-    right: 30px;
-}
-#shareButtons img, #shareButtons iframe, #shareButtons a {
-    vertical-align: middle;
-    margin: 0 3px;
-}
-
-body#mobile #main {
-    padding: 10px 0;
-    width: 100%;
-    text-align: center;
-}
-
-#main {
+    top: 50%;
+    height: 200px;
+    margin-top: -100px;
     width: 100%;
 }
 
 footer {
-    border-top: 1px solid #36533a;
-    height: 15px;
-
-    text-align: center;
-    padding: 10px 0;
-
-    /* rounded corners */
-    -webkit-border-bottom-left-radius: 15px;
-    -webkit-border-bottom-right-radius: 15px;
-    -moz-border-radius-bottomleft: 15px;
-    -moz-border-radius-bottomright: 15px;
-    border-bottom-left-radius: 15px;
-    border-bottom-right-radius: 15px;
 }
 
-/* Initial help text */
-.searchSection {
-    position: relative;
-    min-height: 80px;
-}
-.searchSection .description {
-    padding: 10px;
-    font-size: 110%;
-    margin-right: 420px;
-}
-.searchSection .searchBox {
-    position: absolute;
-    right: 110px;
-    top: 0;
-    padding: 25px 15px;
-}
-.searchSection .shareButtons {
-    position: absolute;
-    right: 0;
-    top: 0;
-}
-
-.searchSection .shareButtons iframe, /* Stupid facebook */
-.searchSection .shareButtons a,
-.searchSection .shareButtons a:hover {
-    display: block;
-    margin-top: 6px;
+/* Wizard */
+.logo {
+    height: 100px;
     vertical-align: middle;
 }
-.searchSection input.text {
-    width: 170px;
-}
-.searchSection .description p {
-    padding: 4px 0;
-}
-.searchSection h1 {
+
+.wizardStep {
     font-size: 120%;
+    position: absolute;
+    left; 0;
+    top: 50%;
+    height: 200px;
+    margin-top: -100px;
+    width: 100%;
 }
 
-/* Map and Ad */
-.mapSection, #mapCanvas, .cityimage img {
+#wizard .error {
+    padding: 5px;
+    background-color: #f9d7d7;
+    border: 1px solid #cd0a0a;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+
+.huge {
+    border: none;
+    font-size: 18pt;
+    padding: 8px;
+    width: 240px;
+}
+
+.wizardStep .title {
+    font-weight: bold;
+    font-size: 15pt;
+    padding 5px 0;
+}
+
+.wizardStep .middle {
+    position: absolute;
+    top: 50%;
+    /* margin-top must be -(height/2) */
+}
+
+/* Two panel steps */
+.wizardStep .left { right: 50%; margin-right: 50px }
+.wizardStep .right { left: 50% }
+
+/**
+ * Wizard Step: Address search
+ */
+#wizard .address {
+    float: left;    
+    margin-top: 3px;
+    border: 1px solid #666;
+}
+
+input.initial {
+    font-style: italic;
+    color: #000;
+}
+
+#wizard .addresses {
+    padding: 5px;
+    background-color: #e8fbda;
+    border: 1px solid #486d2c;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+
+/**
+ * Wizard Step: Zone information
+ */
+.zonePage {
     height: 450px;
 }
-#mapCanvas {
-    margin-left: 335px;
-    border-left: 1px solid #36533a;
+
+.zonePage .mapSection {
+    position: absolute;
+    left: 40px;
 }
 
-.mapSection {
-    width: 100%;
-    position: relative;
-    border-top: 1px solid #36533a;
+.wizardStep .zoneName {
+    font-size: 27pt;
 }
-.cityimage {
+.wizardStep .nextPickup {
+    font-size: 15pt;
+}
+.wizardStep .yardMsg {
+    font-size: 15pt;
+    font-style: italic;
+}
+
+.zonePage .map {
+    margin-top: 20px;
+    height: 320px;
+    width: 300px;
+}
+
+.zonePage .centerSectionWrapper {
     position: absolute;
     left: 0;
-    top: 0;
+    width: 100%;
+}
+.zonePage .centerSection {
+    margin: 0 375px;
 }
 
+.zonePage .signup {
+    height: 43px;
+    margin: 30px 0px;
+}
+
+.zonePage .signup span {
+    float: left;
+    color: #f65735;
+    padding: 10px 0;
+    font-size: 14pt;
+    font-weight: bold;
+}
+
+.zonePage .feeds {
+    position: absolute;
+    top: 250px;
+    left: 600px;
+}
+
+.zonePage .feeds .title {
+    margin: 10px 0 4px 0;
+    font-size: 100%;
+}
+
+.zonePage .cityImageSection {
+    position: absolute;
+    right: 40px;
+    top: 0;
+}
+.zonePage .cityImageSection img {
+    height: 450px;
+    border: 1px solid #D3D3D3;
+}
+
+.zonePage .calendarSection {
+    width: 300px;
+}
+
+/*
+ * Wizard Step: Subscribe
+ */
+
+#wizard div.price {
+    text-align: center;
+    position: absolute;
+    right: 20px;
+    width: 100px;
+    font-size: 90%;
+}
+#wizard .premium div.price { top: 12px }
+#wizard .basic div.price { top: 30px }
+
+#wizard .premium {
+    border: 1px solid #D3D3D3;
+    background-color: #eee;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+
+.wizardStep .paymentType {
+    width: 400px;
+}
+
+.wizardStep select {
+    /* rounded corners */
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    border-radius: 15px;
+
+}
+
+.wizardStep .next {
+    float: right;
+}
+
+/**
+ * Buttons
+ */
+
+.bigButtonGreen,
+.bigButtonOrange {
+    float: left;
+    display: block;
+    text-decoration: none;
+    position: relative;
+    color: #fff !important;
+    margin: 3px 10px;
+    padding: 10px 30px;
+    font-size: 120%;
+
+    /* rounded corners */
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+}
+
+.bigButtonGreen {
+    border: 1px solid #70a547;
+    /* Gradient */
+    background-color: #86c655;  /* for non-css3 browsers */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#86c655', endColorstr='#70a547'); /* for IE */
+    background: -webkit-gradient(linear, left top, left bottom, from(#86c655), to(#70a547)); /* for webkit browsers */
+    background: -moz-linear-gradient(top,  #86c655,  #70a547); /* for firefox 3.6+ */
+}
+.bigButtonGreen:hover {
+    background-color: #7cb74e;  /* for non-css3 browsers */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#7cb74e', endColorstr='#70a547'); /* for IE */
+    background: -webkit-gradient(linear, left top, left bottom, from(#7cb74e), to(#70a547)); /* for webkit browsers */
+    background: -moz-linear-gradient(top,  #7cb74e,  #70a547); /* for firefox 3.6+ */
+}
+.bigButtonGreen:active {
+    background: #70a547;
+}
+
+.bigButtonOrange {
+    border: 1px solid #f65735;
+    /* Gradient */
+    background-color: #f78964;  /* for non-css3 browsers */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f78964', endColorstr='#f65735'); /* for IE */
+    background: -webkit-gradient(linear, left top, left bottom, from(#f78964), to(#f65735)); /* for webkit browsers */
+    background: -moz-linear-gradient(top,  #f78964,  #f65735); /* for firefox 3.6+ */
+}
+.bigButtonOrange:hover {
+    background-color: #f66f4c;  /* for non-css3 browsers */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f66f4c', endColorstr='#f65735'); /* for IE */
+    background: -webkit-gradient(linear, left top, left bottom, from(#f66f4c), to(#f65735)); /* for webkit browsers */
+    background: -moz-linear-gradient(top,  #f66f4c,  #f65735); /* for firefox 3.6+ */
+}
+.bigButtonOrange:active {
+    background: #f65735;
+}
+
+/* get satisfaction tab */
+a#fdbk_tab {
+    top: 200px !important;
+}
 
 body#mobile a.elem {
     font-size: 120%;
@@ -271,108 +399,53 @@ body#mobile .ui-datepicker {
     margin-bottom: 10px;
 }
 
-input.initial {
-    font-style: italic;
-    color: #666;
-}
-
-input.text {
-    padding: 5px;
-    font-size: 130%;
-    border: 1px solid #D3D3D3;
-    width: 300px;
-}
-
-/* Map Balloons */
-.balloon .remind_me {
-    margin-top: 4px;
-    width: 100%;
-    font-weight: bold;
-}
-
-.balloon .zoneName {
-    font-weight: bold;
-    text-align: center;
-    font-size: 115%;
-}
-.balloon .next {
-    text-align: center;
-}
-.balloon .yard {
-    text-align: center;
-    font-style: italic;
-}
-
-/* Don't make disabled dates opaque because all are disabled */
-.calendar .ui-state-disabled,
-.calendar .ui-widget-content .ui-state-disabled {
-    opacity: 1;
-    filter:Alpha(Opacity=100);
-}
-
-.calendar .ui-datepicker-today {
-    border: 1px solid #d22;
-}
-.calendar .ui-datepicker-today span {
-    color: #000;
-}
-
-.calendar .marked span {
-    background: #60a464;
-    color: #000;
-}
-
-.ui-dialog .error {
-    color: red;
-    font-style: italic;
-}
-
-.ui-dialog .wizard .page {
-    display: none;
-}
-.ui-dialog .customOffset {
+#wizard .customOffset {
     display: none;
 }
 
-.ui-dialog label.error {
+#wizard label.error {
     font-size: 90%;
     margin-left: 130px;
     white-space: nowrap;
 }
 
-.ui-dialog .help {
+#wizard .help {
     font-size: 90%;
     color: #777;
     font-style: italic;
     margin: 10px 0;
 }
 
-.ui-dialog .title {
-    margin: 10px 0;
-    font-size: 130%;
-}
-
 /* Service options */
-.ui-dialog .payclass {
+#wizard .reminders {
+    width: 350px;
+    padding: 10px;
+    background-color: #fff;
+    border: 1px solid #D3D3D3;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+#wizard .payclass {
     position: relative;
 }
-.ui-dialog .option {
+#wizard .option {
     padding: 10px 0;;
     text-align: center;
     height: 20px;
 }
-.ui-dialog .radio {
+#wizard .radio {
     height: 20px;
     width: 25px;
 
     position: absolute;
     left: 10px;
 }
-.ui-dialog .radio input {
+#wizard .radio input {
     width: 15px;
     height: 15px;
 }
-.ui-dialog div.label {
+#wizard div.label {
     text-align: left;
     font-size: 130%;
     width: 300px;
@@ -380,28 +453,12 @@ input.text {
     position: absolute;
     left: 50px;
 }
-.ui-dialog div.price {
-    text-align: center;
-    position: absolute;
-    right: 20px;
-    width: 100px;
-}
-.ui-dialog .premium div.price { top: 12px }
-.ui-dialog .basic div.price { top: 30px }
 
-.ui-dialog .premium {
-    background-image: url("images/ui-bg_glass_75_e6e6e6_1x400.png");
-    border: 1px solid #D3D3D3;
-    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
-    border-radius: 4px;
-}
-
-.ui-dialog .field {
+#wizard .field {
     clear: both;
     padding: 10px 5px;
 }
-.ui-dialog .field .name {
+#wizard .field .name {
     float: left;
     width: 150px;
     text-align: right;
@@ -414,27 +471,135 @@ input.text {
     top: 150px;
 }
 
-.ui-dialog .calendars {
-    margin-top: 20px;
+/* Calendar Styles */
+.ui-datepicker {
+    background: #fff;
+    width: 180px;
+    padding: 10px;
+    position: absolute;
+    top: 250px;
+
+    /* gradient */
+    background-color: #fefeef;  /* for non-css3 browsers */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fefeef', endColorstr='#adcaad'); /* for IE */
+    background: -webkit-gradient(linear, left top, left bottom, from(#fefeef), to(#adcaad)); /* for webkit browsers */
+    background: -moz-linear-gradient(top,  #fefeef,  #adcaad); /* for firefox 3.6+ */
+
+    /* Rounded borders */
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+
+    /* Drop shadow */
+    -moz-box-shadow: 3px 3px 4px #8e9884;
+    -webkit-box-shadow: 3px 3px 4px #8e9884;
+    box-shadow: 3px 3px 4px #8e9884;
+    /* For IE 8 */
+    -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#8e9884')";
+    /* For IE 5.5 - 7 */
+    filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#8e9884');
 }
-.ui-dialog .calendars b {
+
+.ui-datepicker .ui-datepicker-title {
+    display: block;
+    width: 100%;
+    text-align: center;
+}
+
+.ui-datepicker .ui-datepicker-month {
+    display: block;
+}
+
+.ui-datepicker .ui-datepicker-year {
+    font-size: 80%;
+}
+
+.ui-datepicker table {
+    width: 100%
+}
+
+.ui-datepicker .day span {
+    padding: 1px;
+    color: #495942;
     display: block;
     text-align: center;
 }
-.ui-dialog .calendars a {
-    text-decoration: none;
-    margin-left: 15px;
+
+.ui-datepicker .ui-datepicker-today {
+    border: 1px solid #d22;
 }
-.ui-dialog .calendars img {
-    vertical-align: middle;
+
+.ui-datepicker .ui-datepicker-prev {
+    float: left;
 }
-.ui-dialog .calendars span {
-    color: #9F9793;
-    text-decoration: underline;
+
+.ui-datepicker .ui-datepicker-header {
+    position: relative;
+    padding: .2em 0;
+}
+
+.ui-datepicker .ui-datepicker-prev,
+.ui-datepicker .ui-datepicker-next {
+    position:absolute;
+    width: 1.8em;
+    height: 1.8em;
+}
+.ui-datepicker .ui-datepicker-prev span,
+.ui-datepicker .ui-datepicker-next span {
+    display: block;
+    position: absolute;
+    left: 50%;
+    margin-left: -8px;
+    top: 50%;
+    margin-top: -8px;
+}
+
+.calendar .marked {
+    text-align: center;
+    background: #f6f9e8;
+    color: #5e9f42;
+}
+
+.ui-helper-hidden-accessible { position: absolute !important; clip: rect(1px 1px 1px 1px); clip: rect(1px,1px,1px,1px); }
+
+/* done Calendar Styles */
+
+
+/* Icons */
+.ui-icon {
+    display: block;
+    text-indent: -99999px;
+    overflow: hidden;
+    background-repeat:
+    no-repeat;
+}
+.ui-icon {
+    width: 16px;
+    height: 16px;
+    background-image: url(images/ui-icons_222222_256x240.png);
+}
+.ui-datepicker .ui-datepicker-next {
+    right: 2px;
+}
+.ui-datepicker .ui-datepicker-prev-hover,
+.ui-datepicker .ui-datepicker-next-hover {
+    top: 1px;
+}
+
+.ui-icon-circle-triangle-e { background-position: -48px -192px; }
+.ui-icon-circle-triangle-s { background-position: -64px -192px; }
+.ui-icon-circle-triangle-w { background-position: -80px -192px; }
+.ui-icon-circle-triangle-n { background-position: -96px -192px; }
+/* done icons */
+
+.cityimage {
+    position: absolute;
+    left: 0;
+    top: 0;
 }
 
 /* fieldset */
-.ui-dialog fieldset {
+#wizard fieldset {
     padding: 10px 10px 20px 10px;
     border: 1px solid #666;
     /* rounded corners */
@@ -442,20 +607,9 @@ input.text {
     -moz-border-radius: 5px;
     border-radius: 5px;
 }
-.ui-dialog fieldset legend {
+#wizard fieldset legend {
     padding: 0 8px;
     margin: 0;
-}
-
-/* Dialog Button layout*/
-.ui-dialog .ui-dialog-buttonset {
-    width: 100%;
-}
-.ui-dialog .ui-dialog-buttonset button.close {
-    float: none; /* place close buttons on the far left */
-}
-.ui-dialog .ui-dialog-buttonset button {
-    float: right;
 }
 
 /* Other page styles */
@@ -492,6 +646,69 @@ input.text {
 }
 .otherPage .section input, .otherPage .section textarea {
     margin: 3px 0 0 10px;
+}
+
+/*
+ * jQuery UI Autocomplete 1.8.7
+ *
+ * Copyright 2010, AUTHORS.txt (http://jqueryui.com/about)
+ * Dual licensed under the MIT or GPL Version 2 licenses.
+ * http://jquery.org/license
+ *
+ * http://docs.jquery.com/UI/Autocomplete#theming
+ */
+.ui-autocomplete { position: absolute; cursor: default; }	
+
+.ui-autocomplete .ui-state-hover {
+    background-color: #eee;
+}	
+
+/* workarounds */
+* html .ui-autocomplete { width:1px; } /* without this, the menu expands to 100% in IE6 */
+
+.ui-autocomplete {
+    font-family: Verdana,Arial,sans-serif;
+    font-size: 1.1em;
+    border: 1px solid #aaaaaa;
+    background: #ffffff url(images/ui-bg_flat_75_ffffff_40x100.png) 50% 50% repeat-x;
+    color: #222222;
+}
+.ui-autocomplete a { color: #222222; }
+
+
+/*
+ * jQuery UI Menu 1.8.7
+ *
+ * Copyright 2010, AUTHORS.txt (http://jqueryui.com/about)
+ * Dual licensed under the MIT or GPL Version 2 licenses.
+ * http://jquery.org/license
+ *
+ * http://docs.jquery.com/UI/Menu#theming
+ */
+.ui-menu {
+    list-style:none;
+    padding: 2px;
+    margin: 0;
+    display:block;
+    float: left;
+}
+.ui-menu .ui-menu {
+    margin-top: -3px;
+}
+.ui-menu .ui-menu-item {
+    margin:0;
+    padding: 0;
+    zoom: 1;
+    float: left;
+    clear: left;
+    width: 100%;
+}
+.ui-menu .ui-menu-item a {
+    text-decoration:none;
+    display:block;
+    padding:.2em .4em;
+    line-height:1.5;
+    zoom:1;
 }
 
 @media all and (orientation:portrait) { 
