@@ -124,6 +124,8 @@ my %zone_tests = (
 id: 1
 name: vancouver-north-red
 title: Vancouver North Red
+area_name: Vancouver
+area_id: 1
 EOT
     },
     json => sub {
