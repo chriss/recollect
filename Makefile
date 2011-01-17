@@ -98,6 +98,7 @@ $(INSTALL_DIR)/%:
 	mkdir $(INSTALL_DIR)/root
 	mkdir $(INSTALL_DIR)/bin
 	mkdir $(INSTALL_DIR)/etc
+	mkdir $(INSTALL_DIR)/run
 	chown -R recollect:www-data $(INSTALL_DIR)
 
 
