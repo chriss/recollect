@@ -1,6 +1,6 @@
 package Recollect::Reminder;
 use Moose;
-use WWW::Shorten::isgd;
+use WWW::Shorten::Googl;
 use DateTime;
 use DateTime::Duration;
 use Carp qw/croak/;
