@@ -98,7 +98,6 @@ $(INSTALL_DIR)/%:
 	mkdir $(INSTALL_DIR)/root
 	mkdir $(INSTALL_DIR)/bin
 	mkdir $(INSTALL_DIR)/etc
-	mkdir $(INSTALL_DIR)/data
 	chown -R recollect:www-data $(INSTALL_DIR)
 
 
@@ -113,7 +112,6 @@ install: javascript $(INSTALL_DIR)/* $(SOURCE_FILES) $(LIB) \
 	cp -R $(LIB) $(TEMPLATE_DIR) $(INSTALL_DIR)
 	rm -f $(INSTALL_DIR)/root/*.html
 	cp $(PSGI) $(INSTALL_DIR)
-	cp data/recollect.dump $(INSTALL_DIR)/data
 	cp $(EXEC) $(INSTALL_DIR)/bin
 	cp -f etc/cron.d/recollect /etc/cron.d/recollect
 	cp -f etc/areas.yaml $(INSTALL_DIR)/etc/areas.yaml
@@ -127,7 +125,7 @@ install: javascript $(INSTALL_DIR)/* $(SOURCE_FILES) $(LIB) \
 	cp -f etc/nginx/sites-available/recollect.net /etc/nginx/sites-available
 	ln -sf /etc/nginx/sites-available/recollect.net /etc/nginx/sites-enabled/recollect.net
 	cd $(INSTALL_DIR) && bin/setup-env
-	chown -R recollect:www-data $(INSTALL_DIR)/data/ $(INSTALL_DIR)/root
+	chown -R recollect:www-data $(INSTALL_DIR)/root
 	chown -R recollect:www-data $(INSTALL_DIR)/backup/
 	/etc/init.d/nginx reload
 
