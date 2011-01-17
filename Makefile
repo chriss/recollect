@@ -108,6 +108,7 @@ install: javascript $(INSTALL_DIR)/* $(SOURCE_FILES) $(LIB) \
 	rm -rf $(INSTALL_DIR)/root/javascript
 	if [ ! -d $(INSTALL_DIR)/root/reports ]; then mkdir $(INSTALL_DIR)/root/reports; fi
 	if [ ! -d $(INSTALL_DIR)/backup ]; then mkdir $(INSTALL_DIR)/backup; fi
+	if [ ! -f /var/log/recollect-server.log ]; then touch /var/log/recollect-server.log; chown recollect:www-data /var/log/recollect-server.log; fi
 	cp -R $(SOURCE_FILES) $(INSTALL_DIR)/root
 	cp -R $(LIB) $(TEMPLATE_DIR) $(INSTALL_DIR)
 	rm -f $(INSTALL_DIR)/root/*.html
@@ -124,7 +125,6 @@ install: javascript $(INSTALL_DIR)/* $(SOURCE_FILES) $(LIB) \
 	svc -u /etc/service/recollect
 	cp -f etc/nginx/sites-available/recollect.net /etc/nginx/sites-available
 	ln -sf /etc/nginx/sites-available/recollect.net /etc/nginx/sites-enabled/recollect.net
-	cd $(INSTALL_DIR) && bin/setup-env
 	chown -R recollect:www-data $(INSTALL_DIR)/root
 	chown -R recollect:www-data $(INSTALL_DIR)/backup/
 	/etc/init.d/nginx reload
