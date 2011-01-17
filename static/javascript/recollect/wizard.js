@@ -60,7 +60,6 @@ Recollect.Wizard .prototype = {
                         var geocoder = new google.maps.Geocoder();
                         geocoder.geocode(request, function(results, status) {
                             if (status != google.maps.GeocoderStatus.OK) {
-                                console.log('not ok');
                                 return;
                             }
                             $node.autocomplete({
@@ -90,7 +89,10 @@ Recollect.Wizard .prototype = {
 
                         if (results.length == 1) {
                             var loc = results[0].geometry.location;
-                            self.showZoneAt(loc.lat(), loc.lng());
+                            var locality = self.addressComponent(
+                                'locality', results[0]
+                            );
+                            self.showZoneAt(locality, loc.lat(), loc.lng());
                         }
                         else if (results.length == 0) {
                             $('#wizard .status').html(
@@ -108,8 +110,9 @@ Recollect.Wizard .prototype = {
                             $('#wizard .status a').click(function() {
                                 var lat = $(this).attr('lat');
                                 var lng = $(this).attr('lng');
+                                var locality = $(this).attr('locality');
                                 $('#wizard .status').fadeOut(function() {
-                                    self.showZoneAt(lat, lng);
+                                    self.showZoneAt(locality, lat, lng);
                                 });
                                 return false;
                             });
@@ -286,18 +289,19 @@ Recollect.Wizard .prototype = {
         */
     },
 
-    showZoneAt: function(lat, lng) {
+    showZoneAt: function(locality, lat, lng) {
         var self = this;
         var zone = [ lat, lng ].join(',');
         $.ajax({
-            url: '/zones/' + zone + '.json',
+            url: '/api/areas/' + locality + '/zones/' + zone + '.json',
             success: function(data) {
                 self.setHash('zones', data.name);
             },
             error: function(xhr) {
                 $('#wizard .status').html(
                     Jemplate.process('error', {
-                        msg: xhr.responseText
+                        //msg: xhr.responseText
+                        msg: 'Looking up zones by GPS coords is not implemented'
                     })
                 );
             }
@@ -388,33 +392,31 @@ Recollect.Wizard .prototype = {
 
     // Build a hash of component types to their short name, like 
     //  {locality: 'Vancouver', country: 'CA', ...}
-    addressComponentHash: function(address) {
-        var hash = {};
-        $.each(address.address_components, function(i, component) {
+    addressComponent: function(component_type, result) {
+        var value;
+        $.each(result.address_components, function(i, component) {
             $.each(component.types, function(i, type) {
-                hash[type] = component.short_name;
+                if (type == component_type) value = component.short_name;
             });
         });
-        return hash;
+        return value;
     },
 
     restrictLocalities: function(results) {
-        return results;
         var self = this;
 
         var validCities = [
             {locality: 'Vancouver', country: 'CA'}
         ];
 
-        return $.grep(results, function(result) {
-            var address = self.addressComponentHash(result);
-
-            // Return a positive number if the result is in any validCity
+        return $.grep(results, function(res) {
             return $.grep(validCities, function(city) {
                 var valid = true;
+
                 $.each(city, function(key, val) {
-                    if (address[key] != val) valid = false;
+                    if (self.addressComponent(key, res) != val) valid = false;
                 });
+
                 return valid;
             }).length;
         });
