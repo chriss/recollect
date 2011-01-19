@@ -33,9 +33,9 @@ sub run {
     };
 
     my $area_wrapper = sub {
-        my ($area_id, $resource_type, $sub_name) = @_;
+        my ($area_id, $resource_type, $sub_name, @other) = @_;
         my $area = Recollect::Area->Resolve($area_id);
-        return $wrapper->($sub_name, $resource_type, $area);
+        return $wrapper->($sub_name, $resource_type, $area, @other);
     };
 
     my $zone_wrapper = sub {
@@ -96,6 +96,11 @@ sub run {
                 # Zone Next DOW Change
                 when (m{^/areas/$area_rx/zones/$zone_rx/nextdowchange$ext_rx$}) {
                     return $zone_wrapper->($1, $2, $3, 'next_dow_change')
+                }
+
+                # Zone lookup by lat,lng
+                when (m{^/areas/$area_rx/zones/($coord_rx),($coord_rx)(.*)$}) {
+                    return $area_wrapper->($1, undef, 'zone_at_latlng', $2, $3, $4);
                 }
             }
         }
@@ -469,23 +474,24 @@ sub next_dow_change_txt {
 
 sub zone_at_latlng {
     my $self = shift;
-    my $req  = shift;
+    my $req  = $self->request;
+    my $area = shift;
     my $lat  = shift;
     my $lng  = shift;
     my $rest = shift || "";
 
-    warn "This has not been re-implemented, it may not be correct.";
-    warn "Please remove this warning when you review zone_at_latlng()";
-    my $zone = $self->model->kml->find_zone_for_latlng($lat,$lng);
+    my $kml = Recollect::KML->new(area => $area);
+    my $zone = $kml->find_zone_for_latlng($lat,$lng);
     my $resp = Plack::Response->new;
     if ($zone) {
-        $resp->redirect("/zones/$zone$rest", 302);
+        my $area_name = $area->name;
+        $resp->redirect("/api/areas/$area_name/zones/$zone$rest", 302);
     }
     else {
         $resp->status(404);
         $resp->body("Sorry, no zone exists at $lat,$lng!");
     }
-    return $resp->finalize
+    return $resp->finalize;
 }
 
 __PACKAGE__->meta->make_immutable;

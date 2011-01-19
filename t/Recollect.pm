@@ -55,6 +55,7 @@ sub _build_base_path {
     my $tmp_dir = tempdir( CLEANUP => 0 );
     mkdir "$tmp_dir/data";
     symlink "$FindBin::Bin/../template", "$tmp_dir/template";
+    symlink "$FindBin::Bin/../root", "$tmp_dir/root";
     mkdir "$tmp_dir/etc";
     my $user = $ENV{USER} eq 'ubuntu' ? '' : $ENV{USER};
     $config->{db_name} = "recollect_${user}_test";

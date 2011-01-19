@@ -3,13 +3,22 @@ use Moose;
 use XML::XPath;
 use XML::XPath::XMLParser;
 use Math::Polygon;
+use Recollect::Util qw/base_path/;
 use namespace::clean -except => 'meta';
 
-has 'filename' => (is => 'ro', isa => 'Str');
-has 'xpath' => (is => 'ro', isa => 'XML::XPath', lazy_build => 1);
+has 'area'     => (is => 'ro', isa => 'Object',     required   => 1);
+has 'filename' => (is => 'ro', isa => 'Str',        lazy_build => 1);
+has 'xpath'    => (is => 'ro', isa => 'XML::XPath', lazy_build => 1);
 has 'polygons' => (
     is => 'ro', isa => 'ArrayRef', lazy_build => 1, auto_deref => 1
 );
+
+sub _build_filename {
+    my $self = shift;
+    my $filename = base_path() . "/root/kml/" . lc($self->area->name) . ".xml";
+    die "Cannot find KML at $filename" unless -e $filename;
+    return $filename;
+}
 
 sub _build_xpath {
     my $self = shift;
@@ -49,6 +58,7 @@ sub find_zone_for_latlng {
             return $polygon->{name};
         }
     }
+    return;
 }
 
 __PACKAGE__->meta->make_immutable;

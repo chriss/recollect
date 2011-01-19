@@ -260,6 +260,16 @@ test_the_api_for(
 );
 
 # GET /api/areas/:area/zones/:lat,:lng(.+)
+test_the_api_for(
+    '/areas/Vancouver/zones/49.286283,-123.049622',
+    raw => sub {
+        my $resp = shift;
+        is $resp->code, 302, 'we got a redirect';
+        is $resp->header('Location'),
+            '/api/areas/Vancouver/zones/vancouver-north-purple',
+            'redirect is correct';
+    },
+);
 
 
 
@@ -322,6 +332,10 @@ sub test_the_api_for {
                         $test->($data) unless $@;
                     }
                 );
+            }
+            if (my $test = $tests{raw}) {
+                my $res = $cb->(GET $uri);
+                $test->($res);
             }
         };
     };
