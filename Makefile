@@ -1,12 +1,12 @@
 INSTALL_DIR=/var/www/recollect
-SOURCE_FILES=static/*
+SOURCE_FILES=root/*
 LIB=lib
 TEMPLATE_DIR=template
 EXEC=bin/*
 MINIFY=perl -MJavaScript::Minifier::XS -0777 -e 'print JavaScript::Minifier::XS::minify(scalar <>);'
 #MINIFY=cat
 
-JS_DIR=static/javascript
+JS_DIR=root/javascript
 
 JEMPLATE=$(JS_DIR)/Jemplate.js
 JEMPLATES=$(wildcard $(JS_DIR)/template/*.tt2)
