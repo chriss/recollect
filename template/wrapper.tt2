@@ -39,8 +39,10 @@
         </header>
 
         <div id="whiteBar"></div>
+        <div id="main">
         [% IF message %]<div id="message"><strong>[% message %]</strong></div>[% END %]
-        <div id="main">[% content %]</div>
+        [% content %]
+        </div>
 
         <footer>
         </footer>
