@@ -14,7 +14,7 @@ if ($command eq 'recreate') {
     my $file = shift || "$FindBin::Bin/../data/recollect.dump";
     print "Re-creating database ...\n";
     system("dropdb $db");
-    system("createdb -E UTF8 $db");
+    system("createdb -E UTF8 -T template0 $db");
     system("psql -f $file $db");
 }
 
