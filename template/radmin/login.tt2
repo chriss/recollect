@@ -1,0 +1,3 @@
+[% WRAPPER wrapper.tt2 %]
+    <a href="[% doorman.sign_in_path %]"><img src="http://a0.twimg.com/images/dev/buttons/sign-in-with-twitter-l.png" /></a>
+[% END %]

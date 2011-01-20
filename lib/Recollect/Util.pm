@@ -1,13 +1,12 @@
 package Recollect::Util;
-use strict;
-use warnings;
-use base 'Exporter';
+use Moose;
+extends 'Exporter';
+
+with 'Recollect::Roles::Config';
 
 our @EXPORT_OK = qw/base_path now tonight/;
 
-sub base_path {
-    $ENV{RECOLLECT_BASE_PATH} || '/var/www/recollect';
-}
+sub base_path { $ENV{RECOLLECT_BASE_PATH} || '/var/www/recollect' }
 
 sub now {
     return $ENV{RECOLLECT_NOW} if $ENV{RECOLLECT_NOW};

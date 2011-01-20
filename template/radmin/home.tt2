@@ -1,0 +1,4 @@
+[% WRAPPER wrapper.tt2 %]
+    Welcome, [% doorman.twitter_screen_name %].
+    <a href="[% doorman.sign_out_path %]">Sign out</a>
+[% END %]
