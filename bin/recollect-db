@@ -3,17 +3,19 @@ use strict;
 use warnings;
 use FindBin;
 use lib "$FindBin::Bin/../lib";
+use Recollect::Util;
 
 my $command = shift;
 die "USAGE: $0 <command>\n" unless $command;
 
-my $db = $ENV{PGDATABASE};
+my $db = Recollect::Util->config->{db_name};
+warn "Using database $db\n";
 if ($command eq 'recreate') {
     my $file = shift || "$FindBin::Bin/../data/recollect.dump";
     print "Re-creating database ...\n";
     system("dropdb $db");
     system("createdb -E UTF8 $db");
-    system("psql -f $file");
+    system("psql -f $file $db");
 }
 
 exit;
