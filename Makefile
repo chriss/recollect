@@ -88,8 +88,7 @@ install: javascript $(INSTALL_DIR)/* $(SOURCE_FILES) $(LIB) \
 	if [ ! -d /etc/service/recollect ]; then \
 	    update-service --add $(INSTALL_DIR)/etc/service/recollect recollect; \
 	fi
-	svc -d /etc/service/recollect
-	svc -u /etc/service/recollect
+	svc -h /etc/service/recollect
 	cp -f etc/nginx/sites-available/recollect.net /etc/nginx/sites-available
 	ln -sf /etc/nginx/sites-available/recollect.net /etc/nginx/sites-enabled/recollect.net
 	chown -R recollect:www-data $(INSTALL_DIR)/root
