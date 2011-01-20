@@ -12,13 +12,16 @@ our $Recollect_version = '0.9';
 
 has 'template'  => (is => 'ro', isa => 'Object', lazy_build => 1);
 has 'request'   => (is => 'rw', isa => 'Plack::Request');
+has 'env'       => (is => 'rw', isa => 'HashRef');
 has 'model' => (is => 'ro', isa => 'Recollect::Model', lazy_build => 1);
+has 'message' => (is => 'rw', isa => 'Str');
 
 around 'run' => sub {
     my $orig = shift;
     my $self = shift;
     my $env  = shift;
 
+    $self->env($env);
     $self->request( Plack::Request->new($env) );
     return $orig->($self, $env);
 };
@@ -49,6 +52,7 @@ sub render_template {
     $param->{version} = $Recollect_version;
     $param->{base} = $self->base_url,
     $param->{request_uri} = $self->request->request_uri;
+    $param->{message} = $self->message;
     $self->template->process($template, $param, \$html) 
         || die $self->template->error;
     return $html;
@@ -126,5 +130,17 @@ sub _kthx {
 
 sub ok         { _kthx(200) }
 sub no_content { _kthx(204) }
+
+sub redirect {
+    my $self = shift;
+    my $url  = shift;
+    my $code = shift || 302;
+
+    my $resp = Plack::Response->new;
+    $resp->redirect($url, 302);
+    $resp->header('Content-Type' => 'text/plain');
+    $resp->body('');
+    return $resp->finalize;
+}
 
 1;
