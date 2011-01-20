@@ -5,9 +5,11 @@ use namespace::clean -except => 'meta';
 
 extends 'Recollect::Collection';
 
-has 'id'         => (is => 'ro', isa => 'Str', required => 1);
-has 'email'      => (is => 'ro', isa => 'Str', required => 1);
-has 'created_at' => (is => 'ro', isa => 'Str', required => 1);
+has 'id'           => (is => 'ro', isa => 'Str',    required   => 1);
+has 'email'        => (is => 'ro', isa => 'Str',    required   => 1);
+has 'created_at'   => (is => 'ro', isa => 'Str',    required   => 1);
+has 'twittername'  => (is => 'ro', isa => 'Str',    required   => 1);
+has 'is_admin'     => (is => 'ro', isa => 'Bool',   required   => 1);
 has 'created_date' => (is => 'ro', isa => 'Object', lazy_build => 1);
 
 sub _build_created_date {
@@ -18,6 +20,11 @@ sub _build_created_date {
 sub By_email {
     my $class = shift;
     return $class->By_field('LOWER(email)' => lc shift);
+}
+
+sub By_twitter {
+    my $class = shift;
+    return $class->By_field('LOWER(twittername)' => lc shift);
 }
 
 sub to_hash {

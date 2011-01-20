@@ -37,9 +37,13 @@ CREATE SEQUENCE user_seq;
 CREATE TABLE users (
     id    integer PRIMARY KEY,
     email text NOT NULL,
-    created_at  timestamptz DEFAULT LOCALTIMESTAMP NOT NULL
+    created_at  timestamptz DEFAULT LOCALTIMESTAMP NOT NULL,
+    twittername text,
+    is_admin BOOLEAN DEFAULT FALSE
 );
 CREATE UNIQUE INDEX users_email_idx ON users (email);
+CREATE UNIQUE INDEX users_twittername_idx ON users (twittername);
+INSERT INTO users VALUES (nextval('user_seq'), 'radmin@recollect.net', 'now'::timestamptz, 'recollectnet', TRUE);
 
 CREATE TABLE subscriptions (
     id         text    PRIMARY KEY,

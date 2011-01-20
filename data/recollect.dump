@@ -175,8 +175,11 @@ SELECT pg_catalog.setval('user_seq', 1, false);
 CREATE TABLE users (
     id integer NOT NULL,
     email text NOT NULL,
-    created_at timestamp with time zone DEFAULT ('now'::text)::timestamp without time zone NOT NULL
+    created_at timestamp with time zone DEFAULT ('now'::text)::timestamp without time zone NOT NULL,
+    twittername text,
+    is_admin BOOLEAN DEFAULT FALSE
 );
+INSERT INTO users VALUES (nextval('user_seq'), 'radmin@recollect.net', 'now'::timestamptz, 'recollectnet', TRUE);
 
 
 ALTER TABLE public.users OWNER TO recollect;
@@ -952,7 +955,8 @@ CREATE INDEX subscriptions_user_idx ON subscriptions USING btree (user_id);
 -- Name: users_email_idx; Type: INDEX; Schema: public; Owner: recollect; Tablespace: 
 --
 
-CREATE UNIQUE INDEX users_email_idx ON users USING btree (email);
+CREATE UNIQUE INDEX users_email_idx   ON users USING btree (email);
+CREATE UNIQUE INDEX users_twittername_idx ON users USING btree (twittername);
 
 
 --
