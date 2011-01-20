@@ -27,7 +27,7 @@ sub run {
         GET => [
             [ qr{^/sign_out$}           => sub { shift->redirect('/radmin') } ],
             [ qr{^/twitter_verified$}   => \&twitter_verified ],
-            [ qr{^/home$}               => \&home_screen ],
+            [ qr{^/$}                   => \&home_screen ],
         ],
 
         POST => [
@@ -42,7 +42,8 @@ sub run {
         }
     }
 
-    return $self->login_ui;
+    $self->message("Unknown path - $path");
+    return $self->home_screen;
 }
 
 sub login_ui {
@@ -61,7 +62,7 @@ sub home_screen {
     return $self->process_template("radmin/home.tt2", $params)->finalize;
 }
 
-sub twitter_verified { shift->redirect("/radmin/home") }
+sub twitter_verified { shift->redirect("/radmin") }
 sub _build_doorman   { shift->env->{'doorman.radmin.twitter'} }
 
 __PACKAGE__->meta->make_immutable;
