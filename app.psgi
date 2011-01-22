@@ -8,8 +8,11 @@ use Recollect::RadminController;
 use Recollect::CallController;
 use Recollect::APIController;
 use Recollect::Controller;
-use Recollect::Util;
 
+use Recollect::Roles::Cacheable;
+Recollect::Roles::Cacheable->cache; # create the cache in the main process
+
+use Recollect::Util;
 my $config = Recollect::Util->config;
 
 builder {
