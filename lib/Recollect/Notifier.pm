@@ -4,6 +4,7 @@ use DateTime;
 use Recollect::Reminder;
 use Recollect::Util qw/now/;
 use JSON qw/encode_json/;
+use Carp qw/croak/;
 use namespace::clean -except => 'meta';
 
 has 'now'     => (is => 'rw', isa => 'Object', default    => sub { now() });
@@ -28,10 +29,10 @@ sub need_notification {
 
 sub notify {
     my $self = shift;
-    my $rem_id = shift or die "reminder is undef!";
-
-    my $rem = Recollect::Reminder->By_id($rem_id);
-    die "Reminder ID: $rem_id is invalid!" unless $rem;
+    my $rem_or_id = shift or croak "reminder or reminder_id is required";
+    my $rem = ref($rem_or_id) ? $rem_or_id
+                              : Recollect::Reminder->By_id($rem_or_id);
+    die "Reminder ID: $rem_or_id is invalid!" unless $rem;
     if ($self->_send_notification($rem)) {
         $rem->update_last_notified($self->now);
     }
