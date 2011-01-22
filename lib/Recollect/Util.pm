@@ -3,8 +3,9 @@ use Moose;
 extends 'Exporter';
 
 with 'Recollect::Roles::Config';
+with 'Recollect::Roles::Log';
 
-our @EXPORT_OK = qw/base_path now tonight/;
+our @EXPORT_OK = qw/base_path now tonight config log/;
 
 sub base_path { $ENV{RECOLLECT_BASE_PATH} || '/var/www/recollect' }
 
