@@ -2,7 +2,8 @@ INSTALL_DIR=/var/www/recollect
 SOURCE_FILES=root/*
 LIB=lib
 TEMPLATE_DIR=template
-EXEC=bin/*
+PRIVATE=../private
+EXEC=bin/* $(PRIVATE)/bin/recollect-*
 MINIFY=perl -MJavaScript::Minifier::XS -0777 -e 'print JavaScript::Minifier::XS::minify(scalar <>);'
 #MINIFY=cat
 
