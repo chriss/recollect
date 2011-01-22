@@ -14,6 +14,7 @@ sub _build_log_file {
 }
 
 sub log {
+    shift if $_[0] =~ m/::/;
     my $msg = localtime() . ": $_[0]\n";
 
     $Log_file ||= _build_log_file();
