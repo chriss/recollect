@@ -25,7 +25,7 @@ RECOLLECT_FILES=\
 	 $(JS_DIR)/recollect/wizard.js \
 	 $(JEMPLATE) \
 
-CRONJOB=etc/cron.d/recollect
+CRONJOB=$(PRIVATE)/etc/cron.d/recollect
 PSGI=etc/production.psgi
 
 TESTS=$(wildcard t/*.t)
@@ -83,7 +83,7 @@ install: javascript $(INSTALL_DIR)/* $(SOURCE_FILES) $(LIB) \
 	rm -f $(INSTALL_DIR)/root/*.html
 	cp $(PSGI) $(INSTALL_DIR)
 	cp $(EXEC) $(INSTALL_DIR)/bin
-	cp -f etc/cron.d/recollect /etc/cron.d/recollect
+	cp -f $(CRONJOB) /etc/cron.d/
 	cp -f etc/areas.yaml $(INSTALL_DIR)/etc/areas.yaml
 	cp -R etc/service $(INSTALL_DIR)/etc/service
 	if [ ! -d /etc/service/recollect ]; then \
