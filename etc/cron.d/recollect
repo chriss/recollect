@@ -1,7 +1,0 @@
-# /etc/cron.d/recollect: crontab fragment for recollect
-#  This sends out recollect reminders.
-MAILTO=lukecloss@gmail.com
-
-# 1 * * * *  recollect /var/www/recollect/bin/recollect-send-reminders >> /var/log/recollect-email.log 2>&1
-# 50 * * * * recollect cd /var/www/recollect && ./bin/recollect-backup >> /var/log/recollect-backup.log
-# 20 * * * * recollect /var/www/recollect/bin/recollect-generate-charts
