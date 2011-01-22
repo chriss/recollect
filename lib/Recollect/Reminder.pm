@@ -1,6 +1,7 @@
 package Recollect::Reminder;
 use Moose;
 use WWW::Shorten::Googl;
+use Data::Dumper;
 use DateTime;
 use DateTime::Duration;
 use Carp qw/croak/;
@@ -36,19 +37,27 @@ sub All_due {
     my %opts  = @_;
     die "as_of is required!" unless $opts{as_of};
 
+    my $next_pickup_sql = <<EOSQL;
+        SELECT zone_id, min(day) AS next_pickup
+          FROM pickups
+         WHERE day > \$1::timestamptz - '1day'::interval
+         GROUP BY zone_id
+EOSQL
+    if ($ENV{RECOLLECT_DEBUG}) {
+        my $sth = $class->run_sql($next_pickup_sql, [$opts{as_of}]);
+        warn Dumper $sth->fetchall_arrayref({});
+    }
+
     my $sql = <<EOSQL;
 SELECT r.id 
     FROM reminders r 
     JOIN subscriptions s ON (r.subscription_id = s.id)
     JOIN (
-        SELECT zone_id, min(day) AS next_pickup
-          FROM pickups
-         WHERE day > \$1::timestamptz - '1day'::interval
-         GROUP BY zone_id
+$next_pickup_sql
          ) AS p ON (r.zone_id = p.zone_id)
     WHERE s.active
-      AND \$1::timestamptz >= p.next_pickup - r.delivery_offset
-      AND p.next_pickup - r.delivery_offset > r.last_notified
+      AND \$1::timestamptz >= (p.next_pickup - r.delivery_offset)
+      AND (p.next_pickup - r.delivery_offset) > r.last_notified
 EOSQL
     my $sth = $class->run_sql($sql, [$opts{as_of}]);
     return [
