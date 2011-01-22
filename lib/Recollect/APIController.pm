@@ -172,11 +172,15 @@ sub subscriptions {
 
         my $offset = $r->{delivery_offset};
         if (defined $offset) {
-            unless ($offset =~ m/^-?\d\d?(?::\d\d)?$/) {
-                return $self->bad_request_json('invalid delivery_offset');
+            unless ($offset =~ m/^-?\d\d?(?::\d\d)*$/) {
+                return $self->bad_request_json(
+                    'Invalid delivery_offset - format: HH:MM:SS');
             }
         }
-        else { return $self->bad_request_json('Missing delivery_offset') }
+        else {
+            return $self->bad_request_json(
+                'Missing delivery_offset - format: HH:MM:SS');
+        }
     }
     $new_sub{reminders} = $reminders;
 
