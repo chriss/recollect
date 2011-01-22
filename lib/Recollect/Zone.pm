@@ -6,6 +6,7 @@ use Scalar::Util qw/weaken/;
 use namespace::clean -except => 'meta';
 
 extends 'Recollect::Collection';
+with 'Recollect::Roles::Cacheable';
 
 has 'id'      => (is => 'ro', isa => 'Int',              required   => 1);
 has 'name'    => (is => 'ro', isa => 'Str',              required   => 1);

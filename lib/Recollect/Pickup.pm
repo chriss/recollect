@@ -20,6 +20,7 @@ has 'datetime'   => (is => 'ro', isa => 'DateTime', lazy_build => 1,
 
 extends 'Recollect::Collection';
 with 'Recollect::Roles::HasZone';
+with 'Recollect::Roles::Cacheable';
 
 sub By_zone_id { Recollect::Roles::HasZone::By_zone_id(@_) }
 
