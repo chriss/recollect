@@ -89,8 +89,7 @@ sub _build_subscription {
 
 sub _build_nice_name {
     my $self = shift;
-    return join('-', $self->zone, $self->email, $self->name)
-        . " (" . $self->target . ")";
+    return join('-', $self->zone->area->name, $self->zone->name, $self->id, $self->target, $self->delivery_offset);
 }
 
 sub _build_delete_url {
