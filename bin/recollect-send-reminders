@@ -4,6 +4,7 @@ use warnings;
 use FindBin;
 use lib "$FindBin::Bin/../lib";
 use Recollect::Notifier;
+use Recollect::Reminder;
 use Lazy::Lockfile;
 use DateTime;
 use Getopt::Long;
@@ -13,18 +14,27 @@ my $lock = Lazy::Lockfile->new($lockfile);
 
 my %args;
 GetOptions( \%args,
-    'debug',
-);
-$args{debug} = 1 if $ENV{RECOLLECT_DEBUG};
+    'dry-run',
+    'use-time=s',
+) or usage();
+if ($ENV{RECOLLECT_DEBUG}) {
+    $Recollect::Roles::SQL::DEBUG = $args{'dry-run'} = 1;
+}
 
 my $notifier = Recollect::Notifier->new;
+if (my $t = $args{'use-time'}) {
+    $notifier->now(DateTime::Format::Pg->parse_datetime($t));
+}
 my $reminders = $notifier->need_notification;
-for my $r (@$reminders) {
-    if ($args{debug}) {
-        print "Would have notified reminder_id: $r\n";
+for my $r_id (@$reminders) {
+    my $rem = Recollect::Reminder->By_id($r_id);
+
+    if ($args{'dry-run'}) {
+        print "Would have notified reminder " . $rem->nice_name . " about "
+            . $rem->zone->next_pickup->[0]->day . " \n";
         next;
     }
-    eval { $notifier->notify($r) };
+    eval { $notifier->notify($rem) };
     if ($@) {
         my $now = localtime;
         warn "$now: $@";
@@ -33,3 +43,9 @@ for my $r (@$reminders) {
 
 exit;
 
+
+sub usage {
+    die <<EOT;
+USAGE: $0 [--dry-run]
+EOT
+}
