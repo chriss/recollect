@@ -5,12 +5,12 @@ use namespace::clean -except => 'meta';
 
 extends 'Recollect::Collection';
 
-has 'id'           => (is => 'ro', isa => 'Str',    required   => 1);
-has 'email'        => (is => 'ro', isa => 'Str',    required   => 1);
-has 'created_at'   => (is => 'ro', isa => 'Str',    required   => 1);
-has 'twittername'  => (is => 'ro', isa => 'Str',    required   => 1);
-has 'is_admin'     => (is => 'ro', isa => 'Bool',   required   => 1);
-has 'created_date' => (is => 'ro', isa => 'Object', lazy_build => 1);
+has 'id'           => (is => 'ro', isa => 'Str',        required   => 1);
+has 'email'        => (is => 'ro', isa => 'Str',        required   => 1);
+has 'created_at'   => (is => 'ro', isa => 'Str',        required   => 1);
+has 'twittername'  => (is => 'ro', isa => 'Maybe[Str]', required   => 1);
+has 'is_admin'     => (is => 'ro', isa => 'Bool',       required   => 1);
+has 'created_date' => (is => 'ro', isa => 'Object',     lazy_build => 1);
 
 sub _build_created_date {
     my $self = shift;
