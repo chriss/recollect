@@ -5,6 +5,7 @@ use Data::Dumper;
 use DateTime;
 use DateTime::Duration;
 use Carp qw/croak/;
+use Recollect::Subscription;
 use namespace::clean -except => 'meta';
 
 has 'id'              => (is => 'ro', isa => 'Str', required => 1);
