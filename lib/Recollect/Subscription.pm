@@ -3,6 +3,7 @@ use Moose;
 use DateTime;
 use Recollect::User;
 use Recollect::Zone;
+use Recollect::Util;
 use Recollect::Reminder;
 use URI::Encode qw/uri_encode/;
 use namespace::clean -except => 'meta';
@@ -134,7 +135,7 @@ sub _build_url {
 
 sub _build_delete_url {
     my $self = shift;
-    return '/subscription/delete/' . $self->id;
+    return $self->config->{base_url} . '/subscription/delete/' . $self->id;
 }
 
 __PACKAGE__->meta->make_immutable;
