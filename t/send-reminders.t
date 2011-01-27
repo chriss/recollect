@@ -37,7 +37,7 @@ subtest 'Free email notification' => sub {
             {
                 zone_id => 1,
                 target => "email:$TEST_EMAIL",
-                offset => '1:00',
+                delivery_offset => '1:00',
             },
         ],
     );
@@ -76,7 +76,7 @@ subtest 'Free twitter notification' => sub {
             {
                 zone_id => 1,
                 target => "twitter:test",
-                offset => '0:00',
+                delivery_offset => '0:00',
             },
         ],
     );
@@ -105,7 +105,7 @@ subtest 'Free webhook notification' => sub {
             {
                 zone_id => 1,
                 target => "webhook:http://example.com",
-                offset => '0:00',
+                delivery_offset => '0:00',
             },
         ],
     );
@@ -134,7 +134,7 @@ subtest 'Paid sms notification' => sub {
             {
                 zone_id => 1,
                 target => "sms:7787851357",
-                offset => '0:00',
+                delivery_offset => '0:00',
             },
         ],
     );
@@ -180,7 +180,7 @@ subtest 'Paid voice notification' => sub {
             {
                 zone_id => 1,
                 target => "voice:7787851357",
-                offset => '0:00',
+                delivery_offset => '0:00',
             },
         ],
     );
