@@ -13,6 +13,7 @@ use Data::Dumper;
 use namespace::clean -except => 'meta';
 
 with 'Recollect::ControllerBase';
+with 'Recollect::Roles::Email';
 
 sub run {
     my $self = shift;
@@ -95,20 +96,20 @@ sub tell_friends {
     my $sender_email = $params->{sender_email};
     if (lc($skill_str) ne 'bc') {
         $tmpl_params->{error} = 'Please answer the Skill testing question correctly.';
-        $self->log("TELLAFRIEND_FAIL");
+        $self->log("TELLAFRIEND_FAIL - skilltest");
     }
     elsif ($email_str and $sender_email) {
         my @emails = split qr/\s*,?\s+/, $email_str;
         
         for my $email (@emails) {
-            $self->model->mailer->send_email(
+            $self->send_email(
                 to => $email,
                 from => $sender_email,
                 subject => "Meet the Vancouver Garbage Reminder system",
                 template => 'tell-a-friend.html',
                 template_args => {
                     friend_email => $sender_email,
-                    base => $self->config->base_url,
+                    base => $self->base_url,
                     request_uri => $self->request->request_uri,
                 },
             );
@@ -116,6 +117,10 @@ sub tell_friends {
 
         $tmpl_params->{success} = "Email sent.  Thanks!";
         $self->log("TELLAFRIEND " . scalar(@emails));
+    }
+    else {
+        $tmpl_params->{error} = 'Please fill out both fields.';
+        $self->log("TELLAFRIEND_FAIL - incomplete form");
     }
     
     return $self->process_template('tell-a-friend.tt2', $tmpl_params)->finalize;

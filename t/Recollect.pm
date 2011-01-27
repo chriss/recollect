@@ -3,6 +3,7 @@ use MooseX::Singleton;
 use Plack::Builder;
 use File::Temp qw/tempdir/;
 use File::Copy qw/copy/;
+use File::Slurp;
 use FindBin;
 use Fatal qw/mkdir symlink copy/;
 use Test::More;
@@ -52,7 +53,7 @@ my @http_requests;
 sub _build_base_path {
     my $self = shift;
 
-    my $tmp_dir = tempdir( CLEANUP => 0 );
+    my $tmp_dir = tempdir( CLEANUP => 1 );
     mkdir "$tmp_dir/data";
     symlink "$FindBin::Bin/../template", "$tmp_dir/template";
     symlink "$FindBin::Bin/../root", "$tmp_dir/root";
@@ -129,6 +130,26 @@ sub twitters {
 sub http_requests {
     return [ @http_requests ];
 }
+
+sub log_like {
+    my @tests;
+    if (@_ == 1) {
+        @tests = @{ $_[0] };
+    }
+    else {
+        @tests = (@_);
+    }
+    
+    my $contents = read_file($ENV{RECOLLECT_LOG_FILE}) || 'Log file was empty';
+    for my $t (@tests) {
+        my $match = shift @tests;
+        my $desc = shift(@tests) || 'log_like';
+        like $contents, $match, $desc;
+    }
+    unlink $ENV{RECOLLECT_LOG_FILE};
+}
+
+
 
 __PACKAGE__->meta->make_immutable;
 1;
