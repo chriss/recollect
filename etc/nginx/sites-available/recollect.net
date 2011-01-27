@@ -5,7 +5,7 @@ upstream mod_perl {
 
 server {
     listen   80;
-    server_name  *.recollect.net www.recollect.net;
+    server_name  recollect.net *.recollect.net;
 
     access_log /var/log/nginx/recollect-access.log;
     error_log  /var/log/nginx/recollect-error.log;
