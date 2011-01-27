@@ -4,6 +4,7 @@ use Email::Valid;
 use Moose;
 use Recollect::CallController;
 use Recollect::Subscription;
+use Recollect::Area;
 use Plack::Request;
 use Plack::Response;
 use Data::ICal::Entry::Event;
@@ -30,6 +31,19 @@ sub run {
         $sub_name .= '_' . $resource_type if $resource_type;
         $self->log("API: $path");
         return $self->$sub_name(@_);
+    };
+
+    my $json_wrapper = sub {
+        my $sub_name = shift;
+        $self->log("API: POST $path");
+        return $self->bad_request_text(
+            'Only application/json content type is supported', 415)
+            unless $req->content_type =~ m/json/;
+
+        my $args = eval { decode_json $req->raw_body };
+        return $self->bad_request_json("Could not decode json: $@") if $@;
+
+        return $self->$sub_name($args, @_);
     };
 
     my $area_wrapper = sub {
@@ -106,7 +120,10 @@ sub run {
         }
         when ('POST') {
             given ($path) {
-                when ('/subscriptions') { return $wrapper->('subscriptions') }
+                when ('/areas') { return $json_wrapper->('POST_areas') }
+                when ('/subscriptions') {
+                    return $json_wrapper->('subscriptions')
+                }
                 when ('/billing') { return $wrapper->('billing') }
             }
         }
@@ -132,12 +149,8 @@ around 'process_template' => sub {
 
 sub subscriptions {
     my $self = shift;
+    my $args = shift;
     my $req  = $self->request;
-    return $self->bad_request_text(
-        'Only application/json content type is supported', 415)
-        unless $req->content_type =~ m/json/;
-    my $args = eval { decode_json $req->raw_body };
-    return $self->bad_request_json("Could not decode json: $@") if $@;
 
     my %new_sub;
     if (my $email = $args->{email}) {
@@ -298,6 +311,20 @@ sub _areas_data {
     return {
         areas => Recollect::Area->All,
     };
+}
+
+sub POST_areas {
+    my $self = shift;
+    my $args = shift;
+    return $self->forbidden unless $self->user_is_admin;
+
+    my $area = Recollect::Area->Create(
+        name => $args->{name},
+        centre => $args->{centre},
+    );
+
+    my $response = $area->to_hash;
+    return $self->process_json($response, 201);
 }
 
 sub areas {

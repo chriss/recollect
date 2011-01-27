@@ -55,6 +55,19 @@ test_the_api_for(
     },
 );
 
+# POST /api/areas - create a new area
+test_the_post_api(
+    '/areas',
+    {
+        name => 'Victoria',
+        centre => '49.891235,-97.15369',
+    },
+    sub {
+        my $data = shift;
+        ok $data->{id}, 'has an id';
+    },
+);
+
 # GET /api/areas/:area
 #    * :area can be id or Vancouver or vancouver
 Area_tests: {
@@ -276,6 +289,31 @@ test_the_api_for(
 done_testing();
 
 exit;
+
+sub test_the_post_api {
+    my $uri     = shift;
+    my $payload = shift;
+    my $resp_cb = shift;
+    my $app     = t::Recollect->app('Recollect::APIController');
+
+    local $ENV{RECOLLECT_USER_IS_ADMIN} = 1;
+    subtest "POST $uri" => sub {
+        test_psgi $app, sub {
+            my $cb = shift;
+
+            my $res = $cb->(POST $uri,
+                'Content-Type' => 'application/json',
+                Content => encode_json $payload,
+            );
+            is $res->code, 201, "POST $uri returns 201";
+            my $json = $res->content;
+            my $data = eval { decode_json($json) };
+            is $@, '', "json is valid";
+            diag $json if $res->code == 500;
+            $resp_cb->($data);
+        };
+    };
+}
 
 sub test_the_api_for {
     my $uri   = shift;
