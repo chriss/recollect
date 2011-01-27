@@ -73,12 +73,13 @@ for my $target ("email:$test_email", "twitter:vanhackspace",
                     {
                         target => $target,
                         zone_id => $test_zone_id,
-                        offset => 0,
+                        delivery_offset => 0,
                     }
                 ],
             }
         );
         is $res->code, 201, "create reminder - $target";
+        warn $res->content unless $res->code == 201;
         my $hash = decode_json $res->content;
         ok $subscription_id = $hash->{id}, 'subscription has an id';
         ok !$hash->{payment_url}, 'free reminder has no payment url';
@@ -109,13 +110,14 @@ for my $target (qw{voice:7787851357 sms:7787851357}) {
                         {
                             target => $target,
                             zone_id => $test_zone_id,
-                            offset  => 0,
+                            delivery_offset  => 0,
                         },
                     ],
                 },
             ),
         );
         is $res->code, 201, "create reminder - $target";
+        warn $res->content unless $res->code == 201;
         my $hash = decode_json $res->content;
         $subscription_id = $hash->{id};
         ok $subscription_id, 'subscription has an id';
