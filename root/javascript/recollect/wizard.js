@@ -33,11 +33,19 @@ Recollect.Wizard .prototype = {
     findPage: function() {
         var parts = [];
         if (location.hash.match(/^#!\/(.*)/)) parts = RegExp.$1.split('/');
-        if (parts.length == 0) {
-            this.showPage('address');
+
+        var area = parts.shift();
+        var zone = parts.shift();
+        var page = parts.shift();
+
+        if (page) {
+            this.showPage.apply(this, [page, area, zone].concat(parts));
+        }
+        else if (zone) {
+            this.showPage('zone', area, zone);
         }
         else {
-            this.showPage.apply(this, parts);
+            this.showPage('address');
         }
     },
 
@@ -123,10 +131,10 @@ Recollect.Wizard .prototype = {
             });
         },
 
-        zones: function(zone) {
+        zone: function(area, name) {
             var self = this;
 
-            self.getZone(zone, function(zone) {
+            self.getZone(area, name, function(zone) {
                 var opts = {
                     height: 500,
                     opacity: 1,
@@ -138,17 +146,41 @@ Recollect.Wizard .prototype = {
                     self.showCalendar(zone);
                     self.showMap(zone);
                     $('#wizard #subscribe').click(function(){
-                        self.setHash('subscribe', zone.name);
+                        self.setHash(area, name, 'subscribe');
                         return false;
                     });
                 });
             });
         },
 
-        subscribe: function(zone, type) {
+        subscribe: function(area, zone, type) {
             var self = this;
 
             if (type) {
+                var opts = {
+                    height: 300,
+                    opacity: 1,
+                    page: 'wizardForm',
+                    type: type
+                };
+                $.extend(opts, zone);
+                self.show(opts, function() {
+                    $('#wizard form').validate(self.validate[type])
+                    $('#wizard input[name=phone]').mask('999-999-9999');
+                    $('#wizard .next').click(function() {
+                        var reminder = {
+                            area: area,
+                            zone: zone,
+                            type: type
+                        };
+                        var form = $('#wizard form').serializeArray();
+                        $.each(form, function(i,field) {
+                            reminder[field.name] = field.value;
+                        });
+                        self.addReminder(reminder);
+                        return false;
+                    });
+                });
             }
             else {
                 var opts = {
@@ -160,119 +192,29 @@ Recollect.Wizard .prototype = {
                 self.show(opts, function() {
                     $('#wizard .next').click(function(){
                         self.setHash(
-                            'subscribe', zone.name,
-                            $('input[name=reminder-radio]:selected').val()
+                            area, zone, 'subscribe',
+                            $('input[name=reminder-radio]:checked').val()
                         );
                         return false;
                     });
                 });
             }
         }
+    },
 
-        /*
-        premium_sms: function() {
-            focus: '.phone',
-            back: function() { self.showPage('choose_method') },
-            submit: function($cur) {
-                self.showPage('loading');
-                self.addReminder({
-                    offset: $cur.find('.customOffset').val(),
-                    email: $cur.find('.email').val(),
-                    target: 'sms:' + $cur.find('.phone').val(),
-                    payment_period: $cur.find('.paymentPeriod').val(),
-                    zone: self.zone,
-                    success: function(res) {
-                        window.location = res.payment_url;
-                    }
-                });
-            },
-            validate: {
-                rules: {
-                    phone: 'required',
-                    email: {
-                        required: true,
-                        email: true
-                    }
-                },
-                messages: {
-                    phone: 'Please enter your telephone number',
-                    email: 'Please enter a valid email'
+    validate: {
+        email: {
+            rules: {
+                email: {
+                    required: true,
+                    email: true
                 }
+            },
+            messages: {
+                email: 'Please enter a valid email'
             }
         },
-        premium_phone: {
-            focus: '.phone',
-            back: function() { self.showPage('choose_method') },
-            submit: function($cur) {
-                self.showPage('loading');
-                self.addReminder({
-                    offset: $cur.find('.customOffset').val(),
-                    email: $cur.find('.email').val(),
-                    target: 'voice:' + $cur.find('.phone').val(),
-                    payment_period: $cur.find('.paymentPeriod').val(),
-                    zone: self.zone,
-                    success: function(res) {
-                        window.location = res.payment_url;
-                    }
-                });
-            },
-            validate: {
-                rules: {
-                    phone: 'required',
-                    email: {
-                        required: true,
-                        email: true
-                    }
-                },
-                messages: {
-                    phone: 'Please enter your telephone number',
-                    email: 'Please enter a valid email'
-                }
-            }
-        },
-        basic_email: {
-            focus: '.email',
-            back: function() { self.showPage('choose_method') },
-            submit: function($cur) {
-                self.showPage('loading');
-                self.addReminder({
-                    offset: $cur.find('.customOffset').val(),
-                    email: $cur.find('.email').val(),
-                    target: 'email:' + $cur.find('.email').val(),
-                    zone: self.zone,
-                    success: function() {
-                        self.showPage('success');
-                    }
-                });
-            },
-            validate: {
-                rules: {
-                    email: {
-                        required: true,
-                        email: true
-                    }
-                },
-                messages: {
-                    email: 'Please enter a valid email'
-                }
-            }
-        },
-        basic_twitter: {
-            focus: '.twitter',
-            back: function() { self.showPage('choose_method') },
-            submit: function($cur) {
-                self.showPage('loading');
-                self.addReminder({
-                    offset: $cur.find('.customOffset').val(),
-                    email: $cur.find('.email').val(),
-                    target: 'twitter:' + $cur.find('.twitter').val(),
-                    zone: self.zone,
-                    success: function() {
-                        self.showPage('success');
-                    }
-                });
-            },
-            validate: {
+        twitter: {
                 rules: {
                     twitter: 'required',
                     email: {
@@ -284,9 +226,33 @@ Recollect.Wizard .prototype = {
                     twitter: 'Please enter your twitter username',
                     email: 'Please enter a valid email'
                 }
+        },
+        sms: {
+            rules: {
+                phone: 'required',
+                email: {
+                    required: true,
+                    email: true
+                }
+            },
+            messages: {
+                phone: 'Please enter your telephone number',
+                email: 'Please enter a valid email'
+            }
+        },
+        phone: {
+            rules: {
+                phone: 'required',
+                email: {
+                    required: true,
+                    email: true
+                }
+            },
+            messages: {
+                phone: 'Please enter your telephone number',
+                email: 'Please enter a valid email'
             }
         }
-        */
     },
 
     showZoneAt: function(locality, lat, lng) {
@@ -295,15 +261,7 @@ Recollect.Wizard .prototype = {
         $.ajax({
             url: '/api/areas/' + locality + '/zones/' + zone + '.json',
             success: function(data) {
-                self.setHash('zones', data.name);
-            },
-            error: function(xhr) {
-                $('#wizard .status').html(
-                    Jemplate.process('error', {
-                        //msg: xhr.responseText
-                        msg: 'Looking up zones by GPS coords is not implemented'
-                    })
-                );
+                self.setHash(locality, data.name);
             }
         });
     },
@@ -431,29 +389,27 @@ Recollect.Wizard .prototype = {
         });
     },
 
-    getZone: function(name, callback) {
+    getZone: function(area, name, callback) {
         var self = this;
-        $.getJSON('/zones/' + name + '.json', function (zone) {
-            $.getJSON('/zones/' + name + '/nextpickup.json', function (next) {
-                var yard = '';
-                zone.next = next.next[0];
-                if (zone.next.match(/^(\d+)-(\d+)-(\d+)(?: (Y))?/)) {
-                    var nextDate = new Date;
-                    nextDate.setFullYear(RegExp.$1);
-                    nextDate.setMonth(RegExp.$2-1);
-                    nextDate.setDate(RegExp.$3);
-                    zone.next = [
-                        self.dayNames[nextDate.getDay()],
-                        self.monthNames[nextDate.getMonth()],
-                        nextDate.getDate(),
-                        nextDate.getFullYear()
-                    ].join(' ');
-                    zone.yard_msg = RegExp.$4
-                        ? ' (Yard trimmings will be picked up)'
-                        : ' (Yard trimmings will NOT be picked up)'
-                }
-                callback(zone);
-            });
+        var url = '/api/areas/' + area + '/zones/' + name + '.json?verbose=1';
+        $.getJSON(url, function (zone) {
+            var yard = '';
+            zone.next = zone.nextpickup.day;
+            var ymd = zone.next.split('-');
+            var nextDate = new Date;
+            nextDate.setFullYear(ymd[0]);
+            nextDate.setMonth(ymd[1]-1);
+            nextDate.setDate(ymd[2]);
+            zone.next = [
+                self.dayNames[nextDate.getDay()],
+                self.monthNames[nextDate.getMonth()],
+                nextDate.getDate(),
+                nextDate.getFullYear()
+            ].join(' ');
+            zone.yard_msg = zone.nextpickup.flags.match(/Y/)
+                ? ' (Yard trimmings will be picked up)'
+                : ' (Yard trimmings will NOT be picked up)'
+            callback(zone);
         });
     },
 
@@ -464,29 +420,28 @@ Recollect.Wizard .prototype = {
     },
 
     showCalendar: function(zone) {
-        $.getJSON('/zones/' + zone.name + '/pickupdays.json', function (days) {
-            /* Make a hash of days */
-            var pickupdays = {};
-            var yarddays = {};
-            $.each(days, function(i,d) {
-                var key = [d.year,Number(d.month),Number(d.day)].join('-');
-                pickupdays[key] = true;
-                if (d.flags == 'Y') {
-                    yarddays[key] = true
-                }
-            });
+        /* Make a hash of days */
+        var pickupdays = {};
+        var yarddays = {};
+        $.each(zone.pickupdays, function(i,d) {
+            var ymd = d.day.split('-');
+            var key = [ymd[0],Number(ymd[1]),Number(ymd[2])].join('-');
+            pickupdays[key] = true;
+            if (d.flags.match(/Y/)) {
+                yarddays[key] = true
+            }
+        });
 
-            $('#wizard .calendar').datepicker({
-                beforeShowDay: function(day) {
-                    var key = [
-                        day.getFullYear(), day.getMonth()+1, day.getDate()
-                    ].join('-');
-                    var className = 'day';
-                    if (pickupdays[key]) className += ' marked';
-                    if (yarddays[key]) className += ' yard';
-                    return [ false, className ];
-                }
-            });
+        $('#wizard .calendar').datepicker({
+            beforeShowDay: function(day) {
+                var key = [
+                    day.getFullYear(), day.getMonth()+1, day.getDate()
+                ].join('-');
+                var className = 'day';
+                if (pickupdays[key]) className += ' marked';
+                if (yarddays[key]) className += ' yard';
+                return [ false, className ];
+            }
         });
     },
 
@@ -604,25 +559,43 @@ Recollect.Wizard .prototype = {
     },
 
     addReminder: function (opts) {
+        $('#wizard .middle').html( Jemplate.process('loading') );
+
         var data = {
-            offset: opts.offset,
             email: opts.email,
-            name: "reminder" + (new Date).getTime(),
-            target: opts.target
+            reminders: []
         };
-        if (opts.payment_period) data.payment_period = opts.payment_period;
+        var reminder = {
+            delivery_offset: opts.offset,
+            zone_id: opts.zone,
+            area: opts.area
+        };
+
+        if (opts.payment_period) reminder.payment_period = opts.payment_period;
+
+        switch(opts.type) {
+            case 'email':   reminder.target = 'email:' + opts.email;     break;
+            case 'twitter': reminder.target = 'twitter:' + opts.twitter; break;
+            case 'sms':     reminder.target = 'sms:' + opts.phone;       break;
+            case 'phone':   reminder.target = 'phone:' + opts.phone;     break;
+        }
+
+        data.reminders.push(reminder);
+
         $.ajax({
             type: 'POST',
-            url: '/zones/' + opts.zone + '/reminders',
+            url: '/api/subscriptions',
+            contentType: 'json',
             data: $.toJSON(data, true),
             error: function(xhr, textStatus, errorThrown) {
-                var error = xhr.responseText;
-                if (error.match(/^</)) error = errorThrown;
-                $('#loading').replaceWith(
-                    Jemplate.process('error', { error: error })
+                var error = $.evalJSON(xhr.responseText)
+                $('#wizard .middle').html(
+                    Jemplate.process('error', { error: error.msg })
                 );
             },
-            success: opts.success
+            success: function(data) {
+                console.log(data);
+            }
         });
     }
 };

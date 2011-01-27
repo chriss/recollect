@@ -143,13 +143,20 @@ footer {
     width: 100%;
 }
 
-#wizard .error {
+#wizard div.error {
     padding: 5px;
     background-color: #f9d7d7;
     border: 1px solid #cd0a0a;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;
+}
+#wizard input.error {
+    background-color: #f9d7d7;
+    border: 1px solid #cd0a0a;
+}
+#wizard label.error {
+    color: #cd0a0a;
 }
 
 .huge {

@@ -73,7 +73,7 @@
     <div class="cityImageSection">
         <a href="http://vancouver.ca/projects/foodWaste/noplastic.htm"
             alt="Don't trash your food!">
-            <img src="/images/vantrash-ad-no-plastic-borderless.jpg"/>
+            <img src="/images/recollect-ad-no-plastic-borderless.jpg"/>
         </a>
     </div>
 </div>
@@ -91,7 +91,7 @@
             <div class="premium payclass">
                 <div class="option">
                     <div class="radio">
-                        <input id="sms-reminder" name="reminder-radio" type="radio" value="premium_sms" checked="checked"/>
+                        <input id="sms-reminder" name="reminder-radio" type="radio" value="sms" checked="checked"/>
                     </div>
                     <div class="label">
                         <label for="sms-reminder">Text Message / SMS</label>
@@ -99,7 +99,7 @@
                 </div>
                 <div class="option">
                     <div class="radio">
-                        <input id="phone-reminder" name="reminder-radio" type="radio" value="premium_phone"/>
+                        <input id="phone-reminder" name="reminder-radio" type="radio" value="phone"/>
                     </div>
                     <div class="label">
                         <label for="phone-reminder">Phone call</label>
@@ -114,7 +114,7 @@
             <div class="basic payclass">
                 <div class="option">
                     <div class="radio">
-                        <input id="email-reminder" name="reminder-radio" type="radio" value="basic_email"/>
+                        <input id="email-reminder" name="reminder-radio" type="radio" value="email"/>
                     </div>
                     <div class="label">
                         <label for="email-reminder">E-mail</label>
@@ -122,7 +122,7 @@
                 </div>
                 <div class="option">
                     <div class="radio">
-                        <input id="twitter-reminder" name="reminder-radio" type="radio" value="basic_twitter"/>
+                        <input id="twitter-reminder" name="reminder-radio" type="radio" value="twitter"/>
                     </div>
                     <div class="label">
                         <label for="twitter-reminder">Twitter Direct Message</label>
@@ -139,47 +139,58 @@
 </div>
 [% END %]
 
-[% BLOCK premium %]
+[% BLOCK wizardForm %]
+<div class="wizardStep">
+    <div class="left middle" style="height:100px">
+        <img class="logo" src="/images/recollect_logo.png"/>
+    </div>
+    <div class="right middle paymentType">
     <form>
         [% IF type == 'phone' %]
-        <div class="title">Schedule a Telephone Call Reminder:</div>
-        <div class="help">
-            Please enter the 10 digit mobile telephone number that you wish to receive weekly telephone call pickup reminders. We also ask for you to provide your email address. Vantrash will never provide your email to anyone.
-        </div>
+            <div class="title">Schedule a Telephone Call Reminder:</div>
+            <div class="help">
+                Please enter the 10 digit mobile telephone number that you wish to receive weekly telephone call pickup reminders. We also ask for you to provide your email address. Vantrash will never provide your email to anyone.
+            </div>
+            [% INCLUDE field name='phone' title='Telephone' %]
+            [% INCLUDE field name='email' title='Email' %]
+            [% INCLUDE time %]
+            [% INCLUDE payment %]
+        [% ELSIF type == 'sms' %]
+            <div class="title">Schedule a Text Message Reminder:</div>
+            <div class="help">
+                Please enter the 10 digit mobile telephone number that you wish to receive weekly text message pickup reminders. We also ask for you to provide your email address. Vantrash will never provide your email to anyone.
+            </div>
+            [% INCLUDE field name='phone' title='Telephone' %]
+            [% INCLUDE field name='email' title='Email' %]
+            [% INCLUDE time %]
+            [% INCLUDE payment %]
+        [% ELSIF type == 'email' %]
+            <div class="title">Schedule an E-Mail Reminder:</div>
+            <div class="help">
+                Please enter the valid email address you wish for weekly pickup reminders to be sent to. Vantrash will never provide your email to anyone.
+            </div>
+            [% INCLUDE field name='email' title='Email' %]
+            [% INCLUDE time %]
+        [% ELSIF type == 'twitter' %]
+            <div class="title">Schedule a Twitter Reminder:</div>
+            <div class="help">
+                Please enter your Twitter username that you wish to receive weekly direct messages to. We also ask for you to provide your email address. Vantrash will never provide your email to anyone.
+            </div>
+            [% INCLUDE field name='twitter' title='Twitter Username' %]
+            [% INCLUDE field name='email' title='Email' %]
+            [% INCLUDE time %]
         [% ELSE %]
-        <div class="title">Schedule a Text Message Reminder:</div>
-        <div class="help">
-            Please enter the 10 digit mobile telephone number that you wish to receive weekly text message pickup reminders. We also ask for you to provide your email address. Vantrash will never provide your email to anyone.
-        </div>
+            <div class="title">Unknown reminder type: [% type %]</div>
         [% END %]
-        [% INCLUDE field name='phone' title='Telephone' %]
-        [% INCLUDE field name='email' title='Email' %]
-        [% INCLUDE time %]
-        [% INCLUDE payment %]
+        <a class="bigButtonGreen next" href="#">submit</a>
     </form>
+</div>
 [% END %]
 
-[% BLOCK basic_email %]
-    <form>
-        <div class="title">Schedule an E-Mail Reminder:</div>
-        <div class="help">
-            Please enter the valid email address you wish for weekly pickup reminders to be sent to. Vantrash will never provide your email to anyone.
-        </div>
-        [% INCLUDE field name='email' title='Email' %]
-        [% INCLUDE time %]
-    </form>
-[% END %]
-
-[% BLOCK basic_twitter %]
-    <form>
-        <div class="title">Schedule a Twitter Reminder:</div>
-        <div class="help">
-            Please enter your Twitter username that you wish to receive weekly direct messages to. We also ask for you to provide your email address. Vantrash will never provide your email to anyone.
-        </div>
-        [% INCLUDE field name='twitter' title='Twitter Username' %]
-        [% INCLUDE field name='email' title='Email' %]
-        [% INCLUDE time %]
-    </form>
+[% BLOCK loading %]
+    <div class="page" id="loading">
+        <img src="/images/loading.gif"/>
+    </div>
 [% END %]
 
 [% BLOCK field %]
@@ -203,37 +214,37 @@
     <div class="field">
         <div class="name">When:</div>
         <select class="border simpleOffset">
-            <option value="-12">Noon the day before</option>
-            <option value="-6">6PM the day before</option>
-            <option value="+6">6AM the day of</option>
+            <option value="19">Noon the day before</option>
+            <option value="13">6PM the day before</option>
+            <option value="1">6AM the day of</option>
             <option value="custom">A custom time</option>
         </select>
         <select class="border customOffset" name="offset">
-            <option value="-18">6AM the day before</option>
-            <option value="-17">7AM the day before</option>
-            <option value="-16">8AM the day before</option>
-            <option value="-15">9AM the day before</option>
-            <option value="-14">10AM the day before</option>
-            <option value="-13">11AM the day before</option>
-            <option value="-12">Noon the day before</option>
-            <option value="-11">1PM the day before</option>
-            <option value="-10">2PM the day before</option>
-            <option value="-9">3PM the day before</option>
-            <option value="-8">4PM the day before</option>
-            <option value="-7">5PM the day before</option>
-            <option value="-6">6PM the day before</option>
-            <option value="-5">7PM the day before</option>
-            <option value="-4">8PM the day before</option>
-            <option value="-3">9PM the day before</option>
-            <option value="-2">10PM the day before</option>
-            <option value="-1">11PM the day before</option>
-            <option value="0">Midnight before</option>
-            <option value="+1">1AM the day of</option>
-            <option value="+2">2AM the day of</option>
-            <option value="+3">3AM the day of</option>
-            <option value="+4">4AM the day of</option>
-            <option value="+5">5AM the day of</option>
-            <option value="+6">6AM the day of</option>
+            <option value="25">6AM the day before</option>
+            <option value="24">7AM the day before</option>
+            <option value="23">8AM the day before</option>
+            <option value="22">9AM the day before</option>
+            <option value="21">10AM the day before</option>
+            <option value="20">11AM the day before</option>
+            <option value="19">Noon the day before</option>
+            <option value="18">1PM the day before</option>
+            <option value="17">2PM the day before</option>
+            <option value="16">3PM the day before</option>
+            <option value="15">4PM the day before</option>
+            <option value="14">5PM the day before</option>
+            <option value="13">6PM the day before</option>
+            <option value="12">7PM the day before</option>
+            <option value="11">8PM the day before</option>
+            <option value="10">9PM the day before</option>
+            <option value="9">10PM the day before</option>
+            <option value="8">11PM the day before</option>
+            <option value="7">Midnight before</option>
+            <option value="6">1AM the day of</option>
+            <option value="5">2AM the day of</option>
+            <option value="4">3AM the day of</option>
+            <option value="3">4AM the day of</option>
+            <option value="2">5AM the day of</option>
+            <option value="1">6AM the day of</option>
         </select>
     </div>
 [% END %]
