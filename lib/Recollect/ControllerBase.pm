@@ -1,7 +1,7 @@
 package Recollect::ControllerBase;
 use Moose::Role;
 use Recollect::Model;
-use Recollect::Util qw/base_path/;
+use Recollect::Util qw/base_path is_dev_env/;
 use JSON qw/encode_json decode_json/;
 
 with 'Recollect::Roles::Config';
@@ -23,9 +23,16 @@ around 'run' => sub {
     $self->env($env);
     $self->request( Plack::Request->new($env) );
     my $rc = eval { $orig->($self, $env) };
-    return $rc unless $@;
-    $self->log("Error processing " . $self->request->path . " - $@");
-    return $self->redirect("/500.html", 302);
+    if ($@) {
+        $self->log("Error processing " . $self->request->path . " - $@");
+        if (is_dev_env()) {
+            return $self->response('text/plain', "Error: $@", 500);
+        }
+        else {
+            return $self->redirect("/500.html", 302);
+        }
+    }
+    return $rc;
 };
 
 sub user_is_admin {
