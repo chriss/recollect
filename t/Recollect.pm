@@ -82,6 +82,7 @@ sub _build_base_path {
         system("$psql -f $sql_file 2>&1 | grep -v WARNING")
             and die "Couldn't psql $db_name -f $sql_file";
     }
+    system(qq{$psql -c 'DELETE FROM areas WHERE id != 1' > /dev/null});
     system(qq{$psql -c 'DELETE FROM reminders' > /dev/null});
     system(qq{$psql -c 'DELETE FROM subscriptions' > /dev/null});
     system(qq{$psql -c 'DELETE FROM users' > /dev/null});
