@@ -597,6 +597,7 @@ body#mobile .ui-datepicker {
 .ui-icon-circle-triangle-s { background-position: -64px -192px; }
 .ui-icon-circle-triangle-w { background-position: -80px -192px; }
 .ui-icon-circle-triangle-n { background-position: -96px -192px; }
+.ui-icon-alert { background-position: 0 -144px; }
 /* done icons */
 
 .cityimage {

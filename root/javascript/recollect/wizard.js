@@ -559,12 +559,15 @@ Recollect.Wizard .prototype = {
     },
 
     addReminder: function (opts) {
-        $('#wizard .middle').html( Jemplate.process('loading') );
+        var self = this;
+
+        $('#wizard .paymentType').html( Jemplate.process('loading') );
 
         var data = {
             email: opts.email,
             reminders: []
         };
+
         var reminder = {
             delivery_offset: opts.offset,
             zone_id: opts.zone,
@@ -589,9 +592,10 @@ Recollect.Wizard .prototype = {
             data: $.toJSON(data, true),
             error: function(xhr, textStatus, errorThrown) {
                 var error = $.evalJSON(xhr.responseText)
-                $('#wizard .middle').html(
-                    Jemplate.process('error', { error: error.msg })
+                $('#wizard .paymentType').html(
+                    Jemplate.process('error', { msg: error.msg })
                 );
+                self.adjustHeight();
             },
             success: function(data) {
                 console.log(data);
