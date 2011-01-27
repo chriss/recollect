@@ -13,12 +13,9 @@ sub run {
     my $self = shift;
     my $req = $self->request;
 
-    return $self->login_ui unless $self->doorman->is_sign_in;
-
-    my $tweeter = $self->doorman->twitter_screen_name;
-    my $user = Recollect::User->By_twitter($tweeter);
-    unless ($user and $user->is_admin) {
-        $self->message("Sorry, $tweeter is not authorized.\n");
+    unless ($self->user_is_admin) {
+        my $tweeter = $self->doorman->twitter_screen_name;
+        $self->message("Sorry, $tweeter is not authorized.\n") if $tweeter;
         return $self->login_ui;
     }
 
