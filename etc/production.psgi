@@ -8,7 +8,7 @@ use Recollect::Controller;
 use Recollect::Roles::Cacheable;
 Recollect::Roles::Cacheable->cache; # create the cache in the main process
 
-use Recollect::Util;
+use Recollect::Util qw/base_path/;
 my $config = Recollect::Util->config;
 
 builder {
