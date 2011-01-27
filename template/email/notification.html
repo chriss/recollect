@@ -1,4 +1,4 @@
-Just a friendly reminder that garbage in the [% reminder.nice_zone %] zone will be picked up on: [% garbage_day.pretty_day %]
+Just a friendly reminder that garbage in the [% reminder.zone.title %] zone will be picked up on: [% garbage_day.pretty_day %]
 
 [% IF garbage_day.flags == 'Y' -%]
 The city will be collecting yard trimmings in this pickup.
@@ -7,8 +7,6 @@ You can now put uncooked vegetable and fruit scraps, coffee ground and filters, 
 [% ELSE -%]
 The city will not be collecting yard trimmings in this pickup.
 [%- END %]
-
-Don't forget to take out your garbage and your recycling!
 
 Click here to tell your friends about VanTrash:
 
