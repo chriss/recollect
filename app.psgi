@@ -24,13 +24,16 @@ builder {
     enable 'Debug::DBITrace';
 
     enable "Plack::Middleware::Static",
+           path => qr{^/\d+\.html$},
+           root => './root/';
+    enable "Plack::Middleware::Static",
            path => qr{^/(robots\.txt|kml/.+|images)},
            root => './root/';
     enable "Plack::Middleware::Static",
            path => sub { s!^/(javascript|css)/(?:\d+\.\d+)/(.+)!/$1/$2! },
            root => './root/';
 
-    my $set_env = sub { $ENV{RECOLLECT_BASE_PATH} = '.' };
+    my $set_env = sub { $ENV{RECOLLECT_BASE_PATH} = "$ENV{HOME}/src/recollect" };
 
     enable 'Session::Cookie';
     enable 'DoormanTwitter', root_url => $config->{base_url}, scope => 'radmin',

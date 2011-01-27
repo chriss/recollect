@@ -1,16 +1,15 @@
 package Recollect::ControllerBase;
 use Moose::Role;
-use Recollect::Template;
 use Recollect::Model;
 use Recollect::Util qw/base_path/;
 use JSON qw/encode_json decode_json/;
 
 with 'Recollect::Roles::Config';
 with 'Recollect::Roles::Log';
+with 'Recollect::Roles::Template';
 
 our $Recollect_version = '0.9';
 
-has 'template'  => (is => 'ro', isa => 'Object', lazy_build => 1);
 has 'request'   => (is => 'rw', isa => 'Plack::Request');
 has 'env'       => (is => 'rw', isa => 'HashRef');
 has 'model' => (is => 'ro', isa => 'Recollect::Model', lazy_build => 1);
@@ -23,7 +22,10 @@ around 'run' => sub {
 
     $self->env($env);
     $self->request( Plack::Request->new($env) );
-    return $orig->($self, $env);
+    my $rc = eval { $orig->($self, $env) };
+    return $rc unless $@;
+    $self->log("Error processing " . $self->request->path . " - $@");
+    return $self->redirect("/500.html", 302);
 };
 
 sub user_is_admin {
@@ -44,11 +46,6 @@ sub _build_model { Recollect::Model->new }
 
 sub _build_base_path { base_path() }
 
-sub _build_template {
-    my $self = shift;
-    return Recollect::Template->new;
-}
-
 sub response {
     my $self = shift;
     my $ct   = shift;
@@ -62,14 +59,13 @@ sub render_template {
     my $self = shift;
     my $template = shift;
     my $param = shift;
-    my $html;
+    my $html = shift;
     $param->{version} = $Recollect_version;
     $param->{base} = $self->base_url,
     $param->{request_uri} = $self->request->request_uri;
     $param->{message} = $self->message;
-    $self->template->process($template, $param, \$html) 
-        || die $self->template->error;
-    return $html;
+    $self->tt2->process($template, $param, ref($html) ? $html : \$html);
+    return \$html;
 }
 
 sub process_template {
@@ -77,7 +73,14 @@ sub process_template {
     my $template = shift;
     my $param = shift;
     my $resp = Plack::Response->new(200);
-    $resp->body($self->render_template($template, $param));
+    my $body;
+    $self->render_template($template, $param, \$body);
+    if (!defined $body) {
+        $self->log(
+            "Error rendering template $template: " . $self->tt2->error);
+        return $self->redirect("/500.html", 302);
+    }
+    $resp->body($body);
     $resp->header('X-UA-Compatible' => 'IE=EmulateIE7');
     $resp->header('Content-Type' => 'text/html; charset=utf8');
     if ($template =~ m/\.txt$/) {
@@ -92,7 +95,14 @@ sub bad_request {
     
     my $resp = Plack::Response->new(400);
     $resp->content_type('text/plain');
-    $resp->body($self->render_template('error.tt2', { msg => $msg }));
+    my $body;
+    $self->render_template('error.tt2', { msg => $msg }, \$body);
+    if (!defined $body) {
+        $self->log(
+            "Error rendering bad_request template: " . $self->tt2->error);
+        return $self->zomg500;
+    }
+    $resp->body($body);
     $resp->header('X-UA-Compatible' => 'IE=EmulateIE7');
     $resp->header('Content-Type' => 'text/html; charset=utf8');
     return $resp->finalize;
@@ -145,6 +155,11 @@ sub _kthx {
 sub ok         { _kthx(200) }
 sub no_content { _kthx(204) }
 sub forbidden  { _kthx(403) }
+
+sub zomg500    {
+    return Plack::Response->new(500, ['Content-Type' => 'text/plain'],
+            'So sorry');
+}
 
 sub redirect {
     my $self = shift;

@@ -7,7 +7,6 @@ use Date::Parse qw(str2time);
 use POSIX qw(strftime);
 use DateTime;
 use DateTime::Format::Strptime;
-use Recollect::Template;
 use namespace::clean -except => 'meta';
 
 extends qw(

@@ -5,13 +5,12 @@ use Email::MIME;
 use Email::MIME::Creator;
 use Email::Send::IO;
 use Net::SMTP::SSL;
-use Recollect::Template;
 
 requires 'config';
 requires 'base_url';
+requires 'tt2';
 
 has '_mailer' => (is => 'ro', isa => 'Object', lazy_build => 1);
-has '_template' => (is => 'ro', lazy_build => 1);
 
 sub send_email {
     my $self = shift;
@@ -22,11 +21,10 @@ sub send_email {
     }
 
     my %args = @_;
-    my $body;
     my $template = "email/$args{template}";
     $args{template_args}{base} = $self->base_url();
-    $self->_template->process($template, $args{template_args}, \$body) 
-        || die $self->_template->error;
+    my $body;
+    $self->tt2->process($template, $args{template_args}, \$body) ;
 
     my %headers = (
         From => $args{from} || 'Recollect <noreply@recollect.net>',
@@ -67,11 +65,6 @@ sub _build__mailer {
     }
 
     return $mailer;
-}
-
-sub _build__template {
-    my $self = shift;
-    return Recollect::Template->new;
 }
 
 1;

@@ -45,7 +45,7 @@ sub run {
         }
     }
 
-    return Plack::Response->new(404, ['Content-Type' => 'text/plain'], '')->finalize;
+    return $self->redirect("/404.html");
 }
 
 sub is_mobile {
