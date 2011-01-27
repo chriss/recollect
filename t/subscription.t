@@ -22,7 +22,7 @@ Add_a_free_subscription: {
             {
                 target  => "email:$test_email",
                 zone_id => $zone->id,
-                offset  => '-12',
+                delivery_offset  => '-12',
             },
         ],
     );
@@ -56,7 +56,7 @@ Add_a_paid_subscription: {
             {
                 target  => "sms:$test_email",
                 zone_id => $zone->id,
-                offset  => '-12',
+                delivery_offset  => '-12',
             },
         ],
     );
@@ -98,7 +98,7 @@ Rainy_day_subscription_creation: {
                 {
                     target  => "sms:$test_email",
                     zone_id => 0xBEEF,
-                    offset  => '-12',
+                    delivery_offset  => '-12',
                 },
             ],
         );

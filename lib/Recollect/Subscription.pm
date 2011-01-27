@@ -118,7 +118,7 @@ sub _build_payment_url {
     my $self = shift;
     return if $self->free;
     my $host = $self->config->{payment_host} || 'https://recollect.recurly.com';
-    my $plan_name = $self->reminders->[0]->zone->area->name;
+    my $plan_name = lc $self->reminders->[0]->zone->area->name;
     my $email = uri_encode $self->user->email;
     return
           "$host/subscribe/$plan_name/"
