@@ -118,11 +118,10 @@ sub _build_payment_url {
     my $self = shift;
     return if $self->free;
     my $host = $self->config->{payment_host} || 'https://recollect.recurly.com';
-    my $plan = $self->config->{payment_plan}
-        || die "payment_plan must be defined in the config file";
+    my $plan_name = $self->reminders->[0]->zone->area->name;
     my $email = uri_encode $self->user->email;
     return
-          "$host/subscribe/$plan/"
+          "$host/subscribe/$plan_name/"
         . $self->id . "/"
         . $self->user->email
         . "?email=$email";

@@ -171,8 +171,8 @@ sub subscriptions {
         if (my $zone_id = $r->{zone_id}) {
             my $zone = eval { Recollect::Zone->By_id($zone_id) }
                 || Recollect::Zone->By_name($zone_id);
-            $r->{zone_id} = $zone->id;
             return $self->bad_request_json('Invalid zone_id') unless $zone;
+            $r->{zone_id} = $zone->id;
         }
         else { return $self->bad_request_json('Missing zone_id') }
 
