@@ -31,26 +31,39 @@ Recollect.Wizard .prototype = {
     },
 
     findPage: function() {
-        var parts = [];
-        if (location.hash.match(/^#!\/(.*)/)) parts = RegExp.$1.split('/');
+        var self = this;
 
-        var area = parts.shift();
-        var zone = parts.shift();
-        var page = parts.shift();
+        var prefix = /^#?!\//;
+        var parts = location.hash.replace(prefix, '').split('/');
 
-        if (page) {
-            this.showPage.apply(this, [page, area, zone].concat(parts));
-        }
-        else if (zone) {
-            this.showPage('zone', area, zone);
-        }
-        else {
-            this.showPage('address');
-        }
+        $.each(self.pages, function(test, callback) {
+            var test_parts = test.replace(prefix, '').split('/');
+
+            var match = true;
+
+            if (test_parts.length == parts.length) {
+                var args = {};
+                for (var i=0; i < parts.length; i++) {
+                    if (test_parts[i].match(/^:(.+)/)) {
+                        args[RegExp.$1] = parts[i];
+                    }
+                    else if (test_parts[i] != parts[i]) {
+                        // Not a match
+                        match = false;
+                        break;
+                    }
+                }
+
+                if (match) {
+                    callback.call(self, args);
+                    return false; // early out
+                }
+            }
+        });
     },
 
     pages: {
-        address: function() {
+        '!/': function() {
             var self = this;
             var opts = {
                 height: 200,
@@ -131,10 +144,10 @@ Recollect.Wizard .prototype = {
             });
         },
 
-        zone: function(area, name) {
+        '!/:area/:zone': function(args) {
             var self = this;
 
-            self.getZone(area, name, function(zone) {
+            self.getZone(args.area, args.zone, function(zone) {
                 var opts = {
                     height: 500,
                     opacity: 1,
@@ -146,59 +159,72 @@ Recollect.Wizard .prototype = {
                     self.showCalendar(zone);
                     self.showMap(zone);
                     $('#wizard #subscribe').click(function(){
-                        self.setHash(area, name, 'subscribe');
+                        self.setHash(args.area, args.zone, 'subscribe');
                         return false;
                     });
                 });
             });
         },
 
-        subscribe: function(area, zone, type) {
+        '!/:area/:zone/subscribe': function(args) {
             var self = this;
 
-            if (type) {
-                var opts = {
-                    height: 300,
-                    opacity: 1,
-                    page: 'wizardForm',
-                    type: type
-                };
-                $.extend(opts, zone);
-                self.show(opts, function() {
-                    $('#wizard form').validate(self.validate[type])
-                    $('#wizard input[name=phone]').mask('999-999-9999');
-                    $('#wizard .next').click(function() {
-                        var reminder = {
-                            area: area,
-                            zone: zone,
-                            type: type
-                        };
-                        var form = $('#wizard form').serializeArray();
-                        $.each(form, function(i,field) {
-                            reminder[field.name] = field.value;
-                        });
-                        self.addReminder(reminder);
-                        return false;
-                    });
+            var opts = {
+                height: 300,
+                opacity: 1,
+                page: 'wizardSubscribe'
+            };
+            $.extend(opts, args.zone);
+            self.show(opts, function() {
+                $('#wizard .next').click(function(){
+                    self.setHash(
+                        args.area, args.zone, 'subscribe',
+                        $('input[name=reminder-radio]:checked').val()
+                    );
+                    return false;
                 });
-            }
-            else {
-                var opts = {
-                    height: 300,
-                    opacity: 1,
-                    page: 'wizardSubscribe'
-                };
-                $.extend(opts, zone);
-                self.show(opts, function() {
-                    $('#wizard .next').click(function(){
-                        self.setHash(
-                            area, zone, 'subscribe',
-                            $('input[name=reminder-radio]:checked').val()
-                        );
-                        return false;
+            });
+        },
+
+        '!/:area/:zone/subscribe/:type': function(args) {
+            var self = this;
+
+            var opts = {
+                height: 400,
+                opacity: 1,
+                page: 'wizardForm',
+                type: args.type
+            };
+            $.extend(opts, args.zone);
+            self.show(opts, function() {
+                $('#wizard form').validate(self.validate[args.type])
+                $('#wizard input[name=phone]').mask('999-999-9999');
+                $('#wizard .next').click(function() {
+                    var reminder = {
+                        area: args.area,
+                        zone: args.zone,
+                        type: args.type
+                    };
+                    var form = $('#wizard form').serializeArray();
+                    $.each(form, function(i,field) {
+                        reminder[field.name] = field.value;
                     });
+                    self.addReminder(reminder);
+                    return false;
                 });
-            }
+            });
+        },
+
+        '!/success': function() {
+            var self = this;
+
+            var opts = {
+                height: 200,
+                opacity: 1,
+                page: 'success'
+            };
+            self.show(opts, function() {
+            });
         }
     },
 
@@ -264,16 +290,6 @@ Recollect.Wizard .prototype = {
                 self.setHash(locality, data.name);
             }
         });
-    },
-
-    showPage: function() {
-        var args = $.makeArray(arguments);
-        var name = args.shift();
-
-        var page = this.pages[name];
-        if (!page) throw new Error('Unknown wizard step: ' + name);
-
-        page.apply(this, args);
     },
 
     changeHeight: function(height, callback) {
@@ -518,50 +534,11 @@ Recollect.Wizard .prototype = {
         ];
     },
 
-    wizard: function() {
-        var self = this;
-        if (self._wizard) return self._wizard;
-        var reminder = self.reminder;
-        return self._wizard = {
-            choose_method: {
-                next: function() {
-                    self.showPage(self.getValue('reminder-radio'))
-                }
-            },
-        };
-    },
-
-    getValue: function(name) {
-        return this.$dialog.find('input[name=' + name + ']:checked').val()
-    },
-
-    setup: function() {
-        this.$dialog.find('a').blur();
-
-        // disable all forms
-        this.$dialog.find('form').submit(function() { return false });
-
-        // Telephone fields
-        this.$dialog.find('.phone').mask('999-999-9999');
-
-        // Custom time picker
-        this.$dialog.find('.simpleOffset').change(function() {
-            if ($(this).val() == "custom") {
-                $(this).hide();
-                $(this).siblings('.customOffset').show();
-            }
-            else {
-                $(this).siblings('.customOffset').val($(this).val());
-            }
-        })
-
-        this.showPage('choose_method');
-    },
-
     addReminder: function (opts) {
         var self = this;
 
-        $('#wizard .paymentType').html( Jemplate.process('loading') );
+        $('#wizard .subscription').append(Jemplate.process('loading'));
+        $('#wizard .subscription form').hide();
 
         var data = {
             email: opts.email,
@@ -592,13 +569,23 @@ Recollect.Wizard .prototype = {
             data: $.toJSON(data, true),
             error: function(xhr, textStatus, errorThrown) {
                 var error = $.evalJSON(xhr.responseText)
-                $('#wizard .paymentType').html(
+                
+                // reshow the form
+                $('#wizard .subscription .loading').remove();
+                $('#wizard .subscription form').show();
+
+                $('#subscriptionError').html(
                     Jemplate.process('error', { msg: error.msg })
                 );
-                self.adjustHeight();
             },
             success: function(data) {
                 console.log(data);
+                if (data.payment_url) {
+                    location = data.payment_url;
+                }
+                else {
+                    self.setHash('success');
+                }
             }
         });
     }

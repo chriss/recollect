@@ -144,7 +144,7 @@
     <div class="left middle" style="height:100px">
         <img class="logo" src="/images/recollect_logo.png"/>
     </div>
-    <div class="right middle paymentType">
+    <div class="right middle subscription">
     <form>
         [% IF type == 'phone' %]
             <div class="title">Schedule a Telephone Call Reminder:</div>
@@ -182,13 +182,14 @@
         [% ELSE %]
             <div class="title">Unknown reminder type: [% type %]</div>
         [% END %]
+        <div id="subscriptionError"></div>
         <a class="bigButtonGreen next" href="#">submit</a>
     </form>
 </div>
 [% END %]
 
 [% BLOCK loading %]
-    <div class="page" id="loading">
+    <div class="page loading">
         <img src="/images/loading.gif"/>
     </div>
 [% END %]
@@ -247,4 +248,18 @@
             <option value="1">6AM the day of</option>
         </select>
     </div>
+[% END %]
+
+[% BLOCK success %]
+<div class="wizardStep">
+    <div class="left middle" style="height:100px">
+        <img class="logo" src="/images/recollect_logo.png"/>
+    </div>
+    <div class="right middle">
+        <div class="title">Wait! You're not done yet!</div>                         
+        <div>       
+            You have successfully added your reminder. We just need to confirm that the email you entered is your email. If you don't get the email in the next 10 minutes, check your spam folder.                                                  
+        </div>  
+    </div>  
+</div>  
 [% END %]
