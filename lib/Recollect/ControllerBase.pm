@@ -26,6 +26,20 @@ around 'run' => sub {
     return $orig->($self, $env);
 };
 
+sub user_is_admin {
+    my $self = shift;
+
+    # Unit Test mode
+    return $ENV{RECOLLECT_USER_IS_ADMIN} unless $self->can('doorman');
+
+    return 0 unless $self->doorman->is_sign_in;
+
+    my $tweeter = $self->doorman->twitter_screen_name;
+    my $user = Recollect::User->By_twitter($tweeter);
+    return 1 if $user and $user->is_admin;
+    return 0;
+}
+
 sub _build_model { Recollect::Model->new }
 
 sub _build_base_path { base_path() }
@@ -130,6 +144,7 @@ sub _kthx {
 
 sub ok         { _kthx(200) }
 sub no_content { _kthx(204) }
+sub forbidden  { _kthx(403) }
 
 sub redirect {
     my $self = shift;
