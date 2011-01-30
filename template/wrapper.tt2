@@ -49,10 +49,19 @@
     </div> <!-- end of #container -->
 
     <script>
-        // Keep the whitebar and content in the center
         $(window).resize(function() {
+            // Keep the whitebar and content in the center
             $('#container').height($(window).height());
+
+            // Keep the background fullscreen
+            if ($(window).height() > $('#background').height()) {
+                $('#background').css({height:'100%', width:'auto'});
+            }
+            else if ($(window).width() > $('#background').width()) {
+                $('#background').css({height:'auto', width:'100%'});
+            }
         }).resize();
+
     </script>
 
     <!--[if lt IE 7 ]>

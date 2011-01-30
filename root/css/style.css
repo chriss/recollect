@@ -83,11 +83,19 @@ button {  width: auto; overflow: visible; }
 
 
  /* Primary Styles
-    Author: 
+    Author: Kevin Jones
  */
+
+html, body {
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    width: 100%;
+}
 
 body {
     font: 12px 'Lucida Grande', Arial, sans-serif;
+    background: #000;
 }
 
 body#mobile #container {
@@ -95,7 +103,6 @@ body#mobile #container {
 }
 
 #background {
-    width: 100%;
     position: absolute;
     top: 0;
     left: 0;
