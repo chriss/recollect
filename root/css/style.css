@@ -134,7 +134,14 @@ header {
 footer {
 }
 
+input.invisible {
+    height: 0;
+    width: 0;
+    opacity: 1;
+}
+
 /* Wizard */
+
 .logo {
     height: 100px;
     vertical-align: middle;
