@@ -57,7 +57,7 @@
             if ($(window).height() > $('#background').height()) {
                 $('#background').css({height:'100%', width:'auto'});
             }
-            else if ($(window).width() > $('#background').width()) {
+            if ($(window).width() > $('#background').width()) {
                 $('#background').css({height:'auto', width:'100%'});
             }
         }).resize();
