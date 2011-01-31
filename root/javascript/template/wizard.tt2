@@ -1,7 +1,18 @@
+[% BLOCK logo %]
+    <a href="/"><img class="logo" src="/images/recollect_logo.png"/></a>
+[% END %]
+
+[% BLOCK error %]
+<div class="error">
+    <span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
+    <strong>Error:</strong> [% msg %]
+</div>
+[% END %]
+
 [% BLOCK wizardAddress %]
 <div class="wizardStep">
     <div class="left middle" style="height:100px">
-        <img class="logo" src="/images/recollect_logo.png"/>
+        [% INCLUDE logo %]
     </div>
     <div class="right middle">
         <form>
@@ -12,13 +23,6 @@
         <div class="clearfix"></div>
         <div class="status"></div>
     </div>
-</div>
-[% END %]
-
-[% BLOCK error %]
-<div class="error">
-    <span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
-    <strong>Error:</strong> [% msg %]
 </div>
 [% END %]
 
@@ -35,7 +39,7 @@
 [% BLOCK wizardZone %]
 <div class="zonePage middle wizardStep">
     <div class="mapSection">
-        <img class="logo" src="/images/recollect_logo.png"/>
+        [% INCLUDE logo %]
         <div class="map"></div>
     </div>
 
@@ -79,7 +83,7 @@
 [% BLOCK wizardSubscribe %]
 <div class="wizardStep">
     <div class="left middle" style="height:100px">
-        <img class="logo" src="/images/recollect_logo.png"/>
+        [% INCLUDE logo %]
     </div>
     <div class="right middle paymentType">
         <div class="title">Schedule a weekly reminder:</div>
@@ -139,7 +143,7 @@
 [% BLOCK wizardForm %]
 <div class="wizardStep">
     <div class="left middle" style="height:100px">
-        <img class="logo" src="/images/recollect_logo.png"/>
+        [% INCLUDE logo %]
     </div>
     <div class="right middle subscription">
     <form>
@@ -250,7 +254,7 @@
 [% BLOCK success %]
 <div class="wizardStep">
     <div class="left middle" style="height:100px">
-        <img class="logo" src="/images/recollect_logo.png"/>
+        [% INCLUDE logo %]
     </div>
     <div class="right middle">
         <div class="title">Wait! You're not done yet!</div>                         
