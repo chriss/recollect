@@ -41,31 +41,28 @@
 
     <div class="centerSectionWrapper">
         <div class="centerSection">
-            <div class="zoneName">[% desc %]</div>
+            <div class="zoneName">[% title %]</div>
             <div class="nextPickup">
                 Next pickup day: [% next %]
                 <div class="yardMsg">[% yard_msg %]</div>
             </div>
 
-            <div class="signup">
-                <span>SIGN UP NOW!</span>
-                <a id="subscribe" class="bigButtonOrange" href="#">Click Here</a>
-            </div>
-
             <div class="calendarSection">
+                <div class="feeds">
+                    <div class="title">Subscribe:</div>
+                    [% FOR feed = feeds %]
+                        <div>
+                            <a id="[% feed.id %]" href="[% feed.url %]" target="_blank">
+                                <img src="/images/feeds/[% feed.icon %]">
+                                <span>[% feed.name %]</span>
+                            </a>
+                        </div>
+                    [% END %]
+                </div>
+                <div class="signup">
+                    <a id="subscribe" class="bigButtonOrange" href="#">Sign Up Now!</a>
+                </div>
                 <div class="calendar"></div>
-            </div>
-
-            <div class="feeds">
-                <div class="title">Subscribe:</div>
-                [% FOR feed = feeds %]
-                    <div>
-                        <a id="[% feed.id %]" href="[% feed.url %]" target="_blank">
-                            <img src="/images/feeds/[% feed.icon %]">
-                            <span>[% feed.name %]</span>
-                        </a>
-                    </div>
-                [% END %]
             </div>
         </div>
     </div>

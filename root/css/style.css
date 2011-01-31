@@ -91,6 +91,10 @@ html, body {
     overflow-x: hidden;
     overflow-y: hidden;
     width: 100%;
+
+    /* min-width */
+    min-width: 1161px;
+    width: expression(document.body.clientWidth < 1161 ? "1161px" : "100%");
 }
 
 body {
@@ -254,31 +258,32 @@ input.initial {
     width: 100%;
 }
 .zonePage .centerSection {
-    margin: 0 375px;
+    margin-left: 30%;
+    width: 450px;
 }
 
-.zonePage .signup {
-    height: 43px;
-    margin: 30px 0px;
-}
-
-.zonePage .signup span {
-    float: left;
-    color: #f65735;
-    padding: 10px 0;
-    font-size: 14pt;
-    font-weight: bold;
+.zonePage .calendarSection {
+    margin-top: 70px;
+    position: relative;
 }
 
 .zonePage .feeds {
     position: absolute;
-    top: 250px;
-    left: 600px;
+    left: 250px;
 }
 
 .zonePage .feeds .title {
     margin: 10px 0 4px 0;
     font-size: 100%;
+}
+
+.zonePage .signup {
+    position: absolute;
+    left: 250px;
+    top: 100px;
+
+    height: 43px;
+    margin: 30px 0px;
 }
 
 .zonePage .cityImageSection {
@@ -289,10 +294,6 @@ input.initial {
 .zonePage .cityImageSection img {
     height: 450px;
     border: 1px solid #D3D3D3;
-}
-
-.zonePage .calendarSection {
-    width: 300px;
 }
 
 /*
@@ -340,7 +341,7 @@ input.initial {
     text-decoration: none;
     position: relative;
     color: #fff !important;
-    margin: 3px 10px;
+    margin: 0;
     padding: 10px 30px;
     font-size: 120%;
 
@@ -493,8 +494,6 @@ body#mobile .ui-datepicker {
     background: #fff;
     width: 180px;
     padding: 10px;
-    position: absolute;
-    top: 250px;
 
     /* gradient */
     background-color: #fefeef;  /* for non-css3 browsers */
