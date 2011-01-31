@@ -1,6 +1,4 @@
 [% WRAPPER wrapper.tt2 %]
-
-<div class="otherPage">
 <h1>Data</h1>
 All of the trash pickup data is scraped from the City of Vancouver's website:
 <ul>
@@ -60,5 +58,4 @@ Our intent in releasing this code as open source is to enable other citizens to 
 </p>
 
 <p>All other images are Copyright (C) 2009 by Luke Closs and Kevin Jones</p>
-</div>
 [% END %]

@@ -120,6 +120,22 @@ header {
     opacity: .8;
 }
 
+#links {
+    width: 100%;
+    height: 20px;
+    text-align: center;
+    position: absolute;
+    bottom: 0;
+}
+#links .links {
+    margin: 2px 0;
+    color: #aaa;
+}
+#links .white {
+    position: absolute;
+    background-color: #000;
+}
+
 #staticLayout {
     height: 100%;
 }
@@ -138,6 +154,7 @@ footer {
 /* Static pages */
 #staticLayout {
     margin-left: 350px;
+    padding-right: 50px;
     overflow-x: hidden;
     overflow-y: scroll;
 }
@@ -153,10 +170,10 @@ footer {
 }
 /* done static pages */
 
-input.invisible {
+input.hiddenButton {
     height: 0;
     width: 0;
-    opacity: 1;
+    opacity: 0;
 }
 
 /* Wizard */
@@ -590,34 +607,34 @@ a#fdbk_tab {
 /* done icons */
 
 /* Other page styles */
-.otherPage h1 {
-    font-size: 130%;
+#staticLayout h1 {
+    font-size: 18pt;
     margin: 15px 0 5px 0;
 }
-.otherPage h2 {
-    font-size: 120%;
+#staticLayout h2 {
+    font-size: 15pt;
     margin: 15px 0 5px 0;
 }
-.otherPage h3 {
-    font-size: 110%;
+#staticLayout h3 {
+    font-size: 13pt;
     margin: 15px 0 5px 0;
 }
-.otherPage h4 {
-    font-size: 100%;
+#staticLayout h4 {
+    font-size: 10pt;
     margin: 15px 0 5px 0;
 }
 
-.otherPage ul.toc {
+#staticLayout ul.toc {
     margin: 5px 0 5px 20px;
 }
-.otherPage ol, .otherPage ul {
+#staticLayout ol, #staticLayout ul {
     margin: 5px 0 5px 40px;
 }
 
-.otherPage .section {
+#staticLayout .section {
     margin: 10px 0;
 }
-.otherPage .section input, .otherPage .section textarea {
+#staticLayout .section input, #staticLayout .section textarea {
     margin: 3px 0 0 10px;
 }
 

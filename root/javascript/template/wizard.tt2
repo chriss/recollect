@@ -18,7 +18,7 @@
         <form>
             <input class="huge initial address" value="Enter Your Address" type="text"/>
             <a id="search" class="bigButtonGreen" href="#">Search</a>
-            <input type="submit" class="invisible"/>
+            <input type="submit" class="hiddenButton"/>
         </form>
         <div class="clearfix"></div>
         <div class="status"></div>

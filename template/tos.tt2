@@ -1,0 +1,15 @@
+
+[% WRAPPER wrapper.tt2 title="Terms of Service" %]
+    <h1>Terms of Service</h1>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis id suscipit odio.
+
+    <h2>Cras sempe</h2>
+    <p>
+        Cras semper, nisl vitae sodales fermentum, metus neque fringilla elit, a posuere mi felis vel dui. Vivamus felis augue, condimentum tempus varius id, porta eu odio. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aenean vel est erat. Vivamus mattis, mauris nec scelerisque laoreet, lorem neque imperdiet nisi, venenatis dictum arcu ipsum et arcu. Quisque eu est at nisi tempor adipiscing quis ac nunc. Donec sit amet augue id orci posuere varius. Morbi tincidunt sem nec metus eleifend sollicitudin. Aliquam sed viverra neque. Sed in dolor leo, sed condimentum metus. Duis eget orci luctus mi gravida feugiat. Aenean sed convallis nulla. Mauris vitae mauris ut purus tristique euismod cursus ut massa.
+    </p>
+
+    <h2>Cras sempe</h2>
+    <p>
+        Cras semper, nisl vitae sodales fermentum, metus neque fringilla elit, a posuere mi felis vel dui. Vivamus felis augue, condimentum tempus varius id, porta eu odio. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aenean vel est erat. Vivamus mattis, mauris nec scelerisque laoreet, lorem neque imperdiet nisi, venenatis dictum arcu ipsum et arcu. Quisque eu est at nisi tempor adipiscing quis ac nunc. Donec sit amet augue id orci posuere varius. Morbi tincidunt sem nec metus eleifend sollicitudin. Aliquam sed viverra neque. Sed in dolor leo, sed condimentum metus. Duis eget orci luctus mi gravida feugiat. Aenean sed convallis nulla. Mauris vitae mauris ut purus tristique euismod cursus ut massa.
+    </p>
+[% END %]
