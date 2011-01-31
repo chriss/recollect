@@ -146,6 +146,11 @@ header {
 #links .links a.last {
     border: none;
 }
+#links .links a.copy {
+    position: absolute;
+    right: 10px;
+    border: none;
+}
 
 #wizardLayout {
     position: absolute;

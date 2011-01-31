@@ -3,6 +3,6 @@
     <a href="/about.html">About Us</a>
     <a href="/faq.html">Frequently Asked Questions</a>
     <a href="/tell-a-friend.html">Tell a Friend</a>
-    <a href="/api.html">API</a>
-    <a class="last" href="/copyright.html">&copy;2011 Luke Closs and Kevin Jones</a>
+    <a href="/api.html" class="last">API</a>
+    <a href="/copyright.html" class="copy">&copy;2011 Luke Closs and Kevin Jones</a>
 </div>
