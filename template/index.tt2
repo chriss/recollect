@@ -1,11 +1,17 @@
-[% WRAPPER wrapper.tt2
-    javascript = [ "http://maps.google.com/maps/api/js?sensor=true" ]
+[% WRAPPER outer_wrapper.tt2
+    javascript=["http://maps.google.com/maps/api/js?sensor=true"]
 %]
-    <div id="wizard"></div>
+    [% IF message %]
+        <div id="message"><strong>[% message %]</strong></div>
+    [% END %]
+
+    <div id="wizardLayout">
+        <div class="white"></div>
+        <div id="wizard"></div>
+    </div>
 
     <script>
         var wizard = new Recollect.Wizard();
         wizard.start();
     </script>
-
 [% END %]

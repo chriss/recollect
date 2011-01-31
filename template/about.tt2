@@ -1,3 +1,0 @@
-[% WRAPPER wrapper.tt2 %]
-   [% INCLUDE about_us.html %]
-[% END %]

@@ -1,0 +1,105 @@
+<!doctype html>    
+
+<!--[if lt IE 7 ]> <html lang="en" class="no-js ie6"> <![endif]-->
+<!--[if IE 7 ]>        <html lang="en" class="no-js ie7"> <![endif]-->
+<!--[if IE 8 ]>        <html lang="en" class="no-js ie8"> <![endif]-->
+<!--[if IE 9 ]>        <html lang="en" class="no-js ie9"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+    <title>Recollect</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+    <link rel="stylesheet" href="/css/[% version %]/style.css?v=2"/>
+
+    <script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script>
+    <script src="/javascript/[% version %]/libs/modernizr-1.6.min.js"></script>
+
+    <!-- vantrash stuff -->
+    <script src="/javascript/[% version %]/compiled-recollect-mini.js"></script>
+
+    [% FOR js = javascript %]
+    <script src="[% js %]"></script>
+    [% END %]
+</head>
+
+<body>
+    <img id="background" src="/images/background.jpg"/>
+
+    <div id="container">
+        <header>
+        </header>
+
+        [% IF message %]
+            <div id="message"><strong>[% message %]</strong></div>
+        [% END %]
+        [% content %]
+
+        <footer>
+        </footer>
+    </div> <!-- end of #container -->
+
+    <script>
+        $(window).resize(function() {
+            // Keep the whitebar and content in the center
+            $('#container').height($(window).height());
+
+            // Keep the background fullscreen
+            if ($(window).height() > $('#background').height()) {
+                $('#background').css({height:'100%', width:'auto'});
+            }
+            if ($(window).width() > $('#background').width()) {
+                $('#background').css({height:'auto', width:'100%'});
+            }
+        }).resize();
+
+    </script>
+
+    <!--[if lt IE 7 ]>
+        <script src="/javascript/[% version %]/libs/dd_belatedpng.js"></script>
+        <script> DD_belatedPNG.fix('img, .png_bg'); </script>
+    <![endif]-->
+
+    <!-- yui profiler and profileviewer - remove for production
+    <script src="/javascript/[% version %]/libs/profiling/yahoo-profiling.min.js"></script>
+    <script src="/javascript/[% version %]/libs/profiling/config.js"></script>
+         end profiling code -->
+
+    <!-- Google Analytics -->
+    <script>
+     var _gaq = [['_setAccount', 'UA-9939668-1'], ['_trackPageview']];
+     (function(d, t) {
+        var g = d.createElement(t),
+                s = d.getElementsByTagName(t)[0];
+        g.async = true;
+        g.src = ('https:' == location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        s.parentNode.insertBefore(g, s);
+     })(document, 'script');
+    </script>
+
+    <!-- GetSatisfaction -->
+    <script type="text/javascript" charset="utf-8">
+        var is_ssl = ("https:" == document.location.protocol);
+        var asset_host = is_ssl ? "https://s3.amazonaws.com/getsatisfaction.com/" : "http://s3.amazonaws.com/getsatisfaction.com/";
+        document.write(unescape("%3Cscript src='" + asset_host + "javascripts/feedback-v2.js' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+
+    <script type="text/javascript" charset="utf-8">
+        var feedback_widget = new GSFN.feedback_widget({
+            display: "overlay",  
+            company: "vantrash",
+            placement: "right",
+            color: "#86c655",
+            style: "idea"
+        });
+    </script>
+    
+</body>
+</html>

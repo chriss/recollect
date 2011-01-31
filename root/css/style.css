@@ -102,10 +102,6 @@ body {
     background: #000;
 }
 
-body#mobile #container {
-    margin: 3px;
-}
-
 #background {
     position: absolute;
     top: 0;
@@ -113,21 +109,22 @@ body#mobile #container {
     z-index: -2;
 }
 
-#container {
-    position: relative;
+header {
 }
 
-#whiteBar {
+.white {
     width: 100%;
+    height: 100%;
     background: #fff;
     z-index: -1;
     opacity: .8;
 }
 
-header {
+#staticLayout {
+    height: 100%;
 }
 
-#whiteBar, #main {
+#wizardLayout {
     position: absolute;
     top: 50%;
     height: 200px;
@@ -137,6 +134,24 @@ header {
 
 footer {
 }
+
+/* Static pages */
+#staticLayout {
+    margin-left: 350px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+#staticLayout .white {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+#staticLayout .logo {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+}
+/* done static pages */
 
 input.invisible {
     height: 0;
@@ -392,31 +407,6 @@ a#fdbk_tab {
     top: 200px !important;
 }
 
-body#mobile a.elem {
-    font-size: 120%;
-    display: block;
-    padding: 20px 0;
-}
-body#mobile .ui-datepicker {
-    margin:auto;
-}
-
-.buttons {
-    padding-top: 20px;
-}
-.button {
-    display: none; /* don't show buttons until we've called $.button */
-}
-
-.reminderMessage {
-    font-size: 120%;
-    padding: 20px;
-}
-
-.reminderMessage p {
-    margin-bottom: 10px;
-}
-
 #wizard .customOffset {
     display: none;
 }
@@ -435,15 +425,6 @@ body#mobile .ui-datepicker {
 }
 
 /* Service options */
-#wizard .reminders {
-    width: 350px;
-    padding: 10px;
-    background-color: #fff;
-    border: 1px solid #D3D3D3;
-    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
-    border-radius: 4px;
-}
 #wizard .payclass {
     position: relative;
 }
@@ -580,7 +561,6 @@ body#mobile .ui-datepicker {
 
 /* done Calendar Styles */
 
-
 /* Icons */
 .ui-icon {
     display: block;
@@ -609,31 +589,7 @@ body#mobile .ui-datepicker {
 .ui-icon-alert { background-position: 0 -144px; }
 /* done icons */
 
-.cityimage {
-    position: absolute;
-    left: 0;
-    top: 0;
-}
-
-/* fieldset */
-#wizard fieldset {
-    padding: 10px 10px 20px 10px;
-    border: 1px solid #666;
-    /* rounded corners */
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
-}
-#wizard fieldset legend {
-    padding: 0 8px;
-    margin: 0;
-}
-
 /* Other page styles */
-.otherPage {
-    padding: 20px;
-    padding-top: 0;
-}
 .otherPage h1 {
     font-size: 130%;
     margin: 15px 0 5px 0;

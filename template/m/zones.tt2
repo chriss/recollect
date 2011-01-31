@@ -1,8 +1,0 @@
-[% WRAPPER m/wrapper.tt2 %]
-[% FOR zone = zones %]
-    <a class="elem" href="/m/zone.html?zone=[% zone.name %]">[% zone.desc %]</a>
-[% END %]
-
-<a class="elem last" href="/m/index.html">Home</a>
-
-[% END %]
