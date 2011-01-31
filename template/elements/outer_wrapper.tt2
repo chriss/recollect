@@ -44,13 +44,12 @@
         [% content %]
 
         <footer>
+            <div id="links">
+                <div class="white"></div>
+                [% INCLUDE elements/links.tt2 %]
+            </div>
         </footer>
     </div> <!-- end of #container -->
-
-    <div id="links">
-        <div class="white"></div>
-        [% INCLUDE elements/links.tt2 %]
-    </div>
 
     <script>
         $(window).resize(function() {
