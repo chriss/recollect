@@ -178,10 +178,8 @@ footer {
 }
 #staticLayout .logo {
     position: absolute;
-    height: 100px;
     left: 10px;
-    top: 33%;
-    margin-top: -50px;
+    top: 10px;
 }
 /* done static pages */
 
