@@ -295,7 +295,7 @@ Recollect.Wizard .prototype = {
     changeHeight: function(height, callback) {
         var props = {
             height: height + 'px',
-            marginTop: (-height/2) + 'px'
+            marginTop: (-height/2 - 20) + 'px'
         };
         var once = false;
         $('#wizardLayout').animate(props, 'slow', 'swing', function() {
