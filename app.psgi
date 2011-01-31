@@ -24,9 +24,6 @@ builder {
     enable 'Debug::DBITrace';
 
     enable "Plack::Middleware::Static",
-           path => qr{^/\d+\.html$},
-           root => './root/';
-    enable "Plack::Middleware::Static",
            path => qr{^/(robots\.txt|kml/.+|images)},
            root => './root/';
     enable "Plack::Middleware::Static",

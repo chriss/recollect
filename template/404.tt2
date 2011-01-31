@@ -1,0 +1,7 @@
+[% WRAPPER elements/outer_wrapper.tt2 %]
+    <div id="errorLayout">
+        <div class="white"></div>
+        <a href="/"><img class="logo" src="/images/recollect_logo.png"/></a>
+        <div class="error">The requested URL was not found on this server.</div>
+    </div>
+[% END %]

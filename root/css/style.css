@@ -152,6 +152,10 @@ header {
     border: none;
 }
 
+footer {
+}
+
+#errorLayout,
 #wizardLayout {
     position: absolute;
     top: 50%;
@@ -160,7 +164,18 @@ header {
     width: 100%;
 }
 
-footer {
+#errorLayout .logo {
+    position: absolute;
+    right: 66%;
+    top: 50px;
+    margin-right: 25px;
+}
+#errorLayout .error {
+    font-size: 20pt;
+    position: absolute;
+    top: 75px;
+    left: 33%;
+    margin-left: 25px;
 }
 
 /* Static pages */
