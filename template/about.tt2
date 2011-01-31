@@ -1,5 +1,5 @@
 
-[% WRAPPER wrapper.tt2 title="About Recollect" %]
+[% WRAPPER elements/wrapper.tt2 title="About Recollect" %]
     <h1>About Recollect</h1>
     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis id suscipit odio.
 

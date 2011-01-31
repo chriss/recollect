@@ -136,8 +136,12 @@ header {
     background-color: #000;
 }
 
-#staticLayout {
-    height: 100%;
+#links .links a {
+    border-right: 1px solid #666;
+    padding: 0 6px 0 2px;
+}
+#links .links a.last {
+    border: none;
 }
 
 #wizardLayout {
@@ -153,10 +157,11 @@ footer {
 
 /* Static pages */
 #staticLayout {
-    margin-left: 350px;
+    height: 100%;
+    margin: 0 0 20px 350px;
     padding-right: 50px;
     overflow-x: hidden;
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 #staticLayout .white {
     position: absolute;

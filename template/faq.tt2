@@ -1,4 +1,4 @@
-[% WRAPPER wrapper.tt2 title="Frequently Asked Questions" %]
+[% WRAPPER elements/wrapper.tt2 title="Frequently Asked Questions" %]
     <h1>Frequently asked questions</h1>
     <ul class="toc">
         <li><a title="section link" href="#using_vantrash">Using VanTrash</a></li>

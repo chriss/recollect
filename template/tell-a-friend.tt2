@@ -1,4 +1,4 @@
-[% WRAPPER wrapper.tt2 %]
+[% WRAPPER elements/wrapper.tt2 %]
  <h1>Tell your friends about VanTrash!</h1>
  [% IF success %]
    <div class="success">

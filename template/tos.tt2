@@ -1,5 +1,5 @@
 
-[% WRAPPER wrapper.tt2 title="Terms of Service" %]
+[% WRAPPER elements/wrapper.tt2 title="Terms of Service" %]
     <h1>Terms of Service</h1>
     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis id suscipit odio.
 

@@ -1,4 +1,4 @@
-[% WRAPPER wrapper.tt2 %]
+[% WRAPPER elements/wrapper.tt2 %]
 <h1>Data</h1>
 All of the trash pickup data is scraped from the City of Vancouver's website:
 <ul>
