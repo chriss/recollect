@@ -6,8 +6,4 @@
         <br/>
         <br/>
     </div>
-    <div id="links">
-        <div class="white"></div>
-        [% INCLUDE elements/links.tt2 %]
-    </div>
 [% END %]

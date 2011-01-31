@@ -46,6 +46,11 @@
         </footer>
     </div> <!-- end of #container -->
 
+    <div id="links">
+        <div class="white"></div>
+        [% INCLUDE elements/links.tt2 %]
+    </div>
+
     <script>
         $(window).resize(function() {
             // Keep the whitebar and content in the center

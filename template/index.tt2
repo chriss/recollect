@@ -10,11 +10,6 @@
         <div id="wizard"></div>
     </div>
 
-    <div id="links">
-        <div class="white"></div>
-        [% INCLUDE elements/links.tt2 %]
-    </div>
-
     <script>
         var wizard = new Recollect.Wizard();
         wizard.start();

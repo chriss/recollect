@@ -140,6 +140,9 @@ header {
     border-right: 1px solid #666;
     padding: 0 6px 0 2px;
 }
+#links .links a:hover {
+    color: #06b;
+}
 #links .links a.last {
     border: none;
 }
