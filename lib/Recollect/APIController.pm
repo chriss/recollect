@@ -189,6 +189,9 @@ sub subscriptions {
                 return $self->bad_request_json(
                     'Invalid delivery_offset - format: HH:MM:SS');
             }
+            if ($offset =~ m/^-?\d+$/) {
+                $r->{delivery_offset} .= ':00';
+            }
         }
         else {
             return $self->bad_request_json(
