@@ -1,0 +1,43 @@
+#!/usr/bin/perl
+use strict;
+use warnings;
+use YAML qw/LoadFile/;
+use DateTime;
+use lib 'lib';
+use Recollect::Subscription;
+use Recollect::Zone;
+use Recollect::Area;
+
+my $file = shift || 'active-reminders.yaml';
+die "Can't find import file at $file" unless -e $file;
+
+my $van = Recollect::Area->By_name('Vancouver') or die "Can't find Vancouver";
+
+my $reminders = LoadFile($file);
+for my $r (@$reminders) {
+    my $zone = $van->resolve_zone_id($r->{zone});
+    die "Can't find zone $r->{zone}" unless $zone;
+
+    # Offset has changed a lot between vantrash and recollect
+    my $offset = abs(7 - $r->{offset});
+
+    warn "Importing reminder for $r->{target} - $r->{zone} ($offset)\n";
+    my $sub = Recollect::Subscription->Create(
+        email => $r->{email},
+        reminders => [
+            {
+                zone_id => $zone->id,
+                target  => $r->{target},
+                delivery_offset => "$offset:00",
+            },
+        ],
+    );
+
+    # Update the last_notified to be the same as what vantrash had
+    my $last_notified = DateTime->from_epoch(epoch => $r->{last_notified});
+    $last_notified->set_time_zone('America/Vancouver');
+    $sub->reminders->[0]->update_last_notified($last_notified->iso8601);
+}
+
+exit;
+
