@@ -64,6 +64,7 @@
                 $('#background').css({height:'auto', width:'100%'});
             }
         }).resize();
+        $('#background').load(function() { $(window).resize() });
 
     </script>
 
