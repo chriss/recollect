@@ -8,7 +8,7 @@ with 'Recollect::Roles::Config';
 with 'Recollect::Roles::Log';
 with 'Recollect::Roles::Template';
 
-our $Recollect_version = '0.9';
+our $Recollect_version = '0.10';
 
 has 'request'   => (is => 'rw', isa => 'Plack::Request');
 has 'env'       => (is => 'rw', isa => 'HashRef');
