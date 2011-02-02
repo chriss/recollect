@@ -81,7 +81,6 @@ install: javascript $(INSTALL_DIR)/* $(SOURCE_FILES) $(LIB) \
 	cp -R $(SOURCE_FILES) $(INSTALL_DIR)/root
 	cp -R $(LIB) $(TEMPLATE_DIR) $(INSTALL_DIR)
 	rm -f $(INSTALL_DIR)/root/*.html
-	cp    $(SOURCE_FILES).html $(INSTALL_DIR)/root/
 	cp $(PSGI) $(INSTALL_DIR)
 	cp $(EXEC) $(INSTALL_DIR)/bin
 	cp -f $(CRONJOB) /etc/cron.d/
