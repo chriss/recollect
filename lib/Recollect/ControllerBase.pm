@@ -58,8 +58,9 @@ sub response {
     my $ct   = shift;
     my $body = shift;
     my $code = shift || 200;
-    return Plack::Response->new($code, [ 'Content-Type' => $ct ], $body)
-        ->finalize;
+    return Plack::Response->new($code,
+        [ 'Content-Type' => $ct, 'Content-Length' => length($body) ],
+        $body)->finalize;
 }
 
 sub render_template {
