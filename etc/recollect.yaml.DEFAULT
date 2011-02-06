@@ -14,10 +14,3 @@
   recurly_password: 'password'
   recurly_subdomain: 'recollect-test'
   payment_host: 'https://recollect-test.recurly.com'
-  payment_plan: 'vancouver'
-  price_per_month: "1.50"
-  price_per_year: "15.00"
-  errors_to_email: 'recollect-errors@localhost'
-  coupons:
-    test: "5.00"
-
