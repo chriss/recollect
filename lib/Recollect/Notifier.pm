@@ -138,6 +138,7 @@ sub short_and_sweet_message {
     else {
         $msg .= " - no yard trimming pickup today";
     }
+    return $msg;
 }
 
 sub _send_notification_sms {
