@@ -90,14 +90,14 @@ sub _send_notification_twitter {
         if (my $error = $self->twitter->get_error()) {
             if ($error->{error} =~ m/not following you/) {
                 $self->send_email(
-                    to            => $args{reminder}->email,
+                    to            => $args{reminder}->subscription->user->email,
                     subject       => 'Twitter VanTrash reminder failed!',
                     template      => 'twitter-fail.html',
                     template_args => {
                         reminder    => $args{reminder},
                         garbage_day => $args{pickup},
                         target => $args{target},
-                        twitter => $self->model->config->Value('twitter_username'),
+                        twitter => $self->config->{twitter_username},
                     },
                 );
                 $self->log("Send Twitter fail email for $args{target}");
