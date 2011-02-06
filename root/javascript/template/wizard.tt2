@@ -148,32 +148,30 @@
         [% IF type == 'phone' %]
             <div class="title">Schedule a Telephone Call Reminder:</div>
             <div class="help">
-                Please enter the 10 digit mobile telephone number that you wish to receive weekly telephone call pickup reminders. We also ask for you to provide your email address. Vantrash will never provide your email to anyone.
+                Please enter the 10 digit telephone number that you wish to receive weekly phone call pickup reminders. This can be a mobile phone or a land line.
             </div>
             [% INCLUDE field name='phone' title='Telephone' %]
             [% INCLUDE field name='email' title='Email' %]
             [% INCLUDE time %]
-            [% INCLUDE payment %]
         [% ELSIF type == 'sms' %]
             <div class="title">Schedule a Text Message Reminder:</div>
             <div class="help">
-                Please enter the 10 digit mobile telephone number that you wish to receive weekly text message pickup reminders. We also ask for you to provide your email address. Vantrash will never provide your email to anyone.
+                Please enter the 10 digit mobile telephone number that you wish to receive weekly text message pickup reminders.
             </div>
             [% INCLUDE field name='phone' title='Telephone' %]
             [% INCLUDE field name='email' title='Email' %]
             [% INCLUDE time %]
-            [% INCLUDE payment %]
         [% ELSIF type == 'email' %]
             <div class="title">Schedule an E-Mail Reminder:</div>
             <div class="help">
-                Please enter the valid email address you wish for weekly pickup reminders to be sent to. Vantrash will never provide your email to anyone.
+                Please enter the valid email address you wish for weekly pickup reminders to be sent to.
             </div>
             [% INCLUDE field name='email' title='Email' %]
             [% INCLUDE time %]
         [% ELSIF type == 'twitter' %]
             <div class="title">Schedule a Twitter Reminder:</div>
             <div class="help">
-                Please enter your Twitter username that you wish to receive weekly direct messages to. We also ask for you to provide your email address. Vantrash will never provide your email to anyone.
+                Please enter your Twitter username that you wish to receive weekly direct messages to.
             </div>
             [% INCLUDE field name='twitter' title='Twitter Username' %]
             [% INCLUDE field name='email' title='Email' %]
