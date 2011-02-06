@@ -27,8 +27,6 @@ sub run {
         [ qr{^/show/message_prompt$} => \&show_message_prompt ],
         [ qr{^/receive/message$}     => \&receive_message ],
         [ qr{^/goodbye$}             => \&goodbye ],
-        [ qr{^/new-user-welcome$}    => \&new_user_welcome ],
-        [ qr{^/new-user-status$}     => \&new_user_status ],
     );
 
     my $response = '';
@@ -60,7 +58,7 @@ EOT
 sub start { 
     return <<EOT;
         <Say voice="woman">
-            Hello, you have reached Van Trash.  
+            Hello, you have reached the recollect dot net phone service.  
         </Say>
         <Redirect>/call/show/main</Redirect>
 EOT
@@ -71,7 +69,7 @@ sub show_main_menu {
     <Gather action="/call/gather/main" method="POST" numDigits="1" timeout="7">
         <Say voice="woman">
             To look up the garbage day, press 1.
-            To leave a message telling us how much you love Van Trash, press 2.
+            To leave a message telling us how much you love recollect dot net, press 2.
         </Say>
     </Gather>
     <Say voice="woman">Lets try that again.</Say>
@@ -105,7 +103,7 @@ sub show_lookup_menu {
     </Say>
     <Pause length="2"/>
     <Say voice="woman">
-      If you are not sure which zone you live in, go to our website at: van trash dot C A.
+      If you are not sure which zone you live in, go to our website at: recollect dot net.
     </Say>
 </Gather>
 <Say voice="woman">Lets try that again.</Say>
@@ -152,7 +150,7 @@ sub voice_notify {
     my $zone_desc = $zone->desc;
     return <<EOT;
 <Pause length="1"/>
-<Say voice="woman">Hello, this is Van Trash. Garbage day is almost here!  Your garbage will be removed on $day_name.  $extra</Say>
+<Say voice="woman">Hello, this is your garbage reminder service. Garbage day is almost here!  Your garbage will be removed on $day_name.  $extra</Say>
 <Hangup/>
 EOT
 }
@@ -239,37 +237,6 @@ sub receive_message {
 }
 
 sub goodbye { "<Say voice=\"woman\">Goodbye.</Say><Hangup/>" }
-
-sub new_user_status {
-    my $self = shift;
-    my $req  = shift;
-
-    use Data::Dumper;
-    warn Dumper $req->parameters;
-    return '';
-}
-
-sub new_user_welcome { 
-    my $self = shift;
-    my $req  = shift;
-
-    my $extra = '<Pause length="1" />';
-    unless ($req->parameters->{again}) {
-        $extra = <<EOT;
-<Say voice="woman">To hear this number again, press any number.</Say>
-<Gather action="/call/new-user-welcome?again=1" method="GET" numDigits="1" />
-EOT
-    }
-
-    return <<EOT;
-<Say voice="woman">
-Hello, this is Van Trash calling to confirm your reminder.  Call us back if you have any questions.  Our number is 778-785-1357.
-</Say>
-$extra
-<Say voice="woman">Goodbye!</Say>
-<Hangup />
-EOT
-}
 
 __PACKAGE__->meta->make_immutable;
 1;
