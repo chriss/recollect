@@ -2,6 +2,7 @@ package Recollect::CallController;
 use Moose;
 use Email::MIME;
 use Plack::Response;
+use Recollect::Zone;
 use namespace::clean -except => 'meta';
 
 with 'Recollect::ControllerBase';
@@ -138,19 +139,18 @@ sub process_region {
 
 sub voice_notify {
     my ($self, $req, $zone_name) = @_;
-    my $zone = $self->model->zones->by_name($zone_name) or return;
+    my $zone = Recollect::Zone->By_name($zone_name) or return;
+    my $pickup = $zone->next_pickup->[0];
 
-    my $pickup = $self->model->next_pickup($zone_name, 1, undef, 'obj please');
     my $day_name = $pickup->datetime->day_name;
-    my $extra = 'No commpost pickup this week.';
+    my $extra = 'No comm post pickup this week.';
     if ($pickup->flags =~ m/y/i) {
         $extra = "Food scraps and yard trimmings will be picked up too.";
     }
 
-    my $zone_desc = $zone->desc;
     return <<EOT;
 <Pause length="1"/>
-<Say voice="woman">Hello, this is your garbage reminder service. Garbage day is almost here!  Your garbage will be removed on $day_name.  $extra</Say>
+<Say voice="woman">Hello, this is your garbage reminder service. Your garbage will be picked up on $day_name.  $extra.  Goodbye!</Say>
 <Hangup/>
 EOT
 }
