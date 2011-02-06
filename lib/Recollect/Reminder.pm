@@ -1,6 +1,5 @@
 package Recollect::Reminder;
 use Moose;
-use WWW::Shorten::Googl;
 use Data::Dumper;
 use DateTime;
 use DateTime::Duration;
@@ -17,11 +16,10 @@ has 'delivery_offset' => (is => 'ro', isa => 'Str', required => 1);
 has 'target'          => (is => 'ro', isa => 'Str', required => 1);
 
 has 'zone'             => (is => 'ro', isa => 'Object', lazy_build => 1);
-has 'subscription'     => (is => 'ro', isa => 'Object', lazy_build => 1);
+has 'subscription'     => (is => 'ro', isa => 'Object', lazy_build => 1,
+                           handles => [qw/delete_url short_delete_url/]);
 has 'offset_duration'  => (is => 'ro', isa => 'Object', lazy_build => 1);
 has 'nice_name'        => (is => 'ro', isa => 'Str', lazy_build => 1);
-has 'delete_url'       => (is => 'ro', isa => 'Str', lazy_build => 1);
-has 'short_delete_url' => (is => 'ro', isa => 'Str', lazy_build => 1);
 has 'zone_url'         => (is => 'ro', isa => 'Str', lazy_build => 1);
 
 extends 'Recollect::Collection';
@@ -100,16 +98,6 @@ sub _build_subscription {
 sub _build_nice_name {
     my $self = shift;
     return join('-', $self->zone->area->name, $self->zone->name, $self->id, $self->target, $self->delivery_offset);
-}
-
-sub _build_delete_url {
-    my $self = shift;
-    return $self->subscription->delete_url;
-}
-
-sub _build_short_delete_url {
-    my $self = shift;
-    return makeashorterlink($self->delete_url);
 }
 
 sub Is_valid_target {
