@@ -50,7 +50,7 @@ around 'Create' => sub {
     }
 
     $subscription->add_reminders($reminders);
-    $self->log("New subscription created for user $email");
+    $subscription->log("New subscription created for user $email");
     return $subscription;
 };
 
