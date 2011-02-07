@@ -335,6 +335,7 @@ input.initial {
 .zonePage .feeds {
     position: absolute;
     left: 250px;
+    top: 60px;
 }
 
 .zonePage .feeds .title {
@@ -345,10 +346,7 @@ input.initial {
 .zonePage .signup {
     position: absolute;
     left: 250px;
-    top: 100px;
-
     height: 43px;
-    margin: 30px 0px;
 }
 
 .zonePage .cityImageSection {

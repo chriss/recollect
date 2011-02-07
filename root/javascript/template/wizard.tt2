@@ -52,6 +52,9 @@
             </div>
 
             <div class="calendarSection">
+                <div class="signup">
+                    <a id="subscribe" class="bigButtonOrange" href="#">Sign Up Now!</a>
+                </div>
                 <div class="feeds">
                     <div class="title">Subscribe:</div>
                     [% FOR feed = feeds %]
@@ -62,9 +65,6 @@
                             </a>
                         </div>
                     [% END %]
-                </div>
-                <div class="signup">
-                    <a id="subscribe" class="bigButtonOrange" href="#">Sign Up Now!</a>
                 </div>
                 <div class="calendar"></div>
             </div>
