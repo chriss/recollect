@@ -1,5 +1,36 @@
 [% WRAPPER elements/wrapper.tt2 %]
-<div class="reminderMessage">
-    TODO: put some proper UI here, show them what they would be deleting.
+<div class="densetext">
+    <h1>Delete your Subscription</h1>
+    <h2>Subscription Details</h2>
+    <ul>
+      <li><strong>Created by:</strong> [% subscription.user.email %]</li>
+      <li><strong>Created on:</strong> [% subscription.created_date.ymd %]</li>
+      <li><strong>Reminders:</strong></li>
+      <ul>
+        [% FOR rem IN subscription.reminders %]
+          <li>
+            <strong>Zone:</strong> [% rem.zone.title %] -
+            <strong>Target:</strong> [% rem.target %]
+          </li>
+        [% END %]
+      </ul>
+    </ul>
+    <p>
+      Are you <strong>sure</strong> you want to delete your 
+      [% IF subscription.free %]free[% ELSE %]paid[% END %] reminder subscription?
+    </p>
+    [% IF !subscription.free %]
+      <p>
+        <strong>Note:</strong> No refunds are available for cancelled subscriptions.
+      </p>
+    [% END %]
+
+    <br />
+
+    <p>
+      <input type="button" value="Yes" onclick="document.location = '[% request_uri %]?confirm=1'"/>
+      <input type="button" value="No" onclick="document.location = '[% base %]'"/>
+    </p>
+
 </div>
 [% END %]

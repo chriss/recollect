@@ -7,6 +7,7 @@ use Recollect::Util;
 use Recollect::Reminder;
 use URI::Encode qw/uri_encode/;
 use List::MoreUtils qw/any/;
+use DateTime::Format::Pg;
 use namespace::clean -except => 'meta';
 
 extends 'Recollect::Collection';
@@ -162,6 +163,12 @@ sub _build_delete_url {
 sub twitter_target {
     return any { $_->twitter_target } @{ shift->reminders }
 }
+
+sub _build_created_date {
+    my $self = shift;
+    return DateTime::Format::Pg->parse_datetime( $self->created_at );
+}
+
 
 __PACKAGE__->meta->make_immutable;
 1;

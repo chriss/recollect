@@ -82,8 +82,16 @@ sub delete_subscription_page {
         })->finalize;
     }
 
-    return $self->process_template("delete_subscription.html", $sub->to_hash)
-        ->finalize;
+    if ($req->parameters->{confirm}) {
+        $sub->delete;
+        $self->log("Subscription deleted - $id");
+        return $self->process_template("delete_subscription_confirmed.html", {
+            })->finalize;
+    }
+
+    return $self->process_template("delete_subscription.html", {
+            subscription => $sub,
+        })->finalize;
 }
 
 sub tell_friends {
