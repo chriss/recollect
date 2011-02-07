@@ -1,12 +1,18 @@
-<html>
-  <title>[% title %]</title>
-  <body>
-    [% content %]
-    <hr />
-    [% IF has_ical %]
-    <a href="[% uri %].ics">text/calendar (iCal)</a> | 
-    [% END %]
-    <a href="[% uri %].txt">text/plain</a> | 
-    <a href="[% uri %].json">application/json</a>
-  </body>
-</html>
+[% WRAPPER elements/outer_wrapper.tt2 %]
+    <div id="staticLayout">
+        <div class="white"></div>
+        <a href="/"><img class="logo" src="/images/recollect_logo.png"/></a>
+          <div class="api">
+            [% content %]
+            <hr />
+            This resource is available in other content types:
+            [% IF has_ical %]
+            <a href="[% uri %].ics">text/calendar (iCal)</a> | 
+            [% END %]
+            <a href="[% uri %].txt">text/plain</a> | 
+            <a href="[% uri %].json">application/json</a>
+          </div>
+        <br/>
+        <br/>
+    </div>
+[% END %]

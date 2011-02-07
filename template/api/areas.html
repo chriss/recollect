@@ -2,7 +2,11 @@
 <h1>Recollect Areas</h1>
 <ul>
 [% FOREACH area IN areas %]
-    <li><a href="/api/areas/[% area.name %]">[% area.name %]</a></li>
+    <li><a href="/api/areas/[% area.name %]">[% area.name %] Area Resource</a></li>
 [% END %]
+</ul>
+<h2>Related Resources</h2>
+<ul>
+    <li><a href="/api/version">API Version - /api/version</a></li>
 </ul>
 [% END %]

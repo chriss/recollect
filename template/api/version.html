@@ -2,7 +2,11 @@
 <h1>API Version</h1>
 <ul>
 [% FOREACH detail IN details %]
-  <li><strong>[% detail.name %]:</strong> [% detail.value %]></li>
+  <li><strong>[% detail.name %]:</strong> [% detail.value %]</li>
 [% END %]
+</ul>
+<h2>Other Resources</h2>
+<ul>
+  <li><a href="/api/areas">Areas Collection - /api/areas</a></li>
 </ul>
 [% END %]

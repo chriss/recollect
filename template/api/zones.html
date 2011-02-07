@@ -3,7 +3,11 @@
 <h1>Recollect Zones in [% area.name %]</h1>
 <ul>
 [% FOREACH zone IN area.zones %]
-    <li><a href="/api/areas/[% area.name %]/zones/[% zone.name %]">[% zone.name %]</a></li>
+    <li><a href="/api/areas/[% area.name %]/zones/[% zone.name %]">[% zone.name %] Zone Resource</a></li>
 [% END %]
+</ul>
+<h2>Related Resources</h2>
+<ul>
+  <li><a href="/api/areas/[% area.name %]">[% area.name %] Area Resource</a></li>
 </ul>
 [% END %]
