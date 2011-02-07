@@ -26,8 +26,10 @@ sub run {
         [ qr{^/notify/([\w-]+)$}     => \&voice_notify ],
         [ qr{^/notify/([\w-]+)/status$} => \&voice_notify_status ],
         [ qr{^/show/message_prompt$} => \&show_message_prompt ],
-        [ qr{^/receive/message$}     => \&receive_message ],
+        [ qr{^/receive/message$}     => \&receive_voicemail ],
         [ qr{^/goodbye$}             => \&goodbye ],
+
+        [ qr{^/sms/receive$}         => \&receive_sms ],
     );
 
     my $response = '';
@@ -210,7 +212,7 @@ EOT
         . "<Redirect>/call/show/zones_menu/$type</Redirect>";
 }
 
-sub receive_message {
+sub receive_voicemail {
     my ($self, $req, @args) = @_;
     my $params = $req->parameters;
 
@@ -234,6 +236,30 @@ sub receive_message {
     $email->header_set($_ => $headers{$_}) for keys %headers;
 
     $self->send_email($email);
+}
+
+sub receive_sms {
+    my ($self, $req, @args) = @_;
+    my $params = $req->parameters;
+
+    my $body = "A sms message was received: '$params->{Body}' from "
+             . "$params->{From}.";
+    my %headers = (
+        From    => 'Recollect <noreply@recollect.net>',
+        To      => 'team@recollect.net',
+        Subject => "New SMS received from $params->{From}",
+    );
+    my $email = Email::MIME->create(
+        attributes => {
+            content_type => 'text/plain',
+            disposition  => 'inline',
+            charset      => 'utf8',
+        },
+        body => $body,
+    );
+    $email->header_set($_ => $headers{$_}) for keys %headers;
+    $self->send_email($email);
+    return "<Hangup/>";
 }
 
 sub goodbye { "<Say voice=\"woman\">Goodbye.</Say><Hangup/>" }
