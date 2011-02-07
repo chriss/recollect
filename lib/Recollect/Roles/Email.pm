@@ -22,7 +22,7 @@ sub send_email {
 
     my %args = @_;
     my $template = "email/$args{template}";
-    $args{template_args}{base} = $self->base_url();
+    $args{template_args}{base} = $self->base_url;
     my $body;
     $self->tt2->process($template, $args{template_args}, \$body) ;
 

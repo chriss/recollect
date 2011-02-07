@@ -6,11 +6,14 @@ use Recollect::Zone;
 use Recollect::Util;
 use Recollect::Reminder;
 use URI::Encode qw/uri_encode/;
+use List::MoreUtils qw/any/;
 use namespace::clean -except => 'meta';
 
 extends 'Recollect::Collection';
 with 'Recollect::Roles::SQL';
 with 'Recollect::Roles::Recurly';
+with 'Recollect::Roles::Template';
+with 'Recollect::Roles::Email';
 
 has 'id'         => (is => 'ro', isa => 'Str',  required => 1);
 has 'user_id'    => (is => 'ro', isa => 'Int',  required => 1);
@@ -51,6 +54,8 @@ around 'Create' => sub {
 
     $subscription->add_reminders($reminders);
     $subscription->log("New subscription created for user $email");
+
+    $subscription->send_confirmation_email if $args{free};
     return $subscription;
 };
 
@@ -79,6 +84,22 @@ sub _set_active_flag {
     $self->{active} = $value;
     $self->log("Subscription " . $self->id . " is now "
         . ($value ? '' : 'in') . 'active');
+    $self->send_confirmation_email if $value;
+}
+
+sub send_confirmation_email {
+    my $self = shift;
+
+    $self->send_email(
+        template => 'signup-success.html',
+        template_args => {
+            subscription => $self,
+            twitter => $self->config->{twitter_username},
+        },
+        from => 'Recollect <feedback@recollect.net>',
+        to => $self->user->email,
+        subject => 'Welcome to the Recollect Reminder Service',
+    );
 }
 
 sub add_reminders {
@@ -136,6 +157,10 @@ sub _build_url {
 sub _build_delete_url {
     my $self = shift;
     return $self->config->{base_url} . '/subscription/delete/' . $self->id;
+}
+
+sub twitter_target {
+    return any { $_->twitter_target } @{ shift->reminders }
 }
 
 __PACKAGE__->meta->make_immutable;

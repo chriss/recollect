@@ -1,0 +1,21 @@
+Welcome to Recollect!
+
+You're all signed up, so we will now send you weekly reminders for garbage and recycling pick up dates for your neighborhood!
+
+[% IF subscription.twitter_target -%]
+Make sure you are following the @[% twitter %] user on twitter to receive the messages: http://twitter.com/[% twitter %]
+
+[% END -%]
+To delete this reminder, click on the link below or copy and paste it into your browser:
+
+  [% subscription.delete_url %]
+
+If you think this service would be useful for your friends or family, please let them know! Click the link below to send them a note:
+
+  [% base %]/tell-a-friend
+
+If you have any problems, ideas or questions, please feel free to contact us at feedback@recollect.net.
+
+Cheers,
+The Recollect Team
+[% base %]
