@@ -230,6 +230,18 @@ Recollect.Wizard .prototype = {
                 self.show(opts, function() {
                     $('#wizard form').validate(self.validate[args.type])
                     $('#wizard input[name=phone]').mask('999-999-9999');
+                    $('#wizard .simpleOffset').change(function() {
+                        if ($(this).val() == 'custom') {
+                            // Show the more advanced time input
+                            $(this).hide();
+                            $('#wizard .customOffset').show();
+                        }
+                        else {
+                            // Set the simple value in the customOffset select
+                            // (which is the *real* offset element)
+                            $('#wizard .customOffset').val($(this).val());
+                        }
+                    });
                     $('#wizard .next').click(function() {
                         var reminder = {
                             area: args.area,

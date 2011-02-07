@@ -206,7 +206,7 @@
             <option value="19">Noon the day before</option>
             <option value="13">6PM the day before</option>
             <option value="1">6AM the day of</option>
-            <option value="custom">A custom time</option>
+            <option value="custom">show more options...</option>
         </select>
         <select class="border customOffset" name="offset">
             <option value="25">6AM the day before</option>
