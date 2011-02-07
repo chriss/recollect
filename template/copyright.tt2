@@ -20,7 +20,13 @@ All of the trash pickup data is scraped from the City of Vancouver's website:
 <h1>Licensing Intent</h1>
 Our intent in releasing this code as open source is to enable other citizens to learn and use the code and tools we have created for non-commercial purposes.
 
-<h1>Recollect Perl Code License</h1>
+<h1>Logo and Name</h1>
+<p>
+    The Recollect logo and name was created by <a href="http://twitter.com/dwmcleish">David McLeish</a> exclusively for Recollect.
+</p>
+<p>All images are Copyright &copy; 2009 by Luke Closs and Kevin Jones</p>
+
+<h1>Perl Code License</h1>
 <p>The scraping codes and the reminder system codes are licensed under the folowing terms:</p>
 
 <p>Copyright &copy; 2009,2010 by Luke Closs and Kevin Jones</p>
@@ -40,12 +46,9 @@ Our intent in releasing this code as open source is to enable other citizens to 
 
 <h3>jQuery</h3>
 <p>dually licensed under the MIT and GPL licenses</p>
-<p>Copyright (c) 2009 John Resig</p>
+<p>Copyright &copy; 2009 John Resig</p>
 <a href="http://docs.jquery.com/License">http://docs.jquery.com/License</a>
 
 <h3>EGeoXML and EPolygon</h3>
 <p>licenced under a <a href="http://creativecommons.org/licenses/by/2.0/uk/">Creative Commons Licence</a></p>
-
-<h1>Images</h1>
-<p>All images are Copyright (C) 2011 by Luke Closs and Kevin Jones</p>
 [% END %]
