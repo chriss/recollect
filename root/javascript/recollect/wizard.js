@@ -100,15 +100,7 @@ Recollect.Wizard .prototype = {
                         // Hide the suggestions
                         $('#wizard .status').html('');
 
-                        var request = {
-                            address: $node.val(),
-                            bounds: self.bounds()
-                        };
-                        var geocoder = new google.maps.Geocoder();
-                        geocoder.geocode(request, function(results, status) {
-                            if (status != google.maps.GeocoderStatus.OK) {
-                                return;
-                            }
+                        self.geocode($node.val(), function(results) {
                             $node.autocomplete({
                                 select: function(evt, ui) {
                                     $('#wizard form').submit();
@@ -126,47 +118,14 @@ Recollect.Wizard .prototype = {
                 });
 
                 $('#wizard form').submit(function(){
-                    // Hide the autocomplete
-                    $('#wizard .address').autocomplete('close');
-
-                    var request = {
-                        address: $('#wizard .address').val(),
-                        bounds: self.bounds()
-                    };
-
-                    var geocoder = new google.maps.Geocoder();
-                    geocoder.geocode(request, function(results, status) {
-                        if (results.length == 1) {
-                            var loc = results[0].geometry.location;
-                            var locality = self.addressComponent(
-                                'locality', results[0]
-                            );
-                            self.showZoneAt(locality, loc.lat(), loc.lng());
-                        }
-                        else if (results.length == 0) {
-                            $('#wizard .status').html(
-                                Jemplate.process('error', {
-                                    msg: "Found 0 Results"
-                                })
-                            );
-                        }
-                        else {
-                            $('#wizard .status').html(
-                                Jemplate.process('addresses', {
-                                    results: results
-                                })
-                            );
-                            $('#wizard .status a').click(function() {
-                                var lat = $(this).attr('lat');
-                                var lng = $(this).attr('lng');
-                                var locality = $(this).attr('locality');
-                                $('#wizard .status').fadeOut(function() {
-                                    self.showZoneAt(locality, lat, lng);
-                                });
-                                return false;
-                            });
-                        }
-                    });
+                    try {
+                        // Hide the autocomplete
+                        $(this).find('.address').blur().focus();
+                        self.searchForZone($(this).find('.address').val());
+                    }
+                    catch(e) {
+                        setTimeout(function() { throw e }, 0);
+                    }
                     return false;
                 });
             });
@@ -323,6 +282,75 @@ Recollect.Wizard .prototype = {
                 email: 'Please enter a valid email'
             }
         }
+    },
+
+    /* This function keeps track of whether we are currently geocoding an
+     * address, and defers geocoding new addresses until the current geocoding
+     * is complete
+     */
+    geocode: function(address, callback, count) {
+        var self = this;
+
+        // Only re-try the current search 5 times
+        self._currentGeocode = address;
+        if (!count) count = 1;
+        if (count > 5) return;
+
+        var request = {
+            address: address,
+            bounds: self.bounds()
+        };
+
+        var geocoder = new google.maps.Geocoder();
+        geocoder.geocode(request, function(results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+                callback(results);
+            }
+            else { // retry
+                setTimeout(function() {
+                    if (self._currentGeocode == address) {
+                        self.geocode(address, callback, count + 1);
+                    }
+                }, 500);
+            }
+        });
+    },
+
+    searchForZone: function(address) {
+        var self = this;
+
+        self.geocode(address, function(results) {
+            if (results.length == 1) {
+                var loc = results[0].geometry.location;
+                var locality = self.addressComponent(
+                    'locality', results[0]
+                );
+                self.showZoneAt(locality, loc.lat(), loc.lng());
+            }
+            else if (results.length == 0) {
+                $('#wizard .status').html(
+                    Jemplate.process('error', {
+                        msg: "Found 0 Results"
+                    })
+                );
+            }
+            else {
+                $('#wizard .status').html(
+                    Jemplate.process('addresses', {
+                        results: results
+                    })
+                );
+                $('#wizard .status a').click(function() {
+                    var lat = $(this).attr('lat');
+                    var lng = $(this).attr('lng');
+                    var locality = $(this).attr('locality');
+                    $('#wizard .status').fadeOut(function() {
+                        self.showZoneAt(locality, lat, lng);
+                    });
+                    return false;
+                });
+            }
+        });
     },
 
     showZoneAt: function(locality, lat, lng) {
