@@ -25,14 +25,15 @@ sub run {
     my $path = $req->path;
     my %func_map = (
         GET => [
-            [ qr{^/$}           => \&ui_html ],
-            [ qr{^/m/?$}        => \&ui_html ],
-            [ qr{^/(.+)\.html$} => \&ui_html ],
+            [ qr{^/$}           => \&ui_html ], # Landing page
+            [ qr{^/m/?$}        => \&ui_html ], # Mobile site
+            [ qr{^/(.+)\.html$} => \&ui_html ], # Rendered pages
+            [ qr{^/([\w-]+)$}   => \&ui_html ], # Same, but make the .html optional
+            # Delete subscription link confirmation page:
             [ qr{^/subscription/delete/([\w-]+)$} => \&delete_subscription_page ],
         ],
 
         POST => [
-            # Website Actions
             [ qr{^/action/tell-friends$} => \&tell_friends ],
         ],
     );
