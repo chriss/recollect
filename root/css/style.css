@@ -770,4 +770,25 @@ p.inshort {
     font-size: 200%;
 }
 
-div.densetext { width: 480px }
+div.densetext {
+    width: 600px;
+    font-size: 115%;
+}
+
+div.tellafriend {
+    width: 400px;
+    font-size: 150%;
+}
+
+div.tellafriend .section {
+    padding: 1em;
+}
+
+div.densetext p {
+    padding: 0.5em 1em;
+}
+
+p.rhetorical {
+    padding: 1em;
+    font-size: 150%;
+}
