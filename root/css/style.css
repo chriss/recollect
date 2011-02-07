@@ -91,15 +91,16 @@ html, body {
     overflow-x: hidden;
     overflow-y: hidden;
     width: 100%;
-
-    /* min-width */
-    min-width: 1161px;
-    width: expression(document.body.clientWidth < 1161 ? "1161px" : "100%");
 }
 
 body {
     font: 12px 'Lucida Grande', Arial, sans-serif;
     background: #000;
+}
+
+body, .wizardStep {
+    min-width: 1161px;
+    width: expression(document.body.clientWidth < 1161 ? "1161px" : "100%"); /* IE */
 }
 
 #background {
