@@ -22,6 +22,8 @@ RECOLLECT_FILES=\
 	 $(JS_DIR)/libs/jquery-maskedinput-1.2.2.min.js \
 	 $(JS_DIR)/libs/jquery.validate.js \
 	 $(JS_DIR)/libs/geoxml3.js \
+	 $(JS_DIR)/libs/jquery.cookie.js \
+	 $(JS_DIR)/libs/google.polygon.js \
 	 $(JS_DIR)/recollect/wizard.js \
 	 $(JEMPLATE) \
 

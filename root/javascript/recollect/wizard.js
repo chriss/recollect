@@ -291,10 +291,10 @@ Recollect.Wizard .prototype = {
     geocode: function(address, callback, count) {
         var self = this;
 
-        // Only re-try the current search 5 times
+        // Only re-try the current search 10 times
         self._currentGeocode = address;
         if (!count) count = 1;
-        if (count > 5) return;
+        if (count > 10) return;
 
         var request = {
             address: address,
@@ -353,8 +353,24 @@ Recollect.Wizard .prototype = {
         });
     },
 
+    storeLocation: function(lat, lng) {
+        $.cookie('LatLng', [lat,lng].join(','), { expires: 365 });
+    },
+
+    getLocation: function() {
+        var coord_string = $.cookie('LatLng');
+        if (!coord_string) return;
+
+        coord_array = coord_string.split(',');
+        return new google.maps.LatLng(coord_array[0], coord_array[1]);
+    },
+
     showZoneAt: function(locality, lat, lng) {
         var self = this;
+
+        // Store user's lat, lng
+        self.storeLocation(lat, lng);
+
         var zone = [ lat, lng ].join(',');
         $.ajax({
             url: '/api/areas/' + locality + '/zones/' + zone + '.json',
@@ -512,6 +528,8 @@ Recollect.Wizard .prototype = {
     },
 
     showMap: function(zone) {
+        var self = this;
+
         var node = $('#wizard .map').get(0);
         var map = new google.maps.Map(node, {
             zoom: 13,
@@ -539,13 +557,19 @@ Recollect.Wizard .prototype = {
 
                         map.setZoom(12);
                         map.setCenter(polygon.bounds.getCenter());
+                        
+                        // Add a new Marker
+                        var position = polygon.bounds.getCenter();
+                        var stored = self.getLocation();
+                        if (stored && polygonContains(polygon, stored)) {
+                            position = stored;
+                        }
 
-                        // Add the new Marker
                         pmark.marker = new google.maps.Marker({
                             map: map,
                             draggable: false,
                             animation: google.maps.Animation.DROP,
-                            position: polygon.bounds.getCenter()
+                            position: position
                         });
                     });
 
