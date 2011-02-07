@@ -1,7 +1,0 @@
-<div class="balloon">
-    <div class="zoneName">[% description %]</div>
-    <div class="next">Next pickup: [% next %]</div>
-    <div class="yard">[% yard %]</div>
-    <div class="calendar"></div>
-    <div><input class="remind_me" type="button" value="Remind me"/></div>
-</div>
