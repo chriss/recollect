@@ -86,7 +86,7 @@
         [% INCLUDE logo %]
     </div>
     <div class="right middle paymentType">
-        <div class="zoneName">[% title %]</div>
+        <div class="smallZoneName">[% title %]</div>
         <div class="title">Schedule a weekly reminder:</div>
         <form>
             <div class="premium payclass">
@@ -145,6 +145,7 @@
     </div>
     <div class="right middle subscription">
     <form>
+        <div class="smallZoneName">[% title %]</div>
         [% IF type == 'phone' %]
             <div class="title">Schedule a Telephone Call Reminder:</div>
             <div class="help">

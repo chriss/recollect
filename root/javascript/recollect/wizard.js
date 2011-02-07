@@ -198,7 +198,7 @@ Recollect.Wizard .prototype = {
             var self = this;
 
             var opts = {
-                height: 300,
+                height: 350,
                 opacity: 1,
                 page: 'wizardSubscribe'
             };
@@ -220,26 +220,29 @@ Recollect.Wizard .prototype = {
             var self = this;
 
             var opts = {
-                height: 400,
+                height: 350,
                 opacity: 1,
                 page: 'wizardForm'
             };
             $.extend(opts, args);
-            self.show(opts, function() {
-                $('#wizard form').validate(self.validate[args.type])
-                $('#wizard input[name=phone]').mask('999-999-9999');
-                $('#wizard .next').click(function() {
-                    var reminder = {
-                        area: args.area,
-                        zone: args.zone,
-                        type: args.type
-                    };
-                    var form = $('#wizard form').serializeArray();
-                    $.each(form, function(i,field) {
-                        reminder[field.name] = field.value;
+            self.getZone(args.area, args.zone, function(zone) {
+                $.extend(opts, zone);
+                self.show(opts, function() {
+                    $('#wizard form').validate(self.validate[args.type])
+                    $('#wizard input[name=phone]').mask('999-999-9999');
+                    $('#wizard .next').click(function() {
+                        var reminder = {
+                            area: args.area,
+                            zone: args.zone,
+                            type: args.type
+                        };
+                        var form = $('#wizard form').serializeArray();
+                        $.each(form, function(i,field) {
+                            reminder[field.name] = field.value;
+                        });
+                        self.addReminder(reminder);
+                        return false;
                     });
-                    self.addReminder(reminder);
-                    return false;
                 });
             });
         },

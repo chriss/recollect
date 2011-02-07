@@ -245,7 +245,6 @@ input.hiddenButton {
 }
 
 .wizardStep .title {
-    font-weight: bold;
     font-size: 15pt;
     padding: 5px 0;
 }
@@ -297,6 +296,10 @@ input.initial {
 
 .wizardStep .zoneName {
     font-size: 27pt;
+}
+.wizardStep .smallZoneName {
+    font-size: 20pt;
+    padding: 10px 0;
 }
 .wizardStep .nextPickup {
     font-size: 15pt;
