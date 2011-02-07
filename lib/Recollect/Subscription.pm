@@ -169,6 +169,13 @@ sub _build_created_date {
     return DateTime::Format::Pg->parse_datetime( $self->created_at );
 }
 
+around 'delete' => sub {
+    my $orig = shift;
+    my $self = shift;
+
+    $self->recurly->delete_account($self->id);
+    $orig->($self, @_);
+};
 
 __PACKAGE__->meta->make_immutable;
 1;
