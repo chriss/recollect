@@ -525,6 +525,10 @@ Recollect.Wizard .prototype = {
                 return [ false, className ];
             }
         });
+
+        $('#wizard .calendar .ui-datepicker-inline').append(
+            Jemplate.process('legend')
+        );
     },
 
     showMap: function(zone) {

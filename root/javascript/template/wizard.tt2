@@ -80,6 +80,26 @@
 </div>
 [% END %]
 
+[% BLOCK legend %]
+    <div class="legend">
+        <div class="dot">&middot;</div>
+        <table>
+            <tr>
+                <td class="example ui-datepicker-today"></td>
+                <td class="definition">Today</td>
+            </tr>
+            <tr>
+                <td class="example marked"></td>
+                <td class="definition">Garbage and Recycling</td>
+            </tr>
+            <tr>
+                <td class="example marked yard"></td>
+                <td class="definition">Yard trimmings</td>
+            </tr>
+        </table>
+    </legend>
+[% END %]
+
 [% BLOCK wizardSubscribe %]
 <div class="wizardStep">
     <div class="left middle" style="height:100px">

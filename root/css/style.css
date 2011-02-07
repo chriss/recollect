@@ -328,7 +328,7 @@ input.initial {
 }
 
 .zonePage .calendarSection {
-    margin-top: 70px;
+    margin-top: 28px;
     position: relative;
 }
 
@@ -599,13 +599,35 @@ a#fdbk_tab {
     margin-top: -8px;
 }
 
-.calendar .marked {
+.ui-datepicker .marked {
     text-align: center;
-    background: #f6f9e8;
+    background-color: #f6f9e8;
     color: #5e9f42;
 }
 
+.ui-datepicker .yard {
+    background: #f6f9e8 url(/images/yard.png) repeat;
+}
+
 .ui-helper-hidden-accessible { position: absolute !important; clip: rect(1px 1px 1px 1px); clip: rect(1px,1px,1px,1px); }
+
+/* legend */
+.legend .dot {
+    text-align: center;
+    font-weight: bold;
+}
+
+.legend .example {
+    width: 26px;
+    height: 18px;
+    margin: 4px;
+}
+
+.legend .definition {
+    font-size: 8pt;
+    padding-left: 5px;
+}
+/* end legend */
 
 /* done Calendar Styles */
 
