@@ -62,6 +62,25 @@ Recollect.Wizard .prototype = {
         });
     },
 
+    bounds: function() {
+        var bounds = new google.maps.LatLngBounds();
+        bounds.extend(new google.maps.LatLng(49.198177,-123.22474));
+        bounds.extend(new google.maps.LatLng(49.317294,-123.023068));
+        return bounds;
+    },
+
+    // Build a hash of component types to their short name, like 
+    //  {locality: 'Vancouver', country: 'CA', ...}
+    addressComponent: function(component_type, result) {
+        var value;
+        $.each(result.address_components, function(i, component) {
+            $.each(component.types, function(i, type) {
+                if (type == component_type) value = component.short_name;
+            });
+        });
+        return value;
+    },
+
     pages: {
         '!/': function() {
             var self = this;
@@ -77,13 +96,23 @@ Recollect.Wizard .prototype = {
                     })
                     .keyup(function() {
                         var $node = $(this);
-                        var request = { address: $node.val(), region: 'ca' };
+
+                        // Hide the suggestions
+                        $('#wizard .status').html('');
+
+                        var request = {
+                            address: $node.val(),
+                            bounds: self.bounds()
+                        };
                         var geocoder = new google.maps.Geocoder();
                         geocoder.geocode(request, function(results, status) {
                             if (status != google.maps.GeocoderStatus.OK) {
                                 return;
                             }
                             $node.autocomplete({
+                                select: function(evt, ui) {
+                                    $('#wizard form').submit();
+                                },
                                 source: $.map(results, function(r) {
                                     return r.formatted_address;
                                 })
@@ -97,17 +126,16 @@ Recollect.Wizard .prototype = {
                 });
 
                 $('#wizard form').submit(function(){
+                    // Hide the autocomplete
+                    $('#wizard .address').autocomplete('close');
+
                     var request = {
                         address: $('#wizard .address').val(),
-                        region: 'ca'
+                        bounds: self.bounds()
                     };
 
                     var geocoder = new google.maps.Geocoder();
                     geocoder.geocode(request, function(results, status) {
-                        if (status == google.maps.GeocoderStatus.OK) {
-                            results = self.restrictLocalities(results);
-                        }
-
                         if (results.length == 1) {
                             var loc = results[0].geometry.location;
                             var locality = self.addressComponent(
@@ -364,38 +392,6 @@ Recollect.Wizard .prototype = {
         }
     },
 
-    // Build a hash of component types to their short name, like 
-    //  {locality: 'Vancouver', country: 'CA', ...}
-    addressComponent: function(component_type, result) {
-        var value;
-        $.each(result.address_components, function(i, component) {
-            $.each(component.types, function(i, type) {
-                if (type == component_type) value = component.short_name;
-            });
-        });
-        return value;
-    },
-
-    restrictLocalities: function(results) {
-        var self = this;
-
-        var validCities = [
-            {locality: 'Vancouver', country: 'CA'}
-        ];
-
-        return $.grep(results, function(res) {
-            return $.grep(validCities, function(city) {
-                var valid = true;
-
-                $.each(city, function(key, val) {
-                    if (self.addressComponent(key, res) != val) valid = false;
-                });
-
-                return valid;
-            }).length;
-        });
-    },
-
     adjustHeight: function() {
         var self = this;
 
@@ -579,7 +575,6 @@ Recollect.Wizard .prototype = {
                 );
             },
             success: function(data) {
-                console.log(data);
                 if (data.payment_url) {
                     location = data.payment_url;
                 }
