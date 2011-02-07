@@ -59,6 +59,8 @@ EOT
 }
 
 sub start { 
+    my $self = shift;
+    $self->log("New inbound call");
     return <<EOT;
         <Say voice="woman">
             Hello, you have reached the recollect dot net phone service.  
@@ -141,6 +143,8 @@ sub process_region {
 
 sub voice_notify {
     my ($self, $req, $zone_name) = @_;
+    $self->log("Voice call for zone $zone_name");
+
     my $zone = Recollect::Zone->By_name($zone_name) or return;
     my $pickup = $zone->next_pickup->[0];
 
@@ -216,6 +220,7 @@ sub receive_voicemail {
     my ($self, $req, @args) = @_;
     my $params = $req->parameters;
 
+    $self->log("Received voicemail");
     my $body = "A new voicemail is available at: $params->{RecordingUrl}\n\n";
     if ($params->{TranscriptionStatus} eq 'completed') {
         $body .= "Transcription: $params->{TranscriptionText}\n";
@@ -242,6 +247,7 @@ sub receive_sms {
     my ($self, $req, @args) = @_;
     my $params = $req->parameters;
 
+    $self->log("Received SMS from ($params->{From}): $params->{Body}");
     my $body = "A sms message was received: '$params->{Body}' from "
              . "$params->{From}.";
     my %headers = (
