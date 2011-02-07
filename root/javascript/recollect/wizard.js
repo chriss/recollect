@@ -201,7 +201,7 @@ Recollect.Wizard .prototype = {
                             $('#wizard .customOffset').val($(this).val());
                         }
                     });
-                    $('#wizard .next').click(function() {
+                    $('#wizard form').submit(function() {
                         var reminder = {
                             area: args.area,
                             zone: args.zone,
@@ -212,6 +212,10 @@ Recollect.Wizard .prototype = {
                             reminder[field.name] = field.value;
                         });
                         self.addReminder(reminder);
+                        return false;
+                    });
+                    $('#wizard .next').click(function() {
+                        $('#wizard form').submit();
                         return false;
                     });
                 });
