@@ -86,8 +86,8 @@
         [% INCLUDE logo %]
     </div>
     <div class="right middle paymentType">
+        <div class="zoneName">[% title %]</div>
         <div class="title">Schedule a weekly reminder:</div>
-
         <form>
             <div class="premium payclass">
                 <div class="option">

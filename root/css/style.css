@@ -247,7 +247,7 @@ input.hiddenButton {
 .wizardStep .title {
     font-weight: bold;
     font-size: 15pt;
-    padding 5px 0;
+    padding: 5px 0;
 }
 
 .wizardStep .middle {

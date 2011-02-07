@@ -202,14 +202,16 @@ Recollect.Wizard .prototype = {
                 opacity: 1,
                 page: 'wizardSubscribe'
             };
-            $.extend(opts, args.zone);
-            self.show(opts, function() {
-                $('#wizard .next').click(function(){
-                    self.setHash(
-                        args.area, args.zone, 'subscribe',
-                        $('input[name=reminder-radio]:checked').val()
-                    );
-                    return false;
+            self.getZone(args.area, args.zone, function(zone) {
+                $.extend(opts, zone);
+                self.show(opts, function() {
+                    $('#wizard .next').click(function(){
+                        self.setHash(
+                            args.area, args.zone, 'subscribe',
+                            $('input[name=reminder-radio]:checked').val()
+                        );
+                        return false;
+                    });
                 });
             });
         },
@@ -220,10 +222,9 @@ Recollect.Wizard .prototype = {
             var opts = {
                 height: 400,
                 opacity: 1,
-                page: 'wizardForm',
-                type: args.type
+                page: 'wizardForm'
             };
-            $.extend(opts, args.zone);
+            $.extend(opts, args);
             self.show(opts, function() {
                 $('#wizard form').validate(self.validate[args.type])
                 $('#wizard input[name=phone]').mask('999-999-9999');
@@ -403,6 +404,15 @@ Recollect.Wizard .prototype = {
 
     getZone: function(area, name, callback) {
         var self = this;
+
+        // Cache zone info
+        if (typeof(self._zoneCache) == 'undefined') self._zoneCache = {};
+        if (typeof(self._zoneCache[area]) == 'undefined') self._zoneCache[area] = {};
+        if (self._zoneCache[area][name]) {
+            callback(self._zoneCache[area][name]);
+            return;
+        }
+
         var url = '/api/areas/' + area + '/zones/' + name + '.json?verbose=1';
         $.getJSON(url, function (zone) {
             var yard = '';
@@ -421,6 +431,7 @@ Recollect.Wizard .prototype = {
             zone.yard_msg = zone.nextpickup.flags.match(/Y/)
                 ? ' (Yard trimmings will be picked up)'
                 : ' (Yard trimmings will NOT be picked up)'
+            self._zoneCache[area][name] = zone; // store cached value
             callback(zone);
         });
     },
