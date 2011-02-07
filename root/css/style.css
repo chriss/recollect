@@ -762,3 +762,12 @@ a#fdbk_tab {
   h2, h3{ page-break-after: avoid; }
 }
 
+
+/* Recollect stuff added by luke */
+p.inshort {
+    padding:3em 3em; 
+    line-height: 1.5;
+    font-size: 200%;
+}
+
+div.densetext { width: 480px }
