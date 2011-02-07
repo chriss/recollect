@@ -266,11 +266,12 @@ input.hiddenButton {
     float: left;    
     margin: 3px;
     border: 1px solid #666;
+    width: 300px;
 }
 
 input.initial {
     font-style: italic;
-    color: #000;
+    color: #555;
 }
 
 #wizard .addresses {
