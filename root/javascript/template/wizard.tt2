@@ -82,7 +82,6 @@
 
 [% BLOCK legend %]
     <div class="legend">
-        <div class="dot">&middot;</div>
         <table>
             <tr>
                 <td class="example ui-datepicker-today"></td>

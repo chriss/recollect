@@ -612,11 +612,9 @@ a#fdbk_tab {
 .ui-helper-hidden-accessible { position: absolute !important; clip: rect(1px 1px 1px 1px); clip: rect(1px,1px,1px,1px); }
 
 /* legend */
-.legend .dot {
-    text-align: center;
-    font-weight: bold;
+.legend {
+    padding-top: 10px;
 }
-
 .legend .example {
     width: 26px;
     height: 18px;
