@@ -1019,6 +1019,13 @@ ALTER TABLE ONLY subscriptions
 ALTER TABLE ONLY zones
     ADD CONSTRAINT zones_area_id_fkey FOREIGN KEY (area_id) REFERENCES areas(id);
 
+CREATE TABLE place_interest (
+    at    timestamptz NOT NULL,
+    place text NOT NULL
+);
+CREATE UNIQUE INDEX place_interest_time_idx  ON place_interest (at);
+CREATE UNIQUE INDEX place_interest_place_idx ON place_interest (place);
+
 
 --
 -- Name: public; Type: ACL; Schema: -; Owner: postgres
