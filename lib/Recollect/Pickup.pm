@@ -22,7 +22,9 @@ extends 'Recollect::Collection';
 with 'Recollect::Roles::HasZone';
 with 'Recollect::Roles::Cacheable';
 
-sub By_zone_id { Recollect::Roles::HasZone::By_zone_id(@_) }
+sub By_zone_id {
+    Recollect::Roles::HasZone::By_zone_id(@_, args => [ ['day ASC'] ]);
+}
 
 sub to_hash {
     my $self = shift;
