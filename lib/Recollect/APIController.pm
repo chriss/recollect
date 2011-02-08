@@ -221,7 +221,6 @@ sub delete_subscription {
     my $sub = Recollect::Subscription->By_id($sub_id);
     return $self->not_found unless $sub;
 
-    $self->recurly->delete_account($sub_id);
     $sub->delete;
     $self->log("Deleted subscription $sub_id");
     return $self->no_content;
