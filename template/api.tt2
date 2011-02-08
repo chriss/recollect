@@ -4,6 +4,9 @@
     This page defines the simple REST API that exposes collection times data.
 
       <div class="content">
+        <h2>API Version</h2>
+        <p>The API has a simple version number resource at <a href="/api/version">/api/version</a>.</p>
+
         <h2>List of Areas</h2>
         <p>
         Each city or district constitutes an Area in Recollect.  <br />
@@ -77,7 +80,12 @@
                 <a href="/api/areas/Vancouver/zones/vancouver-north-blue/nextdowchange.json"><code>application/json</code></a></li>
         </ul>
 
-        <p>Dates are expressed as <code>YYYY-MM-DD[ F]</code>.  The <code>F</code> is an optional flag (separated from the date with a single space).  The only supported flag currently is <code>Y</code> which means a 'Yard Trimmings Collection' also occurs on that day.</p>  Lack of a flag means it is a "regular" garbage pickup day.
+        <p>Dates are expressed as <code>YYYY-MM-DD[ F]</code>.  Each pickup has a set of flags associated with it.  The flags indicate what kind of pickup will happen.  The flags are represented as a string of characters, each character is one of the flags specified here:</p>
+        <ul>
+          <li><code>G</code> - Garbage will be picked up.
+          <li><code>R</code> - Recycling will be picked up.
+          <li><code>Y</code> - Yard compost will be picked up.
+        </ul>
         <p>
         The <code>nextpickup</code> request accepts a <code>limit</code> GET parameter to show the next several pickups.<br />
         (eg: <code>/api/areas/Vancouver/zones/vancouver-north-blue/nextpickup.txt?limit=5</code>).
