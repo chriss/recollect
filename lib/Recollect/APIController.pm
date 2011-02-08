@@ -514,9 +514,13 @@ sub zone_at_latlng {
     my $lng  = shift;
     my $rest = shift || "";
 
-    my $kml = Recollect::KML->new(area => $area);
-    my $zone = $kml->find_zone_for_latlng($lat,$lng);
+    my $zone;
     my $resp = Plack::Response->new;
+    if ($area) {
+        my $kml = Recollect::KML->new(area => $area);
+        $zone = $kml->find_zone_for_latlng($lat,$lng);
+    }
+
     if ($zone) {
         my $area_name = $area->name;
         $resp->redirect("/api/areas/$area_name/zones/$zone$rest", 302);
