@@ -86,7 +86,6 @@ Recollect.Wizard .prototype = {
                     .keyup(function(e) {
                         // Hide the suggestions
                         $('#wizard .status').html('');
-
                         self.autocomplete($(this));
                     });
 
@@ -284,6 +283,8 @@ Recollect.Wizard .prototype = {
             address: $node.val(),
             biasViewport: true,
             callback: function(results) {
+                results = self.filterLocalities(results);
+                if (!results.length) return;
                 $node.autocomplete({
                     'source': $.map(results, function(r) {
                         return r.formatted_address;
