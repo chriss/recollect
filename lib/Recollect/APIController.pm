@@ -5,6 +5,7 @@ use Moose;
 use Recollect::CallController;
 use Recollect::Subscription;
 use Recollect::Area;
+use Recollect::PlaceInterest;
 use Plack::Request;
 use Plack::Response;
 use Data::ICal::Entry::Event;
@@ -115,6 +116,11 @@ sub run {
                 # Zone lookup by lat,lng
                 when (m{^/areas/$area_rx/zones/($coord_rx),($coord_rx)(.*)$}) {
                     return $area_wrapper->($1, undef, 'zone_at_latlng', $2, $3, $4);
+                }
+
+                # Register interest in an area
+                when (m{^/interest/([^\/]+)$}) {
+                    return $wrapper->('register_interest', undef, $1);
                 }
             }
         }
@@ -529,6 +535,19 @@ sub zone_at_latlng {
         $resp->body("Sorry, no zone exists at $lat,$lng!");
     }
     return $resp->finalize;
+}
+
+sub register_interest {
+    my $self = shift;
+    my $req  = $self->request;
+    my $place = shift;
+
+    # 80 characters is an arbitrary limit, fyi
+    if (defined $place and length $place and length $place < 80) {
+        Recollect::PlaceInterest->Increment($place);
+    }
+
+    return $self->ok;
 }
 
 __PACKAGE__->meta->make_immutable;

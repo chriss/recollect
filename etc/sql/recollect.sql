@@ -76,4 +76,11 @@ CREATE VIEW next_pickup AS
      GROUP BY zone_id;
 
 
+CREATE TABLE place_interest (
+    at    timestamptz NOT NULL,
+    place text NOT NULL
+);
+CREATE UNIQUE INDEX place_interest_time_idx  ON place_interest (at);
+CREATE UNIQUE INDEX place_interest_place_idx ON place_interest (place);
+
 COMMIT;
