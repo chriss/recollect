@@ -71,9 +71,21 @@ sub _gather_stats {
         table_size => {
             map { $_ => $self->sql_singlevalue("SELECT COUNT(*) FROM $_") }
                 qw/users areas zones pickups subscriptions reminders
-                   place_interest/
-        }
+                   place_interest place_notify/
+        },
+        top_places => $self->_top_10_requested_places,
     };
+}
+
+sub _top_10_requested_places {
+    my $self = shift;
+    my $sth = $self->run_sql(
+        'SELECT place, COUNT(place) as count FROM place_interest
+            GROUP BY place
+            ORDER BY count DESC
+            LIMIT 10'
+    );
+    return $sth->fetchall_arrayref({});
 }
 
 __PACKAGE__->meta->make_immutable;

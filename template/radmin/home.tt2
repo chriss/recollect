@@ -4,10 +4,18 @@
     The only thing you can do so far in /radmin is to: <a href="[% doorman.sign_out_path %]">sign out</a>.
 
     <h2>Stats</h2>
+    <h3>Database table sizes</h3>
     <ul>
       [% FOR table IN stats.table_size.keys.sort %]
       <li><strong>Number of unique [% table %]:</strong> [% stats.table_size.$table %]</li>
       [% END %]
+    </ul>
+
+    <h3>Top 10 most requested places<h3>
+    <ul>
+    [% FOR p IN stats.top_places %]
+      <li><strong>[% p.place %]</strong>: [% p.count %]</li>
+    [% END %]
     </ul>
   </div>
 [% END %]
