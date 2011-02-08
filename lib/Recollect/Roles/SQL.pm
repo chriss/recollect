@@ -28,7 +28,8 @@ sub execute {
 
 sub run_sql {
     my $self = shift;
-    my ($stmt, $bind) = @_;
+    my $stmt = shift;
+    my $bind = shift || [];
 
     if ($DEBUG) {
         warn "About to execute:\n" . $stmt . "\nWith (@$bind)\n";
