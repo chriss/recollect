@@ -38,9 +38,6 @@
         <header>
         </header>
 
-        [% IF message %]
-            <div id="message"><strong>[% message %]</strong></div>
-        [% END %]
         [% content %]
 
         <footer>

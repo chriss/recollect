@@ -48,6 +48,17 @@ sub insert {
     $sth->execute(@bind)           or croak "SQL error ($stmt): ".$DBH->errstr;
 }
 
+sub sql_singlevalue {
+    my $self = shift;
+    my $sth = $self->run_sql(@_);
+    my $value;
+    $sth->bind_columns(undef, \$value);
+    $sth->fetch;
+    $sth->finish;
+    $value =~ s/\s+$// if defined $value;
+    return $value;
+}
+
 sub nextval {
     my $self = shift;
     my $table = shift;

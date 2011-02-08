@@ -1,4 +1,13 @@
 [% WRAPPER elements/wrapper.tt2 %]
-    Welcome, [% doorman.twitter_screen_name %].
-    <a href="[% doorman.sign_out_path %]">Sign out</a>
+  <div class="densetext">
+    <h1>Welcome, [% doorman.twitter_screen_name %].</h1>
+    The only thing you can do so far in /radmin is to: <a href="[% doorman.sign_out_path %]">sign out</a>.
+
+    <h2>Stats</h2>
+    <ul>
+      [% FOR table IN stats.table_size.keys.sort %]
+      <li><strong>Number of unique [% table %]:</strong> [% stats.table_size.$table %]</li>
+      [% END %]
+    </ul>
+  </div>
 [% END %]

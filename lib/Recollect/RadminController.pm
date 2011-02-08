@@ -6,6 +6,7 @@ use Recollect::User;
 use namespace::clean -except => 'meta';
 
 with 'Recollect::ControllerBase';
+with 'Recollect::Roles::SQL';
 
 has 'doorman' => (is => 'rw', isa => 'Object', lazy_build => 1);
 
@@ -55,12 +56,25 @@ sub home_screen {
     my $self = shift;
     my $params = {
         doorman => $self->doorman,
+        stats => $self->_gather_stats,
     };
     return $self->process_template("radmin/home.tt2", $params)->finalize;
 }
 
 sub twitter_verified { shift->redirect("/radmin") }
 sub _build_doorman   { shift->env->{'doorman.radmin.twitter'} }
+
+sub _gather_stats {
+    my $self = shift;
+
+    return {
+        table_size => {
+            map { $_ => $self->sql_singlevalue("SELECT COUNT(*) FROM $_") }
+                qw/users areas zones pickups subscriptions reminders
+                   place_interest/
+        }
+    };
+}
 
 __PACKAGE__->meta->make_immutable;
 1;
