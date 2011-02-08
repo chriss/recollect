@@ -126,8 +126,7 @@ Recollect.Wizard .prototype = {
                 var opts = {
                     height: 500,
                     opacity: 1,
-                    page: 'wizardZone',
-                    feeds: self.feeds(zone)
+                    page: 'wizardZone'
                 };
                 $.extend(opts, zone);
                 self.show(opts, function() {
@@ -145,7 +144,7 @@ Recollect.Wizard .prototype = {
             var self = this;
 
             var opts = {
-                height: 350,
+                height: 500,
                 opacity: 1,
                 page: 'wizardSubscribe'
             };
@@ -163,11 +162,31 @@ Recollect.Wizard .prototype = {
             });
         },
 
+        '!/:area/:zone/subscribe/feed': function(args) {
+            var self = this;
+
+            self.getZone(args.area, args.zone, function(zone) {
+                var opts = {
+                    height: 500,
+                    opacity: 1,
+                    feeds: self.feeds(zone),
+                    page: 'wizardFeeds'
+                };
+                $.extend(opts, zone);
+                self.show(opts, function() {
+                    $('#wizard .next').click(function(){
+                        self.setHash(args.area, args.zone, 'subscribe'); //BACK
+                        return false;
+                    });
+                });
+            });
+        },
+
         '!/:area/:zone/subscribe/:type': function(args) {
             var self = this;
 
             var opts = {
-                height: 350,
+                height: 500,
                 opacity: 1,
                 page: 'wizardForm'
             };
@@ -666,7 +685,10 @@ Recollect.Wizard .prototype = {
     },
 
     feeds: function(zone) {
-        var url = location.href + 'zones/' + zone.name + '/pickupdays.ics';
+        var url = location.href.replace(/#.*$/,'')
+            + 'api/areas/' + zone.area.name + '/zones/'
+            + zone.name + '/pickupdays.ics';
+
         return [
             {
                 name: 'Google Calendar',

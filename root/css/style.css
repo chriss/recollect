@@ -250,7 +250,8 @@ input.hiddenButton {
 
 /* Two panel steps */
 .wizardStep .left { right: 50%; margin-right: 50px }
-.wizardStep .right { left: 50%; width: 40%; }
+.wizardStep .right { left: 50%; width: 40% }
+.wizardStep .center { left: 33%; width: 33% }
 
 /**
  * Wizard Step: Address search
@@ -328,21 +329,16 @@ input.initial {
     position: relative;
 }
 
-.zonePage .feeds {
-    position: absolute;
-    left: 250px;
-    top: 60px;
-}
-
-.zonePage .feeds .title {
-    margin: 10px 0 4px 0;
-    font-size: 100%;
-}
-
 .zonePage .signup {
+    padding-top: 40px;
     position: absolute;
     left: 250px;
     height: 43px;
+    color: #d63715;
+}
+
+.zonePage .signup .bigButtonOrange{
+    margin-top: 30px;
 }
 
 .zonePage .cityImageSection {
@@ -366,8 +362,8 @@ input.initial {
     width: 100px;
     font-size: 90%;
 }
-#wizard .premium div.price { top: 12px }
-#wizard .basic div.price { top: 30px }
+#wizard .premium div.price { top: 20px }
+#wizard .basic div.price { top: 55px }
 
 #wizard .premium {
     border: 1px solid #D3D3D3;
@@ -377,12 +373,28 @@ input.initial {
     border-radius: 4px;
 }
 
+.wizardStep .feeds .feed {
+    padding: 5px
+}
+
+.wizardStep .feeds .feed img {
+    vertical-align: middle;
+}
+
 .wizardStep select {
     /* rounded corners */
     -webkit-border-radius: 15px;
     -moz-border-radius: 15px;
     border-radius: 15px;
 
+}
+
+.wizardStep .nextMessage {
+    float: left;
+    position: absolute;
+    right: 100px;
+    width: 300px;
+    margin: 10px 0;
 }
 
 .wizardStep .next {
@@ -462,8 +474,7 @@ a#fdbk_tab {
 }
 
 #wizard .help {
-    font-size: 90%;
-    color: #777;
+    color: #333;
     font-style: italic;
     margin: 10px 0;
 }

@@ -71,18 +71,11 @@
 
             <div class="calendarSection">
                 <div class="signup">
+                    <div>
+                        Never forget your garbage day again!
+                        Set up a garbage day reminder. 
+                    </div>
                     <a id="subscribe" class="bigButtonOrange" href="#">Sign Up Now!</a>
-                </div>
-                <div class="feeds">
-                    <div class="title">Subscribe:</div>
-                    [% FOR feed = feeds %]
-                        <div>
-                            <a id="[% feed.id %]" href="[% feed.url %]" target="_blank">
-                                <img src="/images/feeds/[% feed.icon %]">
-                                <span>[% feed.name %]</span>
-                            </a>
-                        </div>
-                    [% END %]
                 </div>
                 <div class="calendar"></div>
             </div>
@@ -119,10 +112,7 @@
 
 [% BLOCK wizardSubscribe %]
 <div class="wizardStep">
-    <div class="left middle" style="height:100px">
-        [% INCLUDE logo %]
-    </div>
-    <div class="right middle paymentType">
+    <div class="center middle paymentType">
         <div class="smallZoneName">[% title %]</div>
         <div class="title">Schedule a weekly reminder:</div>
         <form>
@@ -164,6 +154,14 @@
                         <label for="twitter-reminder">Twitter Direct Message</label>
                     </div>
                 </div>
+                <div class="option">
+                    <div class="radio">
+                        <input id="feed-reminder" name="reminder-radio" type="radio" value="feed"/>
+                    </div>
+                    <div class="label">
+                        <label for="feed-reminder">Add to Calendar</label>
+                    </div>
+                </div>
                 <div class="price">
                     Free
                 </div>
@@ -175,12 +173,35 @@
 </div>
 [% END %]
 
+[% BLOCK wizardFeeds %]
+<div class="wizardStep">
+    <div class="center middle subscription">
+        <div class="feeds">
+            <div class="smallZoneName">[% title %]</div>
+            <div class="title">Add to Calendar:</div>
+            <div class="help">
+                Please click one of the following links to add your zone's schedule to Google Calendar, iCal, Microsoft Outlook or another calendar application.
+            </div>
+            [% FOR feed = feeds %]
+                <div class="feed">
+                    <img src="/images/feeds/[% feed.icon %]">
+                    <a id="[% feed.id %]" href="[% feed.url %]" target="_blank">
+                        [% feed.name %]
+                    </a>
+                </div>
+            [% END %]
+        </div>
+        <div class="nextMessage">
+            Click next to sign up for a pickup reminder!
+        </div>
+        <a class="bigButtonGreen next" href="#">next</a>
+    </div>
+</div>
+[% END %]
+
 [% BLOCK wizardForm %]
 <div class="wizardStep">
-    <div class="left middle" style="height:100px">
-        [% INCLUDE logo %]
-    </div>
-    <div class="right middle subscription">
+    <div class="center middle subscription">
     <form>
         <div class="smallZoneName">[% title %]</div>
         [% IF type == 'phone' %]
