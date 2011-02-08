@@ -173,7 +173,8 @@ around 'delete' => sub {
     my $orig = shift;
     my $self = shift;
 
-    $self->recurly->delete_account($self->id);
+    eval { $self->recurly->delete_account($self->id) };
+    warn "Error when deleting account " . $self->id . ": $@\n";
     $orig->($self, @_);
 };
 
