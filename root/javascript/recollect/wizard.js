@@ -69,18 +69,6 @@ Recollect.Wizard .prototype = {
         return bounds;
     },
 
-    // Build a hash of component types to their short name, like 
-    //  {locality: 'Vancouver', country: 'CA', ...}
-    addressComponent: function(component_type, result) {
-        var value;
-        $.each(result.address_components, function(i, component) {
-            $.each(component.types, function(i, type) {
-                if (type == component_type) value = component.short_name;
-            });
-        });
-        return value;
-    },
-
     pages: {
         '!/': function() {
             var self = this;
@@ -308,7 +296,8 @@ Recollect.Wizard .prototype = {
         var geocoder = new google.maps.Geocoder();
         geocoder.geocode(request, function(results, status) {
             if (status == google.maps.GeocoderStatus.OK) {
-                callback(results);
+                results = self.restrictLocalities(results);
+                if (results.length) callback(results);
             }
             else { // retry
                 setTimeout(function() {
@@ -317,6 +306,38 @@ Recollect.Wizard .prototype = {
                     }
                 }, 500);
             }
+        });
+    },
+
+    // Build a hash of component types to their short name, like 
+    //  {locality: 'Vancouver', country: 'CA', ...}
+    addressComponent: function(component_type, result) {
+        var value;
+        $.each(result.address_components, function(i, component) {
+            $.each(component.types, function(i, type) {
+                if (type == component_type) value = component.short_name;
+            });
+        });
+        return value;
+    },
+
+    restrictLocalities: function(results) {
+        var self = this;
+
+        var validCities = [
+            {locality: 'Vancouver', country: 'CA'}
+        ];
+
+        return $.grep(results, function(res) {
+            return $.grep(validCities, function(city) {
+                var valid = true;
+
+                $.each(city, function(key, val) {
+                    if (self.addressComponent(key, res) != val) valid = false;
+                });
+
+                return valid;
+            }).length;
         });
     },
 
