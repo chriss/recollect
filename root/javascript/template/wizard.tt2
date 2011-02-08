@@ -16,7 +16,11 @@
     </div>
     <div class="right middle">
         <form>
-            <input class="huge initial address" value="Enter Your Home Address" type="text"/>
+            <div class="message">
+                Enter your home address here and <br/>
+                never forget to take your garbage out again
+            </div>
+            <input class="huge initial address" value="" type="text"/>
             <a id="search" class="bigButtonGreen" href="#">Search</a>
             <input type="submit" class="hiddenButton"/>
         </form>
