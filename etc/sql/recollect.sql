@@ -80,7 +80,15 @@ CREATE TABLE place_interest (
     at    timestamptz NOT NULL,
     place text NOT NULL
 );
-CREATE UNIQUE INDEX place_interest_time_idx  ON place_interest (at);
-CREATE UNIQUE INDEX place_interest_place_idx ON place_interest (place);
+CREATE INDEX place_interest_time_idx  ON place_interest (at);
+CREATE INDEX place_interest_place_idx ON place_interest (place);
+
+CREATE TABLE place_notify (
+    at    timestamptz NOT NULL,
+    place text NOT NULL,
+    email text NOT NULL
+);
+CREATE INDEX place_notify_time_idx  ON place_notify (at);
+CREATE INDEX place_notify_place_idx ON place_notify (place);
 
 COMMIT;
