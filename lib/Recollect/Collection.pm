@@ -86,6 +86,8 @@ sub delete {
     my $self = shift;
 
     my ($stmt, @bind) = $self->_sql->delete($self->db_table, { id => $self->id });
+    my $sth = $self->dbh->prepare($stmt);
+    $sth->execute(@bind);
 }
 
 sub _first_row_as_obj {
