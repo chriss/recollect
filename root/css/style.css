@@ -144,11 +144,6 @@ header {
 #links .links a:hover {
     color: #06b;
 }
-#links .links a.copy {
-    position: absolute;
-    right: 10px;
-    border: none;
-}
 
 footer {
 }
