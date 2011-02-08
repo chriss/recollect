@@ -573,37 +573,31 @@ Recollect.Wizard .prototype = {
             afterParse: function(docs) {
                 var placemarks = docs[0].placemarks;
 
+                // For zones with multiple polygons 
+                var foundLocation = false;
+
                 $.each(placemarks, function(i, pmark) {
                     // Clear the info window click handlers
                     var polygon = pmark.polygon;
-                    google.maps.event.clearListeners(polygon, 'click');
-                    google.maps.event.addListener(polygon, 'click', function(){
 
-                        // Remove all markers
-                        $.each(placemarks, function(i, other) {
-                            if (other.marker) other.marker.setMap(null);
-                        });
-
-                        map.setZoom(12);
-                        map.setCenter(polygon.bounds.getCenter());
-                        
+                    if (!foundLocation && pmark.name == zone.name) {
                         // Add a new Marker
                         var position = polygon.bounds.getCenter();
                         var stored = self.getLocation();
                         if (stored && polygonContains(polygon, stored)) {
+                            foundLocation = true;
                             position = stored;
                         }
 
+                        map.setCenter(position);
                         pmark.marker = new google.maps.Marker({
                             map: map,
                             draggable: false,
                             animation: google.maps.Animation.DROP,
                             position: position
                         });
-                    });
 
-                    if (pmark.name == zone.name) {
-                        google.maps.event.trigger(polygon, 'click');
+                        map.setZoom(12);
                     }
                 });
                 return;
