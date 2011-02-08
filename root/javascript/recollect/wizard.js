@@ -577,14 +577,11 @@ Recollect.Wizard .prototype = {
                 var foundLocation = false;
 
                 $.each(placemarks, function(i, pmark) {
-                    // Clear the info window click handlers
-                    var polygon = pmark.polygon;
-
                     if (!foundLocation && pmark.name == zone.name) {
                         // Add a new Marker
-                        var position = polygon.bounds.getCenter();
+                        var position = pmark.polygon.bounds.getCenter();
                         var stored = self.getLocation();
-                        if (stored && polygonContains(polygon, stored)) {
+                        if (stored && polygonContains(pmark.polygon, stored)) {
                             foundLocation = true;
                             position = stored;
                         }
