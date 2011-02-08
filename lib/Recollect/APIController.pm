@@ -131,6 +131,9 @@ sub run {
                     return $json_wrapper->('subscriptions')
                 }
                 when ('/billing') { return $wrapper->('billing') }
+                when (m{^/interest/([^\/]+)/notify$}) {
+                    return $wrapper->('request_place_notification', undef, $1);
+                }
             }
         }
         when ('DELETE') {
@@ -537,17 +540,32 @@ sub zone_at_latlng {
     return $resp->finalize;
 }
 
+    # 80 characters is an arbitrary limit, fyi
+sub _place_is_ok { defined $_[0] and length $_[0] and length $_[0] < 80 }
+
 sub register_interest {
     my $self = shift;
     my $req  = $self->request;
     my $place = shift;
 
-    # 80 characters is an arbitrary limit, fyi
-    if (defined $place and length $place and length $place < 80) {
-        Recollect::PlaceInterest->Increment($place);
+    if (_place_is_ok($place)) {
+        eval { Recollect::PlaceInterest->Increment($place) };
+        warn $@ if $@;
     }
+    return $self->no_content;
+}
 
-    return $self->ok;
+sub request_place_notification {
+    my $self = shift;
+    my $req  = $self->request;
+    my $place = shift;
+    my $email = $self->request->parameters->{email};
+
+    if ($email and _place_is_ok($place) and Email::Valid->address($email)) {
+        eval { Recollect::PlaceInterest->Notify($place, $email) };
+        warn $@ if $@;
+    }
+    return $self->no_content;
 }
 
 __PACKAGE__->meta->make_immutable;
