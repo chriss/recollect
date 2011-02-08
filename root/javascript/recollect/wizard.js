@@ -12,6 +12,7 @@ Recollect.Wizard .prototype = {
         'Jan','Feb','Mar','Apr','May','Jun',
         'Jul','Aug','Sept','Oct','Nov','Dec'
     ],
+    validTypes: [ 'street_address', 'intersection', 'postal_code' ],
 
     reminder: {},
     zone: {},
@@ -62,13 +63,6 @@ Recollect.Wizard .prototype = {
         });
     },
 
-    bounds: function() {
-        var bounds = new google.maps.LatLngBounds();
-        bounds.extend(new google.maps.LatLng(49.198177,-123.22474));
-        bounds.extend(new google.maps.LatLng(49.317294,-123.023068));
-        return bounds;
-    },
-
     pages: {
         '!/': function() {
             var self = this;
@@ -78,26 +72,22 @@ Recollect.Wizard .prototype = {
                 page: 'wizardAddress'
             };
             self.show(opts, function() {
+                $('#wizard .address').autocomplete({
+                    source: [],
+                    select: function(evt, ui) {
+                        $('#wizard .address').val(ui.item.value)
+                        $('#wizard form').submit();
+                    }
+                });
                 $('#wizard .address')
                     .click(function() {
                         $(this).removeClass('initial').val('').unbind('click');
                     })
-                    .keyup(function() {
-                        var $node = $(this);
-
+                    .keyup(function(e) {
                         // Hide the suggestions
                         $('#wizard .status').html('');
 
-                        self.geocode($node.val(), function(results) {
-                            $node.autocomplete({
-                                select: function(evt, ui) {
-                                    $('#wizard form').submit();
-                                },
-                                source: $.map(results, function(r) {
-                                    return r.formatted_address;
-                                })
-                            });
-                        });
+                        self.autocomplete($(this));
                     });
 
                 $('#wizard #search').click(function(){
@@ -116,6 +106,17 @@ Recollect.Wizard .prototype = {
                     }
                     return false;
                 });
+            });
+        },
+
+        '!/notfound/:city': function(args) {
+            var opts = {
+                height: 300,
+                opacity: 1,
+                page: 'wizardZoneSuggestion',
+            };
+            $.extend(opts, args);
+            this.show(opts, function() {
             });
         },
 
@@ -276,35 +277,53 @@ Recollect.Wizard .prototype = {
         }
     },
 
+    autocomplete: function($node) {
+        var self = this;
+
+        self.geocode({
+            address: $node.val(),
+            biasViewport: true,
+            callback: function(results) {
+                $node.autocomplete({
+                    'source': $.map(results, function(r) {
+                        return r.formatted_address;
+                    })
+                });
+            }
+        });
+    },
+
+    bounds: function() {
+        var bounds = new google.maps.LatLngBounds();
+        bounds.extend(new google.maps.LatLng(49.198177,-123.22474));
+        bounds.extend(new google.maps.LatLng(49.317294,-123.023068));
+        return bounds;
+    },
+
     /* This function keeps track of whether we are currently geocoding an
      * address, and defers geocoding new addresses until the current geocoding
      * is complete
      */
-    geocode: function(address, callback, count) {
+    geocode: function(args) {
         var self = this;
 
-        // Only re-try the current search 10 times
-        self._currentGeocode = address;
-        if (!count) count = 1;
-        if (count > 10) return;
-
-        var request = {
-            address: address,
-            bounds: self.bounds()
-        };
+        var request = { address: args.address };
+        if (args.biasViewport) request.bounds = self.bounds();
 
         var geocoder = new google.maps.Geocoder();
         geocoder.geocode(request, function(results, status) {
             if (status == google.maps.GeocoderStatus.OK) {
-                results = self.restrictLocalities(results);
-                if (results.length) callback(results);
+                // restrict results to street addresses
+                results = $.grep(results, function(r) {
+                    // Show only valid types of locations
+                    return $.grep(self.validTypes, function(type) {
+                        return $.inArray(type, r.types) > -1
+                    }).length;
+                });
+                args.callback(results);
             }
-            else { // retry
-                setTimeout(function() {
-                    if (self._currentGeocode == address) {
-                        self.geocode(address, callback, count + 1);
-                    }
-                }, 500);
+            else {
+                args.callback([]);
             }
         });
     },
@@ -315,65 +334,102 @@ Recollect.Wizard .prototype = {
         var value;
         $.each(result.address_components, function(i, component) {
             $.each(component.types, function(i, type) {
-                if (type == component_type) value = component.short_name;
+                if (type == component_type) value = component.long_name;
             });
         });
         return value;
     },
 
-    restrictLocalities: function(results) {
+    cityName: function(result) {
+        var parts = [];
+        var locality = this.addressComponent('locality', result)
+        if (locality) {
+            // Ideally we have a locality!
+            return [
+                locality,
+                this.addressComponent('administrative_area_level_1', result),
+                this.addressComponent('country', result),
+            ].join(', ');
+        }
+
+        // Otherwise, string together the political components
+        $.each(result.address_components, function(i, component) {
+            if ($.inArray('political', component.types) > -1) {
+                parts.push(component.long_name);
+            }
+        });
+        return parts.join(', ');
+    },
+
+    filterLocalities: function(results) {
         var self = this;
 
         var validCities = [
-            {locality: 'Vancouver', country: 'CA'}
+            {locality: 'Vancouver', country: 'Canada'}
         ];
 
         return $.grep(results, function(res) {
             return $.grep(validCities, function(city) {
                 var valid = true;
-
                 $.each(city, function(key, val) {
                     if (self.addressComponent(key, res) != val) valid = false;
                 });
-
                 return valid;
             }).length;
+        });
+    },
+
+    showAddressSelection: function(results, callback) {
+        $('#wizard .status').html(
+            Jemplate.process('addresses', {
+                results: results
+            })
+        );
+        $.each(results, function(i, result) {
+            var link = $('#wizard .status a').get(i);
+            $(link).click(function() {
+                $('#wizard .status').fadeOut(function() { callback(result) });
+                return false;
+            });
         });
     },
 
     searchForZone: function(address) {
         var self = this;
 
-        self.geocode(address, function(results) {
-            if (results.length == 1) {
-                var loc = results[0].geometry.location;
-                var locality = self.addressComponent(
-                    'locality', results[0]
-                );
-                self.showZoneAt(locality, loc.lat(), loc.lng());
-            }
-            else if (results.length == 0) {
-                $('#wizard .status').html(
-                    Jemplate.process('error', {
-                        msg: "Found 0 Results"
-                    })
-                );
-            }
-            else {
-                $('#wizard .status').html(
-                    Jemplate.process('addresses', {
-                        results: results
-                    })
-                );
-                $('#wizard .status a').click(function() {
-                    var lat = $(this).attr('lat');
-                    var lng = $(this).attr('lng');
-                    var locality = $(this).attr('locality');
-                    $('#wizard .status').fadeOut(function() {
-                        self.showZoneAt(locality, lat, lng);
-                    });
-                    return false;
-                });
+        self.geocode({
+            address: address,
+            callback: function(results) {
+                if (results.length) {
+                    var filtered = self.filterLocalities(results);
+                    if (filtered.length == 1) {
+                        self.showZoneAt(filtered[0]);
+                    }
+                    else if (filtered.length == 0) {
+                        if (results.length == 1) {
+                            // suggest results[0]
+                            self.setHash('notfound', self.cityName(results[0]));
+                        }
+                        else {
+                            // show a list of results to suggest
+                            self.showAddressSelection(results, function(r) {
+                                self.setHash('notfound', self.cityName(r));
+                            });
+                        }
+                    }
+                    else {
+                        // show a list of filtered to select from
+                        self.showAddressSelection(filtered, function(result) {
+                            self.showZoneAt(result);
+                        });
+                    }
+                }
+                else {
+                    // Error: zero results
+                    $('#wizard .status').html(
+                        Jemplate.process('error', { msg: "Found 0 Results" })
+                    );
+                }
             }
         });
     },
@@ -390,13 +446,17 @@ Recollect.Wizard .prototype = {
         return new google.maps.LatLng(coord_array[0], coord_array[1]);
     },
 
-    showZoneAt: function(locality, lat, lng) {
+    showZoneAt: function(result) {
         var self = this;
 
-        // Store user's lat, lng
-        self.storeLocation(lat, lng);
+        // show this address
+        var loc = result.geometry.location;
+        var locality = self.addressComponent('locality', result);
 
-        var zone = [ lat, lng ].join(',');
+        // Store user's lat, lng
+        self.storeLocation(loc.lat(), loc.lng());
+
+        var zone = [ loc.lat(), loc.lng() ].join(',');
         $.ajax({
             url: '/api/areas/' + locality + '/zones/' + zone + '.json',
             success: function(data) {

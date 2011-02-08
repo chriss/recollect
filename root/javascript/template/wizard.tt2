@@ -26,6 +26,20 @@
 </div>
 [% END %]
 
+[% BLOCK wizardZoneSuggestion %]
+<div class="wizardStep">
+    <div class="left middle" style="height:100px">
+        [% INCLUDE logo %]
+    </div>
+    <div class="right middle">
+        This is not implemented, but you tried to search for
+            <span style="white-space:nowrap">[% city %]</span>
+        <div class="clearfix"></div>
+        <div class="status"></div>
+    </div>
+</div>
+[% END %]
+
 [% BLOCK addresses %]
     <div class="addresses">
         Did you mean: <br/>
