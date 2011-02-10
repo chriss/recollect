@@ -1,4 +1,4 @@
-[% WRAPPER elements/wrapper.tt2 %]
+[% WRAPPER elements/static_wrapper.tt2 %]
   [% IF message %]
     <div id="message"><strong>[% message %]</strong></div>
     <br />

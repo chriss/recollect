@@ -1,4 +1,4 @@
-[% WRAPPER elements/wrapper.tt2 title="Privacy" %]
+[% WRAPPER elements/static_wrapper.tt2 title="Privacy" %]
     <h1>Recollect Privacy Policy</h1>
     <div class="densetext">
       <p class="inshort">

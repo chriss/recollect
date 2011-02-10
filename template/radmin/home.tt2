@@ -1,4 +1,4 @@
-[% WRAPPER elements/wrapper.tt2 %]
+[% WRAPPER elements/static_wrapper.tt2 %]
   <div class="densetext">
     <h1>Welcome, [% doorman.twitter_screen_name %].</h1>
     The only thing you can do so far in /radmin is to: <a href="[% doorman.sign_out_path %]">sign out</a>.

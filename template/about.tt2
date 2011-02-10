@@ -1,5 +1,4 @@
-
-[% WRAPPER elements/wrapper.tt2 title="About Recollect" %]
+[% WRAPPER elements/static_wrapper.tt2 title="About Recollect" %]
   <div class="densetext">
     <h1>About Recollect</h1>
     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis id suscipit odio.

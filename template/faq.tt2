@@ -1,4 +1,4 @@
-[% WRAPPER elements/wrapper.tt2 title="Frequently Asked Questions" %]
+[% WRAPPER elements/static_wrapper.tt2 title="Frequently Asked Questions" %]
 <div class="densetext">
 <h1>Using Recollect.net</h1> 
 <h2>What is Recollect.net?</h2> 
