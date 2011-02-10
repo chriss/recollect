@@ -194,7 +194,7 @@ around 'delete' => sub {
     }
 
     eval { $self->recurly->delete_account($self->id) };
-    warn "Error when deleting account " . $self->id . ": $@\n";
+    warn "Error when deleting account " . $self->id . ": $@\n" if $@;
     $orig->($self, @_);
 };
 
