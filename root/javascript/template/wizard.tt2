@@ -1,5 +1,5 @@
 [% BLOCK logo %]
-    <a href="/"><img class="logo" src="/images/recollect_logo.png"/></a>
+    <a href="/"><img class="logo" src="/images/recollect_logo_small.png"/></a>
 [% END %]
 
 [% BLOCK error %]
