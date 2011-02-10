@@ -102,21 +102,20 @@ sub payment_ui {
     my $type = shift;
     my $id   = shift;
 
-    return $self->not_found unless $type eq 'success' or $type eq 'cancel';
+    my $sub = Recollect::Subscription->By_id($id)
+        or return $self->redirect('/');
 
-    my $sub = Recollect::Subscription->By_id($id);
-    return $self->process_template("invalid_subscription.html", {
-        account_code => $id,
-    })->finalize unless $sub;
-
-    return $self->process_template("payment_success.html", {
-        subscription => $sub,
-    })->finalize if $type eq 'success';
-
-    # Cancel the payment, so delete the reminder.
-    my $hash = $sub->to_hash;
-    $sub->delete;
-    $self->log("PAYMENT_CANCEL - $hash->{user}{email}");
+    given ($type) {
+        when ('success') {
+            return $self->process_template("payment_success.html", {
+                subscription => $sub,
+            })->finalize;
+        }
+        when ('cancel') {
+            $self->log("PAYMENT_CANCEL - $id - " . $sub->user->email);
+            $sub->delete;
+        }
+    }
     return $self->redirect("/");
 }
 
