@@ -18,6 +18,7 @@ has 'version' => ( is => 'ro', isa => 'Str', lazy_build => 1 );
 sub _build_version {
     my $self = shift;
     my $make_time = slurp( base_path() . '/root/make-time' );
+    chomp $make_time;
     return "0.11.$make_time";
 }
 
