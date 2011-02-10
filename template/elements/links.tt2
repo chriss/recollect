@@ -6,4 +6,5 @@
     <a href="/privacy">Privacy</a>&middot;
     <a href="/media">Media</a>&middot;
     <a href="/copyright">&copy;2011</a>
+    [% INCLUDE elements/social.tt2 %]
 </div>

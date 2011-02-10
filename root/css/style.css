@@ -459,13 +459,17 @@ input.initial {
 }
 
 .successShare {
-    margin-top: 30px;
+    position: relative;
 }
 
-.successShare iframe,
-.successShare img {
-    vertical-align: middle;
+.links .successShare {
+    position: absolute;
+    right: 0;
+    top: 0;
 }
+.successShare .twitter-share-button { margin-top: 5px }
+.successShare .google-buzz-button { position: relative; top: -7px }
+.successShare .fb_iframe_widget iframe { top: -3px }
 
 /* get satisfaction tab */
 a#fdbk_tab {

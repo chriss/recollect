@@ -12,20 +12,29 @@
    </div>
    [% END %]
  [% END %]
+
+<br/>
+
+Share recollect with your social network!<br/>
+ [% INCLUDE elements/social.tt2 %]
+
+<br/>
+<br/>
+
  <form action="/action/tell-friends" method="POST">
-   <div class="section">
-     <label for="friend_emails">Enter the email addresses of the people you'd like to introduce to this site:</label>
+ <div>
+     <label for="friend_emails">Next, enter the email addresses of the people you'd like to introduce to this site:</label>
      <br />
      <textarea class="border"name="friend_emails" rows="5" cols="40"></textarea>
    </div>
 
-   <div class="section">
+   <div>
      <label for="sender_email">Enter your email address:</label>
       <br />
      <textarea class="border" name="sender_email" rows="1" cols="40"></textarea>
    </div>
 
-   <div class="section">
+   <div>
      <label for="skilltesting">To prove you are a human, please type the 2-letter code for the province Vancouver is in:</label>
       <br />
      <input type="text" class="border" name="skilltesting" size="2"/>
