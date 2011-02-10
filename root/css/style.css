@@ -189,6 +189,13 @@ footer {
     left: 10px;
     top: 17px;
 }
+#staticLayout .staticContent {
+    background: #fff;
+    padding: 4px;
+    width: 600px;
+    padding-left: 10px;
+    opacity: .8;
+}
 /* done static pages */
 
 input.hiddenButton {
