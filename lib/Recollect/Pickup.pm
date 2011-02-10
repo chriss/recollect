@@ -23,7 +23,10 @@ with 'Recollect::Roles::HasZone';
 with 'Recollect::Roles::Cacheable';
 
 sub By_zone_id {
-    Recollect::Roles::HasZone::By_zone_id(@_, args => [ ['day ASC'] ]);
+    my $class = shift;
+    my $id    = shift;
+    Recollect::Roles::HasZone::By_zone_id($class, $id, 
+        args => [ ['day ASC'] ], @_);
 }
 
 sub to_hash {
