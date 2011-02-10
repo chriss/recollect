@@ -31,6 +31,8 @@ sub run {
             [ qr{^/([\w-]+)$}   => \&ui_html ], # Same, but make the .html optional
             # Delete subscription link confirmation page:
             [ qr{^/subscription/delete/([\w-]+)$} => \&delete_subscription_page ],
+            # Payment success / cancel page
+            [ qr{^/payment/([^/]+)/(.+)$} => \&payment_ui ],
         ],
 
         POST => [
@@ -92,6 +94,31 @@ sub delete_subscription_page {
     return $self->process_template("delete_subscription.html", {
             subscription => $sub,
         })->finalize;
+}
+
+sub payment_ui {
+    my $self = shift;
+    my $req  = shift;
+    my $type = shift;
+    my $id   = shift;
+
+    return $self->not_found unless $type eq 'success' or $type eq 'cancel';
+
+    my $sub = Recollect::Subscription->By_id($id);
+    return $self->process_template("invalid_subscription.html", {
+        account_code => $id,
+    })->finalize unless $sub;
+
+    return $self->process_template("payment_success.html", {
+        subscription => $sub,
+    })->finalize if $type eq 'success';
+
+    # Cancel the payment, so delete the reminder.
+    my $hash = $sub->to_hash;
+    $sub->delete;
+    return $self->process_template('payment_cancel.html', {
+        subscription => $hash,
+    })->finalize;
 }
 
 sub tell_friends {
