@@ -458,6 +458,15 @@ input.initial {
     background: #f65735;
 }
 
+.successShare {
+    margin-top: 30px;
+}
+
+.successShare iframe,
+.successShare img {
+    vertical-align: middle;
+}
+
 /* get satisfaction tab */
 a#fdbk_tab {
     top: 200px !important;
