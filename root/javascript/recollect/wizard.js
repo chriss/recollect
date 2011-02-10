@@ -687,12 +687,14 @@ Recollect.Wizard .prototype = {
     feeds: function(zone) {
         var url = location.href.replace(/#.*$/,'')
             + 'api/areas/' + zone.area.name + '/zones/'
-            + zone.name + '/pickupdays.ics';
+            + zone.name + '/pickupdays.ics'
+            + '?t=' + (new Date).getTime();
 
         return [
             {
                 name: 'Google Calendar',
-                url: 'http://www.google.com/calendar/render?cid=' + url,
+                url: 'http://www.google.com/calendar/render?cid='
+                    + encodeURIComponent(url),
                 icon: 'google.png',
                 id: 'cal-google'
             },
