@@ -1,6 +1,5 @@
 package Recollect::ControllerBase;
 use Moose::Role;
-use Recollect::Model;
 use Recollect::Util qw/base_path is_dev_env/;
 use JSON qw/encode_json decode_json/;
 use File::Slurp qw(slurp);
@@ -11,7 +10,6 @@ with 'Recollect::Roles::Template';
 
 has 'request'   => (is => 'rw', isa => 'Plack::Request');
 has 'env'       => (is => 'rw', isa => 'HashRef');
-has 'model' => (is => 'ro', isa => 'Recollect::Model', lazy_build => 1);
 has 'message' => (is => 'rw', isa => 'Str');
 
 has 'version' => ( is => 'ro', isa => 'Str', lazy_build => 1 );
@@ -55,8 +53,6 @@ sub user_is_admin {
     return 1 if $user and $user->is_admin;
     return 0;
 }
-
-sub _build_model { Recollect::Model->new }
 
 sub _build_base_path { base_path() }
 
