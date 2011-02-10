@@ -9,3 +9,4 @@ etc/recollect_mail.yaml
 data/*
 !data/trash-zone-times.yaml
 !data/recollect.dump
+root/make-time

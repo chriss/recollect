@@ -3,17 +3,23 @@ use Moose::Role;
 use Recollect::Model;
 use Recollect::Util qw/base_path is_dev_env/;
 use JSON qw/encode_json decode_json/;
+use File::Slurp qw(slurp);
 
 with 'Recollect::Roles::Config';
 with 'Recollect::Roles::Log';
 with 'Recollect::Roles::Template';
 
-our $Recollect_version = '0.11';
-
 has 'request'   => (is => 'rw', isa => 'Plack::Request');
 has 'env'       => (is => 'rw', isa => 'HashRef');
 has 'model' => (is => 'ro', isa => 'Recollect::Model', lazy_build => 1);
 has 'message' => (is => 'rw', isa => 'Str');
+
+has 'version' => ( is => 'ro', isa => 'Str', lazy_build => 1 );
+sub _build_version {
+    my $self = shift;
+    my $make_time = slurp( base_path() . '/root/make-time' );
+    return "0.11.$make_time";
+}
 
 around 'run' => sub {
     my $orig = shift;
@@ -68,7 +74,7 @@ sub render_template {
     my $template = shift;
     my $param = shift;
     my $html = shift;
-    $param->{version} = $Recollect_version;
+    $param->{version} = $self->version;
     $param->{base} = $self->base_url,
     $param->{request_uri} = $self->request->request_uri;
     $param->{message} = $self->message;

@@ -32,11 +32,12 @@ PSGI=etc/production.psgi
 
 TESTS=$(wildcard t/*.t)
 WIKITESTS=$(wildcard t/wikitests/*.t)
+MAKE_TIME_FILES=$(BUILT_JS) $(shell find root/images root/css)
 
 BUILT_JS=\
     $(RECOLLECT) $(RECOLLECT_GZ) $(RECOLLECT_MINIFIED) \
 
-all: javascript
+all: javascript root/make-time
 
 javascript: $(BUILT_JS)
 
@@ -44,6 +45,9 @@ clean:
 	rm -f  $(JEMPLATE) $(BUILT_JS)
 
 .SUFFIXES: .js -mini.js .js.gz
+
+root/make-time: $(MAKE_TIME_FILES)
+	date '+%s' > $@
 
 .js-mini.js:
 	$(MINIFY) $< > $@
