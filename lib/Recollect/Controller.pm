@@ -116,9 +116,8 @@ sub payment_ui {
     # Cancel the payment, so delete the reminder.
     my $hash = $sub->to_hash;
     $sub->delete;
-    return $self->process_template('payment_cancel.html', {
-        subscription => $hash,
-    })->finalize;
+    $self->log("PAYMENT_CANCEL - $hash->{user}{email}");
+    return $self->redirect("/");
 }
 
 sub tell_friends {
