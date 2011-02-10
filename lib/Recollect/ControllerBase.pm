@@ -182,7 +182,7 @@ sub redirect {
     my $code = shift || 302;
 
     my $resp = Plack::Response->new;
-    $resp->redirect($url, 302);
+    $resp->redirect($url, $code);
     $resp->header('Content-Type' => 'text/plain');
     $resp->body('');
     return $resp->finalize;
