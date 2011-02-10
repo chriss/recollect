@@ -419,6 +419,7 @@ Recollect.Wizard .prototype = {
 
         self.geocode({
             address: address,
+            biasViewport: true,
             callback: function(results) {
                 if (results.length) {
                     var filtered = self.filterLocalities(results);
