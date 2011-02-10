@@ -160,9 +160,7 @@ sub _build_delete_url {
     return $self->config->{base_url} . '/subscription/delete/' . $self->id;
 }
 
-sub twitter_target {
-    return any { $_->twitter_target } @{ shift->reminders }
-}
+sub twitter_target { return any { $_->twitter_target } @{ shift->reminders } }
 
 sub _build_created_date {
     my $self = shift;
