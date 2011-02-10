@@ -4,17 +4,16 @@ You're all signed up!
 
 [% IF subscription.phone_target -%]
 We'll be calling you weekly with a garbage and recycling pick up reminder for your neighborhood.
-
-[% IF subscription.SMS_target -%]
+[% ELSIF subscription.sms_target -%]
 Every week we will send you a garbage and recycling pick up reminder via text message for your neighborhood.
-
-[% IF subscription.email_target -%]
+[% ELSIF subscription.email_target -%]
 Every week we will send you a garbage and recycling pick up reminder via email message for your neighborhood.
-
-[% IF subscription.twitter_target -%]
+[% ELSIF subscription.twitter_target -%]
 Every week we will send you a garbage and recycling pick up reminder via twitter message for your neighborhood. Make sure you follow us at @[% twitter %] to receive the messages: http://twitter.com/[% twitter %]
-
+[% ELSIF subscription.webhook_target -%]
+Every week we will make a HTTP POST to your URL to let you know it's pickup time!
 [% END -%]
+
 If you think this service would be useful for your friends or family, please let them know! Click the link below to send them a note:
 
   [% base %]/tell-a-friend
