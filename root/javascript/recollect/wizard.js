@@ -328,7 +328,7 @@ Recollect.Wizard .prototype = {
         var self = this;
 
         var request = { address: args.address };
-        if (args.biasViewport) request.bounds = self.bounds();
+        if (args.biasViewport) request.region = 'ca';
 
         var geocoder = new google.maps.Geocoder();
         geocoder.geocode(request, function(results, status) {
