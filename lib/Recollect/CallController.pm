@@ -195,10 +195,9 @@ sub lookup_zone {
     if ($num and $num =~ m/^[12345]$/) {
         my @zones = (undef, qw/red blue green purple yellow/);
         my $zone_name = "vancouver-$type-$zones[$num]";
-        my $d  = $self->model->next_pickup($zone_name, 1, 0, 'obj please');
-        my $dt = $d->datetime;
-        my $nice_date = $dt->day_name . ', ' .
-            $dt->month_name . ' ' . $dt->day;
+        my $zone = Recollect::Zone->By_name($zone_name);
+        my $d = $zone->next_pickup->[0];
+        my $nice_date = $d->pretty_day;
         my $extra = "No yard trimmings will be picked up.";
         if ($d->flags =~ m/Y/) {
             $extra = "Yard trimmings and food compost will be picked up.";

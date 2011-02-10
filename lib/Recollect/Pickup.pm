@@ -16,7 +16,7 @@ has 'string'     => (is => 'ro', isa => 'Str',      lazy_build => 1);
 has 'pretty_day' => (is => 'ro', isa => 'Str',      lazy_build => 1);
 has 'desc'       => (is => 'ro', isa => 'Str',      lazy_build => 1);
 has 'datetime'   => (is => 'ro', isa => 'DateTime', lazy_build => 1,
-                     handles => ['ymd', 'day_of_week']);
+                     handles => [ qw/ymd day_of_week/ ]);
 
 extends 'Recollect::Collection';
 with 'Recollect::Roles::HasZone';
