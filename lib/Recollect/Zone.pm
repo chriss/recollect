@@ -2,6 +2,7 @@ package Recollect::Zone;
 use Moose;
 use Recollect::Area;
 use Recollect::Pickup;
+use Recollect::PlaceInterest;
 use Scalar::Util qw/weaken/;
 use namespace::clean -except => 'meta';
 
@@ -41,6 +42,7 @@ sub By_latlng {
     );
     if ($sth->rows == 0) {
         Recollect::PlaceInterest->Increment("$lat $lng");
+        return;
     }
     return $class->By_id($sth->fetchrow_arrayref->[0]);
 }
