@@ -27,7 +27,6 @@ BEGIN {
     $ENV{RECOLLECT_EMAIL} = "/tmp/email.$$";
     $ENV{RECOLLECT_BASE_PATH} = '.';
 
-    use_ok 'Recollect::Model';
     use_ok 'Recollect::Roles::Log';
     use_ok 'Recollect::Roles::SQL';
     $Recollect::Roles::SQL::DEBUG = $Recollect::Roles::Log::VERBOSE = $DEBUG;
@@ -48,6 +47,11 @@ my @http_requests;
 {
     no warnings 'redefine';
     *Recollect::Notifier::http_post = sub { push @http_requests, \@_ };
+}
+
+sub setup_env {
+    shift->base_path;
+    return 1;
 }
 
 sub _build_base_path {
@@ -80,7 +84,9 @@ sub _build_base_path {
     warn "Testing with db $db_name" if $DEBUG;
     if (system("createdb $db_name 2> /dev/null") == 0) {
         diag "created database $db_name, loading $sql_file" if $DEBUG;
-        system("$psql -f $sql_file 2>&1 | grep -v WARNING")
+        _setup_postgis($db_name);
+
+        system("$psql -f $sql_file > /dev/null")
             and die "Couldn't psql $db_name -f $sql_file";
     }
     system(qq{$psql -c 'DELETE FROM areas WHERE id != 1' > /dev/null});
@@ -90,11 +96,29 @@ sub _build_base_path {
     return $tmp_dir;
 }
 
+sub _setup_postgis {
+    my $db_name = shift;
+
+    system(qq{psql $db_name -c "CREATE LANGUAGE 'plpgsql'"})
+        and die "Couldn't psql $db_name -c create language plpgsql";
+    my @postgises = (
+        '/usr/share/postgresql/8.4/contrib/postgis-1.5/postgis.sql',
+        '/usr/share/postgresql/8.4/contrib/postgis.sql',
+    );
+    for my $p (@postgises) {
+        next unless -e $p;
+        my $cmd = "psql $db_name -f $p > /dev/null";
+        system($cmd) and die "Couldn't $cmd";
+    }
+}
+
 sub app {
     my $class = shift;
     my $controller = shift or die "Requires a controller";
     my $base = t::Recollect->base_path;
     my $now = $ENV{RECOLLECT_NOW};
+    my $test_base = t::Recollect->base_path;
+    $ENV{RECOLLECT_LOG_FILE} = "$test_base/recollect.log",
     return sub { 
         local $ENV{RECOLLECT_BASE_PATH}        = $base;
         local $ENV{RECOLLECT_TEST_CONFIG_FILE} = "$base/etc/recollect.yaml";
@@ -102,13 +126,6 @@ sub app {
         local $ENV{RECOLLECT_NOW}              = $now if $now;
         $controller->new->run(@_) 
     };
-}
-
-sub model {
-    my $self = shift;
-    my $test_base = t::Recollect->base_path;
-    $ENV{RECOLLECT_LOG_FILE} = "$test_base/recollect.log",
-    return Recollect::Model->new( base_path => $test_base );
 }
 
 sub email_content {

@@ -5,9 +5,9 @@ use Test::More;
 use t::Recollect;
 use Recollect::Zone;
 
-Set_now_time: {
-    my $model = t::Recollect->model;
+t::Recollect->setup_env;
 
+Set_now_time: {
     # Set the time to right before a day change
     $ENV{RECOLLECT_NOW} = DateTime->new(
         month => 1,

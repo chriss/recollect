@@ -7,8 +7,7 @@ use Recollect::Area;
 
 $ENV{RECOLLECT_EMPTY_DB_PLS} = 1;
 
-my $model = t::Recollect->model;
-isa_ok $model, 'Recollect::Model';
+t::Recollect->setup_env;
 
 # Create an area
 my $areas = Recollect::Area->All;

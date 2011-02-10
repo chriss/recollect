@@ -7,7 +7,7 @@ use Recollect::Subscription;
 use Recollect::Zone;
 
 my $test_email = 'test@recollect.net';
-t::Recollect->model();    # create the model & database
+t::Recollect->setup_env;
 
 Add_a_free_subscription: {
     my $zones = Recollect::Zone->All;

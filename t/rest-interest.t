@@ -20,16 +20,6 @@ ok $app, 'have an app';
 Recollect::Util->run_sql('DELETE FROM place_interest');
 Recollect::Util->run_sql('DELETE FROM place_notify');
 
-subtest "Registering interest in a place" => sub {
-    my @valid_places = (
-        qw/Surrey Victoria Toronto/, 'North Vancouver',
-    );
-    test_interest_ok($_) for @valid_places;
-
-    my $count = Recollect::Util->sql_singlevalue('SELECT COUNT(*) FROM place_interest');
-    is $count, scalar(@valid_places), 'recorded interest in all places';
-};
-
 subtest "Requesting notification for service in a place" => sub {
     test_notification_ok('Toronto', 'email@foobar.com');
     test_notification_ok('Toronto', 'this is not an email address');

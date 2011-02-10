@@ -13,7 +13,7 @@ BEGIN {
     use_ok 'Recollect::Subscription';
 }
 
-t::Recollect->model(); # set up the db model
+t::Recollect->setup_env;
 
 my $notifier = Recollect::Notifier->new;
 ok $notifier, 'notifier exists';
