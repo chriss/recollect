@@ -1,5 +1,18 @@
 [% WRAPPER elements/static_wrapper.tt2 %]
-<h1>Data</h1>
+<h2>Recollect</h2>
+
+Recollect is &copy; 2010, 2011 Luke Closs, David Eaves and Kevin Jones
+
+<h2>Licensing Intent</h2>
+Our intent in releasing this code as open source is to enable other citizens to learn and use the code and tools we have created for non-commercial purposes.
+
+<h2>Logo and Name</h2>
+<p>
+    The Recollect logo and name was created by <a href="http://twitter.com/dwmcleish">David McLeish</a> exclusively for Recollect.
+</p>
+<p>All images are Copyright &copy; 2009 by Luke Closs and Kevin Jones</p>
+
+<h2>Data</h2>
 All of the trash pickup data is scraped from the City of Vancouver's website:
 <ul>
     <li>
@@ -17,16 +30,7 @@ All of the trash pickup data is scraped from the City of Vancouver's website:
     </li>
 </ul>
 
-<h1>Licensing Intent</h1>
-Our intent in releasing this code as open source is to enable other citizens to learn and use the code and tools we have created for non-commercial purposes.
-
-<h1>Logo and Name</h1>
-<p>
-    The Recollect logo and name was created by <a href="http://twitter.com/dwmcleish">David McLeish</a> exclusively for Recollect.
-</p>
-<p>All images are Copyright &copy; 2009 by Luke Closs and Kevin Jones</p>
-
-<h1>Perl Code License</h1>
+<h2>Perl Code License</h2>
 <p>The scraping codes and the reminder system codes are licensed under the folowing terms:</p>
 
 <p>Copyright &copy; 2009,2010 by Luke Closs and Kevin Jones</p>
@@ -37,18 +41,18 @@ Our intent in releasing this code as open source is to enable other citizens to 
     <li>The GNU General Public License as published by the Free Software Foundation; either version 1, or (at your option) any later version</li>
 </ol>
 
-<h1>JavaScript Licenses</h1>
+<h2>JavaScript Licenses</h2>
 
-<h2>Recollect JavaScript</h2>
+<h3>Recollect JavaScript</h3>
 <p>Copyright &copy; 2009,2010 by Luke Closs and Kevin Jones</p>
 
-<h2>Libraries</h2>
+<h3>Libraries</h3>
 
-<h3>jQuery</h3>
+<h4>jQuery</h4>
 <p>dually licensed under the MIT and GPL licenses</p>
 <p>Copyright &copy; 2009 John Resig</p>
 <a href="http://docs.jquery.com/License">http://docs.jquery.com/License</a>
 
-<h3>EGeoXML and EPolygon</h3>
+<h4>EGeoXML and EPolygon</h4>
 <p>licenced under a <a href="http://creativecommons.org/licenses/by/2.0/uk/">Creative Commons Licence</a></p>
 [% END %]

@@ -28,5 +28,9 @@
       <h2>Credit Card Information</h2>
 
       <p>Credit Card transactions for Recollect are managed by Recurly, and is <a href="http://recurly.com/security">PCI Compliant</a>. Recurly's privacy policy can be found <a href="http://recurly.com/legal/privacy">here</a>.</p>
+
+      <h2>Terms of Service</h2>
+    
+      <p>Information about our terms of service can be found <a href="http://recollect.net/terms">here</a>.</p>
     </div>
 [% END %]
