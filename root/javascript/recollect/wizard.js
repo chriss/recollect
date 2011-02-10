@@ -491,7 +491,7 @@ Recollect.Wizard .prototype = {
             marginTop: (-height/2 - 20) + 'px'
         };
         var once = false;
-        $('#wizardLayout').animate(props, 'slow', 'swing', function() {
+        $('#smallLayout').animate(props, 'slow', 'swing', function() {
             if (once) return;
             once = true;
             callback();

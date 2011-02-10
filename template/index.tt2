@@ -5,7 +5,7 @@
         <div id="message"><strong>[% message %]</strong></div>
     [% END %]
 
-    <div id="wizardLayout">
+    <div id="smallLayout">
         <div class="white"></div>
         <div id="wizard"></div>
     </div>

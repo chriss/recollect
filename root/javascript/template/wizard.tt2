@@ -10,7 +10,7 @@
 [% END %]
 
 [% BLOCK wizardAddress %]
-<div class="wizardStep">
+<div class="smallPage">
     <div class="left middle" style="height:100px">
         [% INCLUDE logo %]
     </div>
@@ -31,7 +31,7 @@
 [% END %]
 
 [% BLOCK wizardZoneSuggestion %]
-<div class="wizardStep">
+<div class="smallPage">
     <div class="left middle" style="height:100px">
         [% INCLUDE logo %]
     </div>
@@ -55,7 +55,7 @@
 [% END %]
 
 [% BLOCK wizardZone %]
-<div class="zonePage middle wizardStep">
+<div class="zonePage middle smallPage">
     <div class="mapSection">
         [% INCLUDE logo %]
         <div class="map"></div>
@@ -111,7 +111,7 @@
 [% END %]
 
 [% BLOCK wizardSubscribe %]
-<div class="wizardStep">
+<div class="smallPage">
     <div class="center middle paymentType">
         <div class="smallZoneName">[% title %]</div>
         <div class="title">Schedule a weekly reminder:</div>
@@ -174,7 +174,7 @@
 [% END %]
 
 [% BLOCK wizardFeeds %]
-<div class="wizardStep">
+<div class="smallPage">
     <div class="center middle subscription">
         <div class="feeds">
             <div class="smallZoneName">[% title %]</div>
@@ -200,7 +200,7 @@
 [% END %]
 
 [% BLOCK wizardForm %]
-<div class="wizardStep">
+<div class="smallPage">
     <div class="center middle subscription">
     <form>
         <div class="smallZoneName">[% title %]</div>
@@ -297,7 +297,7 @@
 [% END %]
 
 [% BLOCK success %]
-<div class="wizardStep">
+<div class="smallPage">
     <div class="left middle" style="height:100px">
         [% INCLUDE logo %]
     </div>

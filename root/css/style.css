@@ -98,7 +98,7 @@ body {
     background: #000;
 }
 
-body, .wizardStep {
+body, .page {
     min-width: 1161px;
     width: expression(document.body.clientWidth < 1161 ? "1161px" : "100%"); /* IE */
 }
@@ -148,8 +148,8 @@ header {
 footer {
 }
 
-#errorLayout,
-#wizardLayout {
+#simpleLayout,
+#smallLayout {
     position: absolute;
     top: 50%;
     height: 200px;
@@ -157,13 +157,13 @@ footer {
     width: 100%;
 }
 
-#errorLayout .logo {
+#simpleLayout .logo {
     position: absolute;
     right: 66%;
     top: 50px;
     margin-right: 25px;
 }
-#errorLayout .error {
+#simpleLayout .error {
     font-size: 20pt;
     position: absolute;
     top: 75px;
@@ -204,7 +204,7 @@ input.hiddenButton {
     vertical-align: middle;
 }
 
-.wizardStep {
+.smallPage {
     font-size: 120%;
     position: absolute;
     left; 0;
@@ -237,21 +237,21 @@ input.hiddenButton {
     width: 240px;
 }
 
-.wizardStep .title {
+.smallPage .title {
     font-size: 15pt;
     padding: 5px 0;
 }
 
-.wizardStep .middle {
+.smallPage .middle {
     position: absolute;
     top: 50%;
     /* margin-top must be -(height/2) */
 }
 
 /* Two panel steps */
-.wizardStep .left { right: 50%; margin-right: 50px }
-.wizardStep .right { left: 50%; width: 40% }
-.wizardStep .center { left: 33%; width: 33% }
+.smallPage .left { right: 50%; margin-right: 50px }
+.smallPage .right { left: 50%; width: 40% }
+.smallPage .center { left: 33%; width: 33% }
 
 /**
  * Wizard Step: Address search
@@ -293,17 +293,17 @@ input.initial {
     left: 40px;
 }
 
-.wizardStep .zoneName {
+.smallPage .zoneName {
     font-size: 27pt;
 }
-.wizardStep .smallZoneName {
+.smallPage .smallZoneName {
     font-size: 20pt;
     padding: 10px 0;
 }
-.wizardStep .nextPickup {
+.smallPage .nextPickup {
     font-size: 15pt;
 }
-.wizardStep .yardMsg {
+.smallPage .yardMsg {
     font-size: 15pt;
     font-style: italic;
 }
@@ -373,15 +373,15 @@ input.initial {
     border-radius: 4px;
 }
 
-.wizardStep .feeds .feed {
+.smallPage .feeds .feed {
     padding: 5px
 }
 
-.wizardStep .feeds .feed img {
+.smallPage .feeds .feed img {
     vertical-align: middle;
 }
 
-.wizardStep select {
+.smallPage select {
     /* rounded corners */
     -webkit-border-radius: 15px;
     -moz-border-radius: 15px;
@@ -389,7 +389,7 @@ input.initial {
 
 }
 
-.wizardStep .nextMessage {
+.smallPage .nextMessage {
     float: left;
     position: absolute;
     right: 100px;
@@ -397,7 +397,7 @@ input.initial {
     margin: 10px 0;
 }
 
-.wizardStep .next {
+.smallPage .next {
     float: right;
 }
 
