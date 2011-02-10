@@ -76,7 +76,7 @@ $(INSTALL_DIR)/%:
 	chown -R recollect:www-data $(INSTALL_DIR)
 
 
-install: javascript $(INSTALL_DIR)/* $(SOURCE_FILES) $(LIB) \
+install: all $(INSTALL_DIR)/* $(SOURCE_FILES) $(LIB) \
 	$(TEMPLATES) $(EXEC) $(TEMPLATE_DIR) $(CRONJOB) $(PSGI)
 	rm -rf $(INSTALL_DIR)/root/css
 	rm -rf $(INSTALL_DIR)/root/images
