@@ -1,0 +1,20 @@
+[% WRAPPER elements/wrapper.tt2 title="Privacy" %]
+    <h1>Recollect Media Page</h1>
+    <div class="densetext">
+      <p class="inshort">
+          <strong>In short:</strong> Integer a metus in nisi vehicula rutrum sit amet eget ipsum.
+      </p>
+
+      <h2>Phasellus auctor interdum porta</h2>
+
+      <p>
+        Praesent sit amet risus ullamcorper ligula pharetra porta vitae et arcu. Phasellus auctor interdum porta. Vivamus massa nisi, ultricies at adipiscing non, ultricies non nulla. Nullam congue tortor eget arcu fermentum pellentesque. Donec lacinia fringilla lectus, ut dapibus erat condimentum placerat. Nam sit amet turpis risus, ullamcorper sagittis dolor. Suspendisse mauris augue, vestibulum ut tempor non, rutrum ac lectus. Duis feugiat aliquam diam. Nulla facilisi. Sed viverra tincidunt feugiat. Nam non massa non lacus molestie interdum. Sed eget sapien nec eros fringilla pretium ac quis dui. Vivamus ultrices nibh sem, pulvinar aliquet dui. Sed congue ultrices posuere. Cras eu dui ac libero congue varius ut et magna. Nulla mollis, turpis vitae pretium condimentum, lacus quam aliquet neque, at volutpat diam elit eget arcu. Donec viverra sapien sit amet nisi consectetur facilisis. Sed sed magna sed nisl pellentesque euismod ac nec dui.
+      </p>
+
+      <h2>Lorem ipsum dolor sit amet</h2>
+
+      <p>
+          Nullam consectetur venenatis lorem elementum pellentesque. Integer ornare accumsan mauris, eu aliquam purus venenatis a. Nam elit tellus, ultrices sit amet porta in, dapibus tincidunt dolor. Integer vestibulum velit eu nibh scelerisque vel blandit velit cursus. Integer cursus eros at nibh dignissim egestas. Donec id urna sem. Proin commodo ultricies turpis eu hendrerit. Pellentesque tincidunt, tellus sed consequat euismod, mi justo cursus ante, eu consectetur neque sem egestas nunc. Donec sit amet diam ac sem porttitor pharetra. Ut pretium convallis ipsum, eu mattis erat ullamcorper eget.
+      </p>
+    </div>
+[% END %]
