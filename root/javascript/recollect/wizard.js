@@ -479,7 +479,7 @@ Recollect.Wizard .prototype = {
 
         var zone = [ loc.lat(), loc.lng() ].join(',');
         $.ajax({
-            url: '/api/areas/' + locality + '/zones/' + zone + '.json',
+            url: '/api/lookup/' + zone + '.json',
             success: function(data) {
                 self.setHash(locality, data.name);
             }

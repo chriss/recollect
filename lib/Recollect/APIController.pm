@@ -114,8 +114,8 @@ sub run {
                 }
 
                 # Zone lookup by lat,lng
-                when (m{^/areas/$area_rx/zones/($coord_rx),($coord_rx)(.*)$}) {
-                    return $area_wrapper->($1, undef, 'zone_at_latlng', $2, $3, $4);
+                when (m{^/lookup/($coord_rx),($coord_rx)(.*)$}) {
+                    return $wrapper->('zone_at_latlng', undef, $1, $2, $3);
                 }
 
                 # Register interest in an area
@@ -517,21 +517,15 @@ sub next_dow_change_txt {
 sub zone_at_latlng {
     my $self = shift;
     my $req  = $self->request;
-    my $area = shift;
     my $lat  = shift;
     my $lng  = shift;
-    my $rest = shift || "";
+    my $rest = shift || '';
 
-    my $zone;
     my $resp = Plack::Response->new;
-    if ($area) {
-        my $kml = Recollect::KML->new(area => $area);
-        $zone = $kml->find_zone_for_latlng($lat,$lng);
-    }
-
-    if ($zone) {
-        my $area_name = $area->name;
-        $resp->redirect("/api/areas/$area_name/zones/$zone$rest", 302);
+    if (my $zone = Recollect::Zone->By_latlng($lat, $lng)) {
+        my $area_name = $zone->area->name;
+        my $zone_name = $zone->name;
+        $resp->redirect("/api/areas/$area_name/zones/$zone_name$rest", 302);
     }
     else {
         $resp->status(404);

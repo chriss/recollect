@@ -29,6 +29,20 @@ sub By_area_id {
     return \@zones;
 }
 
+my $valid_point = qr/^-?\d+\.\d+$/;
+sub By_latlng {
+    my $class = shift;
+    my ($lat, $lng) = @_;
+    return unless $lat =~ $valid_point and $lng =~ $valid_point;
+    
+    my $sth = $class->run_sql(
+        'SELECT id FROM zones WHERE ST_Contains(geom, ?) LIMIT 1',
+        [ "POINT($lat $lng)" ],
+    );
+    return undef unless $sth->rows == 1;
+    return $class->By_id($sth->fetchrow_arrayref->[0]);
+}
+
 sub next_pickup {
     my $self = shift;
     my $limit = shift || 1;
