@@ -117,11 +117,6 @@ sub run {
                 when (m{^/lookup/($coord_rx),($coord_rx)(.*)$}) {
                     return $wrapper->('zone_at_latlng', undef, $1, $2, $3);
                 }
-
-                # Register interest in an area
-                when (m{^/interest/([^\/]+)$}) {
-                    return $wrapper->('register_interest', undef, $1);
-                }
             }
         }
         when ('POST') {
@@ -536,18 +531,6 @@ sub zone_at_latlng {
 
     # 80 characters is an arbitrary limit, fyi
 sub _place_is_ok { defined $_[0] and length $_[0] and length $_[0] < 80 }
-
-sub register_interest {
-    my $self = shift;
-    my $req  = $self->request;
-    my $place = shift;
-
-    if (_place_is_ok($place)) {
-        eval { Recollect::PlaceInterest->Increment($place) };
-        warn $@ if $@;
-    }
-    return $self->no_content;
-}
 
 sub request_place_notification {
     my $self = shift;

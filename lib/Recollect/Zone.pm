@@ -39,7 +39,9 @@ sub By_latlng {
         'SELECT id FROM zones WHERE ST_Contains(geom, ?) LIMIT 1',
         [ "POINT($lat $lng)" ],
     );
-    return undef unless $sth->rows == 1;
+    if ($sth->rows == 0) {
+        Recollect::PlaceInterest->Increment("$lat $lng");
+    }
     return $class->By_id($sth->fetchrow_arrayref->[0]);
 }
 
