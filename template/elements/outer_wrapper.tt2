@@ -44,6 +44,7 @@
             <div id="links">
                 <div class="white"></div>
                 [% INCLUDE elements/links.tt2 %]
+                [% INCLUDE elements/social.tt2 %]
             </div>
         </footer>
     </div> <!-- end of #container -->

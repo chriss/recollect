@@ -123,6 +123,12 @@ header {
     opacity: .8;
 }
 
+.socialButtons { position: relative; z-index: 101 }
+footer .socialButtons { position: absolute; right: 0; top: 0 }
+footer .twitter-share-button { position: absolute; top: 5px; right: 5px }
+footer .google-buzz-button { position: absolute; top: 4px; right: 68px }
+footer .fb_iframe_widget iframe { position: absolute; top: 5px; right: 115px }
+
 #links {
     font-size: 10pt;
     width: 100%;
@@ -134,10 +140,13 @@ header {
 #links .links {
     margin: 6px 0;
     color: #aaa;
+    position: relative;
+    z-index: 101;
 }
 #links .white {
     position: absolute;
     background-color: #000;
+    z-index: 100;
 }
 
 #links .links a {
@@ -466,19 +475,6 @@ input.initial {
 .bigButtonOrange:active {
     background: #f65735;
 }
-
-.successShare {
-    position: relative;
-}
-
-.links .successShare {
-    position: absolute;
-    right: 0;
-    top: 0;
-}
-.successShare .twitter-share-button { margin-top: 5px }
-.successShare .google-buzz-button { position: relative; top: -7px }
-.successShare .fb_iframe_widget iframe { top: -3px }
 
 /* get satisfaction tab */
 a#fdbk_tab {

@@ -1,4 +1,4 @@
-<div class="successShare">
+<div class="socialButtons">
     <!-- Tweet button -->
     <a href="http://twitter.com/share" class="twitter-share-button" data-count="none" data-via="recollectnet" data-url="http://recollect.net">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
     <!-- buzz -->
