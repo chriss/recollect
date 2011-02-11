@@ -501,7 +501,7 @@ Recollect.Wizard .prototype = {
     changeHeight: function(height, callback) {
         var props = {
             height: height + 'px',
-            marginTop: (-height/2 - 20) + 'px'
+            marginTop: (-height/2 - 15) + 'px'
         };
         var once = false;
         $('#smallLayout').animate(props, 'slow', 'swing', function() {
