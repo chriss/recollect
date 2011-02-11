@@ -125,9 +125,9 @@ header {
 
 .socialButtons { position: relative; z-index: 101 }
 footer .socialButtons { position: absolute; right: 0; top: 0 }
-footer .twitter-share-button { position: absolute; top: 5px; right: 5px }
-footer .google-buzz-button { position: absolute; top: 4px; right: 68px }
-footer .fb_iframe_widget iframe { position: absolute; top: 5px; right: 115px }
+footer .twitter-share-button { position: absolute; top: 5px; right: 154px }
+footer .google-buzz-button { position: absolute; top: 4px; right: 95px }
+footer .fb_iframe_widget iframe { position: absolute; top: 5px; right: 0px }
 
 #links {
     font-size: 10pt;
