@@ -352,7 +352,7 @@ input.initial {
     position: absolute;
     left: 250px;
     height: 43px;
-    color: #d63715;
+    font-size: 110%;
 }
 
 .zonePage .signup .bigButtonOrange{
