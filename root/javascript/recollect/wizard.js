@@ -108,14 +108,44 @@ Recollect.Wizard .prototype = {
             });
         },
 
-        '!/notfound/:city': function(args) {
+        '!/interest/:lat/:lng': function(args) {
+            var self = this;
             var opts = {
                 height: 300,
                 opacity: 1,
                 page: 'wizardZoneSuggestion',
             };
             $.extend(opts, args);
-            this.show(opts, function() {
+            self.show(opts, function() {
+                var latlng = new google.maps.LatLng(args.lat, args.lng);
+                var map = self.showMap();
+                self.showPointOnMap(map, latlng);
+
+                $('.interest form').submit(function() {
+                    $('.interest .loading').show();
+                    $('.interest form').hide();
+                    $.ajax({
+                        type: 'POST',
+                        url: '/api/interest/' + latlng.toUrlValue() + '/notify',
+                        contentType: 'json',
+                        data: $('.interest input[name=email]').val(),
+                        error: function(xhr, textStatus, errorThrown) {
+                            $('.interest form').show();
+                            $('.interest .loading').hide();
+                            $('#wizard .status').html(
+                                Jemplate.process('error', { msg: "Error" })
+                            );
+                        },
+                        success: function() {
+                            self.setHash(); // Redirect to /
+                        }
+                    });
+                    return false;
+                });
+                $('.interest .submit').submit(function() {
+                    $('.interest form').submit();
+                    return false;
+                });
             });
         },
 
@@ -131,7 +161,8 @@ Recollect.Wizard .prototype = {
                 $.extend(opts, zone);
                 self.show(opts, function() {
                     self.showCalendar(zone);
-                    self.showMap(zone);
+                    var map = self.showMap();
+                    self.showZoneOnMap(map, zone);
                     $('#wizard #subscribe').click(function(){
                         self.setHash(args.area, args.zone, 'subscribe');
                         return false;
@@ -302,7 +333,6 @@ Recollect.Wizard .prototype = {
             address: $node.val(),
             biasViewport: true,
             callback: function(results) {
-                results = self.filterLocalities(results);
                 if (!results.length) return;
                 $node.autocomplete({
                     'source': $.map(results, function(r) {
@@ -381,24 +411,6 @@ Recollect.Wizard .prototype = {
         return parts.join(', ');
     },
 
-    filterLocalities: function(results) {
-        var self = this;
-
-        var validCities = [
-            {locality: 'Vancouver', country: 'Canada'}
-        ];
-
-        return $.grep(results, function(res) {
-            return $.grep(validCities, function(city) {
-                var valid = true;
-                $.each(city, function(key, val) {
-                    if (self.addressComponent(key, res) != val) valid = false;
-                });
-                return valid;
-            }).length;
-        });
-    },
-
     showAddressSelection: function(results, callback) {
         $('#wizard .status').html(
             Jemplate.process('addresses', {
@@ -408,7 +420,9 @@ Recollect.Wizard .prototype = {
         $.each(results, function(i, result) {
             var link = $('#wizard .status a').get(i);
             $(link).click(function() {
-                $('#wizard .status').fadeOut(function() { callback(result) });
+                $('#wizard .status').fadeOut(function() {
+                    callback(result.formatted_address);
+                });
                 return false;
             });
         });
@@ -421,29 +435,14 @@ Recollect.Wizard .prototype = {
             address: address,
             biasViewport: true,
             callback: function(results) {
-                if (results.length) {
-                    var filtered = self.filterLocalities(results);
-                    if (filtered.length == 1) {
-                        self.showZoneAt(filtered[0]);
-                    }
-                    else if (filtered.length == 0) {
-                        if (results.length == 1) {
-                            // suggest results[0]
-                            self.setHash('notfound', self.cityName(results[0]));
-                        }
-                        else {
-                            // show a list of results to suggest
-                            self.showAddressSelection(results, function(r) {
-                                self.setHash('notfound', self.cityName(r));
-                            });
-                        }
-                    }
-                    else {
-                        // show a list of filtered to select from
-                        self.showAddressSelection(filtered, function(result) {
-                            self.showZoneAt(result);
-                        });
-                    }
+                if (results.length == 1) {
+                    self.showZoneAt(results[0]);
+                }
+                else if (results.length > 1) {
+                    // show a list of results to suggest
+                    self.showAddressSelection(results, function(address) {
+                        self.searchForZone(address);
+                    });
                 }
                 else {
                     // Error: zero results
@@ -482,7 +481,20 @@ Recollect.Wizard .prototype = {
             url: '/api/lookup/' + zone + '.json',
             success: function(data) {
                 self.setHash(locality, data.name);
-            }
+            },
+            error: function(xhr) {
+                if (xhr.status == 404) {
+                    self.setHash('interest', loc.lat(), loc.lng());
+                }
+                else {
+                    // Error: zero results
+                    $('#wizard .status').html(
+                        Jemplate.process('error', {
+                            msg: "Error Loading Result!"
+                        })
+                    );
+                }
+            },
         });
     },
 
@@ -604,6 +616,7 @@ Recollect.Wizard .prototype = {
 
     setHash: function() {
         var args = $.makeArray(arguments);
+        if (!args.length) location.hash = '';
         if (args.length) location.hash = '!/' + args.join('/');
     },
 
@@ -637,17 +650,21 @@ Recollect.Wizard .prototype = {
         );
     },
 
-    showMap: function(zone) {
-        var self = this;
-
-        var node = $('#wizard .map').get(0);
-        var map = new google.maps.Map(node, {
-            zoom: 13,
-            center: new google.maps.LatLng(49.24702, -123.125542),
-            mapTypeId: google.maps.MapTypeId.ROADMAP,
-            disableDefaultUI: true
+    showPointOnMap: function(map, position) {
+        map.setCenter(position);
+        var marker = new google.maps.Marker({
+            map: map,
+            draggable: false,
+            animation: google.maps.Animation.DROP,
+            position: position
         });
+        map.setZoom(12);
+        return marker
+    },
 
+    showZoneOnMap: function(map, zone) {
+        var self = this;
+        var stored = self.getLocation();
         var parser = new geoXML3.parser({
             map: map,
             processStyles: true,
@@ -661,28 +678,34 @@ Recollect.Wizard .prototype = {
                     if (!foundLocation && pmark.name == zone.name) {
                         // Add a new Marker
                         var position = pmark.polygon.bounds.getCenter();
-                        var stored = self.getLocation();
                         if (stored && polygonContains(pmark.polygon, stored)) {
                             foundLocation = true;
                             position = stored;
                         }
-
-                        map.setCenter(position);
-                        pmark.marker = new google.maps.Marker({
-                            map: map,
-                            draggable: false,
-                            animation: google.maps.Animation.DROP,
-                            position: position
-                        });
-
-                        map.setZoom(12);
+                        self.showPointOnMap(map, position);
                     }
                 });
                 return;
             }
         });
-
         parser.parse('/kml/vancouver.xml');
+    },
+
+    showMap: function(position, zone) {
+        var self = this;
+
+        if (!position) position = self.getLocation();
+        if (!position) throw new Error('Missing position');
+
+        var node = $('#wizard .map').get(0);
+        var map = new google.maps.Map(node, {
+            zoom: 13,
+            center: position,
+            mapTypeId: google.maps.MapTypeId.ROADMAP,
+            disableDefaultUI: true
+        });
+
+        return map;
     },
 
     feeds: function(zone) {
@@ -717,7 +740,7 @@ Recollect.Wizard .prototype = {
     addReminder: function (opts) {
         var self = this;
 
-        $('#wizard .subscription').append(Jemplate.process('loading'));
+        $('#wizard .subscription .loading').show();
         $('#wizard .subscription form').hide();
 
         var data = {
@@ -751,7 +774,7 @@ Recollect.Wizard .prototype = {
                 var error = $.evalJSON(xhr.responseText)
                 
                 // reshow the form
-                $('#wizard .subscription .loading').remove();
+                $('#wizard .subscription .loading').hide();
                 $('#wizard .subscription form').show();
 
                 $('#subscriptionError').html(

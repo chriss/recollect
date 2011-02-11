@@ -20,7 +20,7 @@
                 Enter your home address here and <br/>
                 never forget to take your garbage out again!
             </div>
-            <input class="huge initial address" value="" type="text"/>
+            <input class="address huge initial floatleft" value=""/>
             <a id="search" class="bigButtonGreen" href="#">Search</a>
             <input type="submit" class="hiddenButton"/>
         </form>
@@ -31,14 +31,26 @@
 [% END %]
 
 [% BLOCK wizardZoneSuggestion %]
-<div class="smallPage">
-    <div class="left middle" style="height:100px">
-        [% INCLUDE logo %]
+<div class="smallPage interest">
+    <div class="left middle">
+        <div class="map"></div>
     </div>
     <div class="right middle">
-        This is not implemented, but you tried to search for
-            <span style="white-space:nowrap">[% city %]</span>
-        <div class="clearfix"></div>
+        [% INCLUDE loading %]
+        <form>
+            <div class="title">We're Sorry</div>
+            
+            <div>Recollect is only currently available in Vancouver, British Columbia</div>
+
+            <div>Thank you for your interest, we have made a note. If you would like to be notified when we offer services in you city, please enter your e-mail address into the following form and click "submit".</div>
+
+            <br/>
+
+            <input name="email" class="huge floatleft">
+            <a class="submit bigButtonGreen" href="#">submit</a>
+            <input type="submit" class="hiddenButton"/>
+        </form>
+
         <div class="status"></div>
     </div>
 </div>
@@ -205,6 +217,7 @@
 [% BLOCK wizardForm %]
 <div class="smallPage">
     <div class="center middle subscription">
+    [% INCLUDE loading %]
     <form>
         <div class="smallZoneName">[% title %]</div>
         [% IF type == 'phone' %]
