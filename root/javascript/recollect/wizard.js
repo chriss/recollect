@@ -182,18 +182,23 @@ Recollect.Wizard .prototype = {
             self.getZone(args.area, args.zone, function(zone) {
                 $.extend(opts, zone);
                 self.show(opts, function() {
-                    $('#wizard .next').click(function(){
-                        self.setHash(
-                            args.area, args.zone, 'subscribe',
-                            $('input[name=reminder-radio]:checked').val()
-                        );
+                    $('#wizard .chooseFree').click(function(){
+                        self.setHash(args.area, args.zone, 'subscribe', 'free');
+                        return false;
+                    });
+                    $('#wizard .chooseQuarterly').click(function(){
+                        self.setHash(args.area, args.zone, 'subscribe', 'quarterly');
+                        return false;
+                    });
+                    $('#wizard .chooseAnnually').click(function(){
+                        self.setHash(args.area, args.zone, 'subscribe', 'annually');
                         return false;
                     });
                 });
             });
         },
 
-        '!/:area/:zone/subscribe/feed': function(args) {
+        '!/:area/:zone/subscribe/free': function(args) {
             var self = this;
 
             self.getZone(args.area, args.zone, function(zone) {
@@ -201,19 +206,57 @@ Recollect.Wizard .prototype = {
                     height: 500,
                     opacity: 1,
                     feeds: self.feeds(zone),
-                    page: 'wizardFeeds'
+                    page: 'wizardFree'
                 };
                 $.extend(opts, zone);
                 self.show(opts, function() {
-                    $('#wizard .next').click(function(){
-                        self.setHash(args.area, args.zone, 'subscribe'); //BACK
+                    $('#wizard .chooseEmail').click(function(){
+                        self.setHash(
+                            args.area, args.zone, 'subscribe', 'free', 'email'
+                        );
+                        return false;
+                    });
+                    $('#wizard .chooseTwitter').click(function(){
+                        self.setHash(
+                            args.area, args.zone, 'subscribe', 'free', 'twitter'
+                        );
                         return false;
                     });
                 });
             });
         },
 
-        '!/:area/:zone/subscribe/:type': function(args) {
+        '!/:area/:zone/subscribe/:paycycle': function(args) {
+            var self = this;
+
+            self.getZone(args.area, args.zone, function(zone) {
+                var opts = {
+                    height: 500,
+                    opacity: 1,
+                    feeds: self.feeds(zone),
+                    page: 'wizardPay'
+                };
+                $.extend(opts, zone);
+                self.show(opts, function() {
+                    $('#wizard .chooseText').click(function(){
+                        self.setHash(
+                            args.area, args.zone, 'subscribe',
+                            args.paycycle, 'sms'
+                        );
+                        return false;
+                    });
+                    $('#wizard .choosePhone').click(function(){
+                        self.setHash(
+                            args.area, args.zone, 'subscribe',
+                            args.paycycle, 'phone'
+                        );
+                        return false;
+                    });
+                });
+            });
+        },
+
+        '!/:area/:zone/subscribe/:paycycle/:type': function(args) {
             var self = this;
 
             var opts = {
@@ -243,7 +286,8 @@ Recollect.Wizard .prototype = {
                         var reminder = {
                             area: args.area,
                             zone: args.zone,
-                            type: args.type
+                            type: args.type,
+                            payment_period: args.paycycle
                         };
                         var form = $('#wizard form').serializeArray();
                         $.each(form, function(i,field) {

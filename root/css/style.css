@@ -373,29 +373,101 @@ input.initial {
  * Wizard Step: Subscribe
  */
 
-#wizard div.price {
-    text-align: center;
-    position: absolute;
-    right: 20px;
-    width: 100px;
-    font-size: 90%;
+.smallPage .boxes {
+    width: 1000px;
+    left: 50%;
+    margin-left: -450px;
 }
-#wizard .premium div.price { top: 20px }
-#wizard .basic div.price { top: 55px }
+.smallPage .twoBoxes { margin-left: -300px; }
 
-#wizard .premium {
+.boxes .boxOption {
+    float: left;
+    width: 280px;
+    height: 280px;
     border: 1px solid #D3D3D3;
-    background-color: #eee;
-    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
-    border-radius: 4px;
+
+    background-color: #fff;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+
+    margin: 10px;
 }
 
-.smallPage .feeds .feed {
-    padding: 5px
+.boxes .boxOption .inside {
+    padding: 10px;
+    height: 280px;
+    position: relative;
 }
 
-.smallPage .feeds .feed img {
+.boxes .boxOption .boxTitle {
+    font-size: 18pt;
+    padding-left: 10px;
+}
+.boxes .boxOption .discount {
+    color: #666;
+    position: absolute;
+    top: 18px;
+    right: 40px;
+}
+
+.boxes .boxOption .price {
+    position: relative;
+    padding-left: 20px;
+    font-size: 60pt;
+    margin-left: 30px;
+}
+.boxes .boxOption .price .dollarsign {
+    font-size: 30pt;
+    position: absolute;
+    left: 0;
+    top: 10px;
+}
+.boxes .price .billingCycle {
+    font-size: 8pt;
+    position: absolute;
+    bottom: 15px;
+}
+
+.boxes .quarterly .price { margin-left: 50px; }
+.boxes .annually .price { margin-left: 30px; }
+.boxes .free .price { margin-left: 85px; }
+
+.boxes .quarterly .price .billingCycle { left: 68px; }
+.boxes .annually .price .billingCycle { left: 120px; }
+.boxes .free .price .billingCycle { left: 120px; }
+
+.boxes .boxOption .service {
+    text-align: center;
+}
+.boxes .quarterly .service,
+.boxes .annually .service {
+    margin-top: 20px;
+}
+.boxes .free .service {
+    margin-top: 10px;
+}
+
+.boxes .boxOption .choose {
+    margin-left: 70px;
+    position: absolute;
+    bottom: 30px;
+}
+
+.boxes .boxOption .description {
+    position: absolute;
+    top: 75px;
+}
+
+.boxes .boxOption .description .feeds {
+    padding-top: 10px;
+}
+
+.boxes .boxOption .description .feeds .feed {
+    padding: 5px;
+}
+
+.boxes .boxOption .description .feeds .feed img {
     vertical-align: middle;
 }
 
@@ -495,35 +567,6 @@ a#fdbk_tab {
     color: #333;
     font-style: italic;
     margin: 10px 0;
-}
-
-/* Service options */
-#wizard .payclass {
-    position: relative;
-}
-#wizard .option {
-    padding: 10px 0;;
-    text-align: center;
-    height: 20px;
-}
-#wizard .radio {
-    height: 20px;
-    width: 25px;
-
-    position: absolute;
-    left: 10px;
-}
-#wizard .radio input {
-    width: 15px;
-    height: 15px;
-}
-#wizard div.label {
-    text-align: left;
-    font-size: 130%;
-    width: 300px;
-
-    position: absolute;
-    left: 50px;
 }
 
 #wizard .field {

@@ -124,92 +124,137 @@
 
 [% BLOCK wizardSubscribe %]
 <div class="smallPage">
-    <div class="center middle paymentType">
+    <div class="center middle boxes">
         <div class="smallZoneName">[% title %]</div>
         <div class="title">Schedule a weekly reminder:</div>
-        <form>
-            <div class="premium payclass">
-                <div class="option">
-                    <div class="radio">
-                        <input id="sms-reminder" name="reminder-radio" type="radio" value="sms" checked="checked"/>
-                    </div>
-                    <div class="label">
-                        <label for="sms-reminder">Text Message / SMS</label>
-                    </div>
-                </div>
-                <div class="option">
-                    <div class="radio">
-                        <input id="phone-reminder" name="reminder-radio" type="radio" value="phone"/>
-                    </div>
-                    <div class="label">
-                        <label for="phone-reminder">Phone call</label>
-                    </div>
-                </div>
-                <div class="price">
-                    $5 every 3 months<br />
-                      or<br />
-                    $18 per year
 
-                </div>
-            </div>
-            <div class="basic payclass">
-                <div class="option">
-                    <div class="radio">
-                        <input id="email-reminder" name="reminder-radio" type="radio" value="email"/>
-                    </div>
-                    <div class="label">
-                        <label for="email-reminder">E-mail</label>
-                    </div>
-                </div>
-                <div class="option">
-                    <div class="radio">
-                        <input id="twitter-reminder" name="reminder-radio" type="radio" value="twitter"/>
-                    </div>
-                    <div class="label">
-                        <label for="twitter-reminder">Twitter Direct Message</label>
-                    </div>
-                </div>
-                <div class="option">
-                    <div class="radio">
-                        <input id="feed-reminder" name="reminder-radio" type="radio" value="feed"/>
-                    </div>
-                    <div class="label">
-                        <label for="feed-reminder">Add to Calendar</label>
-                    </div>
-                </div>
+        <div class="free boxOption">
+            <div class="inside">
+                <div class="boxTitle">Free</div>
                 <div class="price">
-                    Free
+                    <div class="dollarsign">$</div> 0 
                 </div>
+                <div class="service">
+                    <div class="serviceOption">A Weekly E-Mail,</div>
+                    <div class="serviceOption">A Weekly Twitter DM, or</div>
+                    <div class="serviceOption">Add to your Calendar</div>
+                </div>
+                <a class="bigButtonGreen choose chooseFree" href="#">choose</a>
             </div>
-        </form>
+        </div>
+
+        <div class="quarterly boxOption">
+            <div class="inside">
+                <div class="boxTitle">Quarterly</div>
+                <div class="price">
+                    <div class="dollarsign">$</div> 5
+                    <div class="billingCycle">billed every 3 months</div>
+                </div>
+                <div class="service">
+                    <div class="serviceOption">A Weekly Text Message, or</div>
+                    <div class="serviceOption">A Weekly Phone Call</div>
+                </div>
+                <a class="bigButtonGreen choose chooseQuarterly" href="#">choose</a>
+            </div>
+        </div>
+
+        <div class="annually boxOption">
+            <div class="inside">
+                <div class="boxTitle">Annually</div>
+                <div class="discount">(10% discount)</div>
+                <div class="price">
+                    <div class="dollarsign">$</div> 18 
+                    <div class="billingCycle">billed annually</div>
+                </div>
+                <div class="service">
+                    <div class="serviceOption">A Weekly Text Message, or</div>
+                    <div class="serviceOption">A Weekly Phone Call</div>
+                </div>
+                <a class="bigButtonGreen choose chooseAnnually" href="#">choose</a>
+            </div>
+        </div>
+
         <div class="clearfix"></div>
-        <a class="bigButtonGreen next" href="#">next</a>
     </div>
 </div>
 [% END %]
 
-[% BLOCK wizardFeeds %]
+[% BLOCK wizardFree %]
 <div class="smallPage">
-    <div class="center middle subscription">
-        <div class="feeds">
-            <div class="smallZoneName">[% title %]</div>
-            <div class="title">Add to Calendar:</div>
-            <div class="help">
-                Please click one of the following links to add your zone's schedule to Google Calendar, iCal, Microsoft Outlook or another calendar application.
-            </div>
-            [% FOR feed = feeds %]
-                <div class="feed">
-                    <img src="/[% version %]/images/feeds/[% feed.icon %]">
-                    <a id="[% feed.id %]" href="[% feed.url %]" target="_blank">
-                        [% feed.name %]
-                    </a>
+    <div class="center middle boxes">
+        <div class="smallZoneName">[% title %]</div>
+        <div class="title">Schedule a weekly reminder:</div>
+        <div class="email boxOption">
+            <div class="inside">
+                <div class="boxTitle">E-Mail</div>
+                <div class="description">
+                    Send a weekly E-Mail.
                 </div>
-            [% END %]
+                <a class="bigButtonGreen choose chooseEmail" href="#">choose</a>
+            </div>
         </div>
-        <div class="nextMessage">
-            Click next to sign up for a pickup reminder!
+
+        <div class="twitter boxOption">
+            <div class="inside">
+                <div class="boxTitle">
+                    <img src="/[% version %]/images/twitter_logo.png"/>
+                </div>
+                <div class="description">
+                    Send a weekly direct message to your twitter account. Please note that you will need to start following @<a target="_new" href="http://twitter.com/recollectnet">recollectnet</a>.
+                </div>
+                <a class="bigButtonGreen choose chooseTwitter" href="#">choose</a>
+            </div>
         </div>
-        <a class="bigButtonGreen next" href="#">next</a>
+
+        <div class="boxOption">
+            <div class="inside">
+                <div class="boxTitle">Add to Calendar</div>
+                <div class="description">
+                    Click one of the following links to add your zone's schedule to Google Calendar, iCal, Microsoft Outlook or another calendar application.
+                    <div class="feeds">
+                    [% FOR feed = feeds %]
+                        <div class="feed">
+                            <img src="/[% version %]/images/feeds/[% feed.icon %]">
+                            <a id="[% feed.id %]" href="[% feed.url %]" target="_blank">
+                                [% feed.name %]
+                            </a>
+                        </div>
+                    [% END %]
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</div>
+[% END %]
+
+[% BLOCK wizardPay %]
+<div class="smallPage">
+    <div class="center middle boxes twoBoxes">
+        <div class="smallZoneName">[% title %]</div>
+        <div class="title">Schedule a weekly reminder:</div>
+        <div class="sms boxOption">
+            <div class="inside">
+                <div class="boxTitle">Text Message</div>
+                <div class="description">
+                    Send me a text message each week to remind me to take out the garbage, recycling and yard trimmings.
+                </div>
+                <a class="bigButtonGreen choose chooseText" href="#">choose</a>
+            </div>
+        </div>
+
+        <div class="twitter boxOption">
+            <div class="inside">
+                <div class="boxTitle">Phone Call</div>
+                <div class="description">
+                    Call me each week to remind me to take out the garbage, recycling and yard trimmings.
+                </div>
+                <a class="bigButtonGreen choose choosePhone" href="#">choose</a>
+            </div>
+        </div>
+
+        <div class="clearfix"></div>
     </div>
 </div>
 [% END %]
