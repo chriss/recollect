@@ -1,5 +1,5 @@
 [% BLOCK logo %]
-    <a href="/"><img class="logo" src="/images/recollect_logo_small.png"/></a>
+    <a href="/"><img class="logo" src="/[% version %]/images/recollect_logo_small.png"/></a>
 [% END %]
 
 [% BLOCK error %]
@@ -97,7 +97,7 @@
     <div class="cityImageSection">
         <a href="http://vancouver.ca/projects/foodWaste/noplastic.htm"
             alt="Don't trash your food!">
-            <img src="/images/recollect-ad-no-plastic-borderless.jpg"/>
+            <img src="/[% version %]/images/recollect-ad-no-plastic-borderless.jpg"/>
         </a>
     </div>
 </div>
@@ -199,7 +199,7 @@
             </div>
             [% FOR feed = feeds %]
                 <div class="feed">
-                    <img src="/images/feeds/[% feed.icon %]">
+                    <img src="/[% version %]/images/feeds/[% feed.icon %]">
                     <a id="[% feed.id %]" href="[% feed.url %]" target="_blank">
                         [% feed.name %]
                     </a>
@@ -262,7 +262,7 @@
 
 [% BLOCK loading %]
     <div class="page loading">
-        <img src="/images/loading.gif"/>
+        <img src="/[% version %]/images/loading.gif"/>
     </div>
 [% END %]
 

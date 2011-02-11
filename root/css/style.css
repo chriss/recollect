@@ -638,7 +638,7 @@ a#fdbk_tab {
 }
 
 .ui-datepicker .yard {
-    background: #f6f9e8 url(/images/yard.png) repeat;
+    background: #f6f9e8 url(../images/yard.png) repeat;
 }
 
 .ui-helper-hidden-accessible { position: absolute !important; clip: rect(1px 1px 1px 1px); clip: rect(1px,1px,1px,1px); }

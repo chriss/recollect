@@ -13,8 +13,8 @@ server {
     root   /var/www/recollect/root;
     index  index.html;
 
-    location ~ ^/(images|javascript|css) {
-        rewrite ^/(images|javascript|css)\/(?:\d+\.\d+\.\d+)/(.*)$ /$1/$2;  
+    location ~ ^/(?:\d+\.\d+\.\d+)/(images|javascript|css) {
+        rewrite ^/(?:\d+\.\d+\.\d+)\/(images|javascript|css)/(.*)$ /$1/$2;  
         expires max;  
         break;  
     }  

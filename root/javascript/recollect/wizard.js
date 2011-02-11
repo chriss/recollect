@@ -536,6 +536,7 @@ Recollect.Wizard .prototype = {
         var self = this;
 
         // Create the new page
+        opts.version = self.version;
         var $newPage = $(Jemplate.process(opts.page, opts));
         var new_height = opts.height || 200;
 

@@ -1,7 +1,7 @@
 [% WRAPPER elements/outer_wrapper.tt2 %]
     <div id="simpleLayout">
         <div class="white"></div>
-        <a href="/"><img class="logo" src="/images/recollect_logo.png"/></a>
+        <a href="/"><img class="logo" src="/[% version %]/images/recollect_logo.png"/></a>
         <div class="error">The server encountered an error!</div>
     </div>
 [% END %]

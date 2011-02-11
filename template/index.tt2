@@ -11,7 +11,7 @@
     </div>
 
     <script>
-        var wizard = new Recollect.Wizard();
+        var wizard = new Recollect.Wizard({ version: "[% version %]" });
         wizard.start();
     </script>
 [% END %]
