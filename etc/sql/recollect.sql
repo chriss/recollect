@@ -15,7 +15,9 @@ CREATE TABLE zones (
     area_id integer references areas(id) NOT NULL,
     name   text NOT NULL,
     title  text NOT NULL,
-    colour text NOT NULL
+    colour_name text NOT NULL,
+    line_colour text NOT NULL,
+    poly_colour text NOT NULL
 );
 SELECT AddGeometryColumn('', 'zones','geom',-1,'MULTIPOLYGON',2);
 CREATE INDEX zones_name_idx ON zones (name);
