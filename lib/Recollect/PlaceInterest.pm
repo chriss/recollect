@@ -9,31 +9,28 @@ with 'Recollect::Roles::Config';
 with 'Recollect::Roles::SQL';
 with 'Recollect::Roles::Log';
 
-sub _normalize_place {
-    my $place = lc(shift || '');
-    $place =~ s/^\s+//; $place =~ s/\s+$//; $place =~ s/\s+/ /g;
-    return $place;
-}
-
+my $valid_point = qr/^-?\d+\.\d+ -?\d+\.\d+$/;
 sub Increment {
     my $class = shift;
-    my $place = _normalize_place(shift) or return;
+    my $place = shift;
+    return unless $place =~ $valid_point;
 
     $class->run_sql(
         "INSERT INTO place_interest VALUES ('now'::timestamptz, ?)",
-        [$place],
+        ["POINT($place)"],
     );
     $class->log("Registered interest in <$place>");
 }
 
 sub Notify {
     my $class = shift;
-    my $place = _normalize_place(shift) or return;
+    my $place = shift;
     my $email = shift;
+    return unless $place =~ $valid_point;
 
     $class->run_sql(
         "INSERT INTO place_notify VALUES ('now'::timestamptz, ?, ?)",
-        [ $place, $email ],
+        [ $email, "POINT($place)" ],
     );
     $class->log("Registered interest in <$place> for <$email>");
 }

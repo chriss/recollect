@@ -542,8 +542,7 @@ sub zone_at_latlng {
     return $resp->finalize;
 }
 
-    # 80 characters is an arbitrary limit, fyi
-sub _place_is_ok { defined $_[0] and length $_[0] and length $_[0] < 80 }
+sub _place_is_ok { defined $_[0] and length $_[0] and length $_[0] < 30 }
 
 sub request_place_notification {
     my $self = shift;
@@ -552,6 +551,7 @@ sub request_place_notification {
     my $email = $self->request->parameters->{email};
 
     if ($email and _place_is_ok($place) and Email::Valid->address($email)) {
+        $place =~ s/,/ /;
         eval { Recollect::PlaceInterest->Notify($place, $email) };
         warn $@ if $@;
     }

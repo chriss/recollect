@@ -21,8 +21,8 @@ Recollect::Util->run_sql('DELETE FROM place_interest');
 Recollect::Util->run_sql('DELETE FROM place_notify');
 
 subtest "Requesting notification for service in a place" => sub {
-    test_notification_ok('Toronto', 'email@foobar.com');
-    test_notification_ok('Toronto', 'this is not an email address');
+    test_notification_ok('49.2877347,-123.0452854', 'email@foobar.com');
+    test_notification_ok('49.2877347,-123.0452854', 'this is not an email address');
 
     my $count = Recollect::Util->sql_singlevalue('SELECT COUNT(*) FROM place_notify');
     is $count, 1, 'recorded a real email';
@@ -30,13 +30,6 @@ subtest "Requesting notification for service in a place" => sub {
 
 done_testing();
 exit;
-
-sub uri_ok {
-    my $uri   = shift;
-    my %tests = @_;
-
-}
-
 
 sub test_interest_ok {
     my $area  = shift;

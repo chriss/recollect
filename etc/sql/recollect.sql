@@ -80,18 +80,16 @@ CREATE VIEW next_pickup AS
 
 
 CREATE TABLE place_interest (
-    at    timestamptz NOT NULL,
-    place text NOT NULL
+    at    timestamptz NOT NULL
 );
 CREATE INDEX place_interest_time_idx  ON place_interest (at);
-CREATE INDEX place_interest_place_idx ON place_interest (place);
+SELECT AddGeometryColumn('', 'place_interest','point',-1,'POINT',2);
 
 CREATE TABLE place_notify (
     at    timestamptz NOT NULL,
-    place text NOT NULL,
     email text NOT NULL
 );
 CREATE INDEX place_notify_time_idx  ON place_notify (at);
-CREATE INDEX place_notify_place_idx ON place_notify (place);
+SELECT AddGeometryColumn('', 'place_notify','point',-1,'POINT',2);
 
 COMMIT;

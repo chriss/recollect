@@ -11500,22 +11500,20 @@ ALTER TABLE public.next_pickup OWNER TO recollect;
 --
 
 CREATE TABLE place_interest (
-    at timestamp with time zone NOT NULL,
-    place text NOT NULL
+    at    timestamptz NOT NULL
 );
-
+SELECT AddGeometryColumn('', 'place_interest','point',-1,'POINT',2);
 
 ALTER TABLE public.place_interest OWNER TO recollect;
 
 --
 -- Name: place_notify; Type: TABLE; Schema: public; Owner: recollect; Tablespace: 
 --
-
 CREATE TABLE place_notify (
-    at timestamp with time zone NOT NULL,
-    place text NOT NULL,
+    at    timestamptz NOT NULL,
     email text NOT NULL
 );
+SELECT AddGeometryColumn('', 'place_notify','point',-1,'POINT',2);
 
 
 ALTER TABLE public.place_notify OWNER TO recollect;
@@ -12276,21 +12274,6 @@ COPY pickups (id, zone_id, day, flags) FROM stdin;
 \.
 
 
---
--- Data for Name: place_interest; Type: TABLE DATA; Schema: public; Owner: recollect
---
-
-COPY place_interest (at, place) FROM stdin;
-\.
-
-
---
--- Data for Name: place_notify; Type: TABLE DATA; Schema: public; Owner: recollect
---
-
-COPY place_notify (at, place, email) FROM stdin;
-\.
-
 
 --
 -- Data for Name: reminders; Type: TABLE DATA; Schema: public; Owner: recollect
@@ -12431,24 +12414,11 @@ CREATE INDEX pickups_zone_idx ON pickups USING btree (zone_id);
 
 
 --
--- Name: place_interest_place_idx; Type: INDEX; Schema: public; Owner: recollect; Tablespace: 
---
-
-CREATE INDEX place_interest_place_idx ON place_interest USING btree (place);
-
-
 --
 -- Name: place_interest_time_idx; Type: INDEX; Schema: public; Owner: recollect; Tablespace: 
 --
 
 CREATE INDEX place_interest_time_idx ON place_interest USING btree (at);
-
-
---
--- Name: place_notify_place_idx; Type: INDEX; Schema: public; Owner: recollect; Tablespace: 
---
-
-CREATE INDEX place_notify_place_idx ON place_notify USING btree (place);
 
 
 --
