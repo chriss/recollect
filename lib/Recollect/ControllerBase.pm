@@ -99,9 +99,8 @@ sub process_template {
         when (m/\.txt$/) {
             $resp->header('Content-Type' => 'text/plain');
         }
-        when (m/\.kml$/) {
-            $resp->header('Content-Type' =>
-                    'application/vnd.google-earth.kml+xml; encoding=utf-8');
+        when (m/\.xml$/) {
+            $resp->header('Content-Type' => 'application/xml; encoding=utf-8');
         }
         default {
             $resp->header('Content-Type' => 'text/html; charset=utf8');
