@@ -8,6 +8,7 @@ use HTTP::Request::Common qw/GET POST DELETE/;
 use t::Recollect;
 use JSON qw/encode_json decode_json/;
 use Data::ICal;
+use XML::Simple;
 
 no warnings 'redefine';
 no warnings 'once';
@@ -149,7 +150,21 @@ EOT
         ok !$data->{pickupdays}, 'no pickupdays, not verbose';
         ok !$data->{nextpickup}, 'no nextpickup, not verbose';
     },
+    kml => sub {
+        my $data = shift;
+        like $data->{Document}{name}, qr/Vancouver North Red/;
+        is $data->{Document}{Placemark}{styleUrl}, '#red';
+        is $data->{Document}{Placemark}{name}, 'vancouver-north-red';
+        is $data->{Document}{Placemark}{description}, 'Vancouver North Red';
+        is $data->{Document}{Style}{PolyStyle}{color}, '336565ff';
+        is $data->{Document}{Style}{LineStyle}{color}, 'ff3333ff';
+        is $data->{Document}{Style}{id}, 'red';
+        my $coords = $data->{Document}{Placemark}{Polygon}
+                            ->{outerBoundaryIs}{LinearRing}{coordinates};
+        like $coords, qr/49/;
+    },
 );
+
 test_the_api_for('/areas/Vancouver/zones/1',                   %zone_tests);
 test_the_api_for('/areas/Vancouver/zones/vancouver-north-red', %zone_tests);
 
@@ -368,6 +383,17 @@ sub test_the_api_for {
                         my $data = eval { decode_json($json) };
                         is $@, '', "json is valid";
                         $test->($data) unless $@;
+                    }
+                );
+            }
+            if (my $test = $tests{kml}) {
+                (my $kml_uri = $uri) =~ s/(\?(.+)$|$)/.kml$1/;
+                $test_uri->(
+                    $kml_uri,
+                    sub {
+                        my $xml = shift;
+                        my $data = XMLin($xml);
+                        $test->($data);
                     }
                 );
             }

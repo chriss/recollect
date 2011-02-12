@@ -61,7 +61,7 @@ sub run {
     };
 
     my $coord_rx = qr{[+-]?\d+\.\d+};
-    my $ext_rx   = qr{(?:\.(txt|json))?$};
+    my $ext_rx   = qr{(?:\.(txt|json|kml))?$};
     my $area_rx  = qr{([\w ]+?)};
     my $zone_rx  = qr{([\w\-_]+?)};
     given ($req->method) {
@@ -387,31 +387,30 @@ sub zones_txt {
 }
 
 sub zone {
-    my $self = shift;
-    my $area = shift;
-    my $zone = shift;
+    my ($self, $area, $zone) = @_;
     return $self->process_template('zone.html', { area => $area, zone => $zone });
 }
 
 sub zone_json {
-    my $self = shift;
-    my $area = shift;
-    my $zone = shift;
+    my ($self, $area, $zone) = @_;
     my $verbose = $self->request->param('verbose');
     return $self->process_json( $zone->to_hash(verbose => $verbose) );
 }
 
 sub zone_txt {
-    my $self = shift;
-    my $area = shift;
-    my $zone = shift;
-    return $self->process_template('zone.txt', { area => $area, zone => $zone });
+    my ($self, $area, $zone) = @_;
+    return $self->process_template('zone.txt',
+        { area => $area, zone => $zone });
+}
+
+sub zone_kml {
+    my ($self, $area, $zone) = @_;
+    return $self->process_template('zone.kml',
+        { area => $area, zone => $zone });
 }
 
 sub pickupdays {
-    my $self = shift;
-    my $area = shift;
-    my $zone = shift;
+    my ($self, $area, $zone) = @_;
     return $self->process_template('pickupdays.html',
         { has_ical => 1, area => $area, zone => $zone });
 }

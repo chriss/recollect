@@ -1,4 +1,5 @@
 package Recollect::ControllerBase;
+use feature 'switch';
 use Moose::Role;
 use Recollect::Util qw/base_path is_dev_env/;
 use JSON qw/encode_json decode_json/;
@@ -83,20 +84,29 @@ sub process_template {
     my $self = shift;
     my $template = shift;
     my $param = shift;
-    my $resp = Plack::Response->new(200);
     my $body;
     $self->render_template($template, $param, \$body);
     if (!defined $body) {
-        $self->log(
-            "Error rendering template $template: " . $self->tt2->error);
+        my $msg = "Error rendering template $template: " . $self->tt2->error;
+        warn $msg;
+        $self->log($msg);
         return $self->redirect("/500.html", 302);
     }
+    my $resp = Plack::Response->new(200);
     $resp->body($body);
     $resp->header('X-UA-Compatible' => 'IE=EmulateIE7');
-    $resp->header('Content-Type' => 'text/html; charset=utf8');
-    if ($template =~ m/\.txt$/) {
-        $resp->header('Content-Type' => 'text/plain');
-    }
+    given ($template) {
+        when (m/\.txt$/) {
+            $resp->header('Content-Type' => 'text/plain');
+        }
+        when (m/\.kml$/) {
+            $resp->header('Content-Type' =>
+                    'application/vnd.google-earth.kml+xml; encoding=utf-8');
+        }
+        default {
+            $resp->header('Content-Type' => 'text/html; charset=utf8');
+        }
+    };
     return $resp;
 }
 
