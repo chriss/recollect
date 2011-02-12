@@ -102,7 +102,9 @@ Area_tests: {
                 my $p = $polygons->{$id};
                 ok $p->{styleUrl}, "$id styleUrl";
                 ok $p->{description}, "$id description";
-                ok $p->{Polygon}{outerBoundaryIs}{LinearRing}{coordinates}, "$id coords";
+                my $coords = $p->{Polygon}{outerBoundaryIs}{LinearRing}{coordinates};
+                ok $coords, "$id coords";
+                unlike $coords, qr/\(|\)/, 'no parens';
             }
         },
     );
