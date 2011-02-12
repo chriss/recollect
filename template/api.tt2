@@ -30,8 +30,9 @@
             <a href="/api/areas/Vancouver">/api/areas/Vancouver</a>
         </div>
         <p>
-        This data is also available as <a href="/api/areas/Vancouver.txt"><code>text/plain</code></a> 
-        and <a href="/api/areas/Vancouver.json"><code>application/json</code></a>.
+        This data is also available as <a href="/api/areas/Vancouver.txt"><code>text/plain</code></a>,
+        <a href="/api/areas/Vancouver.json"><code>application/json</code></a>
+        and <a href="/api/areas/Vancouver.kml"><code>KML (application/xml)</code></a>.
         </p>
         <h2>List of Zones</h2>
         <p>
