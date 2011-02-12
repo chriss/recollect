@@ -31,9 +31,7 @@ sub run {
         my $resource_type = shift;
         $sub_name .= '_' . $resource_type if $resource_type;
         $self->log("API: $path");
-        my $resp = eval { $self->$sub_name(@_) };
-        warn $@ if $@;
-        return $resp;
+        return $self->$sub_name(@_);
     };
 
     my $json_wrapper = sub {
