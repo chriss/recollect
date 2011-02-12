@@ -358,7 +358,8 @@ sub areas_txt {
 sub area {
     my $self = shift;
     my $area = shift;
-    return $self->process_template('area.html', { area => $area });
+    return $self->process_template('area.html',
+        { has_kml => 1, area => $area });
 }
 
 sub area_json {
@@ -403,7 +404,8 @@ sub zones_txt {
 
 sub zone {
     my ($self, $area, $zone) = @_;
-    return $self->process_template('zone.html', { area => $area, zone => $zone });
+    return $self->process_template('zone.html',
+        { has_kml => 1, area => $area, zone => $zone });
 }
 
 sub zone_json {
