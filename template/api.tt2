@@ -58,8 +58,9 @@
         </div>
         </p>
         <p>
-        This data is also available as <a href="/api/areas/Vancouver/zones/vancouver-north-blue.txt"><code>text/plain</code></a> 
-        and <a href="/api/areas/Vancouver/zones/vancouver-north-blue.json"><code>application/json</code></a>.
+        This data is also available as <a href="/api/areas/Vancouver/zones/vancouver-north-blue.txt"><code>text/plain</code></a> ,
+        <a href="/api/areas/Vancouver/zones/vancouver-north-blue.json"><code>application/json</code></a> and
+        <a href="/api/areas/Vancouver/zones/vancouver-north-blue.kml"><code>KML - application/xml</code></a>.
         </p>
 
         <p>
