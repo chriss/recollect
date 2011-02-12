@@ -9,14 +9,24 @@ use namespace::clean -except => 'meta';
 extends 'Recollect::Collection';
 with 'Recollect::Roles::Cacheable';
 
-has 'id'      => (is => 'ro', isa => 'Int',              required   => 1);
-has 'name'    => (is => 'ro', isa => 'Str',              required   => 1);
-has 'title'   => (is => 'ro', isa => 'Str',              required   => 1);
-has 'colour'  => (is => 'ro', isa => 'Str',              required   => 1);
-has 'area_id' => (is => 'ro', isa => 'Int',              required   => 1);
+has 'id'          => (is => 'ro', isa => 'Int', required => 1);
+has 'name'        => (is => 'ro', isa => 'Str', required => 1);
+has 'title'       => (is => 'ro', isa => 'Str', required => 1);
+has 'colour_name' => (is => 'ro', isa => 'Str', required => 1);
+has 'line_colour' => (is => 'ro', isa => 'Str', required => 1);
+has 'poly_colour' => (is => 'ro', isa => 'Str', required => 1);
+has 'area_id'     => (is => 'ro', isa => 'Int', required => 1);
+
 has 'area'    => (is => 'ro', isa => 'Object',           lazy_build => 1);
 has 'pickups' => (is => 'ro', isa => 'ArrayRef[Object]', lazy_build => 1);
 has 'uri'     => (is => 'ro', isa => 'Str',              lazy_build => 1);
+has 'geom_polygons' =>
+    (is => 'ro', isa => 'ArrayRef[HashRef]', lazy_build => 1);
+
+# Load geometry only on demand
+sub Columns {
+    'id, name, title, colour_name, line_colour, poly_colour, area_id'
+}
 
 sub By_area_id {
     my $class = shift;
@@ -101,7 +111,8 @@ sub to_hash {
 
     my $hash = {
         area => $self->area->to_hash,
-        map { $_ => $self->$_() } qw/id name title colour/
+        map { $_ => $self->$_() }
+            qw/id name title colour_name line_colour poly_colour/
     };
 
     if ($opts{verbose}) {
@@ -143,6 +154,32 @@ sub _now {
 sub _build_uri {
     my $self = shift;
     return "/api/areas/" . $self->area_id . "/zones/" . $self->name;
+}
+
+sub _build_geom_polygons {
+    my $self = shift;
+    my $geom_text = $self->sql_singlevalue(
+        'SELECT ST_AsText(geom) FROM zones WHERE id = ?',
+        [ $self->id ]
+    );
+    return [] unless $geom_text;
+    $geom_text =~ s/^MULTIPOLYGON\(\(//;
+    $geom_text =~ s/\)\)$//;
+    my @polygon_texts = split qr/\),\(/, $geom_text;
+    my @polygons;
+    for my $p (@polygon_texts) {
+        my @points = split ',', $p;
+        push @polygons, {
+            points => [
+                map {
+                    my ($lat, $lng) = split ' ', $_;
+                    { lat => $lat, lng => $lng }
+                    } @points
+            ],
+        };
+        
+    }
+    return \@polygons;
 }
 
 __PACKAGE__->meta->make_immutable;
