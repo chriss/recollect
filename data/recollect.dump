@@ -11664,6 +11664,14 @@ CREATE TABLE zones (
 
 ALTER TABLE public.zones OWNER TO recollect;
 
+CREATE TABLE trials (
+    at timestamptz NOT NULL,
+    target text NOT NULL
+);
+CREATE INDEX trials_target_idx ON trials (target);
+
+ALTER TABLE public.trials OWNER TO recollect;
+
 --
 -- Data for Name: areas; Type: TABLE DATA; Schema: public; Owner: recollect
 --

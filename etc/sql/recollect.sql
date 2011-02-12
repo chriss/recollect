@@ -92,4 +92,10 @@ CREATE TABLE place_notify (
 CREATE INDEX place_notify_time_idx  ON place_notify (at);
 SELECT AddGeometryColumn('', 'place_notify','point',-1,'POINT',2);
 
+CREATE TABLE trials (
+    at timestamptz NOT NULL,
+    target text NOT NULL
+);
+CREATE INDEX trials_target_idx ON trials (target);
+
 COMMIT;

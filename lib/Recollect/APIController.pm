@@ -6,6 +6,7 @@ use Recollect::CallController;
 use Recollect::Subscription;
 use Recollect::Area;
 use Recollect::PlaceInterest;
+use Recollect::Trial;
 use Plack::Request;
 use Plack::Response;
 use Data::ICal::Entry::Event;
@@ -129,6 +130,10 @@ sub run {
                 when (m{^/interest/([^\/]+)/notify$}) {
                     return $wrapper->('request_place_notification', undef, $1);
                 }
+                when (m{^/areas/$area_rx/zones/$zone_rx/trial}) {
+                    return $zone_wrapper->($1, $2, $3, 'trial')
+                }
+
             }
         }
         when ('DELETE') {
@@ -421,6 +426,22 @@ sub zone_kml {
             polygons => $zone->polygons,
         }
     );
+}
+
+sub trial {
+    my ($self, $area, $zone) = @_;
+    my $target = $self->request->parameters->{target};
+
+    if (!Recollect::Trial->Is_valid_target($target)) {
+        return $self->bad_request("target:$target is unsupported");
+    }
+
+    if (my $t = Recollect::Trial->Create(zone => $zone, target => $target)) {
+        $t->fire;
+        return $self->no_content;
+    }
+
+    return $self->forbidden;
 }
 
 sub pickupdays {
