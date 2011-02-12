@@ -30,7 +30,9 @@ is_deeply $area->zones, [], 'area has no zones initially';
 $area->add_zone(
     name   => 'vancouver-north-blue',
     title  => 'Vancouver North Blue',
-    colour => 'blue',
+    colour_name => 'blue',
+    line_colour => 'ffff3333',
+    poly_colour => '33ff6565',
 );
 
 my $zones = $area->zones;
@@ -39,7 +41,7 @@ my $zone = shift @$zones;
 ok $zone->id > 0;
 is $zone->name, 'vancouver-north-blue';
 is $zone->title, 'Vancouver North Blue';
-is $zone->colour, 'blue';
+is $zone->colour_name, 'blue';
 is $zone->area_id, $area->id, 'zone area_id matches';
 is $zone->area->id, $area->id, 'zone has area constructor';
 is_deeply $zone->pickups, [], 'zone has no pickups initially';
