@@ -173,6 +173,7 @@ sub _build_polygons {
     my @polygon_texts = split qr/\),\(/, $geom_text;
     my @polygons;
     for my $p (@polygon_texts) {
+        $p =~ s/^\(//; $p =~ s/\)$//;
         my @points = split ',', $p;
         push @polygons, {
             name => $self->name,
