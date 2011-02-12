@@ -162,7 +162,7 @@ Recollect.Wizard .prototype = {
                 self.show(opts, function() {
                     self.showCalendar(zone);
                     var map = self.showMap();
-                    self.showZoneOnMap(map, zone);
+                    self.showZoneOnMap(map, args.area, zone);
                     $('#wizard #subscribe').click(function(){
                         self.setHash(args.area, args.zone, 'subscribe');
                         return false;
@@ -663,7 +663,7 @@ Recollect.Wizard .prototype = {
         return marker
     },
 
-    showZoneOnMap: function(map, zone) {
+    showZoneOnMap: function(map, area, zone) {
         var self = this;
         var stored = self.getLocation();
         var parser = new geoXML3.parser({
@@ -689,7 +689,7 @@ Recollect.Wizard .prototype = {
                 return;
             }
         });
-        parser.parse('/kml/vancouver.xml');
+        parser.parse('/api/areas/' + area + '/zones/' + zone.name + '.kml');
     },
 
     showMap: function(position, zone) {
