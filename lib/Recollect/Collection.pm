@@ -8,6 +8,8 @@ with 'Recollect::Roles::Config';
 with 'Recollect::Roles::SQL';
 with 'Recollect::Roles::Log';
 
+sub Columns { '*' }
+
 sub _select {
     my $self = shift;
     $self->execute('select', $self->db_table, @_);
@@ -16,7 +18,7 @@ sub _select {
 
 sub All {
     my $class = shift;
-    my $sth = $class->_select('*');
+    my $sth = $class->_select($class->Columns);
     return [ map { $class->new($_) } @{ $sth->fetchall_arrayref({}) } ];
 }
 
@@ -65,7 +67,7 @@ sub By_field {
     my $value = shift;
     my %opts  = @_;
     
-    my $sth = $class->_select('*', {
+    my $sth = $class->_select($class->Columns, {
             $field => $value,
             @{ $opts{where} || [] },
         },
