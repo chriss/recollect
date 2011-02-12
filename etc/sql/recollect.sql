@@ -7,6 +7,7 @@ CREATE TABLE areas (
     centre text NOT NULL
 );
 CREATE UNIQUE INDEX zone_name_idx ON areas (LOWER(name));
+ALTER TABLE areas OWNER TO recollect;
 
 
 CREATE SEQUENCE zone_seq;
@@ -22,6 +23,7 @@ CREATE TABLE zones (
 SELECT AddGeometryColumn('', 'zones','geom',-1,'MULTIPOLYGON',2);
 CREATE INDEX zones_name_idx ON zones (name);
 CREATE UNIQUE INDEX zones_area_name_idx ON zones (area_id, name);
+ALTER TABLE zones OWNER TO recollect;
 
 
 CREATE SEQUENCE pickup_seq;
@@ -34,6 +36,7 @@ CREATE TABLE pickups (
 CREATE INDEX pickups_zone_idx ON pickups (zone_id);
 CREATE INDEX pickups_day_idx  ON pickups (day);
 CREATE UNIQUE INDEX pickups_zone_day_idx ON pickups (zone_id, day);
+ALTER TABLE pickups OWNER TO recollect;
 
 
 CREATE SEQUENCE user_seq;
@@ -47,6 +50,7 @@ CREATE TABLE users (
 CREATE UNIQUE INDEX users_email_idx ON users (email);
 CREATE UNIQUE INDEX users_twittername_idx ON users (twittername);
 INSERT INTO users VALUES (nextval('user_seq'), 'radmin@recollect.net', 'now'::timestamptz, 'recollectnet', TRUE);
+ALTER TABLE users OWNER TO recollect;
 
 CREATE TABLE subscriptions (
     id         text    PRIMARY KEY,
@@ -56,6 +60,7 @@ CREATE TABLE subscriptions (
     active     BOOLEAN DEFAULT FALSE
 );
 CREATE INDEX subscriptions_user_idx ON subscriptions (user_id);
+ALTER TABLE subscriptions OWNER TO recollect;
 
 
 CREATE SEQUENCE reminder_seq;
@@ -70,6 +75,7 @@ CREATE TABLE reminders (
 );
 CREATE INDEX reminders_sub_idx ON reminders (subscription_id);
 CREATE INDEX reminders_last_notified_idx ON reminders (last_notified);
+ALTER TABLE reminders OWNER TO recollect;
 
 --- Views to make life easier
 CREATE VIEW next_pickup AS
@@ -84,6 +90,7 @@ CREATE TABLE place_interest (
 );
 CREATE INDEX place_interest_time_idx  ON place_interest (at);
 SELECT AddGeometryColumn('', 'place_interest','point',-1,'POINT',2);
+ALTER TABLE place_interest OWNER TO recollect;
 
 CREATE TABLE place_notify (
     at    timestamptz NOT NULL,
@@ -91,11 +98,13 @@ CREATE TABLE place_notify (
 );
 CREATE INDEX place_notify_time_idx  ON place_notify (at);
 SELECT AddGeometryColumn('', 'place_notify','point',-1,'POINT',2);
+ALTER TABLE place_notify OWNER TO recollect;
 
 CREATE TABLE trials (
     at timestamptz NOT NULL,
     target text NOT NULL
 );
 CREATE INDEX trials_target_idx ON trials (target);
+ALTER TABLE trials OWNER TO recollect;
 
 COMMIT;
