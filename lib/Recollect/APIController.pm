@@ -31,7 +31,9 @@ sub run {
         my $resource_type = shift;
         $sub_name .= '_' . $resource_type if $resource_type;
         $self->log("API: $path");
-        return $self->$sub_name(@_);
+        my $resp = eval { $self->$sub_name(@_) };
+        warn $@ if $@;
+        return $resp;
     };
 
     my $json_wrapper = sub {
@@ -368,6 +370,16 @@ sub area_txt {
     return $self->process_template('area.txt', { area => $area });
 }
 
+sub area_kml {
+    my ($self, $area, $zone) = @_;
+    return $self->process_template( 'kml.xml', {
+            name     => "Recollect Collection Area - " . $area->title,
+            styles   => $area->styles,
+            polygons => $area->polygons,
+        }
+    );
+}
+
 sub zones {
     my $self = shift;
     my $area = shift;
@@ -405,8 +417,12 @@ sub zone_txt {
 
 sub zone_kml {
     my ($self, $area, $zone) = @_;
-    return $self->process_template('zone.kml',
-        { area => $area, zone => $zone });
+    return $self->process_template( 'kml.xml', {
+            name     => "Recollect Collection Zone - " . $zone->title,
+            styles   => [ $zone->style ],
+            polygons => $zone->polygons,
+        }
+    );
 }
 
 sub pickupdays {

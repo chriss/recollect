@@ -89,6 +89,22 @@ Area_tests: {
             is $data->{name},   'Vancouver';
             is $data->{centre}, $vancouver_latlng;
         },
+        kml => sub {
+            my $data = shift;
+            like $data->{Document}{name}, qr/Area - Vancouver$/;
+            my $styles = $data->{Document}{Style};
+            ok $styles->{$_}{PolyStyle}{color} for qw/green red blue yellow purple/;
+            ok $styles->{$_}{LineStyle}{color} for qw/green red blue yellow purple/;
+
+            my $polygons = $data->{Document}{Placemark};
+            is scalar(keys %$polygons), 10, 'found 10 places';
+            for my $id (keys %$polygons) {
+                my $p = $polygons->{$id};
+                ok $p->{styleUrl}, "$id styleUrl";
+                ok $p->{description}, "$id description";
+                ok $p->{Polygon}{outerBoundaryIs}{LinearRing}{coordinates}, "$id coords";
+            }
+        },
     );
     test_the_api_for('/areas/1',         %area_tests);
     test_the_api_for('/areas/Vancouver', %area_tests);
@@ -345,7 +361,7 @@ sub test_the_api_for {
                 my $test_block = shift;
                 my $res = $cb->(GET $uri);
                 is $res->code, 200, "GET $uri returns 200";
-                diag $res->content if $res->code == 500;
+                diag $res->content if $res->code != 200;
                 $test_block->($res->content, @_);
             };
             if (my $test = $tests{html}) {
@@ -392,6 +408,7 @@ sub test_the_api_for {
                     $kml_uri,
                     sub {
                         my $xml = shift;
+                        die "No response body for $kml_uri" unless $xml;
                         my $data = XMLin($xml);
                         $test->($data);
                     }

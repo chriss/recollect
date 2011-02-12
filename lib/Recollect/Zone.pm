@@ -20,8 +20,8 @@ has 'area_id'     => (is => 'ro', isa => 'Int', required => 1);
 has 'area'    => (is => 'ro', isa => 'Object',           lazy_build => 1);
 has 'pickups' => (is => 'ro', isa => 'ArrayRef[Object]', lazy_build => 1);
 has 'uri'     => (is => 'ro', isa => 'Str',              lazy_build => 1);
-has 'geom_polygons' =>
-    (is => 'ro', isa => 'ArrayRef[HashRef]', lazy_build => 1);
+has 'style'   => (is => 'ro', isa => 'HashRef',          lazy_build => 1);
+has 'polygons' => (is => 'ro', isa => 'ArrayRef[HashRef]', lazy_build => 1);
 
 # Load geometry only on demand
 sub Columns {
@@ -156,7 +156,12 @@ sub _build_uri {
     return "/api/areas/" . $self->area_id . "/zones/" . $self->name;
 }
 
-sub _build_geom_polygons {
+sub _build_style {
+    my $self = shift;
+    return { map { $_ => $self->$_ } qw/colour_name line_colour poly_colour/ };
+}
+
+sub _build_polygons {
     my $self = shift;
     my $geom_text = $self->sql_singlevalue(
         'SELECT ST_AsText(geom) FROM zones WHERE id = ?',
@@ -170,6 +175,9 @@ sub _build_geom_polygons {
     for my $p (@polygon_texts) {
         my @points = split ',', $p;
         push @polygons, {
+            name => $self->name,
+            title => $self->title,
+            colour_name => $self->colour_name,
             points => [
                 map {
                     my ($lat, $lng) = split ' ', $_;

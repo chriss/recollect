@@ -9,9 +9,12 @@ with 'Recollect::Roles::Cacheable';
 has 'id'     => (is => 'ro', isa => 'Int',              required   => 1);
 has 'name'   => (is => 'ro', isa => 'Str',              required   => 1);
 has 'centre' => (is => 'ro', isa => 'Str',              required   => 1);
+*title = \&name;
 
 has 'uri'   => (is => 'ro', isa => 'Str',              lazy_build => 1);
 has 'zones' => (is => 'ro', isa => 'ArrayRef[Object]', lazy_build => 1);
+has 'styles' => (is => 'ro', isa => 'ArrayRef[HashRef]', lazy_build => 1);
+has 'polygons' => (is => 'ro', isa => 'ArrayRef[HashRef]', lazy_build => 1);
 
 sub to_hash {
     my $self = shift;
@@ -54,6 +57,24 @@ sub _build_zones {
 sub _build_uri {
     my $self = shift;
     return "/api/areas/" . $self->id;
+}
+
+sub _build_styles {
+    my $self = shift;
+
+    # de-dup
+    my %styles;
+    for my $zone (@{ $self->zones }) {
+        my $name = $zone->style->{colour_name};
+        next if $styles{$name};
+        $styles{$name} = $zone->style;
+    }
+    return [ values %styles ];
+}
+
+sub _build_polygons {
+    my $self = shift;
+    return [ map { @{$_->polygons} } @{ $self->zones } ];
 }
 
 __PACKAGE__->meta->make_immutable;
