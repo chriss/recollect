@@ -222,16 +222,6 @@ input.hiddenButton {
     vertical-align: middle;
 }
 
-.smallPage {
-    font-size: 120%;
-    position: absolute;
-    left; 0;
-    top: 50%;
-    height: 200px;
-    margin-top: -100px;
-    width: 100%;
-}
-
 #wizard div.error {
     padding: 5px;
     background-color: #f9d7d7;
@@ -256,21 +246,40 @@ input.hiddenButton {
     margin: 3px;
 }
 
-.smallPage .title {
+.title {
     font-size: 15pt;
     padding: 5px 0;
 }
 
-.smallPage .middle {
+/* Layout */
+
+.middle {
+    font-size: 120%;
     position: absolute;
+    left; 0;
     top: 50%;
+    margin-top: -100px;
     /* margin-top must be -(height/2) */
+    width: 100%;
 }
 
+.middle .row {
+    position: relative;
+}
+
+.middle .row .left,
+.middle .row .right,
+.middle .row .center {
+    position: absolute;
+}
+
+.middle .row .left { right: 50%; margin-right: 50px }
+.middle .row .right { left: 50%; width: 40% }
+.middle .row .center { left: 33%; width: 33% }
+
+/* done Layout */
+
 /* Two panel steps */
-.smallPage .left { right: 50%; margin-right: 50px }
-.smallPage .right { left: 50%; width: 40% }
-.smallPage .center { left: 33%; width: 33% }
 
 /**
  * Wizard Step: Address search
@@ -307,17 +316,17 @@ input.initial {
     left: 40px;
 }
 
-.smallPage .zoneName {
+.middle .zoneName {
     font-size: 27pt;
 }
-.smallPage .smallZoneName {
+.middle .smallZoneName {
     font-size: 20pt;
     padding: 10px 0;
 }
-.smallPage .nextPickup {
+.middle .nextPickup {
     font-size: 15pt;
 }
-.smallPage .yardMsg {
+.middle .yardMsg {
     font-size: 15pt;
     font-style: italic;
 }
@@ -373,25 +382,40 @@ input.initial {
  * Wizard Step: Subscribe
  */
 
-.smallPage .boxes {
+.middle .boxes {
     width: 1000px;
     left: 50%;
     margin-left: -450px;
 }
-.smallPage .twoBoxes { margin-left: -300px; }
+.middle .twoBoxes { margin-left: -300px; }
 
 .boxes .boxOption {
     float: left;
     width: 280px;
     height: 280px;
-    border: 1px solid #D3D3D3;
-
+    margin: 10px;
     background-color: #fff;
+
+    /* Rounded border */
+    border: 1px solid #D3D3D3;
     -webkit-border-radius: 10px;
     -moz-border-radius: 10px;
     border-radius: 10px;
 
-    margin: 10px;
+    /* gradient */
+    background-color: #fefeef;  /* for non-css3 browsers */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fefeef', endColorstr='#adcaad'); /* for IE */
+    background: -webkit-gradient(linear, left top, left bottom, from(#fefeef), to(#adcaad)); /* for webkit browsers */
+    background: -moz-linear-gradient(top,  #fefeef,  #adcaad); /* for firefox 3.6+ */
+
+    /* Drop shadow */
+    -moz-box-shadow: 3px 3px 4px #8e9884;
+    -webkit-box-shadow: 3px 3px 4px #8e9884;
+    box-shadow: 3px 3px 4px #8e9884;
+    /* For IE 8 */
+    -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#8e9884')";
+    /* For IE 5.5 - 7 */
+    filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#8e9884');
 }
 
 .boxes .boxOption .inside {
@@ -408,7 +432,7 @@ input.initial {
     color: #666;
     position: absolute;
     top: 18px;
-    right: 40px;
+    right: 30px;
 }
 
 .boxes .boxOption .price {
@@ -471,7 +495,7 @@ input.initial {
     vertical-align: middle;
 }
 
-.smallPage select {
+.middle select {
     /* rounded corners */
     -webkit-border-radius: 15px;
     -moz-border-radius: 15px;
@@ -479,7 +503,7 @@ input.initial {
 
 }
 
-.smallPage .nextMessage {
+.middle .nextMessage {
     float: left;
     position: absolute;
     right: 100px;
@@ -487,7 +511,7 @@ input.initial {
     margin: 10px 0;
 }
 
-.smallPage .next {
+.middle .next {
     float: right;
 }
 
@@ -496,6 +520,7 @@ input.initial {
  */
 
 .bigButtonGreen,
+.bigButtonBlack,
 .bigButtonOrange {
     float: left;
     display: block;
@@ -546,6 +571,24 @@ input.initial {
 }
 .bigButtonOrange:active {
     background: #f65735;
+}
+
+.bigButtonBlack {
+    border: 1px solid #000;
+    /* Gradient */
+    background-color: #000;  /* for non-css3 browsers */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#5b5b5b', endColorstr='#000'); /* for IE */
+    background: -webkit-gradient(linear, left top, left bottom, from(#5b5b5b), to(#000)); /* for webkit browsers */
+    background: -moz-linear-gradient(top,  #5b5b5b,  #000); /* for firefox 3.6+ */
+}
+.bigButtonBlack:hover {
+    background-color: #5b5b5b;  /* for non-css3 browsers */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#2b2b2b', endColorstr='#000'); /* for IE */
+    background: -webkit-gradient(linear, left top, left bottom, from(#2b2b2b), to(#000)); /* for webkit browsers */
+    background: -moz-linear-gradient(top,  #2b2b2b,  #000); /* for firefox 3.6+ */
+}
+.bigButtonBlack:active {
+    background: #000;
 }
 
 /* get satisfaction tab */

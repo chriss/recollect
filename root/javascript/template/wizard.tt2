@@ -10,22 +10,24 @@
 [% END %]
 
 [% BLOCK wizardAddress %]
-<div class="smallPage">
-    <div class="left middle" style="height:100px">
-        [% INCLUDE logo %]
-    </div>
-    <div class="right middle">
-        <form>
-            <div class="message">
-                Enter your home address here and <br/>
-                never forget to take your garbage out again!
-            </div>
-            <input class="address huge initial floatleft" value=""/>
-            <a id="search" class="bigButtonGreen" href="#">Search</a>
-            <input type="submit" class="hiddenButton"/>
-        </form>
-        <div class="clearfix"></div>
-        <div class="status"></div>
+<div class="middle" style="height: 100px">
+    <div class="row">
+        <div class="left" style="height:100px">
+            [% INCLUDE logo %]
+        </div>
+        <div class="right">
+            <form>
+                <div class="message">
+                    Enter your home address here and <br/>
+                    never forget to take your garbage out again!
+                </div>
+                <input class="address huge initial floatleft" value=""/>
+                <a id="search" class="bigButtonGreen" href="#">Search</a>
+                <input type="submit" class="hiddenButton"/>
+            </form>
+            <div class="clearfix"></div>
+            <div class="status"></div>
+        </div>
     </div>
 </div>
 [% END %]
@@ -67,7 +69,7 @@
 [% END %]
 
 [% BLOCK wizardZone %]
-<div class="zonePage middle smallPage">
+<div class="zonePage middle">
     <div class="mapSection">
         [% INCLUDE logo %]
         <div class="map"></div>
@@ -107,9 +109,7 @@
     <div class="legend">
         <table>
             <tr>
-                <td class="example ui-datepicker-today"></td>
-                <td class="definition">Today</td>
-            </tr>
+                <td class="example ui-datepicker-today"></td> <td class="definition">Today</td> </tr>
             <tr>
                 <td class="example marked"></td>
                 <td class="definition">Garbage and Recycling</td>
@@ -123,11 +123,22 @@
 [% END %]
 
 [% BLOCK wizardSubscribe %]
-<div class="smallPage">
-    <div class="center middle boxes">
-        <div class="smallZoneName">[% title %]</div>
-        <div class="title">Schedule a weekly reminder:</div>
+<div class="middle">
+    <!-- first row -->
+    <div class="row" style="height:100px; margin-right:143px;">
+        <div class="left">
+            [% INCLUDE logo %]
+        </div>
+        <div class="right">
+            <div class="zoneName">[% title %]</div>
+            <div class="nextPickup">
+                Next pickup day: [% next %]
+                <div class="yardMsg">[% yard_msg %]</div>
+            </div>
+        </div>
+    </div>
 
+    <div class="boxes row">
         <div class="free boxOption">
             <div class="inside">
                 <div class="boxTitle">Free</div>
@@ -139,29 +150,30 @@
                     <div class="serviceOption">A Weekly Twitter DM, or</div>
                     <div class="serviceOption">Add to your Calendar</div>
                 </div>
-                <a class="bigButtonGreen choose chooseFree" href="#">choose</a>
+                <a class="bigButtonBlack choose chooseFree" href="#">choose</a>
             </div>
         </div>
 
         <div class="quarterly boxOption">
             <div class="inside">
                 <div class="boxTitle">Quarterly</div>
+                <div class="discount">$2 / month</div>
                 <div class="price">
-                    <div class="dollarsign">$</div> 5
+                    <div class="dollarsign">$</div> 6
                     <div class="billingCycle">billed every 3 months</div>
                 </div>
                 <div class="service">
                     <div class="serviceOption">A Weekly Text Message, or</div>
                     <div class="serviceOption">A Weekly Phone Call</div>
                 </div>
-                <a class="bigButtonGreen choose chooseQuarterly" href="#">choose</a>
+                <a class="bigButtonBlack choose chooseQuarterly" href="#">choose</a>
             </div>
         </div>
 
         <div class="annually boxOption">
             <div class="inside">
                 <div class="boxTitle">Annually</div>
-                <div class="discount">(10% discount)</div>
+                <div class="discount">$1.50 / month</div>
                 <div class="price">
                     <div class="dollarsign">$</div> 18 
                     <div class="billingCycle">billed annually</div>
@@ -170,7 +182,7 @@
                     <div class="serviceOption">A Weekly Text Message, or</div>
                     <div class="serviceOption">A Weekly Phone Call</div>
                 </div>
-                <a class="bigButtonGreen choose chooseAnnually" href="#">choose</a>
+                <a class="bigButtonBlack choose chooseAnnually" href="#">choose</a>
             </div>
         </div>
 
@@ -180,17 +192,29 @@
 [% END %]
 
 [% BLOCK wizardFree %]
-<div class="smallPage">
-    <div class="center middle boxes">
-        <div class="smallZoneName">[% title %]</div>
-        <div class="title">Schedule a weekly reminder:</div>
+<div class="middle">
+    <!-- first row -->
+    <div class="row" style="height:100px; margin-right:143px;">
+        <div class="left">
+            [% INCLUDE logo %]
+        </div>
+        <div class="right">
+            <div class="zoneName">[% title %]</div>
+            <div class="nextPickup">
+                Next pickup day: [% next %]
+                <div class="yardMsg">[% yard_msg %]</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="boxes row">
         <div class="email boxOption">
             <div class="inside">
                 <div class="boxTitle">E-Mail</div>
                 <div class="description">
                     Send a weekly E-Mail.
                 </div>
-                <a class="bigButtonGreen choose chooseEmail" href="#">choose</a>
+                <a class="bigButtonBlack choose chooseEmail" href="#">choose</a>
             </div>
         </div>
 
@@ -202,7 +226,7 @@
                 <div class="description">
                     Send a weekly direct message to your twitter account. Please note that you will need to start following @<a target="_new" href="http://twitter.com/recollectnet">recollectnet</a>.
                 </div>
-                <a class="bigButtonGreen choose chooseTwitter" href="#">choose</a>
+                <a class="bigButtonBlack choose chooseTwitter" href="#">choose</a>
             </div>
         </div>
 
@@ -230,17 +254,29 @@
 [% END %]
 
 [% BLOCK wizardPay %]
-<div class="smallPage">
-    <div class="center middle boxes twoBoxes">
-        <div class="smallZoneName">[% title %]</div>
-        <div class="title">Schedule a weekly reminder:</div>
+<div class="middle">
+    <!-- first row -->
+    <div class="row" style="height:100px">
+        <div class="left">
+            [% INCLUDE logo %]
+        </div>
+        <div class="right">
+            <div class="zoneName">[% title %]</div>
+            <div class="nextPickup">
+                Next pickup day: [% next %]
+                <div class="yardMsg">[% yard_msg %]</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="boxes row twoBoxes">
         <div class="sms boxOption">
             <div class="inside">
                 <div class="boxTitle">Text Message</div>
                 <div class="description">
                     Send me a text message each week to remind me to take out the garbage, recycling and yard trimmings.
                 </div>
-                <a class="bigButtonGreen choose chooseText" href="#">choose</a>
+                <a class="bigButtonBlack choose chooseText" href="#">choose</a>
             </div>
         </div>
 
@@ -250,7 +286,7 @@
                 <div class="description">
                     Call me each week to remind me to take out the garbage, recycling and yard trimmings.
                 </div>
-                <a class="bigButtonGreen choose choosePhone" href="#">choose</a>
+                <a class="bigButtonBlack choose choosePhone" href="#">choose</a>
             </div>
         </div>
 
@@ -260,48 +296,51 @@
 [% END %]
 
 [% BLOCK wizardForm %]
-<div class="smallPage">
-    <div class="center middle subscription">
-    [% INCLUDE loading %]
-    <form>
-        <div class="smallZoneName">[% title %]</div>
-        [% IF type == 'phone' %]
-            <div class="title">Schedule a Telephone Call Reminder:</div>
-            <div class="help">
-                Please enter the 10 digit telephone number that you wish to receive weekly phone call pickup reminders. This can be a mobile phone or a land line.
-            </div>
-            [% INCLUDE field name='phone' title='Telephone' %]
-            [% INCLUDE field name='email' title='Email' %]
-            [% INCLUDE time %]
-        [% ELSIF type == 'sms' %]
-            <div class="title">Schedule a Text Message Reminder:</div>
-            <div class="help">
-                Please enter the 10 digit mobile telephone number that you wish to receive weekly text message pickup reminders.
-            </div>
-            [% INCLUDE field name='phone' title='Telephone' %]
-            [% INCLUDE field name='email' title='Email' %]
-            [% INCLUDE time %]
-        [% ELSIF type == 'email' %]
-            <div class="title">Schedule an E-Mail Reminder:</div>
-            <div class="help">
-                Please enter the valid email address you wish for weekly pickup reminders to be sent to.
-            </div>
-            [% INCLUDE field name='email' title='Email' %]
-            [% INCLUDE time %]
-        [% ELSIF type == 'twitter' %]
-            <div class="title">Schedule a Twitter Reminder:</div>
-            <div class="help">
-                Please enter your Twitter username that you wish to receive weekly direct messages to.
-            </div>
-            [% INCLUDE field name='twitter' title='Twitter Username' %]
-            [% INCLUDE field name='email' title='Email' %]
-            [% INCLUDE time %]
-        [% ELSE %]
-            <div class="title">Unknown reminder type: [% type %]</div>
-        [% END %]
-        <div id="subscriptionError"></div>
-        <a class="bigButtonGreen next" href="#">submit</a>
-    </form>
+<div class="middle subscription">
+    <div class="row" style="height: 350px">
+        <div class="center">
+            [% INCLUDE loading %]
+            <form>
+                <div class="smallZoneName">[% title %]</div>
+                [% IF type == 'phone' %]
+                    <div class="title">Schedule a Telephone Call Reminder:</div>
+                    <div class="help">
+                        Please enter the 10 digit telephone number that you wish to receive weekly phone call pickup reminders. This can be a mobile phone or a land line.
+                    </div>
+                    [% INCLUDE field name='phone' title='Telephone' %]
+                    [% INCLUDE field name='email' title='Email' %]
+                    [% INCLUDE time %]
+                [% ELSIF type == 'sms' %]
+                    <div class="title">Schedule a Text Message Reminder:</div>
+                    <div class="help">
+                        Please enter the 10 digit mobile telephone number that you wish to receive weekly text message pickup reminders.
+                    </div>
+                    [% INCLUDE field name='phone' title='Telephone' %]
+                    [% INCLUDE field name='email' title='Email' %]
+                    [% INCLUDE time %]
+                [% ELSIF type == 'email' %]
+                    <div class="title">Schedule an E-Mail Reminder:</div>
+                    <div class="help">
+                        Please enter the valid email address you wish for weekly pickup reminders to be sent to.
+                    </div>
+                    [% INCLUDE field name='email' title='Email' %]
+                    [% INCLUDE time %]
+                [% ELSIF type == 'twitter' %]
+                    <div class="title">Schedule a Twitter Reminder:</div>
+                    <div class="help">
+                        Please enter your Twitter username that you wish to receive weekly direct messages to.
+                    </div>
+                    [% INCLUDE field name='twitter' title='Twitter Username' %]
+                    [% INCLUDE field name='email' title='Email' %]
+                    [% INCLUDE time %]
+                [% ELSE %]
+                    <div class="title">Unknown reminder type: [% type %]</div>
+                [% END %]
+                <div id="subscriptionError"></div>
+                <a class="bigButtonGreen next" href="#">submit</a>
+            </form>
+        </div>
+    </div>
 </div>
 [% END %]
 
