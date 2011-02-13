@@ -1,5 +1,8 @@
 BEGIN;
 
+-- Avoid the implicit index warnings
+SET client_min_messages='warning';
+
 CREATE SEQUENCE area_seq;
 CREATE TABLE areas (
     id     integer PRIMARY KEY DEFAULT nextval('area_seq'),
