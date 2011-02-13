@@ -2,13 +2,17 @@ package Recollect::Util;
 use Moose;
 extends 'Exporter';
 
-with 'Recollect::Roles::Config';
-with 'Recollect::Roles::SQL';
-with 'Recollect::Roles::Log';
-
 our @EXPORT_OK = qw/base_path now tonight config log is_dev_env/;
 
 sub base_path { $ENV{RECOLLECT_BASE_PATH} || '/var/www/recollect' }
+
+# Does-it-all util class so you can use some of the roles
+# without having an object.
+with 'Recollect::Roles::Config';
+with 'Recollect::Roles::SQL';
+with 'Recollect::Roles::Log';
+with 'Recollect::Roles::Template';
+with 'Recollect::Roles::Email';
 
 sub now {
     return $ENV{RECOLLECT_NOW} if $ENV{RECOLLECT_NOW};
