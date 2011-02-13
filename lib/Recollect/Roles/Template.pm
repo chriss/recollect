@@ -1,20 +1,17 @@
 package Recollect::Roles::Template;
 use Moose::Role;
 use Template;
-use Recollect::Util qw/base_path/;
+use namespace::clean -except => 'meta';
 
 requires 'log';
+requires 'base_path';
 
-has 'tt2' => (is => 'ro', isa => 'Object', lazy_build => 1);
+our $TT2;
+sub tt2 { $TT2 ||= shift->_build_tt2 }
 
 sub _build_tt2 {
-    my $self = shift;
-    my $templ_path = base_path() . '/template';
-    unless (-d $templ_path) {
-        $self->log("Unknown template path: $templ_path from "
-                . $self->request->path);
-        return $self->not_found();
-    }
+    my $class = shift;
+    my $templ_path = $class->base_path() . '/template';
     return Template->new(
         { INCLUDE_PATH => $templ_path },
     );

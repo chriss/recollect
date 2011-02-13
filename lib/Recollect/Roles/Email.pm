@@ -10,7 +10,8 @@ requires 'config';
 requires 'base_url';
 requires 'tt2';
 
-has '_mailer' => (is => 'ro', isa => 'Object', lazy_build => 1);
+my $MAILER;
+sub _mailer { $MAILER ||= shift->_build__mailer }
 
 sub send_email {
     my $self = shift;
@@ -24,7 +25,8 @@ sub send_email {
     my $template = "email/$args{template}";
     $args{template_args}{base} = $self->base_url;
     my $body;
-    $self->tt2->process($template, $args{template_args}, \$body) ;
+    $self->tt2->process($template, $args{template_args}, \$body);
+    die "Error rendering $template: " . $self->tt2->error unless defined $body;
 
     my %headers = (
         From => $args{from} || 'Recollect <noreply@recollect.net>',
@@ -48,6 +50,7 @@ sub _build__mailer {
     my $self = shift;
 
     if ($ENV{RECOLLECT_EMAIL}) {
+        no warnings 'redefine';
         @Email::Send::IO::IO = ($ENV{RECOLLECT_EMAIL});
         return Email::Send->new({
             mailer => 'IO',
