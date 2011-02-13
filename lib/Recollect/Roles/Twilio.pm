@@ -7,6 +7,7 @@ has 'api' => (is => 'ro', isa => 'WWW::Twilio::API', lazy_build => 1);
 
 requires 'base_url';
 requires 'config';
+requires 'log';
 
 sub _build_api {
     my $self = shift;
@@ -34,7 +35,7 @@ sub send_sms {
         (my $comment = $response->{content}) =~ s/.+\<Message\>(.+?)\<\/Message\>.+/$1/;
         die "Could not send SMS to $number: $comment\n";
     }
-    warn "Sending text message to $number\n";
+    $self->log("Sending text message to $number");
 }
 
 sub voice_call {
@@ -61,7 +62,7 @@ sub voice_call {
         (my $comment = $response->{content}) =~ s/.+\<Message\>(.+?)\<\/Message\>.+/$1/;
         die "Could not place a call to $number: $comment\n";
     }
-    warn "Placing call to $number\n";
+    $self->log("Placing call to $number");
 }
 
 sub sms_from_number   { shift->_config_value('twilio_from_number_sms') }
