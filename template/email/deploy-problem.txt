@@ -1,0 +1,9 @@
+A problem with the automated deployment occurred.
+
+Look in [% tempdir %] and [% deploy_log %] to debug.
+
+Here are the last 20 lines of the deploy log:
+
+[% last_20_lines %]
+
+Fucking Amateurs.
