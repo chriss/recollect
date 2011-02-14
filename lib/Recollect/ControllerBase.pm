@@ -189,7 +189,7 @@ sub redirect {
     my $resp = Plack::Response->new;
     $resp->redirect($url, $code);
     $resp->header('Content-Type' => 'text/plain');
-    $resp->body('');
+    $resp->body("Redirecting to $url");
     return $resp->finalize;
 }
 
