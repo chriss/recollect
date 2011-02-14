@@ -39,8 +39,6 @@ Next_dow_change: {
     is $np->{next}->string, '2011-04-27', 'next pickup is correct';
 }
 
-ok 0, 'intentional failure; please ignore';
-
 done_testing();
 exit;
 
