@@ -21,6 +21,7 @@ has 'user_id'    => (is => 'ro', isa => 'Int',  required => 1);
 has 'created_at' => (is => 'ro', isa => 'Str',  required => 1);
 has 'free'       => (is => 'ro', isa => 'Str',  required => 1);
 has 'active'     => (is => 'ro', isa => 'Bool', required => 1);
+has 'payment_period' => (is => 'ro', isa => 'Maybe[Str]');
 
 has 'user'        => (is => 'ro', isa => 'Object',           lazy_build => 1);
 has 'url'         => (is => 'ro', isa => 'Str',              lazy_build => 1);
@@ -43,8 +44,10 @@ around 'Create' => sub {
     my $reminders = delete $args{reminders};
     $args{active} = $args{free} = $class->Is_free($reminders);
     $args{id} = $class->_build_uuid;
-    my $subscription = $orig->($class, %args);
+    die "payment_period is required for non-free reminders!"
+        if !$args{free} and !$args{payment_period};
 
+    my $subscription = $orig->($class, %args);
     if ($args{free}) {
         $subscription->recurly->create_account(
             account_code => $args{id},
@@ -141,7 +144,7 @@ sub _build_payment_url {
     my $self = shift;
     return if $self->free;
     my $host = $self->payment_host;
-    my $plan_name = lc $self->reminders->[0]->zone->area->name;
+    my $plan_name = lc($self->reminders->[0]->zone->area->name) . '-' . $self->payment_period;;
     my $email = uri_encode $self->user->email;
     return
           "$host/subscribe/$plan_name/"

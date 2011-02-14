@@ -60,7 +60,8 @@ CREATE TABLE subscriptions (
     user_id    integer references users(id) NOT NULL,
     created_at timestamptz DEFAULT LOCALTIMESTAMP NOT NULL,
     free       BOOLEAN NOT NULL,
-    active     BOOLEAN DEFAULT FALSE
+    active     BOOLEAN DEFAULT FALSE,
+    payment_period TEXT
 );
 CREATE INDEX subscriptions_user_idx ON subscriptions (user_id);
 ALTER TABLE subscriptions OWNER TO recollect;

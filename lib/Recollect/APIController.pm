@@ -210,6 +210,14 @@ sub subscriptions {
     $new_sub{reminders} = $reminders;
 
     my $payment_required = Recollect::Subscription::Is_free($reminders);
+    if ($payment_required) {
+        my $period = $args->{payment_period};
+        return $self->bad_request_json('payment_period is required')
+            unless $period;
+        return $self->bad_request_json('payment_period must be quarterly or annual')
+            unless $period =~ m/^(quarterly|annual)$/;
+        $new_sub{payment_period} = $period;
+    }
     my $subscr = eval { Recollect::Subscription->Create(%new_sub) };
     return $self->bad_request_json($@) if $@;
 

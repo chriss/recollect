@@ -52,6 +52,7 @@ Add_a_paid_subscription: {
         'one previous Subscriptions';
     my $subscr = Recollect::Subscription->Create(
         email     => $test_email,
+        payment_period => 'quarterly',
         reminders => [
             {
                 target  => "sms:$test_email",
@@ -64,6 +65,7 @@ Add_a_paid_subscription: {
     like $subscr->id, qr/^[\w\d-]+$/, 'id';
     is $subscr->user->email, 'test@recollect.net', 'sub has the user';
     ok !$subscr->free, 'sub is not free';
+    is $subscr->payment_period, 'quarterly';
     my $rems = $subscr->reminders;
     isa_ok $rems, 'ARRAY', 'sub has reminders';
     is scalar(@$rems), 1, 'sub has one reminder';
@@ -73,7 +75,7 @@ Add_a_paid_subscription: {
     is $rems->[0]->subscription->id, $subscr->id, 'rem sub id is correct';
     ok !$rems->[0]->subscription->free, 'rem sub is not free';
     is $rems->[0]->subscription->payment_url,
-        'https://recollect-test.recurly.com/subscribe/vancouver/'
+        'https://recollect-test.recurly.com/subscribe/vancouver-quarterly/'
             . $rems->[0]->subscription->id
             . '/test@recollect.net?email=test@recollect.net',
         'payment url is correct';
@@ -94,6 +96,7 @@ Rainy_day_subscription_creation: {
     eval {
         Recollect::Subscription->Create(
             email     => $test_email,
+            payment_period => 'annual',
             reminders => [
                 {
                     target  => "sms:$test_email",
