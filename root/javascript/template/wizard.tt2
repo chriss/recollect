@@ -9,6 +9,25 @@
 </div>
 [% END %]
 
+[% BLOCK wizardWelcome %]
+<div class="middle" style="height: 240px">
+    <div class="row">
+        <div class="left" style="height:100px; margin-top: 65px">
+            [% INCLUDE logo %]
+        </div>
+        <div class="right">
+            <div class="title">This site is still under construction!</div>
+            <div class="message">
+                Welcome to Recollect. We're still working hard to finish this web site. Soon, you will be able to sign up for collection reminders so you will never forget to take out the trash again! If you want to try out the new site, please click the button below. Some things might not be working yet, including the reminders, but please leave us feedback by clicking on the green tab on the right. Thanks!
+            </div>
+            <a id="start" class="next bigButtonGreen" href="#">continue</a>
+            <div class="clearfix"></div>
+            <div class="status"></div>
+        </div>
+    </div>
+</div>
+[% END %]
+
 [% BLOCK wizardAddress %]
 <div class="middle" style="height: 100px">
     <div class="row">

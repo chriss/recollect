@@ -67,6 +67,21 @@ Recollect.Wizard .prototype = {
         '!/': function() {
             var self = this;
             var opts = {
+                height: 300,
+                opacity: 0.8,
+                page: 'wizardWelcome'
+            };
+            self.show(opts, function() {
+                $('#start').click(function(){
+                    self.setHash('beta');
+                    return false;
+                });
+            });
+        },
+
+        '!/beta': function() {
+            var self = this;
+            var opts = {
                 height: 200,
                 opacity: 0.8,
                 page: 'wizardAddress'
