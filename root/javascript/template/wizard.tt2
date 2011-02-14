@@ -125,7 +125,7 @@
 [% BLOCK wizardSubscribe %]
 <div class="middle">
     <!-- first row -->
-    <div class="row" style="height:100px; margin-right:143px;">
+    <div class="row top">
         <div class="left">
             [% INCLUDE logo %]
         </div>
@@ -194,7 +194,7 @@
 [% BLOCK wizardFree %]
 <div class="middle">
     <!-- first row -->
-    <div class="row" style="height:100px; margin-right:143px;">
+    <div class="row top">
         <div class="left">
             [% INCLUDE logo %]
         </div>
@@ -212,7 +212,7 @@
             <div class="inside">
                 <div class="boxTitle">E-Mail</div>
                 <div class="description">
-                    Send a weekly E-Mail.
+                    Send a weekly E-Mail reminding me to take out my Garbage, Recylcling or Yard trimmings and kitchen waste.
                 </div>
                 <a class="bigButtonBlack choose chooseEmail" href="#">choose</a>
             </div>
@@ -297,13 +297,27 @@
 
 [% BLOCK wizardForm %]
 <div class="middle subscription">
-    <div class="row" style="height: 350px">
+    <!-- first row -->
+    <div class="row" style="height: 100px">
         <div class="center">
-            [% INCLUDE loading %]
+            <div class="zoneName">[% title %]</div>
+            [% IF type == 'phone' %]
+                <div class="title">Schedule a Telephone Call Reminder</div>
+            [% ELSIF type == 'sms' %]
+                <div class="title">Schedule a Text Message Reminder:</div>
+            [% ELSIF type == 'email' %]
+                <div class="title">Schedule an E-Mail Reminder:</div>
+            [% ELSIF type == 'twitter' %]
+                <div class="title">Schedule a Twitter Reminder:</div>
+            [% ELSE %]
+                <div class="title">Unknown reminder type: [% type %]</div>
+            [% END %]
+        </div>
+    </div>
+    <div class="row" style="height: 200px">
+        <div class="center">
             <form>
-                <div class="smallZoneName">[% title %]</div>
                 [% IF type == 'phone' %]
-                    <div class="title">Schedule a Telephone Call Reminder:</div>
                     <div class="help">
                         Please enter the 10 digit telephone number that you wish to receive weekly phone call pickup reminders. This can be a mobile phone or a land line.
                     </div>
@@ -311,7 +325,6 @@
                     [% INCLUDE field name='email' title='Email' %]
                     [% INCLUDE time %]
                 [% ELSIF type == 'sms' %]
-                    <div class="title">Schedule a Text Message Reminder:</div>
                     <div class="help">
                         Please enter the 10 digit mobile telephone number that you wish to receive weekly text message pickup reminders.
                     </div>
@@ -319,22 +332,18 @@
                     [% INCLUDE field name='email' title='Email' %]
                     [% INCLUDE time %]
                 [% ELSIF type == 'email' %]
-                    <div class="title">Schedule an E-Mail Reminder:</div>
                     <div class="help">
                         Please enter the valid email address you wish for weekly pickup reminders to be sent to.
                     </div>
                     [% INCLUDE field name='email' title='Email' %]
                     [% INCLUDE time %]
                 [% ELSIF type == 'twitter' %]
-                    <div class="title">Schedule a Twitter Reminder:</div>
                     <div class="help">
                         Please enter your Twitter username that you wish to receive weekly direct messages to.
                     </div>
                     [% INCLUDE field name='twitter' title='Twitter Username' %]
                     [% INCLUDE field name='email' title='Email' %]
                     [% INCLUDE time %]
-                [% ELSE %]
-                    <div class="title">Unknown reminder type: [% type %]</div>
                 [% END %]
                 <div id="subscriptionError"></div>
                 <a class="bigButtonGreen next" href="#">submit</a>

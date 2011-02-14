@@ -277,6 +277,10 @@ input.hiddenButton {
 .middle .row .right { left: 50%; width: 40% }
 .middle .row .center { left: 33%; width: 33% }
 
+.middle .top { height: 100px }
+.middle .top .left { margin-right: 140px }
+.middle .top .right { right: 50%; margin-left: -115px; width: 100% }
+
 /* done Layout */
 
 /* Two panel steps */
@@ -480,7 +484,8 @@ input.initial {
 
 .boxes .boxOption .description {
     position: absolute;
-    top: 75px;
+    top: 50px;
+    padding: 10px;
 }
 
 .boxes .boxOption .description .feeds {
