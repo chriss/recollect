@@ -2,7 +2,6 @@
 <div class="densetext">
 <center><h1>Frequently Asked Questions</h1></center> 
 
-<h2>Using Recollect</h2> 
 <h3>What is Recollect?</h3> 
  
 <p class="rhetorical">Do you ever forgot to take out the garbage?</p>
@@ -10,7 +9,7 @@
  
 <p>If you sign up for our service, our commitment to you is to send you a reminder, via email, ical feed, twitter, text message or phone call, at the time of your choosing the day before your garbage day. That's our service!</p> 
  
-<p>If it is sounds simple... it is. Mostly our goal is to make people's lives a little easier by helping them not have to track when to take out their garbage and recycling. Sometimes people call us "the marriage saver" but we'd be happy to simply make your life a little easier.</p> 
+<p>If it is sounds simple... it is. Our goal is to simply make people's lives a little easier by helping them not have to remember when to take out their garbage and recycling. People call us "the marriage saver" but we'll settle with just making your life a little easier.</p> 
  
 <h3>How do I set up an Account?</h3> 
  
@@ -24,7 +23,7 @@
 </p> 
 </ol>
 
-<h3>How can I be notified?</h3>
+<h3>How will I be notified?</h3>
 
 <p>
 You can choose how you'd like Recollect to contact you. We offer a few ways:
@@ -39,12 +38,12 @@ You can choose how you'd like Recollect to contact you. We offer a few ways:
 </ul>
 
 <p>
-You can also choose what time you wish to be notified - the night before, the day before, the morning of, or any custom time.
+You can also choose the time you wish to be notified - the night before, the day before, the morning of... any time you'd like.
 </p>
 
 <h3>What Languages do you support?</h3>
 
-<p>We only support English, but we would like to add more languages for the notifications, as well as for the website.  If you would like to help with either of these, please let us know.</p>
+<p>Presently, we only support English, but we would like to add more languages for the notifications, as well as for the website.  If you would like to help with this please let us know.</p>
 
 <h3>How much does Recollect cost?</h3> 
  
@@ -70,8 +69,6 @@ You can also choose what time you wish to be notified - the night before, the da
  
 <p>Contact us! We are presently in the process of rolling out recollect across more and more cities, if you'd like us to roll out to your city let us know! If you city already shares garbage zone and schedule information in an open data portal we'd definitely like to know.</p> 
  
-<h2>Frequently Asked Questions</h2> 
- 
 <h3>Who created Recollect?</h3> 
  
 <p>Recollect started as <a href="http://vantrash.ca">VanTrash</a> an idea that <a href="http://eaves.ca">David Eaves</a> <a href="http://eaves.ca/2009/06/29/how-open-data-even-makes-garbage-collection-sexier-easier-and-cheaper/">blogged about</a> while thinking about open government data. Later at a <a href="http://vancouver.hackspace.ca/doku.php?id=super_happy_hacker_house">community hackathon</a> <a href="http://twitter.com/lukec">Luke Closs</a> and <a href="http://twitter.com/kevinj">Kevin Jones</a> decided it might be a fun project. After enjoying some initial success we felt that everyone should enjoy the benefits of a garbage reminder service so we created <a href="http://recollect">recollect</a>.</p> 
@@ -86,10 +83,10 @@ You can also choose what time you wish to be notified - the night before, the da
  
 <p>You can contact us via email at help@recollect.</p> 
  
-<p>Recollect
-327-425 W8th Ave
-Vancouver, BC
-V5Y 3Z5
-P: 778-785-1357.</p> 
+<p>Recollect<br>
+327-425 W8th Ave<br>
+Vancouver, BC<br>
+V5Y 3Z5<br>
+<p>P: 778-785-1357.</p> 
 </div>
 [% END %]
