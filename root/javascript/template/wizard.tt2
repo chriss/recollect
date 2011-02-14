@@ -10,8 +10,8 @@
 [% END %]
 
 [% BLOCK wizardWelcome %]
-<div class="middle" style="height: 240px">
-    <div class="row">
+<div class="middle">
+    <div class="row" style="height: 225px">
         <div class="left" style="height:100px; margin-top: 65px">
             [% INCLUDE logo %]
         </div>
