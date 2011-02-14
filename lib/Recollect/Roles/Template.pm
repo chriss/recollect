@@ -1,10 +1,15 @@
 package Recollect::Roles::Template;
 use Moose::Role;
 use Template;
+use Recollect::Util;
 use namespace::clean -except => 'meta';
 
 requires 'log';
-requires 'base_path';
+
+sub base_path { 
+    my $class = shift;
+    Recollect::Util::base_path(@_);
+}
 
 our $TT2;
 sub tt2 { $TT2 ||= shift->_build_tt2 }
