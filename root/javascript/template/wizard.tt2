@@ -112,11 +112,11 @@
                 <td class="example ui-datepicker-today"></td> <td class="definition">Today</td> </tr>
             <tr>
                 <td class="example marked"></td>
-                <td class="definition">Garbage and Recycling</td>
+                <td class="definition">Garbage, Recycling</td>
             </tr>
             <tr>
                 <td class="example marked yard"></td>
-                <td class="definition">Yard trimmings</td>
+                <td class="definition">Garbage, Recycling, Yard</td>
             </tr>
         </table>
     </legend>
