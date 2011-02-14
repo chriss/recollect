@@ -1,26 +1,30 @@
 [% WRAPPER elements/static_wrapper.tt2 title="Frequently Asked Questions" %]
 <div class="densetext">
-<h1>Using Recollect.net</h1> 
-<h2>What is Recollect.net?</h2> 
+<center><h1>Frequently Asked Questions</h1></center> 
+
+<h2>Using Recollect</h2> 
+<h3>What is Recollect?</h3> 
  
 <p class="rhetorical">Have you ever forgotten to take out the garbage?</p>
-<p>Recollect.net is a simple solution to remembering garbage day.</p> 
+<p>Recollect is a simple solution to remembering garbage day.</p> 
  
 <p>If you sign up for our service, our commitment to you is to send you a reminder, via email, ical feed, twitter, text message or phone call, at the time of your choosing the day before your garbage day. That's our service!</p> 
  
 <p>If it is sounds simple... it is. Mostly our goal is to make people's lives a little easier by helping them not have to track when to take out their garbage and recycling. Sometimes people call us "the marriage saver" but we'd be happy to simply make your life a little easier.</p> 
  
-<h2>How do I set up an Account?</h2> 
+<h3>How do I set up an Account?</h3> 
  
 <p>Setting up an account is easy:
 <ol>
-<li>Go to <a href="http://recollect.net">http://recollect.net</a> and put your address into the search box</li>
-<li>Follow the prompts to sign up for the type of reminder you'd like</li>
+<li>Go to <a href="http://recollect">http://recollect</a>, put your address into the search box and click the search button.</li>
+<li>Confirm that we have located your house by looking at the map on the right side of the screen and then click on the red "Sign Up" button</li>
+<li>Click on the type of subscription service you'd like to register for: email, ical, text message or voice call.</li>
+<li>Fill out your payment (credit card) information and click submit.</li>
 <li>Relax and wait for garbage day!</li>
 </p> 
 </ol>
 
-<h2>How can I be notified?</h2>
+<h3>How can I be notified?</h3>
 
 <p>
 You can choose how you'd like Recollect to contact you. We offer a few ways:
@@ -38,11 +42,11 @@ You can choose how you'd like Recollect to contact you. We offer a few ways:
 You can also choose what time you wish to be notified - the night before, the day before, the morning of, or any custom time.
 </p>
 
-<h2>What Languages do you support?</h2>
+<h3>What Languages do you support?</h3>
 
 <p>We only support English, but we would like to add more languages for the notifications, as well as for the website.  If you would like to help with either of these, please let us know.</p>
 
-<h2>How much does Recollect.net cost?</h2> 
+<h3>How much does Recollect cost?</h3> 
  
 <p>For a basic service... it's free!</p> 
  
@@ -50,13 +54,13 @@ You can also choose what time you wish to be notified - the night before, the da
  
 <p>If you'd like to get a voice phone call or a text message reminder we charge $5 for 3 months of service.  All fees are in Canadian dollars.</p> 
 
-<h2>I've moved... how do I cancel my reminder?</h2> 
+<h3>I've moved... how do I cancel my reminder?</h3> 
  
 <p>When you sign up for Recollect we send you an email that contains instructions on how to cancel the service.  Also, each time you are billed we send you an invoice with instructions on how to cancel the service.</p> 
  
 <p>Please note that if you cancel your service we do not offer any refunds.</p> 
  
-<h2>Where does the data come from? Is this official?</h2> 
+<h3>Where does the data come from? Is this official?</h3> 
  
 <p>The geo-data about the zones comes from your city's website. We tend to focus on cities that have open data portals and that share this information freely with the public.</p> 
  
@@ -66,23 +70,23 @@ You can also choose what time you wish to be notified - the night before, the da
  
 <p>Contact us! We are presently in the process of rolling out recollect across more and more cities, if you'd like us to roll out to your city let us know! If you city already shares garbage zone and schedule information in an open data portal we'd definitely like to know.</p> 
  
-<h1>About/Contact Recollect.net</h1> 
+<h2>Frequently Asked Questions</h2> 
  
-<h2>Who created Recollect.net?</h2> 
+<h3>Who created Recollect?</h3> 
  
-<p>Recollect.net started as <a href="http://vantrash.ca">VanTrash</a> an idea that <a href="http://eaves.ca">David Eaves</a> <a href="http://eaves.ca/2009/06/29/how-open-data-even-makes-garbage-collection-sexier-easier-and-cheaper/">blogged about</a> while thinking about open government data. Later at a <a href="http://vancouver.hackspace.ca/doku.php?id=super_happy_hacker_house">community hackathon</a> <a href="http://twitter.com/lukec">Luke Closs</a> and <a href="http://twitter.com/kevinj">Kevin Jones</a> decided it might be a fun project. After enjoying some initial success we felt that everyone should enjoy the benefits of a garbage reminder service so we created <a href="http://recollect.net">recollect.net</a>.</p> 
+<p>Recollect started as <a href="http://vantrash.ca">VanTrash</a> an idea that <a href="http://eaves.ca">David Eaves</a> <a href="http://eaves.ca/2009/06/29/how-open-data-even-makes-garbage-collection-sexier-easier-and-cheaper/">blogged about</a> while thinking about open government data. Later at a <a href="http://vancouver.hackspace.ca/doku.php?id=super_happy_hacker_house">community hackathon</a> <a href="http://twitter.com/lukec">Luke Closs</a> and <a href="http://twitter.com/kevinj">Kevin Jones</a> decided it might be a fun project. After enjoying some initial success we felt that everyone should enjoy the benefits of a garbage reminder service so we created <a href="http://recollect">recollect</a>.</p> 
  
-<h2>I'm a Mayor, Councillor, Public Official or Garbage pick up contractor, how do I get Recollect.net in my city?</h2> 
+<h3>I'm a Mayor, Councillor, Public Official or Garbage pick up contractor, how do I get Recollect in my city?</h3> 
  
-<p>We'd love to talk to you. We currently have a roll out strategy for major cities in Canada and the United States but are looking for city partners interested in bringing recollect.net to their city. We believe our extremely low cost service can improve customer service, reduce waste and create a valuable way to inform users of service changes.</p> 
+<p>We'd love to talk to you. We currently have a roll out strategy for major cities in Canada and the United States but are looking for city partners interested in bringing recollect to their city. We believe our extremely low cost service can improve customer service, reduce waste and create a valuable way to inform users of service changes.</p> 
  
-<h2>How can I contact Recollect.net?</h2> 
+<h3>How can I contact Recollect?</h3> 
  
-<p>Recollect.net is a Canadian registered company.</p> 
+<p>Recollect is a Canadian registered company.</p> 
  
-<p>You can contact us via email at help@recollect.net.</p> 
+<p>You can contact us via email at help@recollect.</p> 
  
-<p>Recollect.net
+<p>Recollect
 327-425 W8th Ave
 Vancouver, BC
 V5Y 3Z5
