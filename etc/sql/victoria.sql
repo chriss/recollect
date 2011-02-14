@@ -1,5 +1,8 @@
 BEGIN;
 
+DELETE FROM pickups WHERE zone_id IN (SELECT id FROM zones WHERE area_id = (SELECT id FROM areas WHERE name = 'Victoria'));
+DELETE FROM zones WHERE area_id = (SELECT id FROM areas WHERE name = 'Victoria');
+DELETE FROM areas WHERE name = 'Victoria';
 INSERT INTO areas (id, name, centre) 
     VALUES (nextval('area_seq'), 'Victoria', '48.424644,-123.344021');
 
@@ -7,10 +10,8 @@ INSERT INTO zones (id, area_id, name, title, colour_name, line_colour, poly_colo
     VALUES (nextval('zone_seq'), (SELECT id FROM areas WHERE name = 'Victoria'),
                 'victoria-blue', 'Victoria Blue', 'blue', 'ffff3333', '33ff6565');
 
--- COPY pickups (id, zone_id, day, flags) FROM stdin;
--- 1107	9	2011-01-07 07:00:00-08	Y
--- 1108	9	2011-01-14 07:00:00-08	
--- \.
+INSERT INTO pickups (id, zone_id, day, flags)
+    VALUES (nextval('pickup_seq'), (SELECT id FROM zones WHERE name = 'victoria-blue'), '2011-02-15'::timestamptz, 'GR');
 
 UPDATE zones SET geom =
     ST_GeomFromText('MULTIPOLYGON(((
@@ -65,7 +66,7 @@ UPDATE zones SET geom =
 48.420750 -123.385826,
 48.421368 -123.385094,
 48.421982 -123.384361
-),(
+)),((
 48.435440 -123.362358,
 48.435291 -123.362579,
 48.434860 -123.362602,
@@ -132,7 +133,7 @@ UPDATE zones SET geom =
 48.437229 -123.361099,
 48.435661 -123.360687,
 48.435440 -123.362358
-),(
+)),((
 48.418240 -123.338333,
 48.417992 -123.338287,
 48.418049 -123.337769,
