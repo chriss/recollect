@@ -332,13 +332,17 @@ input.hiddenButton {
  */
 
 #wizard .addressForm {
-    height: 50px;
+    height: 60px;
     margin-top: 20px;
+}
+
+#wizard .bigButtonGreen {
+    margin-top: 5px;
 }
 
 #wizard .message {
     font-size: 12pt;
-    padding-bottom: 5px;
+    padding: 5px 3px;
 }
 
 input.initial {
