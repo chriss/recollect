@@ -1,6 +1,5 @@
 [% WRAPPER elements/static_wrapper.tt2 title="Terms of Service" %]
-  <div class="densetext">
-    <h1>Terms of Service</h1>
+<h1>Terms of Service</h1>
   
 <strong>THE FOLLOWING TERMS AND CONDITIONS ARE APPLIED TO “RECOLLECT” ACCOUNTS</strong>
 
@@ -49,11 +48,4 @@ Registration Data and certain other information about you are subject to our Pri
 <h3>9. LOCATION OF LAWSUIT</h3>
 
 The Recollect Terms of Service, which apply to your “Recollect” account, provides that both you and “Recollect” agree to submit to the personal and exclusive jurisdiction of the courts located within the province of British Columbia, Canada.
-
-
-
-
-
-
-  </div>
 [% END %]

@@ -185,10 +185,6 @@ footer {
 /* Static pages */
 #staticLayout {
     height: 100%;
-    margin: 0 0 30px 350px;
-    padding-right: 50px;
-    overflow-x: hidden;
-    overflow-y: auto;
 }
 #staticLayout .white {
     position: absolute;
@@ -200,13 +196,43 @@ footer {
     left: 10px;
     top: 17px;
 }
+
+#staticLayout .staticContentWrapper {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: 100%;
+    margin-bottom: 30px;
+}
 #staticLayout .staticContent {
     background: #fff;
-    padding: 4px;
+    padding: 0 4px;
     width: 600px;
-    padding-left: 10px;
+    padding: 0 2em 2em 2em;
     opacity: .8;
+    font-size: 115%;
 }
+
+#staticLayout .staticContent,
+#staticLayout .textBackground {
+    margin-left: 350px;
+}
+
+#staticLayout .staticContent p {
+    padding: 0.5em 1em;
+}
+
+#staticLayout .staticContent h1 {
+    padding: 0;
+    padding-top: 20px;
+    margin: 0;
+}
+
+#staticLayout .staticContent h2,
+#staticLayout .staticContent h3,
+#staticLayout .staticContent h4,
+#staticLayout .staticContent h5 {
+}
+
 /* done static pages */
 
 input.hiddenButton {
@@ -794,8 +820,15 @@ a#fdbk_tab {
 }
 
 #staticLayout ul.toc {
-    margin: 5px 0 5px 20px;
+    padding: 0.5em 1em;
+    margin: 0;
 }
+
+#staticLayout ul.toc li {
+    list-style: none;
+    margin: 5px 0;
+}
+
 #staticLayout ol, #staticLayout ul {
     margin: 5px 0 5px 40px;
 }
@@ -903,12 +936,7 @@ a#fdbk_tab {
 p.inshort {
     padding:3em 3em; 
     line-height: 1.5;
-    font-size: 200%;
-}
-
-div.densetext {
-    width: 600px;
-    font-size: 115%;
+    font-size: 150%;
 }
 
 div.tellafriend {
@@ -918,10 +946,6 @@ div.tellafriend {
 
 div.tellafriend .section {
     padding: 1em;
-}
-
-div.densetext p {
-    padding: 0.5em 1em;
 }
 
 p.rhetorical {

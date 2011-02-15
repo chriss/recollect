@@ -2,15 +2,10 @@
     <div id="staticLayout">
         <div class="white"></div>
         <a href="/"><img class="logo" src="/[% version %]/images/recollect_logo.png"/></a>
-        <div class="staticContent">
-        [% content %]
+        <div class="staticContentWrapper">
+            <div class="staticContent">
+            [% content %]
+            </div>
         </div>
-        <br/>
-        <br/>
     </div>
-    <script>
-        // min-height of staticContent is the window height
-        if ($('.staticContent').height() < $(window).height())
-            $('.staticContent').height($(window).height());
-    </script>
 [% END %]

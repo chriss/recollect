@@ -3,7 +3,5 @@
     <div id="message"><strong>[% message %]</strong></div>
     <br />
   [% END %]
-  <div class="densetext">
-    <a href="[% doorman.sign_in_path %]"><img src="http://a0.twimg.com/images/dev/buttons/sign-in-with-twitter-l.png" /></a>
-  </div>
+  <a href="[% doorman.sign_in_path %]"><img src="http://a0.twimg.com/images/dev/buttons/sign-in-with-twitter-l.png" /></a>
 [% END %]

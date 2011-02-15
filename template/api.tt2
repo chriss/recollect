@@ -1,5 +1,4 @@
 [% WRAPPER elements/static_wrapper.tt2 %]
-  <div class="densetext">
     <h1>Recollect API</h1>
     This page defines the simple REST API that exposes collection times data.
 
@@ -95,5 +94,4 @@
         <h2>Webhooks</h2>
         Just like with the <a href="http://vantrash.ca/api.html">VanTrash API</a>, webhooks are a supported notification mechanism.  If you create a subscription with a target of "<code>webhook:http://example.com</code>", Recollect will send a HTTP POST to this URL with a JSON payload containing details about the notification.  If you want to use this please tweet <a href="http://twitter.com/lukec">@lukec</a> for help.
     </div>
-  </div>
 [% END %]

@@ -1,8 +1,7 @@
 [% WRAPPER elements/static_wrapper.tt2 title="Frequently Asked Questions" %]
-<div class="densetext">
-<center><h1>Frequently Asked Questions</h1></center> 
+<h1>Frequently Asked Questions</h1>
 
-<ul>
+<ul class="toc">
     <li><a href="#whatisit">What is Recollect?</a></li>
     <li><a href="#setup">How do I set up an Account?</a></li>
     <li><a href="#notify">How will I be notified?</a></li>
@@ -106,5 +105,4 @@ Vancouver, BC<br>
 Camada<br>
 V5Y 3Z5<br>
 <p>P: 778-785-1357.</p> 
-</div>
 [% END %]
