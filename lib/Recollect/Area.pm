@@ -56,7 +56,7 @@ sub _build_zones {
 
 sub _build_uri {
     my $self = shift;
-    return "/api/areas/" . $self->id;
+    return "/api/areas/" . $self->name;
 }
 
 sub _build_styles {
