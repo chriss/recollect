@@ -1,0 +1,125 @@
+#!/usr/bin/perl
+use strict;
+use warnings;
+use XML::Simple;
+use Text::CSV_XS;
+
+my $city_name = 'victoria' || shift || die;
+my $kml_file = "$city_name.kml";
+die unless -e $kml_file;
+
+my $UTC = {
+    victoria => '-08',
+}->{$city_name} || die "Can't find UTC timezone for $city_name!";
+
+my $kml = XMLin($kml_file);
+
+my %zones;
+my $placemarks = $kml->{Document}{Placemark};
+for my $shape_name (keys %$placemarks) {
+    my $place = $placemarks->{$shape_name};
+    my $name = $shape_name;
+    my $nice_name = $name;
+    if ($city_name eq 'victoria') { # custom hack
+        my $desc = $place->{description};
+        if ($desc =~ m{www\.victoria\.ca/common/pdfs/garbage-(\w+)-schedule}) {
+            $name = "victoria-$1";
+            $nice_name = "Victoria " . ucfirst($1);
+        }
+        else {
+            warn "No idea about: $desc";
+        }
+    }
+
+    my $coords = $place->{Polygon}{outerBoundaryIs}{LinearRing}{coordinates};
+    my @points;
+    for my $line (split "\n", $coords) {
+        next unless $line =~ m/\S/;
+        next unless $line =~ m/^\s*([^,]+),([\d.-]+)/;
+        push @points, "$2 $1";
+    }
+    my $polygon = '((' . join(',', @points) . '))';
+    (my $style = $place->{styleUrl}) =~ s/^#//;
+
+    push @{ $zones{$name} }, {
+        polygon => $polygon,
+        style => $style,
+        nice_name => $nice_name,
+    };
+}
+
+my $styles = $kml->{Document}{Style};
+my %style;
+for my $name (keys %$styles) {
+    my $s = $styles->{$name};
+    $style{$name} = {
+        linecolour => $s->{LineStyle}{color},
+        polycolour => $s->{PolyStyle}{color},
+        name => $name,
+    };
+}
+
+my $sql_file = "etc/sql/$city_name.sql";
+my $City_name = ucfirst $city_name;
+open my $fh, ">$sql_file" or die "Can't write to $sql_file";
+print $fh <<EOT;
+BEGIN;
+-- This script ASSUMES that the area already exists
+
+-- Delete any existing data for this area
+DELETE FROM pickups
+    WHERE zone_id IN (
+        SELECT id FROM zones WHERE area_id = (SELECT id FROM areas WHERE name = '$City_name')
+    );
+DELETE FROM zones WHERE area_id = (SELECT id FROM areas WHERE name = '$City_name');
+
+-- Insert the zones
+EOT
+
+for my $zone_name (keys %zones) {
+    my $details = $zones{$zone_name}[0];
+    my $style = $style{ $details->{style} }
+        or die "Couldn't find style $details->{style} for $zone_name";
+    my $multipolygon
+        = 'MULTIPOLYGON('
+        . join(',', map { $_->{polygon} } @{ $zones{$zone_name} })
+        . ")";
+    print $fh <<EOT;
+INSERT INTO zones (id, area_id, name, title, colour_name, line_colour, poly_colour)
+    VALUES (nextval('zone_seq'),(SELECT id FROM areas WHERE name = '$City_name'),'$zone_name','$details->{nice_name}','$zone_name','$style->{linecolour}','$style->{polycolour}');
+UPDATE zones SET geom = ST_GeomFromText('$multipolygon') WHERE name = '$zone_name';
+
+EOT
+}
+
+print $fh <<EOT;
+
+
+-- Now the schedule data
+EOT
+
+my $csv = Text::CSV_XS->new or die "Cannot use CSV: ".Text::CSV->error_diag;
+open my $csv_fh, "<:encoding(utf8)", "$city_name.csv" or die "Can't open $city_name.csv: $!";
+while (my $row = $csv->getline ($csv_fh)) {
+    next if $row->[0] =~ m/^\w+$/;
+    my ($zone_name, $day, $flags) = @$row;
+    die "Couldn't find zone $zone_name in the CSV" unless $zones{$zone_name};
+
+    print $fh <<EOT;
+INSERT INTO pickups (id, zone_id, day, flags)
+    VALUES (nextval('pickup_seq'),
+           (SELECT id FROM zones WHERE name = '$zone_name'),
+           '$day 07:00:00$UTC', '$flags');
+EOT
+}
+close $csv_fh;
+
+print $fh <<EOT;
+
+COMMIT;
+EOT
+
+close $fh or die "Can't write to $sql_file: $!";
+print "Write $sql_file\n";
+exit;
+
