@@ -390,12 +390,10 @@ input.initial {
 }
 
 #wizard .signup {
+    font-size: 110%;
     position: absolute;
     left: 225px;
-}
-
-#wizard .signup .bigButtonOrange {
-    font-size: 110%;
+    width: 170px;
 }
 
 #wizard .signup .bigButtonOrange{
