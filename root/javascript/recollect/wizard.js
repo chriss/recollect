@@ -814,7 +814,7 @@ Recollect.Wizard .prototype = {
             area: opts.area
         };
 
-        if (opts.payment_period) reminder.payment_period = opts.payment_period;
+        if (opts.payment_period) data.payment_period = opts.payment_period;
 
         switch(opts.type) {
             case 'email':   reminder.target = 'email:' + opts.email;     break;
