@@ -318,7 +318,7 @@
 [% BLOCK wizardForm %]
 <div class="middle subscription">
     <!-- first row -->
-    <div class="row" style="height: 100px">
+    <div class="row" style="height: 125px">
         <div class="center">
             <div class="zoneName">[% title %]</div>
             [% IF type == 'phone' %]
