@@ -100,8 +100,8 @@ body {
     background: #000;
 }
 
-body, .page {
-    min-width: 1161px;
+body, .middle {
+    min-width: 1100px;
     width: expression(document.body.clientWidth < 1161 ? "1161px" : "100%"); /* IE */
 }
 
@@ -267,19 +267,31 @@ input.hiddenButton {
     position: relative;
 }
 
+/* 3 column layout */
 .middle .row .left,
-.middle .row .right,
-.middle .row .center {
+.middle .row .center,
+.middle .row .right {
     position: absolute;
 }
-
 .middle .row .left { right: 50%; margin-right: 50px }
-.middle .row .right { left: 50%; width: 40% }
 .middle .row .center { left: 33%; width: 33% }
+.middle .row .right { left: 50%; width: 40% }
 
+/* Top row layout */
 .middle .top { height: 100px }
 .middle .top .left { margin-right: 140px }
 .middle .top .right { right: 50%; margin-left: -115px; width: 100% }
+
+/* Zone page */
+.zonePage {
+    /* Put it in the center */
+    width: 1100px;
+    left: 50%;
+    margin-left: -550px;
+}
+.middle .zonePage .left { left: 0; margin: 0; width: 300px }
+.middle .zonePage .center { left: 320px; width: 400px }
+.middle .zonePage .right { left: 760px; width: 335px }
 
 /* done Layout */
 
@@ -311,14 +323,6 @@ input.initial {
 /**
  * Wizard Step: Zone information
  */
-.zonePage {
-    height: 450px;
-}
-
-.zonePage .mapSection {
-    position: absolute;
-    left: 40px;
-}
 
 .middle .zoneName {
     font-size: 27pt;
@@ -335,7 +339,7 @@ input.initial {
     font-style: italic;
 }
 
-.zonePage .map {
+#wizard .map {
     margin-top: 20px;
     height: 320px;
     width: 300px;
@@ -345,39 +349,28 @@ input.initial {
     width: 300px;
 }
 
-.zonePage .centerSectionWrapper {
-    position: absolute;
-    left: 0;
-    width: 100%;
-}
-.zonePage .centerSection {
-    margin-left: 30%;
-    width: 450px;
-}
-
-.zonePage .calendarSection {
+#wizard .calendarSection {
     margin-top: 28px;
     position: relative;
 }
 
-.zonePage .signup {
-    padding-top: 40px;
+#wizard .signup {
     position: absolute;
-    left: 250px;
-    height: 43px;
+    left: 225px;
+}
+
+#wizard .signup .bigButtonOrange {
     font-size: 110%;
 }
 
-.zonePage .signup .bigButtonOrange{
+#wizard .signup .bigButtonOrange{
     margin-top: 30px;
 }
 
-.zonePage .cityImageSection {
-    position: absolute;
-    right: 40px;
-    top: 0;
+.cityImage {
+    text-align: right;
 }
-.zonePage .cityImageSection img {
+.cityImage img {
     height: 450px;
     border: 1px solid #D3D3D3;
 }
@@ -527,6 +520,7 @@ input.initial {
 .bigButtonGreen,
 .bigButtonBlack,
 .bigButtonOrange {
+    white-space: nowrap;
     float: left;
     display: block;
     text-decoration: none;

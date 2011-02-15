@@ -88,14 +88,14 @@
 [% END %]
 
 [% BLOCK wizardZone %]
-<div class="zonePage middle">
-    <div class="mapSection">
-        [% INCLUDE logo %]
-        <div class="map"></div>
-    </div>
+<div class="middle">
+    <div class="row zonePage" style="height: 450px">
+        <div class="left">
+            [% INCLUDE logo %]
+            <div class="map"></div>
+        </div>
 
-    <div class="centerSectionWrapper">
-        <div class="centerSection">
+        <div class="center">
             <div class="zoneName">[% title %]</div>
             <div class="nextPickup">
                 Next pickup day: [% next %]
@@ -104,7 +104,7 @@
 
             <div class="calendarSection">
                 <div class="signup">
-                    <div>
+                    <div class="description">
                         Never forget your garbage day again!
                         Set up a garbage day reminder. 
                     </div>
@@ -113,13 +113,13 @@
                 <div class="calendar"></div>
             </div>
         </div>
-    </div>
 
-    <div class="cityImageSection">
-        <a href="http://vancouver.ca/projects/foodWaste/noplastic.htm"
-            alt="Don't trash your food!">
-            <img src="/[% version %]/images/recollect-ad-no-plastic-borderless.jpg"/>
-        </a>
+        <div class="right cityImage">
+            <a href="http://vancouver.ca/projects/foodWaste/noplastic.htm"
+                alt="Don't trash your food!">
+                <img src="/[% version %]/images/recollect-ad-no-plastic-borderless.jpg"/>
+            </a>
+        </div>
     </div>
 </div>
 [% END %]
