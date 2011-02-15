@@ -35,15 +35,17 @@
             [% INCLUDE logo %]
         </div>
         <div class="right">
-            <form>
-                <div class="message">
-                    Enter your home address here and <br/>
-                    never forget to take your garbage out again!
-                </div>
-                <input class="address huge initial floatleft" value=""/>
-                <a id="search" class="bigButtonGreen" href="#">Search</a>
-                <input type="submit" class="hiddenButton"/>
-            </form>
+            <div class="addressForm">
+                <form>
+                    <input class="address huge initial floatleft" value=""/>
+                    <a id="search" class="bigButtonGreen" href="#">Search</a>
+                    <input type="submit" class="hiddenButton"/>
+                </form>
+            </div>
+            <div class="message">
+                Enter your home address here and <br/>
+                never forget to take your garbage out again!
+            </div>
             <div class="clearfix"></div>
             <div class="status"></div>
         </div>

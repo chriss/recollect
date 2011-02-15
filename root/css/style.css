@@ -301,6 +301,11 @@ input.hiddenButton {
  * Wizard Step: Address search
  */
 
+#wizard .addressForm {
+    height: 50px;
+    margin-top: 20px;
+}
+
 #wizard .message {
     font-size: 12pt;
     padding-bottom: 5px;
