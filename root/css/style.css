@@ -121,6 +121,7 @@ header {
     background: #fff;
     z-index: -1;
     opacity: .8;
+    filter: alpha(opacity = 80);
 }
 
 .socialButtons { position: relative; z-index: 101 }
@@ -209,6 +210,7 @@ footer {
     width: 600px;
     padding: 0 2em 2em 2em;
     opacity: .8;
+    filter: alpha(opacity = 80);
     font-size: 115%;
 }
 
@@ -239,6 +241,7 @@ input.hiddenButton {
     height: 0;
     width: 0;
     opacity: 0;
+    filter: alpha(opacity = 0);
 }
 
 /* Wizard */
