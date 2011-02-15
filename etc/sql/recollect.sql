@@ -4,6 +4,7 @@ BEGIN;
 SET client_min_messages='warning';
 
 CREATE SEQUENCE area_seq;
+ALTER SEQUENCE area_seq OWNER TO recollect;
 CREATE TABLE areas (
     id     integer PRIMARY KEY DEFAULT nextval('area_seq'),
     name   text NOT NULL,
@@ -14,6 +15,7 @@ ALTER TABLE areas OWNER TO recollect;
 
 
 CREATE SEQUENCE zone_seq;
+ALTER SEQUENCE zone_seq OWNER TO recollect;
 CREATE TABLE zones (
     id     integer PRIMARY KEY DEFAULT nextval('zone_seq'),
     area_id integer references areas(id) NOT NULL,
@@ -30,6 +32,7 @@ ALTER TABLE zones OWNER TO recollect;
 
 
 CREATE SEQUENCE pickup_seq;
+ALTER SEQUENCE pickup_seq OWNER TO recollect;
 CREATE TABLE pickups (
     id      integer PRIMARY KEY DEFAULT nextval('pickup_seq'),
     zone_id integer references zones(id) NOT NULL,
@@ -43,6 +46,7 @@ ALTER TABLE pickups OWNER TO recollect;
 
 
 CREATE SEQUENCE user_seq;
+ALTER SEQUENCE user_seq OWNER TO recollect;
 CREATE TABLE users (
     id    integer PRIMARY KEY,
     email text NOT NULL,
@@ -68,6 +72,7 @@ ALTER TABLE subscriptions OWNER TO recollect;
 
 
 CREATE SEQUENCE reminder_seq;
+ALTER SEQUENCE reminder_seq OWNER TO recollect;
 CREATE TABLE reminders (
     id              integer PRIMARY KEY,
     subscription_id text    references subscriptions(id) NOT NULL,
