@@ -24,6 +24,7 @@ RECOLLECT_FILES=\
 	 $(JS_DIR)/libs/geoxml3.js \
 	 $(JS_DIR)/libs/jquery.cookie.js \
 	 $(JS_DIR)/libs/google.polygon.js \
+	 $(JS_DIR)/libs/jquery.scrollTo-1.4.2-min.js \
 	 $(JS_DIR)/recollect/wizard.js \
 	 $(JEMPLATE) \
 

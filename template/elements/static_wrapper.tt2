@@ -8,4 +8,15 @@
             </div>
         </div>
     </div>
+    <script>
+        $('.staticContent a').click(function() {
+            if ($(this).attr('href').match(/^#(.+)/)) {
+                $('.staticContentWrapper').scrollTo(
+                    'a[name='+RegExp.$1+']', 800, {}
+                );
+                return false;
+            }
+            return true;
+        });
+    </script>
 [% END %]
