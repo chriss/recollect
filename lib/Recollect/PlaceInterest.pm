@@ -26,7 +26,10 @@ sub Notify {
     my $class = shift;
     my $place = shift;
     my $email = shift;
-    return unless $place =~ $valid_point;
+    unless ($place =~ $valid_point) {
+        $class->log("Could not register interest in $place - it is not valid");
+        return;
+    }
 
     $class->run_sql(
         "INSERT INTO place_notify VALUES ('now'::timestamptz, ?, ?)",

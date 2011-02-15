@@ -187,7 +187,7 @@ sub subscriptions {
 
         if (my $target = $r->{target}) {
             if (!Recollect::Reminder->Is_valid_target($target)) {
-                return $self->bad_request_json('target is unsupported');
+                return $self->bad_request_json("target ($target) is unsupported");
             }
         }
         else { return $self->bad_request_json('Missing target') }
@@ -578,13 +578,16 @@ sub _place_is_ok { defined $_[0] and length $_[0] and length $_[0] < 30 }
 sub request_place_notification {
     my $self = shift;
     my $req  = $self->request;
-    my $place = shift;
-    my $email = $self->request->parameters->{email};
+    my $place = shift || 'noplace';
+    my $email = $self->request->parameters->{email} || '';
 
     if ($email and _place_is_ok($place) and Email::Valid->address($email)) {
         $place =~ s/,/ /;
         eval { Recollect::PlaceInterest->Notify($place, $email) };
-        warn $@ if $@;
+        $self->log("Couldn't register interest in ($place, $email): $@") if $@;
+    }
+    else {
+        $self->log("Couldn't register interest for ($place, $email)");
     }
     return $self->no_content;
 }
