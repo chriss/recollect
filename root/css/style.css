@@ -290,8 +290,8 @@ input.hiddenButton {
     margin-left: -550px;
 }
 .middle .zonePage .left { left: 0; margin: 0; width: 300px }
-.middle .zonePage .center { left: 320px; width: 400px }
-.middle .zonePage .right { left: 760px; width: 335px }
+.middle .zonePage .center { left: 332px; width: 400px } /* end: 732px */
+.middle .zonePage .right { left: 764px; width: 335px } /* end: 1099px */
 
 /* done Layout */
 
