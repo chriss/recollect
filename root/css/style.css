@@ -344,9 +344,9 @@ input.initial {
     height: 320px;
     width: 300px;
 }
-.interest .map {
-    height: 220px;
+#wizard .interest .map {
     width: 300px;
+    margin: 0;
 }
 
 #wizard .calendarSection {

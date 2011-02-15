@@ -52,27 +52,26 @@
 [% END %]
 
 [% BLOCK wizardZoneSuggestion %]
-<div class="smallPage interest">
-    <div class="left middle">
-        <div class="map"></div>
-    </div>
-    <div class="right middle">
-        [% INCLUDE loading %]
-        <form>
-            <div class="title">We're Sorry</div>
-            
-            <div>Recollect is only currently available in Vancouver, British Columbia</div>
+<div class="middle interest">
+    <div class="row" style="height: 227px">
+        <div class="left">
+            <div class="map" style="height: 227px"></div>
+        </div>
+        <div class="right">
+            [% INCLUDE loading %]
+            <form>
+                <div class="title">Thank you! Were excited to hear you'd like to have Recollect serve your community.</div>
 
-            <div>Thank you for your interest, we have made a note. If you would like to be notified when we offer services in you city, please enter your e-mail address into the following form and click "submit".</div>
+                <div>Once we start serving your community we will send you an email. We are constantly expanding our service to new areas and will prioritize those for whom we have a lot of requests. Most importantly, we will only email you once we start serving your community and will never share your email with a 3rd party.</div>
+                <br/>
 
-            <br/>
+                <input name="email" class="huge floatleft">
+                <a class="submit bigButtonGreen" href="#">submit</a>
+                <input type="submit" class="hiddenButton"/>
+            </form>
 
-            <input name="email" class="huge floatleft">
-            <a class="submit bigButtonGreen" href="#">submit</a>
-            <input type="submit" class="hiddenButton"/>
-        </form>
-
-        <div class="status"></div>
+            <div class="status"></div>
+        </div>
     </div>
 </div>
 [% END %]
