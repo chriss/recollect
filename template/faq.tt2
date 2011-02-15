@@ -2,16 +2,31 @@
 <div class="densetext">
 <center><h1>Frequently Asked Questions</h1></center> 
 
-<h3>What is Recollect?</h3> 
+<ul>
+    <li><a href="#whatisit">What is Recollect?</a></li>
+    <li><a href="#setup">How do I set up an Account?</a></li>
+    <li><a href="#notify">How will I be notified?</a></li>
+    <li><a href="#languages">What Languages do you support?</a></li>
+    <li><a href="#howmuch">How much does Recollect cost?</a></li>
+    <li><a href="#cancel">I've moved ... how do I cancel my reminder?</a></li>
+    <li><a href="#data">Where does the data come from? Is this official?</a></li>
+    <li><a href="#mycity">How can I get garbage reminders for my City?</a></li>
+    <li><a href="#publicofficial">I'm a public official, how do I get Recollect in my community?</a></li>
+    <li><a href="#who">Who created Recollect?</a></li>
+    <li><a href="#privacy">What information about me will Recollect share?</a></li>
+    <li><a href="#contact">How can I contact Recollect?</a></li>
+</ul>
+
+<h3><a name="whatisit">What is Recollect?</a></h3> 
  
-<p class="rhetorical">Do you ever forgot to take out the garbage?</p>
+<p><strong><i>Do you ever forget to take out the garbage?</i></strong></p>
 <p>Recollect is a simple solution to remembering garbage day.</p> 
  
 <p>If you sign up for our service, our commitment to you is to send you a reminder, via email, ical feed, twitter, text message or phone call, at the time of your choosing the day before your garbage day. That's our service!</p> 
  
 <p>If it is sounds simple... it is. Our goal is to simply make people's lives a little easier by helping them not have to remember when to take out their garbage and recycling. People call us "the marriage saver" but we'll settle with just making your life a little easier.</p> 
  
-<h3>How do I set up an Account?</h3> 
+<h3><a name="setup">How do I set up an Account?</a></h3> 
  
 <p>Setting up an account is easy:
 <ol>
@@ -23,7 +38,7 @@
 </p> 
 </ol>
 
-<h3>How will I be notified?</h3>
+<h3><a name="notify">How will I be notified?</a></h3>
 
 <p>
 You can choose how you'd like Recollect to contact you. We offer a few ways:
@@ -41,11 +56,11 @@ You can choose how you'd like Recollect to contact you. We offer a few ways:
 You can also choose the time you wish to be notified - the night before, the day before, the morning of... any time you'd like.
 </p>
 
-<h3>What Languages do you support?</h3>
+<h3><a name="languages">What Languages do you support?</a></h3>
 
 <p>Presently, we only support English, but we would like to add more languages for the notifications, as well as for the website.  If you would like to help with this please let us know.</p>
 
-<h3>How much does Recollect cost?</h3> 
+<h3><a name="howmuch">How much does Recollect cost?</a></h3> 
  
 <p>For a basic service... it's free!</p> 
  
@@ -53,35 +68,35 @@ You can also choose the time you wish to be notified - the night before, the day
  
 <p>If you'd like to get a voice phone call or a text message reminder we charge $5 for 3 months of service.  All fees are in Canadian dollars.</p> 
 
-<h3>I've moved... how do I cancel my reminder?</h3> 
+<h3><a name="cancel">I've moved... how do I cancel my reminder?</a></h3> 
  
 <p>When you sign up for Recollect we send you an email that contains instructions on how to cancel the service.  Also, each time you are billed we send you an invoice with instructions on how to cancel the service.</p> 
  
 <p>Please note that if you cancel your service we do not offer any refunds.</p> 
  
-<h3>Where does the data come from? Is this official?</h3> 
+<h3><a name="data">Where does the data come from? Is this official?</a></h3> 
  
 <p>The geo-data about the zones comes from your city's website. We tend to focus on cities that have open data portals and that share this information freely with the public.</p> 
  
 <p>The schedule data is copied from the City's official schedule.  It is our goal to ensure that this data is always up to date and correct.  If you ever believe you are getting a reminder on the wrong day, please notify us.</p>
 
-<h2>How can I get garbage reminders for my City?</h2> 
+<h3><a name="mycity">How can I get garbage reminders for my City?</a></h2> 
  
 <p>Contact us! We are presently in the process of rolling out recollect across more and more cities, if you'd like us to roll out to your city let us know! If you city already shares garbage zone and schedule information in an open data portal we'd definitely like to know.</p> 
  
-<h3>I'm a Mayor, Councillor, Public Official or Solid Waste contractor, how do I get Recollect in my community?</h3> 
+<h3><a name="publicofficial">I'm a Mayor, Councillor, Public Official or Solid Waste contractor, how do I get Recollect in my community?</a></h3> 
  
 <p>We'd love to talk to you. We currently have a roll out strategy for major cities in Canada and the United States but are looking for city partners interested in bringing recollect to their city. We believe our extremely low cost service can improve customer service, reduce waste and create a valuable way to inform users of service changes. Please check out our <a href=http://recollect.net/partner>Partner Page</a> to learn more and/or <mailto:partner@recollect.net>email us</a> to set up an appointment.</p> 
  
-<h3>Who created Recollect?</h3> 
+<h3><a name="who">Who created Recollect?</a></h3> 
 
 <p> Take a look at our <a href=http://recollect.net/about>About Us Page</a>
 
-<h3>If I sign up, what information about me will recollect share with other websites or governments?</h3>
+<h3><a name="privacy">If I sign up, what information about me will Recollect share with other websites or governments?</a></h3>
 
-Nothing. We will not share any information we have about you with any other company, government or entity. You can learn more about this by looking at our <a href=http://recollect.net/privacy>Privacy Policy</a>.
+<p>Nothing. We will not share any information we have about you with any other company, government or entity. You can learn more about this by looking at our <a href=http://recollect.net/privacy>Privacy Policy</a>.</p>
 
-<h3>How can I contact Recollect?</h3> 
+<h3><a name="contact">How can I contact Recollect?</a></h3> 
  
 <p>You can contact us via email at help@recollect.</p> 
  
