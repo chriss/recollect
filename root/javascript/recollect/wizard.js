@@ -820,7 +820,7 @@ Recollect.Wizard .prototype = {
             case 'email':   reminder.target = 'email:' + opts.email;     break;
             case 'twitter': reminder.target = 'twitter:' + opts.twitter; break;
             case 'sms':     reminder.target = 'sms:' + opts.phone;       break;
-            case 'phone':   reminder.target = 'phone:' + opts.phone;     break;
+            case 'phone':   reminder.target = 'voice:' + opts.phone;     break;
         }
 
         data.reminders.push(reminder);
