@@ -128,7 +128,7 @@ Recollect.Wizard .prototype = {
             var opts = {
                 height: 300,
                 opacity: 1,
-                page: 'wizardZoneSuggestion',
+                page: 'wizardZoneSuggestion'
             };
             $.extend(opts, args);
             self.show(opts, function() {
@@ -553,7 +553,7 @@ Recollect.Wizard .prototype = {
                         })
                     );
                 }
-            },
+            }
         });
     },
 
