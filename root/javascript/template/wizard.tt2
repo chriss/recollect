@@ -115,7 +115,7 @@
 
         <div class="right cityImage">
             <a href="http://vancouver.ca/projects/foodWaste/noplastic.htm"
-                alt="Don't trash your food!">
+                target="_new" alt="Don't trash your food!">
                 <img src="/[% version %]/images/recollect-ad-no-plastic-borderless.jpg"/>
             </a>
         </div>
