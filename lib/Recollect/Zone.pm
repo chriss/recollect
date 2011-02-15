@@ -153,7 +153,7 @@ sub _now {
 
 sub _build_uri {
     my $self = shift;
-    return "/api/areas/" . $self->area_id . "/zones/" . $self->name;
+    return $self->area->uri . "/zones/" . $self->name;
 }
 
 sub _build_style {
