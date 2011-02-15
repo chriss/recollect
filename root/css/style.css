@@ -438,7 +438,6 @@ input.initial {
 
     /* gradient */
     background-color: #fefeef;  /* for non-css3 browsers */
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fefeef', endColorstr='#adcaad'); /* for IE */
     background: -webkit-gradient(linear, left top, left bottom, from(#fefeef), to(#adcaad)); /* for webkit browsers */
     background: -moz-linear-gradient(top,  #fefeef,  #adcaad); /* for firefox 3.6+ */
 
@@ -448,8 +447,10 @@ input.initial {
     box-shadow: 3px 3px 4px #8e9884;
     /* For IE 8 */
     -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#8e9884')";
+
     /* For IE 5.5 - 7 */
-    filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#8e9884');
+    filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#8e9884') /* drop shadow */
+        progid:DXImageTransform.Microsoft.gradient(startColorstr='#fefeef', endColorstr='#adcaad'); /* gradient */
 }
 
 .boxes .boxOption .inside {
@@ -676,7 +677,6 @@ a#fdbk_tab {
 
     /* gradient */
     background-color: #fefeef;  /* for non-css3 browsers */
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fefeef', endColorstr='#adcaad'); /* for IE */
     background: -webkit-gradient(linear, left top, left bottom, from(#fefeef), to(#adcaad)); /* for webkit browsers */
     background: -moz-linear-gradient(top,  #fefeef,  #adcaad); /* for firefox 3.6+ */
 
@@ -691,8 +691,10 @@ a#fdbk_tab {
     box-shadow: 3px 3px 4px #8e9884;
     /* For IE 8 */
     -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#8e9884')";
+
     /* For IE 5.5 - 7 */
-    filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#8e9884');
+    filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#8e9884') /* drop shadow */
+        progid:DXImageTransform.Microsoft.gradient(startColorstr='#fefeef', endColorstr='#adcaad'); /* gradient */
 }
 
 .ui-datepicker .ui-datepicker-title {
