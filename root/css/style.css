@@ -146,6 +146,7 @@ footer .fb_iframe_widget iframe { position: absolute; top: 5px; right: 0px }
 }
 #links .white {
     position: absolute;
+    left: 0;
     background-color: #000;
     z-index: 100;
 }
