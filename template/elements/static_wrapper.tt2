@@ -1,8 +1,9 @@
 [% WRAPPER elements/outer_wrapper.tt2 %]
     <div id="staticLayout">
-        <div class="white"></div>
+        <div class="white main"></div>
         <a href="/"><img class="logo" src="/[% version %]/images/recollect_logo.png"/></a>
         <div class="staticContentWrapper">
+            <div class="white text"></div>
             <div class="staticContent">
             [% content %]
             </div>

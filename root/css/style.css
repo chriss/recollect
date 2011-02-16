@@ -188,7 +188,7 @@ footer {
 #staticLayout {
     height: 100%;
 }
-#staticLayout .white {
+#staticLayout .main {
     position: absolute;
     top: 0;
     left: 0;
@@ -199,6 +199,12 @@ footer {
     top: 17px;
 }
 
+#staticLayout .text {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 600px;
+}
 #staticLayout .staticContentWrapper {
     overflow-y: scroll;
     overflow-x: hidden;
@@ -206,17 +212,14 @@ footer {
     margin-bottom: 30px;
 }
 #staticLayout .staticContent {
-    background: #fff;
     padding: 0 4px;
     width: 600px;
     padding: 0 2em 2em 2em;
-    opacity: .8;
-    filter: alpha(opacity = 80);
     font-size: 115%;
 }
 
 #staticLayout .staticContent,
-#staticLayout .textBackground {
+#staticLayout .text {
     margin-left: 350px;
 }
 
