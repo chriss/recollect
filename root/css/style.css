@@ -124,11 +124,19 @@ header {
     filter: alpha(opacity = 80);
 }
 
-.socialButtons { position: relative; z-index: 101 }
+.socialButtons { height: 25px; position: relative; z-index: 101; width: 210px }
+.socialButtons .twitter-share-button { position: absolute; right: 154px }
+.socialButtons .google-buzz-button { position: absolute; right: 95px }
+.socialButtons .fb_iframe_widget { position: absolute; right: 0px }
+
 footer .socialButtons { position: absolute; right: 0; top: 0 }
-footer .twitter-share-button { position: absolute; top: 5px; right: 154px }
-footer .google-buzz-button { position: absolute; top: 5px; right: 95px }
-footer .fb_iframe_widget { position: absolute; top: 5px; right: 0px }
+footer .twitter-share-button { top: 5px }
+footer .google-buzz-button { top: 4px }
+footer .fb_iframe_widget { top: 5px }
+
+.tellafriend .twitter-share-button { top: 8px }
+.tellafriend .google-buzz-button { top: 4px }
+.tellafriend .fb_iframe_widget { top: 6px }
 
 #links {
     font-size: 10pt;
@@ -852,11 +860,26 @@ a#fdbk_tab {
     margin: 5px 0 5px 40px;
 }
 
-#staticLayout .section {
+.tellafriend {
+    width: 400px;
+    font-size: 120%;
+}
+
+.tellafriend .huge {
+    width: 500px;
+}
+.tellafriend .province {
+    width: 25px;
+}
+
+.section {
+    padding: 0;
     margin: 10px 0;
 }
-#staticLayout .section input, #staticLayout .section textarea {
-    margin: 3px 0 0 10px;
+
+.section input,
+.section textarea {
+    margin: 3px 0 0 0;
 }
 
 /*
@@ -956,15 +979,6 @@ p.inshort {
     padding:3em 3em; 
     line-height: 1.5;
     font-size: 150%;
-}
-
-div.tellafriend {
-    width: 400px;
-    font-size: 150%;
-}
-
-div.tellafriend .section {
-    padding: 1em;
 }
 
 p.rhetorical {
