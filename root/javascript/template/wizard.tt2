@@ -16,11 +16,12 @@
             [% INCLUDE logo %]
         </div>
         <div class="right">
-            <div class="title">This site is still under construction!</div>
+            <div class="title">Welcome to Recollect</div>
+            <div class="subtitle">The Garbage and Recycling collection reminder service.</div>
             <div class="message">
-                Welcome to Recollect. We're still working hard to finish this web site. Soon, you will be able to sign up for collection reminders so you will never forget to take out the trash again! If you want to try out the new site, please click the button below. Some things might not be working yet, including the reminders, but please leave us feedback by clicking on the green tab on the right. Thanks!
+                <p>When you sign up with Recollect we will send you an email, text message, or phone call, at the time of your choosing, right before your garbage is about to picked up so that you never forget to take it out.</p>
             </div>
-            <a id="start" class="next bigButtonGreen" href="#">continue</a>
+            <a id="start" class="next bigButtonGreen" href="#">Let's get started!</a>
             <div class="clearfix"></div>
             <div class="status"></div>
         </div>
@@ -35,16 +36,15 @@
             [% INCLUDE logo %]
         </div>
         <div class="right">
+            <div class="message">
+                First: enter your home address:
+            </div>
             <div class="addressForm">
                 <form>
                     <input class="address huge initial floatleft" value=""/>
                     <a id="search" class="bigButtonGreen" href="#">Search</a>
                     <input type="submit" class="hiddenButton"/>
                 </form>
-            </div>
-            <div class="message">
-                Enter your home address here and <br/>
-                never forget to take your garbage out again!
             </div>
             <div class="clearfix"></div>
             <div class="status"></div>

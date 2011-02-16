@@ -277,8 +277,13 @@ input.hiddenButton {
 }
 
 .title {
-    font-size: 15pt;
+    font-size: 18pt;
     padding: 10px 0;
+}
+
+.subtitle {
+    font-size: 12pt;
+    padding: 0px 0px 10px;
 }
 
 /* Layout */
