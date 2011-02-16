@@ -3,9 +3,9 @@
 
 <ul class="toc">
     <li><a href="#whatisit">What is Recollect?</a></li>
-    <li><a href="#setup">How do I set up an Account?</a></li>
+    <li><a href="#setup">How do I set up an account?</a></li>
     <li><a href="#notify">How will I be notified?</a></li>
-    <li><a href="#languages">What Languages do you support?</a></li>
+    <li><a href="#languages">What languages do you support?</a></li>
     <li><a href="#howmuch">How much does Recollect cost?</a></li>
     <li><a href="#cancel">I've moved ... how do I cancel my reminder?</a></li>
     <li><a href="#data">Where does the data come from? Is this official?</a></li>
@@ -25,11 +25,11 @@
  
 <p>If it is sounds simple... it is. Our goal is to simply make people's lives a little easier by helping them not have to remember when to take out their garbage and recycling. People call us "the marriage saver" but we'll settle with just making your life a little easier.</p> 
  
-<h3><a name="setup">How do I set up an Account?</a></h3> 
+<h3><a name="setup">How do I set up an account?</a></h3> 
  
 <p>Setting up an account is easy:
 <ol>
-<li>Go to <a href="http://recollect">http://recollect</a>, put your address into the search box and click the search button.</li>
+<li>Go to <a href="http://recollect.net">http://recollect.net</a>, put your address into the search box and click the search button.</li>
 <li>Confirm that we have located your house by looking at the map on the right side of the screen and then click on the red "Sign Up" button</li>
 <li>Click on the type of subscription service you'd like to register for: email, ical, text message or voice call.</li>
 <li>Fill out your payment (credit card) information and click submit.</li>
@@ -55,7 +55,7 @@ You can choose how you'd like Recollect to contact you. We offer a few ways:
 You can also choose the time you wish to be notified - the night before, the day before, the morning of... any time you'd like.
 </p>
 
-<h3><a name="languages">What Languages do you support?</a></h3>
+<h3><a name="languages">What languages do you support?</a></h3>
 
 <p>Presently, we only support English, but we would like to add more languages for the notifications, as well as for the website.  If you would like to help with this please let us know.</p>
 
@@ -97,12 +97,12 @@ You can also choose the time you wish to be notified - the night before, the day
 
 <h3><a name="contact">How can I contact Recollect?</a></h3> 
  
-<p>You can contact us via email at help@recollect.</p> 
+<p>You can contact us via email at help@recollect.net</p> 
  
 <p>Recollect<br>
 327-425 W8th Ave<br>
 Vancouver, BC<br>
-Camada<br>
+Canada<br>
 V5Y 3Z5<br>
 <p>P: 778-785-1357.</p> 
 [% END %]
