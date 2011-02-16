@@ -23,7 +23,7 @@ my $one_hour = DateTime::Duration->new(hours  => 1);
 my $one_min  = DateTime::Duration->new(minutes => 1);
 $ENV{RECOLLECT_NOW} = DateTime->new(year => 2011, month => 1, day => 15);
 
-my $zone = Recollect::Zone->By_id(1);
+my $zone = Recollect::Zone->By_name('vancouver-north-red');
 
 subtest 'No reminders need notification initially' => sub {
     my $rems = $notifier->need_notification;
@@ -35,7 +35,7 @@ subtest 'Free email notification' => sub {
         email => $TEST_EMAIL,
         reminders => [
             {
-                zone_id => 1,
+                zone_id => $zone->id,
                 target => "email:$TEST_EMAIL",
                 delivery_offset => '1:00',
             },
@@ -74,7 +74,7 @@ subtest 'Free twitter notification' => sub {
         email => $TEST_EMAIL,
         reminders => [
             {
-                zone_id => 1,
+                zone_id => $zone->id,
                 target => "twitter:test",
                 delivery_offset => '0:00',
             },
@@ -103,7 +103,7 @@ subtest 'Free webhook notification' => sub {
         email => $TEST_EMAIL,
         reminders => [
             {
-                zone_id => 1,
+                zone_id => $zone->id,
                 target => "webhook:http://example.com",
                 delivery_offset => '0:00',
             },
@@ -130,9 +130,10 @@ subtest 'Free webhook notification' => sub {
 subtest 'Paid sms notification' => sub {
     my $sub = Recollect::Subscription->Create(
         email => $TEST_EMAIL,
+        payment_period => 'quarterly',
         reminders => [
             {
-                zone_id => 1,
+                zone_id => $zone->id,
                 target => "sms:7787851357",
                 delivery_offset => '0:00',
             },
@@ -176,9 +177,10 @@ subtest 'Paid sms notification' => sub {
 subtest 'Paid voice notification' => sub {
     my $sub = Recollect::Subscription->Create(
         email => $TEST_EMAIL,
+        payment_period => 'annual',
         reminders => [
             {
-                zone_id => 1,
+                zone_id => $zone->id,
                 target => "voice:7787851357",
                 delivery_offset => '0:00',
             },
