@@ -49,7 +49,7 @@ sub run {
     }
 
     $self->log("Couldn't serve path: $method $path");
-    return $self->process_template("404.html", {}, 404);
+    return $self->process_template("404.tt2", {}, 404);
 }
 
 sub is_mobile {

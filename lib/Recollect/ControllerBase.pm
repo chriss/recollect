@@ -35,7 +35,7 @@ around 'run' => sub {
             return $self->response('text/plain', "Error: $@", 500);
         }
         else {
-            return $self->redirect("/500.html", 302);
+            return $self->process_template("500.tt2", {}, 500);
         }
     }
     return $rc;
