@@ -178,11 +178,8 @@ sub subscriptions {
         return $self->bad_request_json('Reminders must be a hash')
             unless ref($r) eq 'HASH';
         if (my $zone_id = $r->{zone_id}) {
-            my $zone;
-            eval {
-                $zone = Recollect::Zone->By_id($zone_id)
+            my $zone = eval { Recollect::Zone->By_id($zone_id) }
                             || Recollect::Zone->By_name($zone_id);
-            };
             return $self->bad_request_json("Invalid zone_id: $zone_id")
                 unless $zone;
             $r->{zone_id} = $zone->id;
