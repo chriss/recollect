@@ -17,6 +17,7 @@ use_ok 'Recollect::APIController';
 my ($test_version) = $Recollect::APIController::API_Version = '1.42';
 my $vancouver_latlng = '49.26422,-123.138542';
 
+
 test_the_api_for(
     '/version',
     html => sub {
@@ -37,6 +38,7 @@ test_the_api_for(
 
 
 # GET /api/areas
+my $Vancouver_area_id = Recollect::Area->By_name('Vancouver')->id;
 test_the_api_for(
     '/areas',
     html => sub {
@@ -46,7 +48,7 @@ test_the_api_for(
     },
     text => sub {
         my $content = shift;
-        is $content, "1 - Vancouver: $vancouver_latlng\n";
+        is $content, "$Vancouver_area_id - Vancouver: $vancouver_latlng\n";
     },
     json => sub {
         my $data = shift;
@@ -81,11 +83,11 @@ Area_tests: {
         text => sub {
             my $content = shift;
             is $content,
-                "id: 1\nname: Vancouver\ncentre: $vancouver_latlng\n";
+                "id: $Vancouver_area_id\nname: Vancouver\ncentre: $vancouver_latlng\n";
         },
         json => sub {
             my $data = shift;
-            is $data->{id},     1;
+            is $data->{id},     $Vancouver_area_id;
             is $data->{name},   'Vancouver';
             is $data->{centre}, $vancouver_latlng;
         },
@@ -108,7 +110,7 @@ Area_tests: {
             }
         },
     );
-    test_the_api_for('/areas/1',         %area_tests);
+    test_the_api_for("/areas/$Vancouver_area_id",         %area_tests);
     test_the_api_for('/areas/Vancouver', %area_tests);
     test_the_api_for('/areas/vancouver', %area_tests);
 }
@@ -143,6 +145,7 @@ test_the_api_for(
 );
 
 # GET /api/areas/:area/zones/:zone
+my $North_red_id = Recollect::Zone->By_name('vancouver-north-red')->id;
 my %zone_tests = (
     html => sub {
         my $content = shift;
@@ -153,16 +156,16 @@ my %zone_tests = (
     text => sub {
         my $content = shift;
         is $content, <<EOT, 'text content';
-id: 1
+id: $North_red_id
 name: vancouver-north-red
 title: Vancouver North Red
 area_name: Vancouver
-area_id: 1
+area_id: $Vancouver_area_id
 EOT
     },
     json => sub {
         my $data = shift;
-        is $data->{id},    1;
+        is $data->{id},    $North_red_id;
         is $data->{name},  'vancouver-north-red';
         is $data->{title}, 'Vancouver North Red';
         ok !$data->{pickupdays}, 'no pickupdays, not verbose';
@@ -183,13 +186,13 @@ EOT
     },
 );
 
-test_the_api_for('/areas/Vancouver/zones/1',                   %zone_tests);
+test_the_api_for("/areas/Vancouver/zones/$North_red_id",                   %zone_tests);
 test_the_api_for('/areas/Vancouver/zones/vancouver-north-red', %zone_tests);
 
 test_the_api_for('/areas/Vancouver/zones/vancouver-north-red?verbose=1',
     json => sub {
         my $data = shift;
-        is $data->{id},    1;
+        is $data->{id},    $North_red_id;
         is $data->{name},  'vancouver-north-red';
         is $data->{title}, 'Vancouver North Red';
         isa_ok $data->{pickupdays}, 'ARRAY', 'pickupdays should be an arrayref';

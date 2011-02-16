@@ -77,6 +77,7 @@ sub _build_base_path {
         $db_name .= "-$$";
         $config->{db_name} = $db_name;
     }
+    $Recollect::Roles::SQL::DBH = undef; # force it to reload
     DumpFile($test_config, $config);
     my $psql = "psql $db_name";
 
@@ -93,7 +94,7 @@ sub _build_base_path {
                 and die "Couldn't psql $db_name -f $sql_file";
         }
     }
-    system(qq{$psql -c 'DELETE FROM areas WHERE id != 1' > /dev/null});
+    system(qq{$psql -c "DELETE FROM areas WHERE name != 'Vancouver' " });
     system(qq{$psql -c 'DELETE FROM reminders' > /dev/null});
     system(qq{$psql -c 'DELETE FROM subscriptions' > /dev/null});
     system(qq{$psql -c 'DELETE FROM users' > /dev/null});
