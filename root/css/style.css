@@ -858,7 +858,6 @@ a#fdbk_tab {
 }
 
 .tellafriend {
-    width: 400px;
     font-size: 120%;
 }
 
@@ -867,6 +866,10 @@ a#fdbk_tab {
 }
 .tellafriend .province {
     width: 25px;
+}
+
+.tellafriend label {
+    display: block;
 }
 
 .section {
