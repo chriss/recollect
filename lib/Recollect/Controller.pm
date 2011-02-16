@@ -48,7 +48,8 @@ sub run {
         }
     }
 
-    return $self->redirect("/404.html");
+    $self->log("Couldn't serve path: $method $path");
+    return $self->process_template("404.html", {}, 404);
 }
 
 sub is_mobile {

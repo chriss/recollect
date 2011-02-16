@@ -84,15 +84,20 @@ sub process_template {
     my $self = shift;
     my $template = shift;
     my $param = shift;
+    my $code = shift || 200;
     my $body;
     $self->render_template($template, $param, \$body);
     if (!defined $body) {
-        my $msg = "Error rendering template $template: " . $self->tt2->error;
+        my $err = $self->tt2->error;
+        if ($err =~ m/not found/) {
+            return $self->process_template('404.tt2', {}, 404);
+        }
+        my $msg = "Error rendering template $template: $err";
         warn $msg;
         $self->log($msg);
-        return $self->redirect("/500.html", 302);
+        return $self->process_template("500.tt2", {}, 500);
     }
-    my $resp = Plack::Response->new(200);
+    my $resp = Plack::Response->new($code);
     $resp->body($body);
     $resp->header('X-UA-Compatible' => 'IE=EmulateIE7');
     given ($template) {
