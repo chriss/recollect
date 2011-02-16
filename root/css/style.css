@@ -40,8 +40,8 @@ h1,h2,h3,h4,h5,h6 { font-weight: bold; }
 html { overflow-y: scroll; }
 
 a:hover, a:active { outline: none; }
-a, a:active, a:visited { color: #607890; }
-a:hover { color: #036; }
+a, a:active, a:visited { color: #508527; }
+a:hover { color: #86c655; }
 
 ul, ol { margin-left: 1.8em; }
 ol { list-style-type: decimal; }
@@ -161,9 +161,6 @@ footer .fb_iframe_widget { top: 5px }
 
 #links .links a {
     padding: 0 6px 0 2px;
-}
-#links .links a:hover {
-    color: #06b;
 }
 
 footer {
