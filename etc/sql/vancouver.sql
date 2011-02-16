@@ -9,6 +9,8 @@ DELETE FROM pickups
     );
 DELETE FROM zones WHERE area_id = (SELECT id FROM areas WHERE name = 'Vancouver');
 
+DELETE FROM areas WHERE name = 'Vancouver';
+INSERT INTO areas VALUES(nextval('area_seq'), 'Vancouver', '49.26422,-123.138542');
 
 INSERT INTO zones (id, area_id, name, title, colour_name, line_colour, poly_colour)
     VALUES (nextval('zone_seq'),(SELECT id FROM areas WHERE name = 'Vancouver'),'vancouver-south-red','Vancouver South Red','red','ff3333ff','336565ff');
