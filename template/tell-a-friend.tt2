@@ -1,6 +1,6 @@
 [% WRAPPER elements/static_wrapper.tt2 %]
 <div class="tellafriend">
-    <h1>Tell your friends about VanTrash!</h1>
+    <h1>Tell your friends about Recollect!</h1>
     [% IF success %]
         <div class="success">[% success %]</div>
     [% ELSE %]
