@@ -12,7 +12,7 @@
         [% INCLUDE elements/social.tt2 %]
     </div>
 
-    <form action="/action/tell-friends" method="POST">
+    <form id="tellfriends" action="/action/tell-friends" method="POST">
         <div class="section">
             <label for="friend_emails">Also, enter the email addresses of the people you'd like to introduce to this site:</label>
             <textarea class="huge" name="friend_emails" rows="5" cols="40"></textarea>
@@ -28,7 +28,7 @@
             <input type="text" class="huge province" name="skilltesting" size="2"/>
         </div>
 
-        <a onclick="$('form').submit(); return false" class="bigButtonGreen" href="#">Invite!</a>
+        <a onclick="$('#tellfriends').submit(); return false" class="bigButtonGreen" href="#">Invite!</a>
         <input type="submit" class="hiddenButton" name="submit" value="Invite!"/>
     </form>
 </div>
