@@ -72,11 +72,10 @@ sub _build_base_path {
     
     # Create the SQL db
     my $db_name = $config->{db_name};
-    my $sql_file = "$FindBin::Bin/../data/recollect.dump";
+    my $sql_file = "$FindBin::Bin/../etc/sql/recollect.sql";
     if ($ENV{RECOLLECT_EMPTY_DB_PLS}) {
         $db_name .= "-$$";
         $config->{db_name} = $db_name;
-        $sql_file = "$FindBin::Bin/../etc/sql/recollect.sql";
     }
     DumpFile($test_config, $config);
     my $psql = "psql $db_name";
@@ -86,8 +85,13 @@ sub _build_base_path {
         diag "created database $db_name, loading $sql_file" if $DEBUG;
         _setup_postgis($db_name);
 
-        system("$psql -f $sql_file > /dev/null")
+        system("sudo -u postgres $psql -f $sql_file > /dev/null")
             and die "Couldn't psql $db_name -f $sql_file";
+        if (!$ENV{RECOLLECT_EMPTY_DB_PLS}) {
+            $sql_file = "$FindBin::Bin/../etc/sql/vancouver.sql";
+            system("$psql -f $sql_file > /dev/null")
+                and die "Couldn't psql $db_name -f $sql_file";
+        }
     }
     system(qq{$psql -c 'DELETE FROM areas WHERE id != 1' > /dev/null});
     system(qq{$psql -c 'DELETE FROM reminders' > /dev/null});
@@ -99,7 +103,7 @@ sub _build_base_path {
 sub _setup_postgis {
     my $db_name = shift;
 
-    system(qq{psql $db_name -c "CREATE LANGUAGE 'plpgsql'"})
+    system(qq{sudo -u postgres psql $db_name -c "CREATE LANGUAGE 'plpgsql'"})
         and die "Couldn't psql $db_name -c create language plpgsql";
     my @postgises = (
         '/usr/share/postgresql/8.4/contrib/postgis-1.5/postgis.sql',
@@ -107,7 +111,7 @@ sub _setup_postgis {
     );
     for my $p (@postgises) {
         next unless -e $p;
-        my $cmd = "psql $db_name -f $p > /dev/null";
+        my $cmd = "sudo -u postgres psql $db_name -f $p > /dev/null";
         system($cmd) and die "Couldn't $cmd";
     }
 }
