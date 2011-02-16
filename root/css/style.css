@@ -342,7 +342,6 @@ input.hiddenButton {
 
 #wizard .addressForm {
     height: 60px;
-    margin-top: 20px;
 }
 
 #wizard .bigButtonGreen {
@@ -351,7 +350,7 @@ input.hiddenButton {
 
 #wizard .message {
     font-size: 12pt;
-    padding: 5px 3px;
+    padding: 8px 3px 5px 3px;
 }
 
 input.initial {
