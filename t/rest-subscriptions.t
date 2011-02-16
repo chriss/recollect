@@ -16,7 +16,7 @@ my $app = t::Recollect->app('Recollect::APIController');
 my $subscribe_url = '/subscriptions';
 my $billing_url   = '/billing';
 my $test_email    = 'test@recollect.net';
-my $test_zone_id  = 1;
+my $test_zone_id  = Recollect::Zone->All->[0]->id;
 
 # Rainy Day Subscription creation tests
 my $cb;
@@ -53,7 +53,7 @@ test_psgi $app, sub {
     );
     bad_post_ok(
         { email => $test_email, reminders => [ { zone_id => $test_zone_id, target => 'invalid' } ] },
-        qr/target is unsupported/,
+        qr/target \(invalid\) is unsupported/,
         'invalid target present'
     );
 };
@@ -106,6 +106,7 @@ for my $target (qw{voice:7787851357 sms:7787851357}) {
             Content => encode_json(
                 {
                     email => 'test@recollect.net',
+                    payment_period => 'quarterly',
                     reminders => [
                         {
                             target => $target,
@@ -188,6 +189,7 @@ sub bad_post_ok {
         Content => encode_json($content_hash));
     
     is $res->code, 400, "$desc - status code";
+    warn $res->content unless $res->code eq '400';
     like $res->content, $match, "$desc - content"; 
     is $res->header('Content-Type'), 'application/json',
         "$desc content-type";
