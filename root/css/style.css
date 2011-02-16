@@ -219,16 +219,13 @@ footer {
     height: 100%;
     margin-bottom: 30px;
 }
-#staticLayout .staticContent {
-    padding: 0 4px;
-    width: 600px;
-    padding: 0 2em 2em 2em;
-    font-size: 115%;
-}
 
 #staticLayout .staticContent,
 #staticLayout .text {
-    margin-left: 350px;
+    font-size: 115%;
+    width: 550px;
+    margin-left: 340px;
+    padding: 0 2em 2em 2em;
 }
 
 #staticLayout .staticContent p {
