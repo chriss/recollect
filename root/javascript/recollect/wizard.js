@@ -206,7 +206,7 @@ Recollect.Wizard .prototype = {
                         return false;
                     });
                     $('#wizard .chooseAnnually').click(function(){
-                        self.setHash(args.area, args.zone, 'subscribe', 'annually');
+                        self.setHash(args.area, args.zone, 'subscribe', 'annual');
                         return false;
                     });
                 });
