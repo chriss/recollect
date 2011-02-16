@@ -431,9 +431,9 @@
         [% INCLUDE logo %]
     </div>
     <div class="right middle">
-        <div class="title">Wait! You're not done yet!</div>                         
+        <div class="title">You're all done!</div>                         
         <div>       
-            You have successfully added your reminder. We just need to confirm that the email you entered is your email. If you don't get the email in the next 10 minutes, check your spam folder.                                                  
+            We have successfully added your reminder.  We have sent you an email to welcome you to the service.  Thanks for using Recollect!</a>
         </div>  
     </div>  
 </div>  
