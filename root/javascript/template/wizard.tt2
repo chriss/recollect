@@ -11,8 +11,8 @@
 
 [% BLOCK wizardWelcome %]
 <div class="middle">
-    <div class="row" style="height: 225px">
-        <div class="left" style="height:100px; margin-top: 65px">
+    <div class="row landingPage" style="height: 225px">
+        <div class="left">
             [% INCLUDE logo %]
         </div>
         <div class="right">
