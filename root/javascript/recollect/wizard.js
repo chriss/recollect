@@ -73,13 +73,13 @@ Recollect.Wizard .prototype = {
             };
             self.show(opts, function() {
                 $('#start').click(function(){
-                    self.setHash('beta');
+                    self.setHash('start');
                     return false;
                 });
             });
         },
 
-        '!/beta': function() {
+        '!/start': function() {
             var self = this;
             var opts = {
                 height: 200,
