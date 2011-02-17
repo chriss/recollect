@@ -515,7 +515,9 @@ Recollect.Wizard .prototype = {
                 else {
                     // Error: zero results
                     $('#wizard .status').html(
-                        Jemplate.process('error', { msg: "Found 0 Results" })
+                        Jemplate.process('error', {
+                            msg: "Sorry, we couldn't find your address."
+                        })
                     );
                 }
             }
