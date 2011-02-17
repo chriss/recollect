@@ -423,7 +423,6 @@ Recollect.Wizard .prototype = {
 
         var geocoder = new google.maps.Geocoder();
         geocoder.geocode(request, function(results, status) {
-                console.log(status);
             if (status == google.maps.GeocoderStatus.OK) {
                 // restrict results to street addresses
                 results = $.grep(results, function(r) {
