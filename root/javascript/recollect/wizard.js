@@ -333,7 +333,7 @@ Recollect.Wizard .prototype = {
                 email: 'Please enter a valid email'
             }
         },
-        phone: {
+        voice: {
             rules: {
                 phone: 'required',
                 email: {

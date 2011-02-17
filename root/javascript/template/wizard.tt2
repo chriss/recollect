@@ -308,7 +308,7 @@
     <div class="row" style="height: 100px">
         <div class="center">
             <div class="zoneName">[% title %]</div>
-            [% IF type == 'phone' %]
+            [% IF type == 'voice' %]
                 <div class="title">Schedule a Telephone Call Reminder</div>
             [% ELSIF type == 'text' %]
                 <div class="title">Schedule a Text Message Reminder:</div>
@@ -324,7 +324,7 @@
     <div class="row" style="height: 200px">
         <div class="center">
             <form>
-                [% IF type == 'phone' %]
+                [% IF type == 'voice' %]
                     <div class="help">
                         Please enter the 10 digit telephone number that you wish to receive weekly phone call pickup reminders. This can be a mobile phone or a land line.
                     </div>
