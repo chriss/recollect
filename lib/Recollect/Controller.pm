@@ -41,6 +41,7 @@ sub run {
     );
     
     my $method = $req->method;
+    $method = 'GET' if $method eq 'HEAD';
     for my $match (@{ $func_map{$method}}) {
         my ($regex, $todo) = @$match;
         if ($path =~ $regex) {
