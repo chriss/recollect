@@ -19,6 +19,12 @@ server {
         break;  
     }  
 
+    location ~ ^/(images|javascript|css)/(?:\d+\.\d+\.\d+) {
+        rewrite ^/(images|javascript|css)/(?:\d+\.\d+\.\d+)\/(.*)$ /$1/$2;  
+        expires max;  
+        break;  
+    }  
+
     location / {
         proxy_redirect off;
         proxy_set_header   Host             $host;
