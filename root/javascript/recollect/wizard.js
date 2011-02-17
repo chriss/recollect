@@ -99,6 +99,8 @@ Recollect.Wizard .prototype = {
                         $(this).removeClass('initial').val('').unbind('click');
                     })
                     .keyup(function(e) {
+                        if (e.keyCode == 13) return; // ignore Enter
+
                         // Hide the suggestions
                         $('#wizard .status').html('');
                         self.autocomplete($(this));
