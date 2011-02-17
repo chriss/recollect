@@ -486,7 +486,7 @@ sub pickupdays_ical {
         my $evt = Data::ICal::Entry::Event->new;
         $evt->add_properties(
             summary => $pickup->desc,
-            dtstart => $pickup->ymd,
+            dtstart => $pickup->ymd(''),
         );
         $ical->add_entry($evt);
     }
