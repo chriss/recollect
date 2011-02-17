@@ -37,7 +37,8 @@
         </div>
         <div class="right">
             <div class="message">
-                First: enter your home address:
+                <b>Step One</b>: Fill in your address<br />
+                <i>e.g. 453 W 12 Ave, Vancouver, BC</i>
             </div>
             <div class="addressForm">
                 <form>
@@ -106,10 +107,9 @@
             <div class="calendarSection">
                 <div class="signup">
                     <div class="description">
-                        Never forget your garbage day again!
-                        Set up a garbage day reminder. 
+                        <b>Step two:</b> Look at the map and confirm this is the correct address.
                     </div>
-                    <a id="subscribe" class="bigButtonOrange" href="#">Sign Up Now!</a>
+                    <a id="subscribe" class="bigButtonOrange" href="#">Confirm!</a>
                 </div>
                 <div class="calendar"></div>
             </div>
