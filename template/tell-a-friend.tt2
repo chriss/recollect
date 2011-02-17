@@ -8,7 +8,7 @@
     [% END %]
 
     <div class="section">
-        Share recollect with your social network!<br/>
+        Share Recollect with your social network!<br/>
         [% INCLUDE elements/social.tt2 %]
     </div>
 
