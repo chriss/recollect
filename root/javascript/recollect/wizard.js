@@ -416,6 +416,13 @@ Recollect.Wizard .prototype = {
     geocode: function(args) {
         var self = this;
 
+        // Don't overlap requests, keep a tally
+        if (!self._retries) self._retries = 0;
+        if (!args.retries) args.retries = 0;
+        if (!args.force && args.retries && args.retries != self._retries) {
+            return;
+        }
+
         var request = { address: args.address };
         if (args.biasViewport) request.region = 'ca';
 
@@ -432,7 +439,9 @@ Recollect.Wizard .prototype = {
                 args.callback(results);
             }
             else {
-                args.callback([]);
+                self._retries++;
+                args.retries++;
+                setTimeout(function() { self.geocode(args) }, 500);
             }
         });
     },
@@ -491,6 +500,7 @@ Recollect.Wizard .prototype = {
         var self = this;
 
         self.geocode({
+            force: true,
             address: address,
             biasViewport: true,
             callback: function(results) {
