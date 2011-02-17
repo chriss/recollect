@@ -572,6 +572,12 @@ input.initial {
  * Buttons
  */
 
+.buttons .bigButtonGreen,
+.buttons .bigButtonBlack,
+.buttons .bigButtonOrange {
+    margin-left: 10px;
+}
+
 .bigButtonGreen,
 .bigButtonBlack,
 .bigButtonOrange {

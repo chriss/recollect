@@ -26,8 +26,8 @@
 
   <br />
 
-  <p>
-    <input type="button" value="Yes" onclick="document.location = '[% request_uri %]?confirm=1'"/>
-    <input type="button" value="No" onclick="document.location = '[% base %]'"/>
+  <p class="buttons">
+    <a class="bigButtonGreen" href="[% request_uri %]?confirm=1">Yes</a>
+    <a class="bigButtonGreen" href="[% base %]">No</a>
   </p>
 [% END %]
