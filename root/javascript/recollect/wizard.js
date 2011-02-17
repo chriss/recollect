@@ -416,18 +416,12 @@ Recollect.Wizard .prototype = {
     geocode: function(args) {
         var self = this;
 
-        // Don't overlap requests, keep a tally
-        if (!self._retries) self._retries = 0;
-        if (!args.retries) args.retries = 0;
-        if (!args.force && args.retries && args.retries != self._retries) {
-            return;
-        }
-
         var request = { address: args.address };
         if (args.biasViewport) request.region = 'ca';
 
         var geocoder = new google.maps.Geocoder();
         geocoder.geocode(request, function(results, status) {
+                console.log(status);
             if (status == google.maps.GeocoderStatus.OK) {
                 // restrict results to street addresses
                 results = $.grep(results, function(r) {
@@ -438,10 +432,13 @@ Recollect.Wizard .prototype = {
                 });
                 args.callback(results);
             }
-            else {
-                self._retries++;
-                args.retries++;
-                setTimeout(function() { self.geocode(args) }, 500);
+            else if (status == google.maps.GeocoderStatus.ZERO_RESULTS) {
+                args.callback([]);
+            }
+            else if (status == google.maps.GeocoderStatus.OVER_QUERY_LIMIT) {
+                if (args.force) {
+                    setTimeout(function() { self.geocode(args) }, 500);
+                }
             }
         });
     },
