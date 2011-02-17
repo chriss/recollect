@@ -4,15 +4,13 @@ use warnings;
 use XML::Simple;
 use Text::CSV_XS;
 
-my $city_name = 'victoria' || shift || die;
+my $city_name = 'oakbay' || shift || die;
 my $kml_file = "$city_name.kml";
 die unless -e $kml_file;
 
-my $UTC = {
-    victoria => '-08',
-}->{$city_name} || die "Can't find UTC timezone for $city_name!";
-
+my $UTC = '-08';
 my $kml = XMLin($kml_file);
+my $area_name = ucfirst $city_name;
 
 my %zones;
 my $placemarks = $kml->{Document}{Placemark};
@@ -30,6 +28,12 @@ for my $shape_name (keys %$placemarks) {
             warn "No idea about: $desc";
         }
     }
+    elsif ($city_name eq 'esquimalt' or $city_name eq 'oakbay') {
+        $name =~ s/\d$//;
+        $nice_name =~ s/-/ /;
+        $nice_name = join ' ', map { ucfirst } split ' ', $nice_name;
+        $area_name = 'Victoria';
+    }
 
     my $coords = $place->{Polygon}{outerBoundaryIs}{LinearRing}{coordinates};
     my @points;
@@ -40,12 +44,14 @@ for my $shape_name (keys %$placemarks) {
     }
     my $polygon = '((' . join(',', @points) . '))';
     (my $style = $place->{styleUrl}) =~ s/^#//;
+#    warn "Found zone $name - $style - $polygon\n";
 
     push @{ $zones{$name} }, {
         polygon => $polygon,
         style => $style,
         nice_name => $nice_name,
     };
+#    warn "$name has " . scalar(@{ $zones{$name} });
 }
 
 my $styles = $kml->{Document}{Style};
@@ -60,7 +66,6 @@ for my $name (keys %$styles) {
 }
 
 my $sql_file = "etc/sql/$city_name.sql";
-my $City_name = ucfirst $city_name;
 open my $fh, ">$sql_file" or die "Can't write to $sql_file";
 print $fh <<EOT;
 BEGIN;
@@ -69,9 +74,9 @@ BEGIN;
 -- Delete any existing data for this area
 DELETE FROM pickups
     WHERE zone_id IN (
-        SELECT id FROM zones WHERE area_id = (SELECT id FROM areas WHERE name = '$City_name')
+        SELECT id FROM zones WHERE area_id = (SELECT id FROM areas WHERE name = '$area_name')
     );
-DELETE FROM zones WHERE area_id = (SELECT id FROM areas WHERE name = '$City_name');
+DELETE FROM zones WHERE area_id = (SELECT id FROM areas WHERE name = '$area_name');
 
 -- Insert the zones
 EOT
@@ -86,7 +91,7 @@ for my $zone_name (keys %zones) {
         . ")";
     print $fh <<EOT;
 INSERT INTO zones (id, area_id, name, title, colour_name, line_colour, poly_colour)
-    VALUES (nextval('zone_seq'),(SELECT id FROM areas WHERE name = '$City_name'),'$zone_name','$details->{nice_name}','$zone_name','$style->{linecolour}','$style->{polycolour}');
+    VALUES (nextval('zone_seq'),(SELECT id FROM areas WHERE name = '$area_name'),'$zone_name','$details->{nice_name}','$zone_name','$style->{linecolour}','$style->{polycolour}');
 UPDATE zones SET geom = ST_GeomFromText('$multipolygon') WHERE name = '$zone_name';
 
 EOT
@@ -103,6 +108,7 @@ open my $csv_fh, "<:encoding(utf8)", "$city_name.csv" or die "Can't open $city_n
 while (my $row = $csv->getline ($csv_fh)) {
     next if $row->[0] =~ m/^\w+$/;
     my ($zone_name, $day, $flags) = @$row;
+    $flags = uc $flags;
     die "Couldn't find zone $zone_name in the CSV" unless $zones{$zone_name};
 
     print $fh <<EOT;
