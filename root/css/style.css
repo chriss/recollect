@@ -256,6 +256,8 @@ input.hiddenButton {
     height: 100px;
     vertical-align: middle;
 }
+.beta {
+}
 
 #wizard div.error {
     padding: 5px;

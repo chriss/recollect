@@ -16,7 +16,7 @@
             [% INCLUDE logo %]
         </div>
         <div class="right">
-            <div class="title">Welcome to Recollect</div>
+            <div class="title">Welcome to Recollect <img class="beta" src="/[% version %]/images/beta.png"/></div>
             <div class="subtitle">The Garbage and Recycling collection reminder service.</div>
             <div class="message">
                 <p>When you sign up with Recollect we will send you an email, text message, or phone call, at the time of your choosing, right before your garbage is about to picked up so that you never forget to take it out.</p>
