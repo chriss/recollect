@@ -11,7 +11,7 @@
 
 [% BLOCK wizardWelcome %]
 <div class="middle">
-    <div class="row landingPage" style="height: 225px">
+    <div class="row landingPage" style="height: 250px">
         <div class="left">
             [% INCLUDE logo %]
         </div>
