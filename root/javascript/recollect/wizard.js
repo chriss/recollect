@@ -199,16 +199,16 @@ Recollect.Wizard .prototype = {
             self.getZone(args.area, args.zone, function(zone) {
                 $.extend(opts, zone);
                 self.show(opts, function() {
+                    $('#wizard .chooseText').click(function(){
+                        self.setHash(args.area, args.zone, 'subscribe', 'text');
+                        return false;
+                    });
+                    $('#wizard .chooseVoice').click(function(){
+                        self.setHash(args.area, args.zone, 'subscribe', 'voice');
+                        return false;
+                    });
                     $('#wizard .chooseFree').click(function(){
                         self.setHash(args.area, args.zone, 'subscribe', 'free');
-                        return false;
-                    });
-                    $('#wizard .chooseQuarterly').click(function(){
-                        self.setHash(args.area, args.zone, 'subscribe', 'quarterly');
-                        return false;
-                    });
-                    $('#wizard .chooseAnnually').click(function(){
-                        self.setHash(args.area, args.zone, 'subscribe', 'annual');
                         return false;
                     });
                 });
@@ -243,7 +243,7 @@ Recollect.Wizard .prototype = {
             });
         },
 
-        '!/:area/:zone/subscribe/:paycycle': function(args) {
+        '!/:area/:zone/subscribe/:type': function(args) {
             var self = this;
 
             self.getZone(args.area, args.zone, function(zone) {
@@ -251,21 +251,21 @@ Recollect.Wizard .prototype = {
                     height: 500,
                     opacity: 1,
                     feeds: self.feeds(zone),
-                    page: 'wizardPay'
+                    page: 'wizardPremium'
                 };
                 $.extend(opts, zone);
                 self.show(opts, function() {
-                    $('#wizard .chooseText').click(function(){
+                    $('#wizard .chooseQuarterly').click(function(){
                         self.setHash(
                             args.area, args.zone, 'subscribe',
-                            args.paycycle, 'sms'
+                            args.type, 'quarterly'
                         );
                         return false;
                     });
-                    $('#wizard .choosePhone').click(function(){
+                    $('#wizard .chooseAnnual').click(function(){
                         self.setHash(
                             args.area, args.zone, 'subscribe',
-                            args.paycycle, 'phone'
+                            args.type, 'annual'
                         );
                         return false;
                     });
@@ -273,53 +273,14 @@ Recollect.Wizard .prototype = {
             });
         },
 
-        '!/:area/:zone/subscribe/:paycycle/:type': function(args) {
-            var self = this;
-
-            var opts = {
-                height: 500,
-                opacity: 1,
-                page: 'wizardForm'
-            };
-            $.extend(opts, args);
-            self.getZone(args.area, args.zone, function(zone) {
-                $.extend(opts, zone);
-                self.show(opts, function() {
-                    $('#wizard form').validate(self.validate[args.type])
-                    $('#wizard input[name=phone]').mask('999-999-9999');
-                    $('#wizard .simpleOffset').change(function() {
-                        if ($(this).val() == 'custom') {
-                            // Show the more advanced time input
-                            $(this).hide();
-                            $('#wizard .customOffset').show();
-                        }
-                        else {
-                            // Set the simple value in the customOffset select
-                            // (which is the *real* offset element)
-                            $('#wizard .customOffset').val($(this).val());
-                        }
-                    });
-                    $('#wizard form').submit(function() {
-                        var reminder = {
-                            area: args.area,
-                            zone: args.zone,
-                            type: args.type,
-                            payment_period: args.paycycle
-                        };
-                        var form = $('#wizard form').serializeArray();
-                        $.each(form, function(i,field) {
-                            reminder[field.name] = field.value;
-                        });
-                        self.addReminder(reminder);
-                        return false;
-                    });
-                    $('#wizard .next').click(function() {
-                        $('#wizard form').submit();
-                        return false;
-                    });
-                });
-            });
+        '!/:area/:zone/subscribe/free/:type': function(args) {
+            this.showForm(args);
         },
+
+        '!/:area/:zone/subscribe/:type/:paycycle': function(args) {
+            this.showForm(args);
+        },
+
 
         '!/success': function() {
             var self = this;
@@ -359,7 +320,7 @@ Recollect.Wizard .prototype = {
                     email: 'Please enter a valid email'
                 }
         },
-        sms: {
+        text: {
             rules: {
                 phone: 'required',
                 email: {
@@ -385,6 +346,54 @@ Recollect.Wizard .prototype = {
                 email: 'Please enter a valid email'
             }
         }
+    },
+
+    showForm: function(args) {
+        var self = this;
+
+        var opts = {
+            height: 500,
+            opacity: 1,
+            page: 'wizardForm'
+        };
+        $.extend(opts, args);
+        self.getZone(args.area, args.zone, function(zone) {
+            $.extend(opts, zone);
+            self.show(opts, function() {
+                $('#wizard form').validate(self.validate[args.type])
+                $('#wizard input[name=phone]').mask('999-999-9999');
+                $('#wizard .simpleOffset').change(function() {
+                    if ($(this).val() == 'custom') {
+                        // Show the more advanced time input
+                        $(this).hide();
+                        $('#wizard .customOffset').show();
+                    }
+                    else {
+                        // Set the simple value in the customOffset select
+                        // (which is the *real* offset element)
+                        $('#wizard .customOffset').val($(this).val());
+                    }
+                });
+                $('#wizard form').submit(function() {
+                    var reminder = {
+                        area: args.area,
+                        zone: args.zone,
+                        type: args.type,
+                        payment_period: args.paycycle
+                    };
+                    var form = $('#wizard form').serializeArray();
+                    $.each(form, function(i,field) {
+                        reminder[field.name] = field.value;
+                    });
+                    self.addReminder(reminder);
+                    return false;
+                });
+                $('#wizard .next').click(function() {
+                    $('#wizard form').submit();
+                    return false;
+                });
+            });
+        });
     },
 
     autocomplete: function($node) {
@@ -829,8 +838,8 @@ Recollect.Wizard .prototype = {
         switch(opts.type) {
             case 'email':   reminder.target = 'email:' + opts.email;     break;
             case 'twitter': reminder.target = 'twitter:' + opts.twitter; break;
-            case 'sms':     reminder.target = 'sms:' + opts.phone;       break;
-            case 'phone':   reminder.target = 'voice:' + opts.phone;     break;
+            case 'text':    reminder.target = 'sms:' + opts.phone;       break;
+            case 'voice':   reminder.target = 'voice:' + opts.phone;     break;
         }
 
         data.reminders.push(reminder);

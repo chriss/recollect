@@ -159,53 +159,36 @@
     </div>
 
     <div class="boxes row">
+
         <div class="free boxOption">
             <div class="inside">
                 <div class="boxTitle">Free</div>
-                <div class="price">
-                    <div class="dollarsign">$</div> 0 
-                </div>
-                <div class="service">
-                    <div class="serviceOption">A Weekly E-Mail,</div>
-                    <div class="serviceOption">A Weekly Twitter DM, or</div>
-                    <div class="serviceOption">Add to your Calendar</div>
+                <div class="description">
+                    Send me an email or twitter direct message each week, or add my garbage and recycling calendar to my calendar.
                 </div>
                 <a class="bigButtonBlack choose chooseFree" href="#">choose</a>
             </div>
         </div>
 
-        <div class="quarterly boxOption">
+        <div class="text boxOption">
             <div class="inside">
-                <div class="boxTitle">Quarterly</div>
-                <div class="discount">$2 / month</div>
-                <div class="price">
-                    <div class="dollarsign">$</div> 6
-                    <div class="billingCycle">billed every 3 months</div>
+                <div class="boxTitle">Text Message</div>
+                <div class="description">
+                    Send me a text message each week to remind me to take out the garbage, recycling and yard trimmings.
                 </div>
-                <div class="service">
-                    <div class="serviceOption">A Weekly Text Message, or</div>
-                    <div class="serviceOption">A Weekly Phone Call</div>
-                </div>
-                <a class="bigButtonBlack choose chooseQuarterly" href="#">choose</a>
+                <a class="bigButtonBlack choose chooseText" href="#">choose</a>
             </div>
         </div>
 
-        <div class="annually boxOption">
+        <div class="twitter boxOption">
             <div class="inside">
-                <div class="boxTitle">Annually</div>
-                <div class="discount">$1.50 / month</div>
-                <div class="price">
-                    <div class="dollarsign">$</div> 18 
-                    <div class="billingCycle">billed annually</div>
+                <div class="boxTitle">Phone Call</div>
+                <div class="description">
+                    Call me each week to remind me to take out the garbage, recycling and yard trimmings.
                 </div>
-                <div class="service">
-                    <div class="serviceOption">A Weekly Text Message, or</div>
-                    <div class="serviceOption">A Weekly Phone Call</div>
-                </div>
-                <a class="bigButtonBlack choose chooseAnnually" href="#">choose</a>
+                <a class="bigButtonBlack choose chooseVoice" href="#">choose</a>
             </div>
-        </div>
-
+        </div
         <div class="clearfix"></div>
     </div>
 </div>
@@ -273,10 +256,10 @@
 </div>
 [% END %]
 
-[% BLOCK wizardPay %]
+[% BLOCK wizardPremium %]
 <div class="middle">
     <!-- first row -->
-    <div class="row" style="height:100px">
+    <div class="row" style="height: 100px">
         <div class="left">
             [% INCLUDE logo %]
         </div>
@@ -290,23 +273,27 @@
     </div>
 
     <div class="boxes row twoBoxes">
-        <div class="sms boxOption">
+        <div class="quarterly boxOption">
             <div class="inside">
-                <div class="boxTitle">Text Message</div>
-                <div class="description">
-                    Send me a text message each week to remind me to take out the garbage, recycling and yard trimmings.
+                <div class="boxTitle">Quarterly</div>
+                <div class="discount">$2 / month</div>
+                <div class="price">
+                    <div class="dollarsign">$</div> 6
+                    <div class="billingCycle">billed every 3 months</div>
                 </div>
-                <a class="bigButtonBlack choose chooseText" href="#">choose</a>
+                <a class="bigButtonBlack choose chooseQuarterly" href="#">choose</a>
             </div>
         </div>
 
-        <div class="twitter boxOption">
+        <div class="annually boxOption">
             <div class="inside">
-                <div class="boxTitle">Phone Call</div>
-                <div class="description">
-                    Call me each week to remind me to take out the garbage, recycling and yard trimmings.
+                <div class="boxTitle">Annually</div>
+                <div class="discount">$1.50 / month</div>
+                <div class="price">
+                    <div class="dollarsign">$</div> 18 
+                    <div class="billingCycle">billed annually</div>
                 </div>
-                <a class="bigButtonBlack choose choosePhone" href="#">choose</a>
+                <a class="bigButtonBlack choose chooseAnnual" href="#">choose</a>
             </div>
         </div>
 
@@ -318,12 +305,12 @@
 [% BLOCK wizardForm %]
 <div class="middle subscription">
     <!-- first row -->
-    <div class="row" style="height: 125px">
+    <div class="row" style="height: 100px">
         <div class="center">
             <div class="zoneName">[% title %]</div>
             [% IF type == 'phone' %]
                 <div class="title">Schedule a Telephone Call Reminder</div>
-            [% ELSIF type == 'sms' %]
+            [% ELSIF type == 'text' %]
                 <div class="title">Schedule a Text Message Reminder:</div>
             [% ELSIF type == 'email' %]
                 <div class="title">Schedule an E-Mail Reminder:</div>
@@ -344,7 +331,7 @@
                     [% INCLUDE field name='phone' title='Telephone' %]
                     [% INCLUDE field name='email' title='Email' %]
                     [% INCLUDE time %]
-                [% ELSIF type == 'sms' %]
+                [% ELSIF type == 'text' %]
                     <div class="help">
                         Please enter the 10 digit mobile telephone number that you wish to receive weekly text message pickup reminders.
                     </div>
@@ -426,15 +413,18 @@
 [% END %]
 
 [% BLOCK success %]
-<div class="smallPage">
-    <div class="left middle" style="height:100px">
-        [% INCLUDE logo %]
-    </div>
-    <div class="right middle">
-        <div class="title">You're all done!</div>                         
-        <div>       
-            We have successfully added your reminder.  We have sent you an email to welcome you to the service.  Thanks for using Recollect!</a>
-        </div>  
+<div class="middle">
+    <!-- first row -->
+    <div class="row" style="height:100px">
+        <div class="left">
+            [% INCLUDE logo %]
+        </div>
+        <div class="right">
+            <div class="title">You're all done!</div>                         
+            <div>       
+                We have successfully added your reminder.  We have sent you an email to welcome you to the service.  Thanks for using Recollect!</a>
+            </div>  
+        </div>
     </div>  
-</div>  
+</div>
 [% END %]

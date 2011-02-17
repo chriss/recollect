@@ -437,13 +437,14 @@ input.initial {
     width: 1000px;
     left: 50%;
     margin-left: -450px;
+    padding-top: 30px;
 }
 .middle .twoBoxes { margin-left: -300px; }
 
 .boxes .boxOption {
     float: left;
     width: 280px;
-    height: 280px;
+    height: 250px;
     margin: 10px;
     background-color: #fff;
 
@@ -470,6 +471,12 @@ input.initial {
         progid:DXImageTransform.Microsoft.gradient(startColorstr='#fefeef', endColorstr='#adcaad'); /* gradient */
 }
 
+.boxes .free {
+    /* gradient */
+    background: #fff;
+    filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#8e9884'); /* drop shadow only */
+}
+
 .boxes .boxOption .inside {
     padding: 10px;
     height: 280px;
@@ -490,6 +497,7 @@ input.initial {
 .boxes .boxOption .price {
     position: relative;
     padding-left: 20px;
+    padding-top: 20px;
     font-size: 60pt;
     margin-left: 30px;
 }
@@ -497,7 +505,7 @@ input.initial {
     font-size: 30pt;
     position: absolute;
     left: 0;
-    top: 10px;
+    top: 30px;
 }
 .boxes .price .billingCycle {
     font-size: 8pt;
@@ -527,7 +535,7 @@ input.initial {
 .boxes .boxOption .choose {
     margin-left: 70px;
     position: absolute;
-    bottom: 30px;
+    bottom: 70px;
 }
 
 .boxes .boxOption .description {
