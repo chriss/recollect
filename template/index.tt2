@@ -5,9 +5,21 @@
         <div id="message"><strong>[% message %]</strong></div>
     [% END %]
 
+
     <div id="smallLayout">
         <div class="white"></div>
-        <div id="wizard"></div>
+        <div id="wizard">
+            <noscript class="middle">
+                <div class="row">
+                    <div class="left">
+                        <a href="/"><img class="logo" src="/[% version %]/images/recollect_logo_small.png"/></a>
+                    </div>
+                    <div class="right">
+                        We're sorry, but JavaScript is required in order to use Recollect.
+                    </div>
+                </div>
+            </noscript>
+        </div>
     </div>
 
     <script>
