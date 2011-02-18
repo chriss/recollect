@@ -141,11 +141,11 @@ Recollect.Wizard .prototype = {
                 $('.interest form').submit(function() {
                     $('.interest .loading').show();
                     $('.interest form').hide();
+                    var email = $('.interest input[name=email]').val();
                     $.ajax({
                         type: 'POST',
                         url: '/api/interest/' + latlng.toUrlValue() + '/notify',
-                        contentType: 'json',
-                        data: $('.interest input[name=email]').val(),
+                        data: { email: email },
                         error: function(xhr, textStatus, errorThrown) {
                             $('.interest form').show();
                             $('.interest .loading').hide();
@@ -159,7 +159,7 @@ Recollect.Wizard .prototype = {
                     });
                     return false;
                 });
-                $('.interest .submit').submit(function() {
+                $('.interest .submit').click(function() {
                     $('.interest form').submit();
                     return false;
                 });

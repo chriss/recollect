@@ -584,7 +584,6 @@ sub _place_is_ok { defined $_[0] and length $_[0] and length $_[0] < 30 }
 
 sub request_place_notification {
     my $self = shift;
-    my $req  = $self->request;
     my $place = shift || 'noplace';
     my $email = $self->request->parameters->{email} || '';
 
