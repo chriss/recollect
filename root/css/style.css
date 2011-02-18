@@ -353,10 +353,6 @@ noscript.middle .row .right { top: 85px; left: 380px }
     height: 60px;
 }
 
-#wizard .bigButtonGreen {
-    margin-top: 5px;
-}
-
 #wizard .message {
     font-size: 12pt;
     padding: 8px 3px 5px 3px;

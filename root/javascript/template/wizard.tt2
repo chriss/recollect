@@ -56,8 +56,8 @@
 
 [% BLOCK wizardZoneSuggestion %]
 <div class="middle interest">
-    <div class="row" style="height: 227px">
-        <div class="left">
+    <div class="row" style="height: 250px">
+        <div class="left" style="padding-top: 10px">
             <div class="map" style="height: 227px"></div>
         </div>
         <div class="right">
