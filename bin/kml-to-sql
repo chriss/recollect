@@ -5,7 +5,7 @@ use XML::Simple;
 use Text::CSV_XS;
 
 my $city_name = 'oakbay' || shift || die;
-my $kml_file = "$city_name.kml";
+my $kml_file = "data/$city_name.kml";
 die unless -e $kml_file;
 
 my $UTC = '-08';
@@ -103,8 +103,9 @@ print $fh <<EOT;
 -- Now the schedule data
 EOT
 
+my $csv_file = "data/$city_name.csv";
 my $csv = Text::CSV_XS->new or die "Cannot use CSV: ".Text::CSV->error_diag;
-open my $csv_fh, "<:encoding(utf8)", "$city_name.csv" or die "Can't open $city_name.csv: $!";
+open my $csv_fh, "<:encoding(utf8)", $csv_file or die "Can't open $csv_file: $!";
 while (my $row = $csv->getline ($csv_fh)) {
     next if $row->[0] =~ m/^\w+$/;
     my ($zone_name, $day, $flags) = @$row;
