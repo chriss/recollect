@@ -19,7 +19,7 @@
         <Placemark>
           <name>[% poly.name %]</name>
           <description>[% poly.title %]</description>
-          <styleUrl>#[% poly.colour_name %]</styleUrl>
+          <styleUrl>#[% poly.name %]-[% poly.colour_name %]</styleUrl>
           <Polygon>
             <outerBoundaryIs>
               <LinearRing>
