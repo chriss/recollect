@@ -4,9 +4,9 @@ BEGIN;
 -- Delete any existing data for this area
 DELETE FROM pickups
     WHERE zone_id IN (
-        SELECT id FROM zones WHERE area_id = (SELECT id FROM areas WHERE name = 'Victoria')
+        SELECT id FROM zones WHERE name like 'esquimalt-%'
     );
-DELETE FROM zones WHERE area_id = (SELECT id FROM areas WHERE name = 'Victoria');
+DELETE FROM zones WHERE name like 'esquimalt-%';
 
 -- Insert the zones
 INSERT INTO zones (id, area_id, name, title, colour_name, line_colour, poly_colour)
