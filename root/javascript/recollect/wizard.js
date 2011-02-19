@@ -373,7 +373,7 @@ Recollect.Wizard .prototype = {
                         // (which is the *real* offset element)
                         $('#wizard .customOffset').val($(this).val());
                     }
-                });
+                }).change();
                 $('#wizard form').submit(function() {
                     var reminder = {
                         area: args.area,
