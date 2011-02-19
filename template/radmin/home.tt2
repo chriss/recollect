@@ -9,11 +9,4 @@
     <li><strong>Number of unique [% table %]:</strong> [% stats.table_size.$table %]</li>
     [% END %]
   </ul>
-
-  <h3>Top 10 most requested places<h3>
-  <ul>
-  [% FOR p IN stats.top_places %]
-    <li><strong>[% p.place %]</strong>: [% p.count %]</li>
-  [% END %]
-  </ul>
 [% END %]
