@@ -4,7 +4,7 @@ use warnings;
 use XML::Simple;
 use Text::CSV_XS;
 
-my $city_name = 'oakbay' || shift || die;
+my $city_name = 'north-vancouver' || shift || die;
 my $kml_file = "data/$city_name.kml";
 die unless -e $kml_file;
 
@@ -12,12 +12,22 @@ my $UTC = '-08';
 my $kml = XMLin($kml_file);
 my $area_name = ucfirst $city_name;
 
+# use Data::Dumper;
+# warn Dumper $kml;
+# exit;
+
 my %zones;
 my $placemarks = $kml->{Document}{Placemark};
+if ($city_name eq 'north-vancouver') {
+    $placemarks = $kml->{Document}{Folder}{Folder}{Placemark};
+    $area_name = 'Vancouver';
+}
+
 for my $shape_name (keys %$placemarks) {
     my $place = $placemarks->{$shape_name};
     my $name = $shape_name;
     my $nice_name = $name;
+    my $style;
     if ($city_name eq 'victoria') { # custom hack
         my $desc = $place->{description};
         if ($desc =~ m{www\.victoria\.ca/common/pdfs/garbage-(\w+)-schedule}) {
@@ -34,17 +44,41 @@ for my $shape_name (keys %$placemarks) {
         $nice_name = join ' ', map { ucfirst } split ' ', $nice_name;
         $area_name = 'Victoria';
     }
+    elsif ($city_name eq 'north-vancouver') {
+        my $nv_id = $place->{ExtendedData}{SchemaData}{SimpleData}{Garbage_Zone}{content};
+        my %nv_colours = (
+            1 => 'yellow',
+            2 => 'green',
+            3 => 'blue',
+            4 => 'pink',
+            5 => 'purple',
+        );
+        $style = $nv_colours{$nv_id};
+        $name = "north-vancouver-$nv_id-$style";
+        $nice_name = "North Vancouver " . ucfirst($style) . " (Zone $nv_id)";
+    }
 
     my $coords = $place->{Polygon}{outerBoundaryIs}{LinearRing}{coordinates};
     my @points;
-    for my $line (split "\n", $coords) {
-        next unless $line =~ m/\S/;
-        next unless $line =~ m/^\s*([^,]+),([\d.-]+)/;
-        push @points, "$2 $1";
+    if ($area_name eq 'Victoria') {
+        for my $line (split "\n", $coords) {
+            next unless $line =~ m/\S/;
+            next unless $line =~ m/^\s*([^,]+),([\d.-]+)/;
+            push @points, "$2 $1";
+        }
+    }
+    elsif ($city_name eq 'north-vancouver') {
+        for my $line (split " ", $coords) {
+            next unless $line =~ m/^\s*([^,]+),([\d.-]+)/;
+            push @points, "$2 $1";
+        }
     }
     my $polygon = '((' . join(',', @points) . '))';
-    (my $style = $place->{styleUrl}) =~ s/^#//;
-#    warn "Found zone $name - $style - $polygon\n";
+    unless ($style) {
+        ($style = $place->{styleUrl}) =~ s/^#//;
+    }
+    #warn "Found zone $name, $nice_name - $style - $polygon\n";
+    #warn "Found zone $name, $nice_name - $style\n";
 
     push @{ $zones{$name} }, {
         polygon => $polygon,
@@ -54,15 +88,47 @@ for my $shape_name (keys %$placemarks) {
 #    warn "$name has " . scalar(@{ $zones{$name} });
 }
 
-my $styles = $kml->{Document}{Style};
+
 my %style;
-for my $name (keys %$styles) {
-    my $s = $styles->{$name};
-    $style{$name} = {
-        linecolour => $s->{LineStyle}{color},
-        polycolour => $s->{PolyStyle}{color},
-        name => $name,
-    };
+if ($area_name eq 'Victoria') {
+    my $styles = $kml->{Document}{Style};
+    for my $name (keys %$styles) {
+        my $s = $styles->{$name};
+        $style{$name} = {
+            linecolour => $s->{LineStyle}{color},
+            polycolour => $s->{PolyStyle}{color},
+            name => $name,
+        };
+    }
+}
+elsif ($city_name eq 'north-vancouver') {
+    %style = (
+        yellow => {
+            linecolour => 'FF34FFFF',
+            polycolour => '9934FFFF',
+            name => 'yellow',
+        },
+        green => {
+            linecolour => 'FFA3D9A4',
+            polycolour => '99A3D9A4',
+            name => 'green',
+        },
+        blue => {
+            linecolour => 'FFDFCC96',
+            polycolour => '99DFCC96',
+            name => 'blue',
+        },
+        pink => {
+            linecolour => 'FFBD9BFA',
+            polycolour => '99BD9BFA',
+            name => 'pink',
+        },
+        purple => {
+            linecolour => 'FFC088AD',
+            polycolour => '99C088AD',
+            name => 'purple',
+        },
+    );
 }
 
 my $sql_file = "etc/sql/$city_name.sql";
@@ -91,7 +157,7 @@ for my $zone_name (keys %zones) {
         . ")";
     print $fh <<EOT;
 INSERT INTO zones (id, area_id, name, title, colour_name, line_colour, poly_colour)
-    VALUES (nextval('zone_seq'),(SELECT id FROM areas WHERE name = '$area_name'),'$zone_name','$details->{nice_name}','$zone_name','$style->{linecolour}','$style->{polycolour}');
+    VALUES (nextval('zone_seq'),(SELECT id FROM areas WHERE name = '$area_name'),'$zone_name','$details->{nice_name}','$style->{name}','$style->{linecolour}','$style->{polycolour}');
 UPDATE zones SET geom = ST_GeomFromText('$multipolygon') WHERE name = '$zone_name';
 
 EOT
@@ -127,6 +193,6 @@ COMMIT;
 EOT
 
 close $fh or die "Can't write to $sql_file: $!";
-print "Write $sql_file\n";
+print "Wrote $sql_file\n";
 exit;
 
