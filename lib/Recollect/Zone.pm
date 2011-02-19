@@ -158,7 +158,10 @@ sub _build_uri {
 
 sub _build_style {
     my $self = shift;
-    return { map { $_ => $self->$_ } qw/colour_name line_colour poly_colour/ };
+    return {
+        colour_name => $self->name . '-' . $self->colour_name,
+        map { $_ => $self->$_ } qw/line_colour poly_colour/
+    }
 }
 
 sub _build_polygons {
