@@ -7,6 +7,7 @@ use Recollect::Subscription;
 use Recollect::Area;
 use Recollect::PlaceInterest;
 use Recollect::Trial;
+use Recollect::ICalUsage;
 use Plack::Request;
 use Plack::Response;
 use Data::ICal::Entry::Event;
@@ -14,6 +15,7 @@ use Data::ICal;
 use Date::ICal;
 use JSON qw/decode_json/;
 use XML::Simple;
+use Try::Tiny;
 use namespace::clean -except => 'meta';
 
 with 'Recollect::ControllerBase';
@@ -492,8 +494,12 @@ sub pickupdays_ical {
     }
 
 
-    my $t = $self->request->param("t") || 'none';
-    $self->log("ICAL: $t");
+    try {
+        my $t = $self->request->param("t") || 0;
+        Recollect::ICalUsage->Record($zone, $t);
+    }
+    catch { warn "Error recording Ical usage: $_\n" };
+
     return $self->response('text/calendar', $ical->as_string);
 }
 
