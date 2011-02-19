@@ -558,7 +558,7 @@ Recollect.Wizard .prototype = {
         $.ajax({
             url: '/api/lookup/' + zone + '.json',
             success: function(data) {
-                self.setHash(locality, data.name);
+                self.setHash(data.area.name, data.name);
             },
             error: function(xhr) {
                 if (xhr.status == 404) {
