@@ -21,7 +21,7 @@ Let's face it, we are all too busy being parents, holding down jobs or enjoying 
 
 <p>Recollect started as <a href="http://vantrash.ca">VanTrash</a>, an idea that <a href="http://eaves.ca">David Eaves</a> <a href="http://eaves.ca/2009/06/29/how-open-data-even-makes-garbage-collection-sexier-easier-and-cheaper/">blogged about</a> while thinking about open government data. Later at a <a href="http://vancouver.hackspace.ca/doku.php?id=super_happy_hacker_house">community hackathon</a> <a href="http://twitter.com/lukec">Luke Closs</a> and <a href="http://twitter.com/kevinj">Kevin Jones</a> decided it might be a fun project. After enjoying some initial success we felt that everyone should enjoy the benefits of a garbage reminder service so we created <a href="http://recollect.net">Recollect</a>.</p> 
 
-<h3><a href="#team">The Team</a></h3>
+<h3><a name="team">The Team</a></h3>
 
 <b>Luke Closs</b>
 <p>
@@ -40,7 +40,7 @@ Kevin has been a software developer for 7 years. From the beginning of his caree
 </p>
 <p>You can follow Kevin on Twitter <a href="http://twitter.com/kevinj">here</a>.</p>
 
-<h2>Media Inquiries</h2>
+<h2><a name="media">Media Inquiries</a></h2>
 
 <p>Recollect is one of the first online businesses to make use of open data - information that governments make available to the public for free - with the hopes the citizens, businesses and non-profits will make effective use of it. As a result a number of stories have been written about Recollect and its predecessor - Vantrash.</p>
 
