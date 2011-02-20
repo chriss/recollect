@@ -1,37 +1,58 @@
 [% WRAPPER elements/static_wrapper.tt2 title="About Recollect" %]
 <h1>About Recollect</h1>
 
-<p>
-    <p><b>Recollect</b> - a reminder service for citizens - has a single goal:</p>
+<ul class="toc">
+    <li><a href="#ourgoal">Our Goal</a></li>
+    <li><a href="#history">History</a></li>
+    <li><a href="#team">The Team</a></li>
+    <li><a href="#media">Media Inquiries</a></li>
+</ul>
+
+ <H3>><a name="ourgoal">Our Goal</H3> 
+
+<p>Recollect - a reminder service for citizens - has <b>a single goal</b>:</p>
 
     <p>To help make citizens lives just a little bit easier by providing them customized reminders for services they use to the device of their choice, at the time of their choice.</p>
-</p>
-
 <p>
-Let's face it, we are all busy being parents, holding down jobs or enjoying the limited free time we have to try to remember things like when to take out the garbage or remembering little league schedules. Our job is to make your life easier by freeing the neurons you'd waste trying to remember these small details. If you aren't trying to remember to take out the garbage, hopefully it means you can spend a little more time thinking about your family, your work or whatever your passion may be. Ultimately, we believe that city services should be built around your life and we are trying to take a small step to bring that a little closer to reality. 
+Let's face it, we are all too busy being parents, holding down jobs or enjoying the limited free time we have to remember things like garbage day or little league schedules. Our job is to make your life easier by finding ways to get that reminder  neurons you'd waste trying to remember these small details. If you aren't trying to remember to take out the garbage, hopefully it means you can spend a little more time thinking about your family, your work or whatever your passion may be. Ultimately, we believe that city services should be built around your life and we are trying to take a small step to bring that a little closer to reality. 
 </p>
 
-<h2>History</h2>
+<h3><a name="history">History</a></h3>
 
 <p>Recollect started as <a href="http://vantrash.ca">VanTrash</a>, an idea that <a href="http://eaves.ca">David Eaves</a> <a href="http://eaves.ca/2009/06/29/how-open-data-even-makes-garbage-collection-sexier-easier-and-cheaper/">blogged about</a> while thinking about open government data. Later at a <a href="http://vancouver.hackspace.ca/doku.php?id=super_happy_hacker_house">community hackathon</a> <a href="http://twitter.com/lukec">Luke Closs</a> and <a href="http://twitter.com/kevinj">Kevin Jones</a> decided it might be a fun project. After enjoying some initial success we felt that everyone should enjoy the benefits of a garbage reminder service so we created <a href="http://recollect.net">Recollect</a>.</p> 
 
-<h2>The Team</h2>
+<h3><a href="#team">The Team</a></h3>
 
-<h3>Luke Closs</h3>
+<b>Luke Closs</b>
 <p>
 Luke has been building software for over 10 years, from cellular networks to anti-spam to collaboration tools.  During that time Luke has found the most enjoyment as a toolsmith - building tools for his peers.  When Vancouver passed the Open Data initiative, Luke looked for ways to contribute his skills to help citizens get value out of the open data. The result was <a href="http://vantrash.ca">VanTrash</a>.  Luke is also a Lead Developer at <a href="http://socialtext.com">Socialtext</a> where he builds Enterprise Social Software, and is an author of many Open Source <a href="http://github.com/lukec">libraries</a>.  Luke manages the Recollect <a href="/api.html">APIs</a>, their operation, and safety.</p>
 <p>You can follow Luke on Twitter <a href="http://twitter.com/lukec">here</a>.
 </p>
 
-<h3>David Eaves</h3>
+<b>David Eaves</b>
 
 <p>David has advised several governments at the local, regional and national on open data and open government, helping them craft strategies as well as draft and execute implementation plans. In addition to his open data work, David has over 10 years experience in the private sector as a negotiation consultant, advising Fortune 500 companies on negotiations, strategies in the areas of fee negotiations, business process outsourcing and alliance management. David manages Recollect's partners. </p>
 <p>You can contact David <a href="mailto:david@recollect.net">here</a> and follow him on twitter <a href="http://twitter.com/daeaves">here</a>.</p>
 
-<h3>Kevin Jones</h3>
+<b>Kevin Jones</b>
 <p>
 Kevin has been a software developer for 7 years. From the beginning of his career at the security software vendor, <a href="http://sophos.com">Sophos</a>, to his current position as a Senior Software Developer at <a href="http://socialtext.com">Socialtext</a>, Kevin has always focused primarily on the development of front-end user facing features. Back in 2009, Kevin teamed up with Luke to create <a href="http://vantrash.ca">VanTrash</a>. At Recollect, Kevin is mainly reponsible for managing the user interface and site design.
 </p>
 <p>You can follow Kevin on Twitter <a href="http://twitter.com/kevinj">here</a>.</p>
+
+<h2>Media Inquiries</h2>
+
+<p>Recollect is one of the first online businesses to make use of open data - information that governments make available to the public for free - with the hopes the citizens, businesses and non-profits will make effective use of it. As a result a number of stories have been written about Recollect and its predecessor - Vantrash.</p>
+
+<p>Some of these articles are found in:
+<ul>
+<li>The Hamilton Spectator: <a href=http://www.thespec.com/news/local/article/481847--how-beer-fun-and-curiosity-helps-take-out-the-trash>How Beer, Fun and Curiosity Helps Take Out the Trash</a>.</li>
+<li>The Georgia Straight: <a=href=http://www.straight.com/article-346680/vancouver/top-prizes-bc-apps-climate-action-contest-go-velo-vantrash>Top prizes in B.C. Apps for Climate Action contest go to VELO, VanTrash</a></li>
+<li>The Vancouver Courier" <a href=http://www.vancourier.com/Website+guarantees+garbage+reminders/2396959/story.html>Website guarantees garbage day e-reminders</a></li>
+</ul>
+
+<p>With the launch of Recollect, this website represents what may be the only direct to consumer business that uses municipal open data, it's a powerful example of what the future could hold for open data and government services. If you are in the media and interested in talking about Recollect, or the future of government services please do not hesitate to contact Recollect co-founder <a mailto:media@recollect.net>David Eaves</a>.</p>
+
+<p>You can also follow Recollect on Twitter, our twitter handle is <a href=http://twitter.com/#!/recollectnet>@recollectnet</a>.</p>
 
 [% END %]
