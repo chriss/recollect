@@ -14,8 +14,9 @@ The Recollect team is looking for municipal partners interested in offering remi
 <li>Advertise or post a public service announcement on the Recollect Website
 <li>Customize the background photo to reflect your city's unique aesthetic</li>
 <li>Provide an easy to use API for your garbage zones and schedule to encourage further innovation.</li>
+</ul>
 
-We offer a variety of pricing models, please <a href="mailto:partner@recollect.net">contact us if you are interested.
+<p>We offer a variety of pricing models, please <a href="mailto:partner@recollect.net">contact us</a> if you are interested.
 </p>
 
 <h2>Recollect Manager</h2>
@@ -27,8 +28,9 @@ We offer a variety of pricing models, please <a href="mailto:partner@recollect.n
 <li>Customize the background photo to reflect your city's unique aesthetic</li>
 <li>Access the Recollect backend where you can change zones, schedules, and notification parameters on the fly</li>
 <li>Offer reminders for any multitude of services your government may offer</li>
+</ul>
 
-We offer a variety of pricing models, please <a href="mailto:partner@recollect.net">contact us if you are interested.
+<p>We offer a variety of pricing models, please <a href="mailto:partner@recollect.net">contact us</a> if you are interested.
       </p>
     </div>
 [% END %]
