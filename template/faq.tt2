@@ -93,6 +93,8 @@ We view sending some one an unsolicited reminder very seriously and will termina
 <h3><a name="mycity">How can I get garbage reminders for my City?</a></h2> 
  
 <p>Contact us! We are presently in the process of rolling out Recollect across more and more cities, if you'd like us to roll out to your city let us know! If you city already shares garbage zone and schedule information in an open data portal we'd definitely like to know.</p> 
+
+<p>If you <i>don't</i> have open data for garbage zones in your city, then more work is required. If you want to help to build Recollect for your city, we require two datasets to import the city.  The first is the geographic data that describes the polygons for each zone, in KML format.  The second is a CSV file of the schedule.  The CSV format is <code>zone-name,yyyy-mm-dd,GR</code>. The third column describes what is picked up that day - G=garbage, R=recycling, Y=yard compost, 2G = Two garbage bin pickup, F=food bank pickups, X=xmas tree.
  
 <h3><a name="publicofficial">I'm a Mayor, Councillor, Public Official or Solid Waste contractor, how do I get Recollect in my community?</a></h3> 
  
