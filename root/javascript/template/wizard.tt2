@@ -91,35 +91,39 @@
 
 [% BLOCK wizardZone %]
 <div class="middle">
-    <div class="row zonePage" style="height: 450px">
+    <div class="row zonePage" style="height: 525px">
         <div class="left">
             [% INCLUDE logo %]
-            <div class="map"></div>
+            <div class="cityPromo">
+                <div class="cityImageTitle">A word from our sponsors:</div>
+                <div class="cityImage">
+                    <a href="http://vancouver.ca/projects/foodWaste/noplastic.htm"
+                        target="_new" alt="Don't trash your food!">
+                        <img src="/[% version %]/images/recollect-ad-no-plastic-borderless.jpg"/>
+                    </a>
+                </div>
+            </div>
         </div>
 
-        <div class="center">
+        <div class="right">
             <div class="zoneName">[% title %]</div>
             <div class="nextPickup">
                 Next pickup day: [% next %]
                 <div class="yardMsg">[% yard_msg %]</div>
             </div>
 
-            <div class="calendarSection">
-                <div class="signup">
-                    <div class="description">
-                        <b>Step two:</b><br />Look at the map and confirm this is the correct collection zone.
-                    </div>
-                    <a id="subscribe" class="bigButtonOrange" href="#">Confirm!</a>
+            <div class="signup">
+                <div class="map"></div>
+                <div class="description">
+                    <b>Step two:</b> Look at the map and confirm this is the correct collection zone.
                 </div>
+                <a id="subscribe" class="confirm bigButtonOrange" href="#">Confirm and Sign Up!</a>
+            </div>
+
+            <div class="calendarSection">
                 <div class="calendar"></div>
             </div>
-        </div>
 
-        <div class="right cityImage">
-            <a href="http://vancouver.ca/projects/foodWaste/noplastic.htm"
-                target="_new" alt="Don't trash your food!">
-                <img src="/[% version %]/images/recollect-ad-no-plastic-borderless.jpg"/>
-            </a>
         </div>
     </div>
 </div>

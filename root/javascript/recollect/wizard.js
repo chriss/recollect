@@ -171,7 +171,7 @@ Recollect.Wizard .prototype = {
 
             self.getZone(args.area, args.zone, function(zone) {
                 var opts = {
-                    height: 500,
+                    height: 550,
                     opacity: 1,
                     page: 'wizardZone'
                 };

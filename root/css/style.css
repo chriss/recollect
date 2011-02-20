@@ -101,8 +101,8 @@ body {
 }
 
 body, .middle {
-    min-width: 1100px;
-    width: expression(document.body.clientWidth < 1161 ? "1161px" : "100%"); /* IE */
+    min-width: 1000px;
+    width: expression(document.body.clientWidth < 1000 ? "1000px" : "100%"); /* IE */
 }
 
 #background {
@@ -331,13 +331,12 @@ input.hiddenButton {
 /* Zone page */
 .zonePage {
     /* Put it in the center */
-    width: 1100px;
+    width: 880px;
     left: 50%;
-    margin-left: -550px;
+    margin-left: -440px;
 }
 .middle .zonePage .left { left: 0; margin: 0; width: 300px }
-.middle .zonePage .center { left: 332px; width: 400px } /* end: 732px */
-.middle .zonePage .right { left: 764px; width: 335px } /* end: 1099px */
+.middle .zonePage .right { left: 330px; width: 550px } /* end: 880px */
 
 .middle .landingPage .left { right: 60%; height:100px; margin-top: 53px }
 .middle .landingPage .right { left: 40%; width: 50% }
@@ -395,38 +394,57 @@ input.initial {
     font-style: italic;
 }
 
-#wizard .map {
-    margin-top: 20px;
+.interest .map {
+    width: 300px;
     height: 320px;
-    width: 300px;
-}
-#wizard .interest .map {
-    width: 300px;
     margin: 0;
 }
 
-#wizard .calendarSection {
-    margin-top: 28px;
-    position: relative;
+.zonePage .zoneName,
+.zonePage .nextPickup {
 }
-
-#wizard .signup {
-    font-size: 110%;
-    position: absolute;
-    left: 225px;
-    width: 170px;
-}
-
-#wizard .signup .bigButtonOrange{
-    margin-top: 30px;
-}
-
-.cityImage {
-    text-align: right;
-}
-.cityImage img {
-    height: 450px;
+.zonePage .cityPromo {
     border: 1px solid #D3D3D3;
+    background: #fff;
+    width: 300px;
+    opacity: .8;
+    filter: alpha(opacity = 80);
+}
+.zonePage .cityPromo .cityImageTitle {
+    font-size: 8pt;
+    font-weight: bold;
+    padding: 3px 0 0 3px;
+}
+.zonePage .cityPromo .cityImage {
+    padding: 3px;
+} 
+.zonePage .cityPromo img {
+    border: 1px solid #D3D3D3;
+    width: 290px;
+}
+.zonePage .calendarSection {
+    width: 300px;
+}
+.zonePage .calendarSection .calendar {
+    margin: 34px 15px;
+}
+.zonePage .signup {
+    position: absolute;
+    top: 110px;
+    left: 260px;
+}
+.zonePage .map {
+    margin-top: 20px;
+    height: 220px;
+    width: 300px;
+}
+.zonePage .signup .description {
+    margin: 10px 0;
+    text-align: center;
+}
+.zonePage .signup .confirm {
+    text-align: center;
+    margin: 0px 0 0 30px;
 }
 
 /*
