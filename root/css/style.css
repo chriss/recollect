@@ -986,6 +986,12 @@ a#fdbk_tab {
 
 
 /* Recollect stuff added by luke */
+div.founder {
+    padding:1.5em 0em 0.5em 0em;
+    font-size: 110%;
+    font-weight: bold;
+}
+
 p.inshort {
     padding:3em 3em; 
     line-height: 1.5;

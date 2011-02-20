@@ -23,18 +23,18 @@ Let's face it, we are all too busy being parents, holding down jobs or enjoying 
 
 <h3><a name="team">The Team</a></h3>
 
-<b>Luke Closs</b>
+<div class="founder">Luke Closs</div>
 <p>
 Luke has been building software for over 10 years, from cellular networks to anti-spam to collaboration tools.  During that time Luke has found the most enjoyment as a toolsmith - building tools for his peers.  When Vancouver passed the Open Data initiative, Luke looked for ways to contribute his skills to help citizens get value out of the open data. The result was <a href="http://vantrash.ca">VanTrash</a>.  Luke is also a Lead Developer at <a href="http://socialtext.com">Socialtext</a> where he builds Enterprise Social Software, and is an author of many Open Source <a href="http://github.com/lukec">libraries</a>.  Luke manages the Recollect <a href="/api.html">APIs</a>, their operation, and safety.</p>
 <p>You can follow Luke on Twitter <a href="http://twitter.com/lukec">here</a>.
 </p>
 
-<b>David Eaves</b>
+<div class="founder">David Eaves</div>
 
 <p>David has advised several governments at the local, regional and national on open data and open government, helping them craft strategies as well as draft and execute implementation plans. In addition to his open data work, David has over 10 years experience in the private sector as a negotiation consultant, advising Fortune 500 companies on negotiations, strategies in the areas of fee negotiations, business process outsourcing and alliance management. David manages Recollect's partners. </p>
 <p>You can contact David <a href="mailto:david@recollect.net">here</a> and follow him on twitter <a href="http://twitter.com/daeaves">here</a>.</p>
 
-<b>Kevin Jones</b>
+<div class="founder">Kevin Jones</div>
 <p>
 Kevin has been a software developer for 7 years. From the beginning of his career at the security software vendor, <a href="http://sophos.com">Sophos</a>, to his current position as a Senior Software Developer at <a href="http://socialtext.com">Socialtext</a>, Kevin has always focused primarily on the development of front-end user facing features. Back in 2009, Kevin teamed up with Luke to create <a href="http://vantrash.ca">VanTrash</a>. At Recollect, Kevin is mainly reponsible for managing the user interface and site design.
 </p>
@@ -42,7 +42,7 @@ Kevin has been a software developer for 7 years. From the beginning of his caree
 
 <h2><a name="media">Media Inquiries</a></h2>
 
-<p>Recollect is one of the first online businesses to make use of open data - information that governments make available to the public for free - with the hopes the citizens, businesses and non-profits will make effective use of it. As a result a number of stories have been written about Recollect and its predecessor - Vantrash.</p>
+<p>Recollect is one of the first online businesses to make use of open data - information that governments make available to the public for free - with the hopes that citizens, businesses and non-profits will make effective use of it. As a result a number of stories have been written about Recollect and its predecessor - Vantrash.</p>
 
 <p>Some of these articles are found in:
 <ul>
@@ -51,7 +51,7 @@ Kevin has been a software developer for 7 years. From the beginning of his caree
 <li>The Vancouver Courier" <a href=http://www.vancourier.com/Website+guarantees+garbage+reminders/2396959/story.html>Website guarantees garbage day e-reminders</a></li>
 </ul>
 
-<p>With the launch of Recollect, this website represents what may be the only direct to consumer business that uses municipal open data, it's a powerful example of what the future could hold for open data and government services. If you are in the media and interested in talking about Recollect, or the future of government services please do not hesitate to contact Recollect co-founder <a mailto:media@recollect.net>David Eaves</a>.</p>
+<p>With the launch of Recollect, this website represents what may be the only direct to consumer business that uses municipal open data, it's a powerful example of what the future could hold for open data and government services. Recollect is also a great story of how City governments can foster and nurture ideas created in the community by citizens, how those projects can grow over time and eventually become self-sustaining businesses.  If you are in the media and interested in talking about Recollect, or the future of government services please do not hesitate to contact Recollect co-founder <a href="mailto:media@recollect.net">David Eaves</a>.</p>
 
 <p>You can also follow Recollect on Twitter, our twitter handle is <a href=http://twitter.com/#!/recollectnet>@recollectnet</a>.</p>
 
