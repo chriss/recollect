@@ -275,6 +275,9 @@ sub billing {
         when ('reactivated_account_notification') {
             $self->_update_subscription_state($subscr);
         }
+        when ('new_account_notification') {
+            # No action needed
+        }
         default {
             $self->log("Unknown billing notification: $type");
         }
