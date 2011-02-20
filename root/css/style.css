@@ -489,7 +489,7 @@ input.initial {
         progid:DXImageTransform.Microsoft.gradient(startColorstr='#fefeef', endColorstr='#adcaad'); /* gradient */
 }
 
-.boxes .free {
+.boxes .whiteBox {
     /* gradient */
     background: #fff;
     filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#8e9884'); /* drop shadow only */
