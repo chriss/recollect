@@ -144,6 +144,7 @@ sub tell_friends {
                 from => $sender_email,
                 subject => "Meet the Vancouver Garbage Reminder system",
                 template => 'tell-a-friend.html',
+                content_type => 'text/html',
                 template_args => {
                     friend_email => $sender_email,
                     base => $self->base_url,

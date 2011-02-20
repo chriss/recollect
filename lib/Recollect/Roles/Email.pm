@@ -35,7 +35,7 @@ sub send_email {
     );
     my $email = Email::MIME->create(
         attributes => {
-            content_type => 'text/plain',
+            content_type => $args{content_type}||'text/plain',
             disposition => 'inline',
             charset => 'utf8',
         },
