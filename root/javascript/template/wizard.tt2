@@ -305,7 +305,7 @@
 [% BLOCK wizardForm %]
 <div class="middle subscription">
     <!-- first row -->
-    <div class="row" style="height: 100px">
+    <div class="row" style="height: 400px">
         <div class="center">
             <div class="zoneName">[% title %]</div>
             [% IF type == 'voice' %]
@@ -319,10 +319,7 @@
             [% ELSE %]
                 <div class="title">Unknown reminder type: [% type %]</div>
             [% END %]
-        </div>
-    </div>
-    <div class="row" style="height: 200px">
-        <div class="center">
+
             <form>
                 [% IF type == 'voice' %]
                     <div class="help">
