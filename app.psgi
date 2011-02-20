@@ -24,7 +24,7 @@ builder {
     enable 'Debug::DBITrace';
 
     enable "Plack::Middleware::Static",
-           path => qr{^/(robots\.txt|kml/.+)},
+           path => qr{^/(robots\.txt|kml/.+|favicon.ico)},
            root => './root/';
     enable "Plack::Middleware::Static",
            path => sub { s!^/(?:\d+\.\d+\.\d+)/(images|javascript|css)/(.+)!/$1/$2! },
