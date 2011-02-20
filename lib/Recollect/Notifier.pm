@@ -88,6 +88,7 @@ sub _send_notification_twitter {
     my %args = @_;
     my $msg = $self->short_and_sweet_message(%args);
 
+
     unless ($self->twitter->new_direct_message($args{target}, $msg)) {
         if (my $error = $self->twitter->get_error()) {
             if ($error->{error} =~ m/not following you/) {
