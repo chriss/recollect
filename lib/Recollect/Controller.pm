@@ -62,7 +62,8 @@ sub is_mobile {
 
 sub default_page {
     my ($self, $req) = @_;
-    return $self->is_mobile($req) ? 'm/index' : 'index';
+    # return $self->is_mobile($req) ? 'm/index' : 'index';
+    return 'index';
 }
 
 sub ui_html {
