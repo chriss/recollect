@@ -117,7 +117,7 @@ CREATE INDEX trials_target_idx ON trials (target);
 ALTER TABLE trials OWNER TO recollect;
 
 CREATE TABLE ical_users (
-    ical_id integer NOT NULL,
+    ical_id text NOT NULL,
     zone_id integer references zones(id) NOT NULL,
     last_get timestamptz NOT NULL
 );
