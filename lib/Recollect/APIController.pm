@@ -275,6 +275,9 @@ sub billing {
         when ('reactivated_account_notification') {
             $self->_update_subscription_state($subscr);
         }
+        default {
+            $self->log("Unknown billing notification: $type");
+        }
     }
     return $self->response('text/plain', 'KTHX');
 }
