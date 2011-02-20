@@ -1,8 +1,7 @@
 [% WRAPPER elements/static_wrapper.tt2 title="Privacy" %]
-    <h1>Partner Page</h1>
-    <div class="densetext">
+<h1>Partner Page</h1>
 
-Citizens increasingly expecting better, more customized services from their governments. Recollect can be part of meeting these expectations. We offer a simple, light touch and effective method to connect directly with citizens and improve their experience with government, all at a very low cost. 
+<p>Citizens increasingly expecting better, more customized services from their governments. Recollect can be part of meeting these expectations. We offer a simple, light touch and effective method to connect directly with citizens and improve their experience with government, all at a very low cost.</p>
 
 <h2>Recollect Pro</h2>
 
@@ -19,10 +18,11 @@ The Recollect team is looking for municipal partners interested in offering remi
 <p>We offer a variety of pricing models, please <a href="mailto:partner@recollect.net">contact us</a> if you are interested.
 </p>
 
-<img src="/images/partner-ad.jpg" alt="Screenshot of an Ad in Recollect" />
+<img class="screenshot" src="/[% version %]/images/partner-ad.jpg" alt="Screenshot of an Ad in Recollect" />
 
 <h2>Recollect Manager</h2>
 <p>If you are interested in offering citizen reminders services we offer a white label version of Recollect that can be integrated into your website. This will offer you:
+<ul>
 <li>Bring the benefits of Recollect to your community</li>
 <li>Choose the pricing structure for reminders that best suites your citizens, and your governments, needs</li>
 <li>Directly connect with citizens: notify them of service changes, interruptions and other important messages.</li>
@@ -32,7 +32,5 @@ The Recollect team is looking for municipal partners interested in offering remi
 <li>Offer reminders for any multitude of services your government may offer</li>
 </ul>
 
-<p>We offer a variety of pricing models, please <a href="mailto:partner@recollect.net">contact us</a> if you are interested.
-      </p>
-    </div>
+<p>We offer a variety of pricing models, please <a href="mailto:partner@recollect.net">contact us</a> if you are interested.</p>
 [% END %]

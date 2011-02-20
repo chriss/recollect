@@ -216,6 +216,10 @@ footer {
     height: 100%;
     margin-bottom: 30px;
 }
+#staticLayout img.screenshot {
+    width: 600px;
+    margin-left: -25px;
+}
 
 #staticLayout .staticContent,
 #staticLayout .text {
