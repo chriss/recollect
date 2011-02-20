@@ -223,7 +223,7 @@ INSERT INTO pickups (id, zone_id, day, flags)
 INSERT INTO pickups (id, zone_id, day, flags)
     VALUES (nextval('pickup_seq'),
            (SELECT id FROM zones WHERE name = 'victoria-blue'),
-           '2011-12-09 07:00:00-08', 'gf');
+           '2011-12-09 07:00:00-08', 'GF');
 INSERT INTO pickups (id, zone_id, day, flags)
     VALUES (nextval('pickup_seq'),
            (SELECT id FROM zones WHERE name = 'victoria-blue'),
@@ -419,7 +419,7 @@ INSERT INTO pickups (id, zone_id, day, flags)
 INSERT INTO pickups (id, zone_id, day, flags)
     VALUES (nextval('pickup_seq'),
            (SELECT id FROM zones WHERE name = 'victoria-green'),
-           '2011-12-05 07:00:00-08', 'gf');
+           '2011-12-05 07:00:00-08', 'GF');
 INSERT INTO pickups (id, zone_id, day, flags)
     VALUES (nextval('pickup_seq'),
            (SELECT id FROM zones WHERE name = 'victoria-green'),
@@ -619,7 +619,7 @@ INSERT INTO pickups (id, zone_id, day, flags)
 INSERT INTO pickups (id, zone_id, day, flags)
     VALUES (nextval('pickup_seq'),
            (SELECT id FROM zones WHERE name = 'victoria-orange'),
-           '2011-12-06 07:00:00-08', 'gf');
+           '2011-12-06 07:00:00-08', 'GF');
 INSERT INTO pickups (id, zone_id, day, flags)
     VALUES (nextval('pickup_seq'),
            (SELECT id FROM zones WHERE name = 'victoria-orange'),
@@ -823,7 +823,7 @@ INSERT INTO pickups (id, zone_id, day, flags)
 INSERT INTO pickups (id, zone_id, day, flags)
     VALUES (nextval('pickup_seq'),
            (SELECT id FROM zones WHERE name = 'victoria-pink'),
-           '2011-12-08 07:00:00-08', 'gf');
+           '2011-12-08 07:00:00-08', 'GF');
 INSERT INTO pickups (id, zone_id, day, flags)
     VALUES (nextval('pickup_seq'),
            (SELECT id FROM zones WHERE name = 'victoria-pink'),
@@ -1019,7 +1019,7 @@ INSERT INTO pickups (id, zone_id, day, flags)
 INSERT INTO pickups (id, zone_id, day, flags)
     VALUES (nextval('pickup_seq'),
            (SELECT id FROM zones WHERE name = 'victoria-yellow'),
-           '2011-12-07 07:00:00-08', 'gf');
+           '2011-12-07 07:00:00-08', 'GF');
 INSERT INTO pickups (id, zone_id, day, flags)
     VALUES (nextval('pickup_seq'),
            (SELECT id FROM zones WHERE name = 'victoria-yellow'),
