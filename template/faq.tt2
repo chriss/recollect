@@ -5,6 +5,7 @@
     <li><a href="#whatisit">What is Recollect?</a></li>
     <li><a href="#setup">How do I set up an account?</a></li>
     <li><a href="#notify">How will I be notified?</a></li>
+    <li><a href="#tou">What are Recollect's Terms of Use?</a></li>
     <li><a href="#languages">What languages do you support?</a></li>
     <li><a href="#howmuch">How much does Recollect cost?</a></li>
     <li><a href="#friendbuy">Can I buy Recollect for a friend or family member?</a></li>
@@ -16,6 +17,7 @@
     <li><a href="#who">Who created Recollect?</a></li>
     <li><a href="#privacy">What information about me will Recollect share?</a></li>
     <li><a href="#contact">How can I contact Recollect?</a></li>
+    <li><a href="#api">Does Recollect have an API?</a></li>
 </ul>
 
 <h3><a name="whatisit">What is Recollect?</a></h3> 
@@ -56,6 +58,11 @@ You can choose how you'd like Recollect to contact you. We offer a few ways:
 <p>
 You can also choose the time you wish to be notified - the night before, the day before, the morning of... any time you'd like.
 </p>
+
+
+<h3><a name="tou">What are Recollect's Terms of Use</a></h3>
+
+<p>Recollect's Terms of Use can be found <a href="http://recollect.net/terms">here</a>.</p>
 
 <h3><a name="languages">What languages do you support?</a></h3>
 
@@ -102,7 +109,7 @@ We view sending some one an unsolicited reminder very seriously and will termina
  
 <h3><a name="who">Who created Recollect?</a></h3> 
 
-<p> Take a look at our <a href=http://recollect.net/about>About Us Page</a>
+<p>Take a look at our <a href=http://recollect.net/about>About Us Page</a>
 
 <h3><a name="privacy">If I sign up, what information about me will Recollect share with other websites or governments?</a></h3>
 
@@ -111,6 +118,10 @@ We view sending some one an unsolicited reminder very seriously and will termina
 <h3><a name="contact">How can I contact Recollect?</a></h3> 
  
 <p>You can contact us via email at help@recollect.net</p> 
+
+<h3><a name="api">Does Recollect have an API?</a></h3> 
+
+<p>Yes! You can check out our API, its documentation and license, <a href="http://recollect.net/api.html">here</a>.</p>
  
 <p>Recollect<br>
 #327 - 425 W8th Ave<br>
