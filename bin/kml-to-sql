@@ -1,10 +1,11 @@
 #!/usr/bin/perl
 use strict;
 use warnings;
+use feature 'switch';
 use XML::Simple;
 use Text::CSV_XS;
 
-my $city_name = 'north-vancouver' || shift || die;
+my $city_name = 'edmonton' || shift || die;
 my $kml_file = "data/$city_name.kml";
 die unless -e $kml_file;
 
@@ -18,9 +19,14 @@ my $area_name = ucfirst $city_name;
 
 my %zones;
 my $placemarks = $kml->{Document}{Placemark};
-if ($city_name eq 'north-vancouver') {
-    $placemarks = $kml->{Document}{Folder}{Folder}{Placemark};
-    $area_name = 'Vancouver';
+given ($city_name) {
+    when ('north-vancouver') {
+        $placemarks = $kml->{Document}{Folder}{Folder}{Placemark};
+        $area_name = 'Vancouver';
+    }
+    when ('edmonton') {
+        $placemarks = $kml->{Document}{Placemark};
+    }
 }
 
 for my $shape_name (keys %$placemarks) {
@@ -28,37 +34,57 @@ for my $shape_name (keys %$placemarks) {
     my $name = $shape_name;
     my $nice_name = $name;
     my $style;
-    if ($city_name eq 'victoria') { # custom hack
-        my $desc = $place->{description};
-        if ($desc =~ m{www\.victoria\.ca/common/pdfs/garbage-(\w+)-schedule}) {
-            $name = "victoria-$1";
-            $nice_name = "Victoria " . ucfirst($1);
+    given ($city_name) {
+        when ('victoria') {
+            my $desc = $place->{description};
+            if ($desc
+                =~ m{www\.victoria\.ca/common/pdfs/garbage-(\w+)-schedule}) {
+                $name      = "victoria-$1";
+                $nice_name = "Victoria " . ucfirst($1);
+            }
+            else {
+                warn "No idea about: $desc";
+            }
         }
-        else {
-            warn "No idea about: $desc";
+        when ([qw/esquimalt oakbay/]) {
+            $name      =~ s/\d$//;
+            $nice_name =~ s/-/ /;
+            $nice_name = join ' ', map {ucfirst} split ' ', $nice_name;
+            $area_name = 'Victoria';
         }
-    }
-    elsif ($city_name eq 'esquimalt' or $city_name eq 'oakbay') {
-        $name =~ s/\d$//;
-        $nice_name =~ s/-/ /;
-        $nice_name = join ' ', map { ucfirst } split ' ', $nice_name;
-        $area_name = 'Victoria';
-    }
-    elsif ($city_name eq 'north-vancouver') {
-        my $nv_id = $place->{ExtendedData}{SchemaData}{SimpleData}{Garbage_Zone}{content};
-        my %nv_colours = (
-            1 => 'yellow',
-            2 => 'green',
-            3 => 'blue',
-            4 => 'pink',
-            5 => 'purple',
-        );
-        $style = $nv_colours{$nv_id};
-        $name = "north-vancouver-$nv_id-$style";
-        $nice_name = "North Vancouver " . ucfirst($style) . " (Zone $nv_id)";
+        when ('north-vancouver') {
+            my $nv_id
+                = $place->{ExtendedData}{SchemaData}{SimpleData}{Garbage_Zone}
+                {content};
+            my %nv_colours = (
+                1 => 'yellow',
+                2 => 'green',
+                3 => 'blue',
+                4 => 'pink',
+                5 => 'purple',
+            );
+            $style = $nv_colours{$nv_id};
+            $name  = "north-vancouver-$nv_id-$style";
+            $nice_name
+                = "North Vancouver " . ucfirst($style) . " (Zone $nv_id)";
+        }
+        when ('edmonton') {
+            my $simpledata = $place->{ExtendedData}{SchemaData}{SimpleData};
+            my $zone = $simpledata->{ZONE}{content};
+            my $day = $simpledata->{DAY}{content};
+            $zone =~ s/^Zone //;
+            $day  =~ s/^Day //;
+            $name = "edmonton-$zone$day";
+            $nice_name = "Edmonton Zone $zone$day";
+            $style = 'blue';
+        }
     }
 
     my $coords = $place->{Polygon}{outerBoundaryIs}{LinearRing}{coordinates};
+    unless (defined $coords) {
+        warn "Placemark $name has no polygon - skipping\n";
+        next;
+    }
     my @points;
     if ($area_name eq 'Victoria') {
         for my $line (split "\n", $coords) {
@@ -67,7 +93,7 @@ for my $shape_name (keys %$placemarks) {
             push @points, "$2 $1";
         }
     }
-    elsif ($city_name eq 'north-vancouver') {
+    elsif ($city_name eq 'north-vancouver' or $city_name eq 'edmonton') {
         for my $line (split " ", $coords) {
             next unless $line =~ m/^\s*([^,]+),([\d.-]+)/;
             push @points, "$2 $1";
@@ -78,7 +104,7 @@ for my $shape_name (keys %$placemarks) {
         ($style = $place->{styleUrl}) =~ s/^#//;
     }
     #warn "Found zone $name, $nice_name - $style - $polygon\n";
-    #warn "Found zone $name, $nice_name - $style\n";
+    warn "Found zone $name, $nice_name - $style\n";
 
     push @{ $zones{$name} }, {
         polygon => $polygon,
@@ -130,6 +156,16 @@ elsif ($city_name eq 'north-vancouver') {
         },
     );
 }
+else {
+    # Just define blue by default
+    %style = (
+        blue => {
+            linecolour => 'FFDFCC96',
+            polycolour => '99DFCC96',
+            name => 'blue',
+        },
+    );
+}
 
 my $sql_file = "etc/sql/$city_name.sql";
 open my $fh, ">$sql_file" or die "Can't write to $sql_file";
@@ -174,7 +210,8 @@ my $csv = Text::CSV_XS->new or die "Cannot use CSV: ".Text::CSV->error_diag;
 open my $csv_fh, "<:encoding(utf8)", $csv_file or die "Can't open $csv_file: $!";
 while (my $row = $csv->getline ($csv_fh)) {
     next if $row->[0] =~ m/^\w+$/;
-    my ($zone_name, $day, $flags) = @$row;
+    my ($zone_name, $day, $flags, $utc) = @$row;
+    $utc ||= $UTC;
     $flags = uc $flags;
     die "Couldn't find zone $zone_name in the CSV" unless $zones{$zone_name};
 
@@ -182,7 +219,7 @@ while (my $row = $csv->getline ($csv_fh)) {
 INSERT INTO pickups (id, zone_id, day, flags)
     VALUES (nextval('pickup_seq'),
            (SELECT id FROM zones WHERE name = '$zone_name'),
-           '$day 07:00:00$UTC', '$flags');
+           '$day 07:00:00$utc', '$flags');
 EOT
 }
 close $csv_fh;
@@ -196,3 +233,9 @@ close $fh or die "Can't write to $sql_file: $!";
 print "Wrote $sql_file\n";
 exit;
 
+
+__DATA__
+
+
+Edmonton has DST from March 13 to November 6
+* Summer is UTC -06, Winter is UTC -07
