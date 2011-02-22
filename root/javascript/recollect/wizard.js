@@ -210,6 +210,10 @@ Recollect.Wizard .prototype = {
                         self.setHash(args.area, args.zone, 'subscribe', 'free');
                         return false;
                     });
+                    $('#wizard .back').click(function() {
+                        self.setHash(args.area, args.zone);
+                        return false;
+                    });
                 });
             });
         },
@@ -236,6 +240,10 @@ Recollect.Wizard .prototype = {
                         self.setHash(
                             args.area, args.zone, 'subscribe', 'free', 'twitter'
                         );
+                        return false;
+                    });
+                    $('#wizard .back').click(function() {
+                        self.setHash(args.area, args.zone, 'subscribe');
                         return false;
                     });
                 });
@@ -266,6 +274,10 @@ Recollect.Wizard .prototype = {
                             args.area, args.zone, 'subscribe',
                             args.type, 'annual'
                         );
+                        return false;
+                    });
+                    $('#wizard .back').click(function() {
+                        self.setHash(args.area, args.zone, 'subscribe');
                         return false;
                     });
                 });
@@ -389,6 +401,11 @@ Recollect.Wizard .prototype = {
                 });
                 $('#wizard .next').click(function() {
                     $('#wizard form').submit();
+                    return false;
+                });
+                $('#wizard .back').click(function() {
+                    var page = args.paycycle ? args.type : 'free';
+                    self.setHash(args.area, args.zone, 'subscribe', page);
                     return false;
                 });
             });
@@ -588,21 +605,11 @@ Recollect.Wizard .prototype = {
         });
     },
 
-    bindHandlers: function($newPage) {
-        // Bind a back button
-        $newPage.find('.back').click(function() {
-            History.back();
-            return false;
-        });
-    },
-
     changePage: function($newPage, callback) {
         var self = this;
         $newPage
             .css('left', $(window).width()) // render offscreen
             .appendTo('#wizard');
-
-        self.bindHandlers($newPage);
 
         self.adjustHeight();
 
@@ -654,7 +661,6 @@ Recollect.Wizard .prototype = {
             self.changeHeight(new_height, function() {
                 // first time
                 self.$currentPage = $newPage.appendTo('#wizard');
-                self.bindHandlers($newPage);
                 self.adjustHeight();
                 self.inProgress = false;
                 callback();
