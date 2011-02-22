@@ -414,6 +414,7 @@ input.initial {
     border: 1px solid #D3D3D3;
     background: #fff;
     width: 300px;
+    height: 415px;
     opacity: .8;
     filter: alpha(opacity = 80);
 }
@@ -428,6 +429,11 @@ input.initial {
 .zonePage .cityPromo img {
     border: 1px solid #D3D3D3;
     width: 290px;
+}
+.zonePage .cityPromo .yourAd {
+    display: block;
+    padding: 50px 0;
+    text-align: center;
 }
 .zonePage .calendarSection {
     width: 300px;
