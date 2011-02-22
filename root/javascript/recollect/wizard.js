@@ -764,6 +764,7 @@ Recollect.Wizard .prototype = {
                 // For zones with multiple polygons 
                 var foundLocation = false;
 
+                var marker;
                 $.each(placemarks, function(i, pmark) {
                     if (!foundLocation && pmark.name == zone.name) {
                         // Add a new Marker
@@ -772,7 +773,8 @@ Recollect.Wizard .prototype = {
                             foundLocation = true;
                             position = stored;
                         }
-                        self.showPointOnMap(map, position);
+                        if (marker) marker.setMap(null);
+                        marker = self.showPointOnMap(map, position);
                     }
                 });
                 return;
