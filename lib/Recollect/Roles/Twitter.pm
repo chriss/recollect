@@ -12,7 +12,7 @@ sub _build_twitter {
 
     my $nt = Net::Twitter->new(
         traits    => [ 'WrapError', 'API::REST', 'OAuth' ],
-        useragent => 'VanTrash',
+        useragent => 'Recollect',
         consumer_key    => $self->config->{twitter_consumer_key},
         consumer_secret => $self->config->{twitter_consumer_secret},
     );
@@ -24,7 +24,7 @@ sub _build_twitter {
         $nt->access_token_secret($token_secret);
     }
     unless ($nt->authorized) {
-        die "Twitter OAuth client is not authorized. Update Vantrash config.\n";
+        die "Twitter OAuth client is not authorized. Update recollect.yaml.\n";
     }
     return $nt;
 }

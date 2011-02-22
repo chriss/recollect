@@ -233,7 +233,7 @@
             <div class="inside">
                 <div class="boxTitle">E-Mail</div>
                 <div class="description">
-                    Send a weekly E-Mail reminding me to take out my Garbage, Recylcling or Yard trimmings and kitchen waste.
+                    Send a weekly E-Mail reminding me to take out my Garbage, Recycling or Yard trimmings and kitchen waste.
                 </div>
                 <a class="bigButtonBlack choose chooseEmail" href="#">choose</a>
             </div>
