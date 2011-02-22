@@ -18,14 +18,19 @@ RECOLLECT_MINIFIED=$(JS_DIR)/compiled-recollect-mini.js
 RECOLLECT_FILES=\
 	 $(JS_DIR)/libs/jquery-1.4.2.min.js \
 	 $(JS_DIR)/libs/jquery-ui-1.8.6.custom.min.js \
-	 $(JS_DIR)/libs/jquery-maskedinput-1.2.2.min.js \
-	 $(JS_DIR)/libs/jquery.validate.js \
 	 $(JS_DIR)/libs/jquery.scrollTo-1.4.2-min.js \
 	 $(JS_DIR)/libs/jquery.cookie.js \
+	 $(JS_DIR)/libs/json2.js \
+	 
+RECOLLECT_WIZARD=$(JS_DIR)/compiled-recollect-wizard.js
+RECOLLECT_WIZARD_GZ=$(JS_DIR)/compiled-recollect-wizard.js.gz
+RECOLLECT_WIZARD_MINIFIED=$(JS_DIR)/compiled-recollect-wizard-mini.js
+RECOLLECT_WIZARD_FILES=\
 	 $(JS_DIR)/libs/jquery.timePicker.min.js \
+	 $(JS_DIR)/libs/jquery-maskedinput-1.2.2.min.js \
+	 $(JS_DIR)/libs/jquery.validate.js \
 	 $(JS_DIR)/libs/geoxml3.js \
 	 $(JS_DIR)/libs/google.polygon.js \
-	 $(JS_DIR)/libs/json2.js \
 	 $(JS_DIR)/libs/history.adapter.jquery.js \
 	 $(JS_DIR)/libs/history.js \
 	 $(JS_DIR)/libs/history.html4.js \
@@ -41,6 +46,7 @@ MAKE_TIME_FILES=$(BUILT_JS) $(shell find root/images root/css)
 
 BUILT_JS=\
     $(RECOLLECT) $(RECOLLECT_GZ) $(RECOLLECT_MINIFIED) \
+    $(RECOLLECT_WIZARD) $(RECOLLECT_WIZARD_GZ) $(RECOLLECT_WIZARD_MINIFIED) \
 
 all: javascript root/make-time
 
@@ -66,6 +72,12 @@ $(JEMPLATE): $(JEMPLATES)
 $(RECOLLECT): $(RECOLLECT_FILES) Makefile
 	rm -f $@;
 	for js in $(RECOLLECT_FILES); do \
+	    (echo "// BEGIN $$js"; cat $$js; echo ';' | perl -pe 's/\r//g') >> $@; \
+	done
+
+$(RECOLLECT_WIZARD): $(RECOLLECT_WIZARD_FILES) Makefile
+	rm -f $@;
+	for js in $(RECOLLECT_WIZARD_FILES); do \
 	    (echo "// BEGIN $$js"; cat $$js; echo ';' | perl -pe 's/\r//g') >> $@; \
 	done
 

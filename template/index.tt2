@@ -1,5 +1,8 @@
 [% WRAPPER elements/outer_wrapper.tt2
-    javascript=["http://maps.google.com/maps/api/js?sensor=true"]
+    javascript=[
+        "http://maps.google.com/maps/api/js?sensor=true",
+        "/$version/javascript/compiled-recollect-wizard-mini.js"
+    ]
 %]
     [% IF message %]
         <div id="message"><strong>[% message %]</strong></div>
