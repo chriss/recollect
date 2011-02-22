@@ -376,18 +376,10 @@ Recollect.Wizard .prototype = {
             self.show(opts, function() {
                 $('#wizard form').validate(self.validate[args.type])
                 $('#wizard input[name=phone]').mask('999-999-9999');
-                $('#wizard .simpleOffset').change(function() {
-                    if ($(this).val() == 'custom') {
-                        // Show the more advanced time input
-                        $(this).hide();
-                        $('#wizard .customOffset').show();
-                    }
-                    else {
-                        // Set the simple value in the customOffset select
-                        // (which is the *real* offset element)
-                        $('#wizard .customOffset').val($(this).val());
-                    }
-                }).change();
+                $('#wizard .time').timePicker({
+                    show24Hours: false,
+                    step: 30
+                });
                 $('#wizard form').submit(function() {
                     var reminder = {
                         area: args.area,
@@ -399,6 +391,10 @@ Recollect.Wizard .prototype = {
                     $.each(form, function(i,field) {
                         reminder[field.name] = field.value;
                     });
+
+                    // Grab the time out of the timepicker
+                    reminder.time = $.timePicker('#wizard .time').getTime();
+
                     self.addReminder(reminder);
                     return false;
                 });
@@ -831,6 +827,28 @@ Recollect.Wizard .prototype = {
         ];
     },
 
+    // Calculate offset
+    // XXX: We should change this so we can just pass a time instead of
+    // making this calculation
+    calculateOffset: function(opts) {
+        var minutes = opts.time.getHours() * 60;
+        minutes += opts.time.getMinutes();
+
+        if (opts.day == 'day_before') {
+            minutes -= 24 * 60; // Go back one day
+        }
+
+        var offset = 7*60 - minutes;
+
+        var hours = Math.floor(offset / 60);
+        var minutes = offset - hours*60;
+
+        if (String(hours).length < 2) hours = '0' + hours;
+        if (String(minutes).length < 2) minutes = '0' + minutes;
+
+        return hours + ':' + minutes;
+    },
+
     addReminder: function (opts) {
         var self = this;
 
@@ -843,7 +861,7 @@ Recollect.Wizard .prototype = {
         };
 
         var reminder = {
-            delivery_offset: opts.offset,
+            delivery_offset: self.calculateOffset(opts),
             zone_id: opts.zone,
             area: opts.area
         };
@@ -863,9 +881,9 @@ Recollect.Wizard .prototype = {
             type: 'POST',
             url: '/api/subscriptions',
             contentType: 'json',
-            data: JSON.stringify(data, true),
+            data: window.JSON.stringify(data, true),
             error: function(xhr, textStatus, errorThrown) {
-                var error = JSON.parse(xhr.responseText)
+                var error = window.JSON.parse(xhr.responseText)
                 
                 // reshow the form
                 $('#wizard .subscription .loading').hide();

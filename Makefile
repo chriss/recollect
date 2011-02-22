@@ -20,10 +20,11 @@ RECOLLECT_FILES=\
 	 $(JS_DIR)/libs/jquery-ui-1.8.6.custom.min.js \
 	 $(JS_DIR)/libs/jquery-maskedinput-1.2.2.min.js \
 	 $(JS_DIR)/libs/jquery.validate.js \
-	 $(JS_DIR)/libs/geoxml3.js \
-	 $(JS_DIR)/libs/jquery.cookie.js \
-	 $(JS_DIR)/libs/google.polygon.js \
 	 $(JS_DIR)/libs/jquery.scrollTo-1.4.2-min.js \
+	 $(JS_DIR)/libs/jquery.cookie.js \
+	 $(JS_DIR)/libs/jquery.timePicker.min.js \
+	 $(JS_DIR)/libs/geoxml3.js \
+	 $(JS_DIR)/libs/google.polygon.js \
 	 $(JS_DIR)/libs/json2.js \
 	 $(JS_DIR)/libs/history.adapter.jquery.js \
 	 $(JS_DIR)/libs/history.js \

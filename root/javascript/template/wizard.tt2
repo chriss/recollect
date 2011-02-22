@@ -384,38 +384,10 @@
 [% BLOCK time %]
     <div class="field">
         <div class="name">When:</div>
-        <select class="border simpleOffset">
-            <option value="19">Noon the day before</option>
-            <option value="13">6PM the day before</option>
-            <option value="1">6AM the day of</option>
-            <option value="custom">show more options...</option>
-        </select>
-        <select class="border customOffset" name="offset">
-            <option value="25">6AM the day before</option>
-            <option value="24">7AM the day before</option>
-            <option value="23">8AM the day before</option>
-            <option value="22">9AM the day before</option>
-            <option value="21">10AM the day before</option>
-            <option value="20">11AM the day before</option>
-            <option value="19">Noon the day before</option>
-            <option value="18">1PM the day before</option>
-            <option value="17">2PM the day before</option>
-            <option value="16">3PM the day before</option>
-            <option value="15">4PM the day before</option>
-            <option value="14">5PM the day before</option>
-            <option value="13">6PM the day before</option>
-            <option value="12">7PM the day before</option>
-            <option value="11">8PM the day before</option>
-            <option value="10">9PM the day before</option>
-            <option value="9">10PM the day before</option>
-            <option value="8">11PM the day before</option>
-            <option value="7">Midnight before</option>
-            <option value="6">1AM the day of</option>
-            <option value="5">2AM the day of</option>
-            <option value="4">3AM the day of</option>
-            <option value="3">4AM the day of</option>
-            <option value="2">5AM the day of</option>
-            <option value="1">6AM the day of</option>
+        <input class="time" name="time" value="06:00 PM"/>
+        <select name="day">
+            <option value="day_before">the day before pickup</option>
+            <option value="day_of">the day of pickup</option>
         </select>
     </div>
 [% END %]
