@@ -881,9 +881,9 @@ Recollect.Wizard .prototype = {
             type: 'POST',
             url: '/api/subscriptions',
             contentType: 'json',
-            data: window.JSON.stringify(data, true),
+            data: JSON.stringify(data),
             error: function(xhr, textStatus, errorThrown) {
-                var error = window.JSON.parse(xhr.responseText)
+                var error = JSON.parse(xhr.responseText)
                 
                 // reshow the form
                 $('#wizard .subscription .loading').hide();
