@@ -5,7 +5,7 @@ use feature 'switch';
 use XML::Simple;
 use Text::CSV_XS;
 
-my $city_name = 'edmonton' || shift || die;
+my $city_name = 'toronto' || shift || die;
 my $kml_file = "data/$city_name.kml";
 die unless -e $kml_file;
 
@@ -52,6 +52,15 @@ for my $shape_name (keys %$placemarks) {
             $nice_name = join ' ', map {ucfirst} split ' ', $nice_name;
             $area_name = 'Victoria';
         }
+        when ('toronto') {
+            $name =~ s/(-\d)-\d$/$1/;
+            if ($name =~ m/^(toronto-d(\d)-(\w+)-([12]))/) {
+                $name = $1;
+                $nice_name = "Toronto District $2 " . ucfirst($3) . " $4";
+                $style = "$3$4";
+            }
+
+        }
         when ('north-vancouver') {
             my $nv_id
                 = $place->{ExtendedData}{SchemaData}{SimpleData}{Garbage_Zone}
@@ -86,19 +95,20 @@ for my $shape_name (keys %$placemarks) {
         next;
     }
     my @points;
-    if ($area_name eq 'Victoria') {
+    if ($coords =~ m/\n/s) {
         for my $line (split "\n", $coords) {
             next unless $line =~ m/\S/;
             next unless $line =~ m/^\s*([^,]+),([\d.-]+)/;
             push @points, "$2 $1";
         }
     }
-    elsif ($city_name eq 'north-vancouver' or $city_name eq 'edmonton') {
+    else {
         for my $line (split " ", $coords) {
             next unless $line =~ m/^\s*([^,]+),([\d.-]+)/;
             push @points, "$2 $1";
         }
     }
+    die "Could not find points for $name!" unless @points;
     my $polygon = '((' . join(',', @points) . '))';
     unless ($style) {
         ($style = $place->{styleUrl}) =~ s/^#//;
@@ -114,7 +124,6 @@ for my $shape_name (keys %$placemarks) {
 #    warn "$name has " . scalar(@{ $zones{$name} });
 }
 
-
 my %style;
 if ($area_name eq 'Victoria') {
     my $styles = $kml->{Document}{Style};
@@ -123,37 +132,28 @@ if ($area_name eq 'Victoria') {
         $style{$name} = {
             linecolour => $s->{LineStyle}{color},
             polycolour => $s->{PolyStyle}{color},
-            name => $name,
         };
     }
 }
 elsif ($city_name eq 'north-vancouver') {
     %style = (
-        yellow => {
-            linecolour => 'FF34FFFF',
-            polycolour => '9934FFFF',
-            name => 'yellow',
-        },
-        green => {
-            linecolour => 'FFA3D9A4',
-            polycolour => '99A3D9A4',
-            name => 'green',
-        },
-        blue => {
-            linecolour => 'FFDFCC96',
-            polycolour => '99DFCC96',
-            name => 'blue',
-        },
-        pink => {
-            linecolour => 'FFBD9BFA',
-            polycolour => '99BD9BFA',
-            name => 'pink',
-        },
-        purple => {
-            linecolour => 'FFC088AD',
-            polycolour => '99C088AD',
-            name => 'purple',
-        },
+        yellow => { linecolour => 'FF34FFFF', polycolour => '9934FFFF' },
+        green =>  { linecolour => 'FFA3D9A4', polycolour => '99A3D9A4' },
+        blue =>   { linecolour => 'FFDFCC96', polycolour => '99DFCC96' },
+        pink =>   { linecolour => 'FFBD9BFA', polycolour => '99BD9BFA' },
+        purple => { linecolour => 'FFC088AD', polycolour => '99C088AD' },
+    );
+}
+elsif ($city_name eq 'toronto') {
+    %style = (
+        tuesday1   => { linecolour => 'FF849A13', polycolour => '99849A13' },
+        tuesday2   => { linecolour => 'FF72CD70', polycolour => '9972CD70' },
+        wednesday1 => { linecolour => 'FF56ACFC', polycolour => '9956ACFC' },
+        wednesday2 => { linecolour => 'FF14D1FC', polycolour => '9914D1FC' },
+        thursday1  => { linecolour => 'FFA73800', polycolour => '99A73800' },
+        thursday2  => { linecolour => 'FFDAAA74', polycolour => '99DAAA74' },
+        friday1    => { linecolour => 'FFBB5172', polycolour => '99BB5172' },
+        friday2    => { linecolour => 'FFD191B4', polycolour => '99D191B4' },
     );
 }
 else {
@@ -162,7 +162,6 @@ else {
         blue => {
             linecolour => 'FFDFCC96',
             polycolour => '99DFCC96',
-            name => 'blue',
         },
     );
 }
@@ -187,6 +186,7 @@ for my $zone_name (keys %zones) {
     my $details = $zones{$zone_name}[0];
     my $style = $style{ $details->{style} }
         or die "Couldn't find style $details->{style} for $zone_name";
+    $style->{name} = $details->{style};
     my $multipolygon
         = 'MULTIPOLYGON('
         . join(',', map { $_->{polygon} } @{ $zones{$zone_name} })
@@ -209,11 +209,12 @@ my $csv_file = "data/$city_name.csv";
 my $csv = Text::CSV_XS->new or die "Cannot use CSV: ".Text::CSV->error_diag;
 open my $csv_fh, "<:encoding(utf8)", $csv_file or die "Can't open $csv_file: $!";
 while (my $row = $csv->getline ($csv_fh)) {
+    next if $row->[0] =~ m/^#/;
     next if $row->[0] =~ m/^\w+$/;
     my ($zone_name, $day, $flags, $utc) = @$row;
     $utc ||= $UTC;
     $flags = uc $flags;
-    die "Couldn't find zone $zone_name in the CSV" unless $zones{$zone_name};
+    die "Couldn't find zone $zone_name in the CSV (@$row)" unless $zones{$zone_name};
 
     print $fh <<EOT;
 INSERT INTO pickups (id, zone_id, day, flags)
