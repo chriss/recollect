@@ -24,6 +24,9 @@ Recollect.Wizard .prototype = {
 
     start: function() {
         var self = this;
+        if (location.href.match(/#$/)) {
+            self.setHash('start');
+        }
         History.Adapter.bind(window, 'statechange', function() {
             var state = History.getState();
 
