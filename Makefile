@@ -18,13 +18,16 @@ RECOLLECT_MINIFIED=$(JS_DIR)/compiled-recollect-mini.js
 RECOLLECT_FILES=\
 	 $(JS_DIR)/libs/jquery-1.4.2.min.js \
 	 $(JS_DIR)/libs/jquery-ui-1.8.6.custom.min.js \
-	 $(JS_DIR)/libs/jquery-json-1.3.js \
 	 $(JS_DIR)/libs/jquery-maskedinput-1.2.2.min.js \
 	 $(JS_DIR)/libs/jquery.validate.js \
 	 $(JS_DIR)/libs/geoxml3.js \
 	 $(JS_DIR)/libs/jquery.cookie.js \
 	 $(JS_DIR)/libs/google.polygon.js \
 	 $(JS_DIR)/libs/jquery.scrollTo-1.4.2-min.js \
+	 $(JS_DIR)/libs/json2.js \
+	 $(JS_DIR)/libs/history.adapter.jquery.js \
+	 $(JS_DIR)/libs/history.js \
+	 $(JS_DIR)/libs/history.html4.js \
 	 $(JS_DIR)/recollect/wizard.js \
 	 $(JEMPLATE) \
 
@@ -62,7 +65,7 @@ $(JEMPLATE): $(JEMPLATES)
 $(RECOLLECT): $(RECOLLECT_FILES) Makefile
 	rm -f $@;
 	for js in $(RECOLLECT_FILES); do \
-	    (echo "// BEGIN $$js"; cat $$js | perl -pe 's/\r//g') >> $@; \
+	    (echo "// BEGIN $$js"; cat $$js; echo ';' | perl -pe 's/\r//g') >> $@; \
 	done
 
 -mini.js.js.gz:

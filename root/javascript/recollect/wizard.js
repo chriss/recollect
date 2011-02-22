@@ -17,54 +17,49 @@ Recollect.Wizard .prototype = {
     reminder: {},
     zone: {},
 
-    start: function() {
-        var self = this;
-        self.findPage();
-        var hash = location.hash;
-        setInterval(function() {
-            if (!self.inProgress && location.hash != hash) {
-                self.inProgress = true; // reset to false after show()
-                var old_hash = location.hash;
-                self.findPage();
-                hash = location.hash;
-            }
-        }, 500);
+    setHash: function() {
+        var args = $.makeArray(arguments);
+        History.pushState(null, null, '/r/' + args.join('/'));
     },
 
-    findPage: function() {
+    start: function() {
         var self = this;
+        History.Adapter.bind(window, 'statechange', function() {
+            var state = History.getState();
 
-        var prefix = /^#?!\//;
-        var parts = location.hash.replace(prefix, '').split('/');
+            var parts = state.url.replace(
+                new RegExp('.+' + location.host), ''
+            ).split('/');
 
-        $.each(self.pages, function(test, callback) {
-            var test_parts = test.replace(prefix, '').split('/');
+            $.each(self.pages, function(test, callback) {
+                var test_parts = test.split('/');
 
-            var match = true;
+                var match = true;
 
-            if (test_parts.length == parts.length) {
-                var args = {};
-                for (var i=0; i < parts.length; i++) {
-                    if (test_parts[i].match(/^:(.+)/)) {
-                        args[RegExp.$1] = parts[i];
+                if (test_parts.length == parts.length) {
+                    var args = {};
+                    for (var i=0; i < parts.length; i++) {
+                        if (test_parts[i].match(/^:(.+)/)) {
+                            args[RegExp.$1] = parts[i];
+                        }
+                        else if (test_parts[i] != parts[i]) {
+                            // Not a match
+                            match = false;
+                            break;
+                        }
                     }
-                    else if (test_parts[i] != parts[i]) {
-                        // Not a match
-                        match = false;
-                        break;
+
+                    if (match) {
+                        callback.call(self, args);
+                        return false; // early out
                     }
                 }
-
-                if (match) {
-                    callback.call(self, args);
-                    return false; // early out
-                }
-            }
+            });
         });
     },
 
     pages: {
-        '!/': function() {
+        '/': function() {
             var self = this;
             var opts = {
                 height: 300,
@@ -79,7 +74,7 @@ Recollect.Wizard .prototype = {
             });
         },
 
-        '!/start': function() {
+        '/r/start': function() {
             var self = this;
             var opts = {
                 height: 200,
@@ -125,7 +120,7 @@ Recollect.Wizard .prototype = {
             });
         },
 
-        '!/interest/:lat/:lng': function(args) {
+        '/r/interest/:lat/:lng': function(args) {
             var self = this;
             var opts = {
                 height: 300,
@@ -166,7 +161,7 @@ Recollect.Wizard .prototype = {
             });
         },
 
-        '!/:area/:zone': function(args) {
+        '/r/:area/:zone': function(args) {
             var self = this;
 
             self.getZone(args.area, args.zone, function(zone) {
@@ -184,11 +179,15 @@ Recollect.Wizard .prototype = {
                         self.setHash(args.area, args.zone, 'subscribe');
                         return false;
                     });
+                    $('#wizard .wrongZone').click(function(){
+                        self.setHash('start');
+                        return false;
+                    })
                 });
             });
         },
 
-        '!/:area/:zone/subscribe': function(args) {
+        '/r/:area/:zone/subscribe': function(args) {
             var self = this;
 
             var opts = {
@@ -204,7 +203,7 @@ Recollect.Wizard .prototype = {
                         return false;
                     });
                     $('#wizard .chooseVoice').click(function(){
-                        self.setHash(args.area, args.zone, 'subscribe', 'voice');
+                        self.setHash(args.area, args.zone, 'subscribe','voice');
                         return false;
                     });
                     $('#wizard .chooseFree').click(function(){
@@ -215,7 +214,7 @@ Recollect.Wizard .prototype = {
             });
         },
 
-        '!/:area/:zone/subscribe/free': function(args) {
+        '/r/:area/:zone/subscribe/free': function(args) {
             var self = this;
 
             self.getZone(args.area, args.zone, function(zone) {
@@ -243,7 +242,7 @@ Recollect.Wizard .prototype = {
             });
         },
 
-        '!/:area/:zone/subscribe/:type': function(args) {
+        '/r/:area/:zone/subscribe/:type': function(args) {
             var self = this;
 
             self.getZone(args.area, args.zone, function(zone) {
@@ -273,16 +272,16 @@ Recollect.Wizard .prototype = {
             });
         },
 
-        '!/:area/:zone/subscribe/free/:type': function(args) {
+        '/r/:area/:zone/subscribe/free/:type': function(args) {
             this.showForm(args);
         },
 
-        '!/:area/:zone/subscribe/:type/:paycycle': function(args) {
+        '/r/:area/:zone/subscribe/:type/:paycycle': function(args) {
             this.showForm(args);
         },
 
 
-        '!/success': function() {
+        '/r/success': function() {
             var self = this;
 
             var opts = {
@@ -589,13 +588,25 @@ Recollect.Wizard .prototype = {
         });
     },
 
+    bindHandlers: function($newPage) {
+        // Bind a back button
+        $newPage.find('.back').click(function() {
+            History.back();
+            return false;
+        });
+    },
+
     changePage: function($newPage, callback) {
         var self = this;
         $newPage
             .css('left', $(window).width()) // render offscreen
             .appendTo('#wizard');
 
+        self.bindHandlers($newPage);
+
         self.adjustHeight();
+
+        var opts = {};
 
         // animate out
         var $old = self.$currentPage;
@@ -615,7 +626,8 @@ Recollect.Wizard .prototype = {
 
         // Create the new page
         opts.version = self.version;
-        var $newPage = $(Jemplate.process(opts.page, opts));
+        var html = Jemplate.process(opts.page, opts);
+        var $newPage = $(html);
         var new_height = opts.height || 200;
 
         if (self.$currentPage) {
@@ -642,6 +654,7 @@ Recollect.Wizard .prototype = {
             self.changeHeight(new_height, function() {
                 // first time
                 self.$currentPage = $newPage.appendTo('#wizard');
+                self.bindHandlers($newPage);
                 self.adjustHeight();
                 self.inProgress = false;
                 callback();
@@ -690,13 +703,6 @@ Recollect.Wizard .prototype = {
             self._zoneCache[area][name] = zone; // store cached value
             callback(zone);
         });
-    },
-
-
-    setHash: function() {
-        var args = $.makeArray(arguments);
-        if (!args.length) location.hash = '';
-        if (args.length) location.hash = '!/' + args.join('/');
     },
 
     showCalendar: function(zone) {

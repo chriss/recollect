@@ -27,6 +27,7 @@ sub run {
         GET => [
             [ qr{^/$}           => \&ui_html ], # Landing page
             [ qr{^/m/?$}        => \&ui_html ], # Mobile site
+            [ qr{^/r/.+}        => \&ui_html ], # HTML5 wizard
             [ qr{^/(.+)\.html$} => \&ui_html ], # Rendered pages
             [ qr{^/([\w-]+)$}   => \&ui_html ], # Same, but make the .html optional
             # Delete subscription link confirmation page:

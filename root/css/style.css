@@ -80,6 +80,7 @@ button {  width: auto; overflow: visible; }
 .clearfix:before, .clearfix:after {  content: "\0020"; display: block; height: 0; visibility: hidden;	 } 
 .clearfix:after { clear: both; }
 .clearfix { zoom: 1; }
+.clear { clear: both }
 
 
  /* Primary Styles
@@ -122,6 +123,11 @@ header {
     z-index: -1;
     opacity: .8;
     filter: alpha(opacity = 80);
+}
+
+.tiny {
+    font-size: 9pt;
+    vertical-align: middle;
 }
 
 .socialButtons { height: 25px; position: relative; z-index: 101; width: 210px }
@@ -455,7 +461,7 @@ input.initial {
     width: 1000px;
     left: 50%;
     margin-left: -450px;
-    padding-top: 30px;
+    margin-top: 10px;
 }
 .middle .twoBoxes { margin-left: -300px; }
 
@@ -489,6 +495,16 @@ input.initial {
         progid:DXImageTransform.Microsoft.gradient(startColorstr='#fefeef', endColorstr='#adcaad'); /* gradient */
 }
 
+.boxes .back {
+    margin: 10px;
+}
+
+form .back {
+    display: block;
+    float: left;
+    padding: 10px;
+}
+
 .boxes .whiteBox {
     /* gradient */
     background: #fff;
@@ -497,7 +513,7 @@ input.initial {
 
 .boxes .boxOption .inside {
     padding: 10px;
-    height: 280px;
+    height: 230px;
     position: relative;
 }
 
@@ -553,7 +569,7 @@ input.initial {
 .boxes .boxOption .choose {
     margin-left: 70px;
     position: absolute;
-    bottom: 70px;
+    bottom: 20px;
 }
 
 .boxes .boxOption .description {
@@ -600,12 +616,14 @@ input.initial {
 
 .buttons .bigButtonGreen,
 .buttons .bigButtonBlack,
+.buttons .bigButtonGrey,
 .buttons .bigButtonOrange {
     margin-left: 10px;
 }
 
 .bigButtonGreen,
 .bigButtonBlack,
+.bigButtonGrey,
 .bigButtonOrange {
     white-space: nowrap;
     float: left;
@@ -677,6 +695,23 @@ input.initial {
     background: #000;
 }
 
+.bigButtonGrey {
+    border: 1px solid #aaa;
+    /* Gradient */
+    background-color: #eee;  /* for non-css3 browsers */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#eeeeee', endColorstr='#aaaaaa'); /* for IE */
+    background: -webkit-gradient(linear, left top, left bottom, from(#eee), to(#aaa)); /* for webkit browsers */
+    background: -moz-linear-gradient(top,  #eee,  #aaa); /* for firefox 3.6+ */
+}
+.bigButtonGrey:hover {
+    background-color: #ccc;  /* for non-css3 browsers */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#cccccc', endColorstr='#aaaaaa'); /* for IE */
+    background: -webkit-gradient(linear, left top, left bottom, from(#ccc), to(#aaa)); /* for webkit browsers */
+    background: -moz-linear-gradient(top,  #cccccc,  #aaaaaa); /* for firefox 3.6+ */
+}
+.bigButtonGrey:active {
+    background: #aaaaaa;
+}
 /* get satisfaction tab */
 a#fdbk_tab {
     top: 200px !important;

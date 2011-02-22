@@ -22,7 +22,7 @@
                 <p>When you sign up with Recollect we will send you an email, text message, or phone call, at the time of your choosing, right before your garbage is about to picked up so that you never forget to take it out.</p>
             </div>
             <a id="start" class="next bigButtonGreen" href="#">Let's get started!</a>
-            <div class="clearfix"></div>
+            <div class="clear"></div>
             <div class="status"></div>
         </div>
     </div>
@@ -47,7 +47,7 @@
                     <input type="submit" class="hiddenButton"/>
                 </form>
             </div>
-            <div class="clearfix"></div>
+            <div class="clear"></div>
             <div class="status"></div>
         </div>
     </div>
@@ -106,7 +106,10 @@
         </div>
 
         <div class="right">
-            <div class="zoneName">[% title %]</div>
+            <div class="zoneName">
+                [% title %]
+                <span class="tiny">(<a class="wrongZone" href="#">not your zone?</a>)</span>
+            </div>
             <div class="nextPickup">
                 Next pickup day: [% next %]
                 <div class="yardMsg">[% yard_msg %]</div>
@@ -163,7 +166,6 @@
     </div>
 
     <div class="boxes row">
-
         <div class="free boxOption">
             <div class="inside">
                 <div class="boxTitle">E-mail or Calendar</div>
@@ -193,7 +195,9 @@
                 <a class="bigButtonBlack choose chooseVoice" href="#">choose</a>
             </div>
         </div>
-        <div class="clearfix"></div>
+
+        <div class="clear"></div>
+        <a href="#" class="back">Back</a>
     </div>
 </div>
 [% END %]
@@ -255,7 +259,8 @@
                 </div>
             </div>
         </div>
-        <div class="clearfix"></div>
+        <div class="clear"></div>
+        <a href="#" class="back">Back</a>
     </div>
 </div>
 [% END %]
@@ -301,7 +306,8 @@
             </div>
         </div>
 
-        <div class="clearfix"></div>
+        <div class="clear"></div>
+        <a href="#" class="back">Back</a>
     </div>
 </div>
 [% END %]
@@ -354,6 +360,7 @@
                     [% INCLUDE time %]
                 [% END %]
                 <div id="subscriptionError"></div>
+                <a href="#" class="back">Back</a>
                 <a class="bigButtonGreen next" href="#">submit</a>
             </form>
         </div>
