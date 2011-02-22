@@ -387,6 +387,7 @@ input.initial {
 
 .middle .zoneName {
     font-size: 27pt;
+    white-space: nowrap;
 }
 .middle .smallZoneName {
     font-size: 20pt;
