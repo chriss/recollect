@@ -495,11 +495,8 @@ input.initial {
         progid:DXImageTransform.Microsoft.gradient(startColorstr='#fefeef', endColorstr='#adcaad'); /* gradient */
 }
 
-.boxes .back {
-    margin: 10px;
-}
-
-form .back {
+#wizard .back {
+    font-size: 13pt;
     display: block;
     float: left;
     padding: 10px;
