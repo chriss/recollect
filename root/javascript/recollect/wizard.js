@@ -25,6 +25,9 @@ Recollect.Wizard .prototype = {
 
     start: function() {
         var self = this;
+
+        $('#wizard').html(Jemplate.process('wizard'));
+
         if (location.href.match(/#$/)) {
             self.setHash('start');
         }
@@ -609,7 +612,7 @@ Recollect.Wizard .prototype = {
         var self = this;
         $newPage
             .css('left', $(window).width()) // render offscreen
-            .appendTo('#wizard');
+            .appendTo('#smallLayout');
 
         self.adjustHeight();
 
@@ -660,7 +663,7 @@ Recollect.Wizard .prototype = {
         else {
             self.changeHeight(new_height, function() {
                 // first time
-                self.$currentPage = $newPage.appendTo('#wizard');
+                self.$currentPage = $newPage.appendTo('#smallLayout');
                 self.adjustHeight();
                 self.inProgress = false;
                 callback();

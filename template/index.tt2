@@ -9,20 +9,19 @@
     [% END %]
 
 
-    <div id="smallLayout">
-        <div class="white"></div>
-        <div id="wizard">
-            <noscript class="middle">
-                <div class="row">
-                    <div class="left">
-                        <a href="/"><img class="logo" src="/[% version %]/images/recollect_logo_small.png"/></a>
-                    </div>
-                    <div class="right">
-                        We're sorry, but JavaScript is required in order to use Recollect.
+    <div id="wizard">
+        <noscript>
+            <div id="staticLayout">
+                <div class="white main"></div>
+                <a href="/"><img class="logo" src="/[% version %]/images/recollect_logo.png"/></a>
+                <div class="staticContentWrapper">
+                    <div class="white text"></div>
+                    <div class="staticContent">
+                        [% INCLUDE noscript.tt2 %]
                     </div>
                 </div>
-            </noscript>
-        </div>
+            </div>
+        </noscript>
     </div>
 
     <script>

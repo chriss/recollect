@@ -1,3 +1,9 @@
+[% BLOCK wizard %]
+    <div id="smallLayout">
+        <div class="white"></div>
+    </div>
+[% END %]
+
 [% BLOCK logo %]
     <a href="/"><img class="logo" src="/[% version %]/images/recollect_logo_small.png"/></a>
 [% END %]
