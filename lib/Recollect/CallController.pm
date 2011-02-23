@@ -150,7 +150,7 @@ sub voice_notify {
     my $day_name = $pickup->datetime->day_name;
 
     my $lang = $req->parameters->{lang} || 'en';
-    if (my $recording = $self->_find_recording($lang, $pickup->flags, $day_name)) {
+    if (my $recording = $self->_find_recording($lang, $pickup, $day_name)) {
         return <<EOT;
 <Pause length="1"/>
 <Play>/audio/$recording</Play>
@@ -159,7 +159,7 @@ EOT
     }
 
     my $extra = 'No comm post pickup this week.';
-    if ($pickup->flags =~ m/y/i) {
+    if ($pickup->has_flag('Y')) {
         $extra = "Food scraps and yard trimmings will be picked up too.";
     }
 
@@ -173,11 +173,11 @@ EOT
 sub _find_recording {
     my $self = shift;
     my $lang = shift;
-    my $flags = shift;
+    my $pickup = shift;
     my $day_name = shift;
 
     if ($lang eq 'luke') {
-        if ($flags =~ m/y/i) {
+        if ($pickup->has_flag('Y')) {
         }
         else {
         }
@@ -224,7 +224,7 @@ sub lookup_zone {
         my $d = $zone->next_pickup->[0];
         my $nice_date = $d->pretty_day;
         my $extra = "No yard trimmings will be picked up.";
-        if ($d->flags =~ m/Y/) {
+        if ($d->has_flag('Y')) {
             $extra = "Yard trimmings and food compost will be picked up.";
         }
         return <<EOT;

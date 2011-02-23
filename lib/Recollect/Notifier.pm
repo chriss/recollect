@@ -135,7 +135,7 @@ sub short_and_sweet_message {
 
     my $msg = "It's garbage day on " . $args{pickup}->datetime->day_name
             . " for " . $args{zone}->title;
-    if ($args{pickup}->flags eq 'Y') {
+    if ($args{pickup}->has_flag('Y')) {
         $msg .= " - yard trimmings & food scraps will be picked up";
     }
     else {

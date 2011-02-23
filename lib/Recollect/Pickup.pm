@@ -43,6 +43,13 @@ sub _build_string {
     return join ' ', $self->ymd, ($self->flags ? $self->flags : ());
 }
 
+sub has_flag {
+    my $self = shift;
+    my $flag = shift;
+    die "Invalid flag: '$flag'" unless length($flag) == 1;
+    return $self->flags =~ m/$flag/i;
+}
+
 sub _build_pretty_day {
     my $self = shift;
     my $dt = $self->datetime;
