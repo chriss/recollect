@@ -14,7 +14,7 @@
     <meta name="author" content="Recollect - David Eaves, Kevin Jones and Luke Closs">
     <meta name="keywords" content="reminder,garbage,collection,trash,pickup,vancouver,toronto,edmonton,canada,victoria,north vancouver">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, maximum-scale=1.0" />
 
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
