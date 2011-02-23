@@ -155,9 +155,19 @@ sub _send_notification_sms {
 sub _send_notification_voice {
     my $self = shift;
     my %args = @_;
+    my $target = $args{target};
 
+    my @args;
+    if ($target =~ s/,([\w=]+)$//) {
+        my $options = $1;
+        if ($options =~ m/lang=(\w+)/) {
+            push @args, "lang=$1";
+        }
+    }
     my $url = '/call/notify/' . $args{zone}->name;
-    $self->voice_call( $args{target}, $url,
+    $url .= '?' . join '&', @args if @args;;
+
+    $self->voice_call( $target, $url,
         ( $args{reminder}
             ? (StatusCallback => $url . "/status?id=" . $args{reminder}->id)
             : ()

@@ -147,8 +147,17 @@ sub voice_notify {
 
     my $zone = Recollect::Zone->By_name($zone_name) or return;
     my $pickup = $zone->next_pickup->[0];
-
     my $day_name = $pickup->datetime->day_name;
+
+    my $lang = $req->parameters->{lang} || 'en';
+    if (my $recording = $self->_find_recording($lang, $pickup->flags, $day_name)) {
+        return <<EOT;
+<Pause length="1"/>
+<Play>/audio/$recording</Play>
+<Hangup/>
+EOT
+    }
+
     my $extra = 'No comm post pickup this week.';
     if ($pickup->flags =~ m/y/i) {
         $extra = "Food scraps and yard trimmings will be picked up too.";
@@ -159,6 +168,22 @@ sub voice_notify {
 <Say voice="woman">Hello, this is your garbage reminder service. Your garbage will be picked up on $day_name.  $extra.  Goodbye!</Say>
 <Hangup/>
 EOT
+}
+
+sub _find_recording {
+    my $self = shift;
+    my $lang = shift;
+    my $flags = shift;
+    my $day_name = shift;
+
+    if ($lang eq 'luke') {
+        if ($flags =~ m/y/i) {
+        }
+        else {
+        }
+    }
+
+    return undef;
 }
 
 sub voice_notify_status {

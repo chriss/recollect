@@ -27,7 +27,7 @@ builder {
            path => qr{^/(robots\.txt|kml/.+|favicon.ico)},
            root => './root/';
     enable "Plack::Middleware::Static",
-           path => sub { s!^/(?:\d+\.\d+\.\d+)/(images|javascript|css)/(.+)!/$1/$2! },
+           path => sub { s!^/(?:\d+\.\d+\.\d+)/(images|javascript|css|audio)/(.+)!/$1/$2! },
            root => './root/';
 
     my $set_env = sub { $ENV{RECOLLECT_BASE_PATH} = "$ENV{HOME}/src/recollect" };
