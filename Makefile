@@ -119,6 +119,9 @@ install: all $(INSTALL_DIR)/* $(SOURCE_FILES) $(LIB) \
 	chown -R recollect:www-data $(INSTALL_DIR)/backup/
 	/etc/init.d/nginx reload
 
+install-templates: $(TEMPLATES)
+	cp -R $(TEMPLATE_DIR)/* $(INSTALL_DIR)/template
+
 test: $(TESTS)
 	prove -Ilib $(TESTS)
 
