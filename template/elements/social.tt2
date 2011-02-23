@@ -1,6 +1,6 @@
 <div class="socialButtons">
     <!-- Tweet button -->
-    <a href="http://twitter.com/share" class="twitter-share-button" data-count="none" data-via="recollectnet" data-url="http://recollect.net">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+    <a href="http://twitter.com/share" class="twitter-share-button" data-count="none" data-via="recollectnet" data-url="http://recollect.net" data-text="Garbage days have just become stress free, thanks to Recollect!">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
     <!-- buzz -->
     <a title="Post to Google Buzz" class="google-buzz-button" href="http://www.google.com/buzz/post" data-button-style="small-button" data-url="http://recollect.net"></a><script type="text/javascript" src="http://www.google.com/buzz/api/button.js"></script>
     <!-- facebook like -->
