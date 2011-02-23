@@ -18,8 +18,9 @@ Recollect.Wizard .prototype = {
     zone: {},
 
     setHash: function() {
-        var args = $.makeArray(arguments);
-        History.pushState(null, null, '/r/' + args.join('/'));
+        var state = $.makeArray(arguments).join('/');
+        _gaq.push(['_trackEvent', 'wizard', 'changePage', 'state', state]);
+        History.pushState(null, null, '/r/' + state);
     },
 
     start: function() {
