@@ -5,7 +5,7 @@ use feature 'switch';
 use XML::Simple;
 use Text::CSV_XS;
 
-my $city_name = 'new-west' || shift || die;
+my $city_name = 'coquitlam' || shift || die;
 my $kml_file = "data/$city_name.kml";
 die unless -e $kml_file;
 
@@ -27,7 +27,7 @@ given ($city_name) {
     when ('edmonton') {
         $placemarks = $kml->{Document}{Placemark};
     }
-    when ([qw/burnaby new-west/]) {
+    when ([qw/burnaby new-west coquitlam port-moody/]) {
         $area_name = 'Vancouver',
     }
 }
@@ -96,6 +96,10 @@ for my $shape_name (keys %$placemarks) {
         }
         when ('new-west') {
             ($nice_name = $name) =~ s/^new-west-(\w)$/"New Westminister Zone " . uc($1)/e;
+            $style = $name;
+        }
+        when ('coquitlam') {
+            ($nice_name = $name) =~ s/^coquitlam-(\w+)$/"Coquitlam " . ucfirst($1)/e;
             $style = $name;
         }
     }
@@ -183,6 +187,14 @@ elsif ($city_name eq 'new-west') {
         'new-west-c' => { linecolour => 'FFD79606', polycolour => '99D79606' },
         'new-west-d' => { linecolour => 'FFB27DE4', polycolour => '99B27DE4' },
         'new-west-e' => { linecolour => 'FFC594B1', polycolour => '99C594B1' },
+    );
+}
+elsif ($city_name eq 'coquitlam') {
+    %style = (
+        'coquitlam-monday' =>    { linecolour => 'FF0EC8FE', polycolour => '990EC8FE' },
+        'coquitlam-tuesday' =>   { linecolour => 'FF9E7C84', polycolour => '999E7C84' },
+        'coquitlam-wednesday' => { linecolour => 'FF9394F5', polycolour => '999394F5' },
+        'coquitlam-thursday' =>  { linecolour => 'FF85CD9D', polycolour => '9985CD9D' },
     );
 }
 else {
