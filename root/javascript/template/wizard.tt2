@@ -146,15 +146,18 @@
     <div class="legend">
         <table>
             <tr>
-                <td class="example ui-datepicker-today"></td> <td class="definition">Today</td> </tr>
-            <tr>
-                <td class="example marked"></td>
-                <td class="definition">Garbage, Recycling</td>
+                <td class="example ui-datepicker-today"></td> <td class="definition">Today</td>
             </tr>
+            [% FOR key = keys %]
             <tr>
-                <td class="example marked yard"></td>
-                <td class="definition">Garbage, Recycling, Yard</td>
+                <td class="example [% keys.$key %]"></td>
+                <td class="definition">
+                    [% FOR c = key.split('') %]
+                         [% names.$c || c %][% UNLESS loop.last; ','; END %]
+                    [% END %]
+                </td>
             </tr>
+            [% END %]
         </table>
     </legend>
 [% END %]

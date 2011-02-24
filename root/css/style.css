@@ -803,11 +803,23 @@ a#fdbk_tab {
     width: 100%
 }
 
+.ui-datepicker .day {
+    text-align: center;
+}
+
 .ui-datepicker .day span {
     padding: 1px;
     color: #495942;
     display: block;
-    text-align: center;
+}
+
+.ui-datepicker .legend1 {
+    background-color: #f6f9e8;
+    color: #5e9f42;
+}
+.ui-datepicker .legend2 {
+    background: #f6f9e8 url(../images/legend2.png) repeat;
+    color: #5e9f42;
 }
 
 .ui-datepicker .ui-datepicker-today {
@@ -837,16 +849,6 @@ a#fdbk_tab {
     margin-left: -8px;
     top: 50%;
     margin-top: -8px;
-}
-
-.ui-datepicker .marked {
-    text-align: center;
-    background-color: #f6f9e8;
-    color: #5e9f42;
-}
-
-.ui-datepicker .yard {
-    background: #f6f9e8 url(../images/yard.png) repeat;
 }
 
 .ui-helper-hidden-accessible { position: absolute !important; clip: rect(1px 1px 1px 1px); clip: rect(1px,1px,1px,1px); }

@@ -715,32 +715,44 @@ Recollect.Wizard .prototype = {
     },
 
     showCalendar: function(zone) {
+        var pickup_day = {};
+        var legend = {};
+        var legend_cnt = 1;
+
         /* Make a hash of days */
-        var pickupdays = {};
-        var yarddays = {};
         $.each(zone.pickupdays, function(i,d) {
             var ymd = d.day.split('-');
-            var key = [ymd[0],Number(ymd[1]),Number(ymd[2])].join('-');
-            pickupdays[key] = true;
-            if (d.flags.match(/Y/)) {
-                yarddays[key] = true
-            }
+            ymd = [ymd[0],Number(ymd[1]),Number(ymd[2])].join('-');
+
+            // Store the proper class for these flags
+            pickup_day[ymd] = legend[d.flags]
+                = legend[d.flags] || 'legend' + legend_cnt++;
         });
 
         $('#wizard .calendar').datepicker({
             beforeShowDay: function(day) {
-                var key = [
+                var ymd = [
                     day.getFullYear(), day.getMonth()+1, day.getDate()
                 ].join('-');
-                var className = 'day';
-                if (pickupdays[key]) className += ' marked';
-                if (yarddays[key]) className += ' yard';
-                return [ false, className ];
+                if (pickup_day[ymd]) {
+                    return [false, 'day ' + pickup_day[ymd]];
+                }
+                else {
+                    return [false, 'day'];
+                }
             }
         });
 
         $('#wizard .calendar .ui-datepicker-inline').append(
-            Jemplate.process('legend')
+            Jemplate.process('legend', {
+                keys: legend,
+                names: {
+                    G: 'Garbage',
+                    R: 'Recycling',
+                    Y: 'Yard',
+                    C: 'Compost'
+                }
+            })
         );
     },
 
