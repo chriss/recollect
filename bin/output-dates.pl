@@ -9,6 +9,8 @@ my $zone = shift || die "USAGE: $0 <zone>, then use VI hjl keys!";
 my $date = DateTime->today;
 ReadMode('cbreak');
 
+$| = 1;
+
 while (1) {
     warn $date->ymd . "\n";
     my $char = ReadKey( 0 );
