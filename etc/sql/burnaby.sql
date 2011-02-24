@@ -827,7 +827,7 @@ INSERT INTO pickups (id, zone_id, day, flags)
 INSERT INTO pickups (id, zone_id, day, flags)
     VALUES (nextval('pickup_seq'),
            (SELECT id FROM zones WHERE name = 'burnaby-d'),
-           '2011-12-29 07:00:00-08', 'GRY');
+           '2011-12-28 07:00:00-08', 'GRY');
 INSERT INTO pickups (id, zone_id, day, flags)
     VALUES (nextval('pickup_seq'),
            (SELECT id FROM zones WHERE name = 'burnaby-e'),
