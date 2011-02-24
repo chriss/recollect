@@ -5,7 +5,7 @@ use feature 'switch';
 use XML::Simple;
 use Text::CSV_XS;
 
-my $city_name = 'coquitlam' || shift || die;
+my $city_name = 'port-moody' || shift || die;
 my $kml_file = "data/$city_name.kml";
 die unless -e $kml_file;
 
@@ -102,6 +102,10 @@ for my $shape_name (keys %$placemarks) {
             ($nice_name = $name) =~ s/^coquitlam-(\w+)$/"Coquitlam " . ucfirst($1)/e;
             $style = $name;
         }
+        when ('port-moody') {
+            ($nice_name = $name) =~ s/^port-moody-(\w+)$/"Port Moody " . ucfirst($1)/e;
+            $style = $name;
+        }
     }
 
     my $coords = $place->{Polygon}{outerBoundaryIs}{LinearRing}{coordinates};
@@ -195,6 +199,14 @@ elsif ($city_name eq 'coquitlam') {
         'coquitlam-tuesday' =>   { linecolour => 'FF9E7C84', polycolour => '999E7C84' },
         'coquitlam-wednesday' => { linecolour => 'FF9394F5', polycolour => '999394F5' },
         'coquitlam-thursday' =>  { linecolour => 'FF85CD9D', polycolour => '9985CD9D' },
+    );
+}
+elsif ($city_name eq 'port-moody') {
+    %style = (
+        'port-moody-monday' =>    { linecolour => 'FF1F82F5', polycolour => '991F82F5' },
+        'port-moody-tuesday' =>   { linecolour => 'FF702480', polycolour => '99702480' },
+        'port-moody-wednesday' => { linecolour => 'FF44BE74', polycolour => '9944BE74' },
+        'port-moody-thursday' =>  { linecolour => 'FFB16709', polycolour => '99B16709' },
     );
 }
 else {
