@@ -758,7 +758,7 @@ a#fdbk_tab {
 }
 
 /* Calendar Styles */
-.ui-datepicker {
+.calendar {
     background: #fff;
     width: 180px;
     padding: 10px;
@@ -785,64 +785,64 @@ a#fdbk_tab {
         progid:DXImageTransform.Microsoft.gradient(startColorstr='#fefeef', endColorstr='#adcaad'); /* gradient */
 }
 
-.ui-datepicker .ui-datepicker-title {
+.calendar .ui-datepicker-title {
     display: block;
     width: 100%;
     text-align: center;
 }
 
-.ui-datepicker .ui-datepicker-month {
+.calendar .ui-datepicker-month {
     display: block;
 }
 
-.ui-datepicker .ui-datepicker-year {
+.calendar .ui-datepicker-year {
     font-size: 80%;
 }
 
-.ui-datepicker table {
+.calendar table {
     width: 100%
 }
 
-.ui-datepicker .day {
+.calendar .day {
     text-align: center;
 }
 
-.ui-datepicker .day span {
+.calendar .day span {
     padding: 1px;
     color: #495942;
     display: block;
 }
 
-.ui-datepicker .legend1 {
+.calendar .legend1 {
     background-color: #f6f9e8;
     color: #5e9f42;
 }
-.ui-datepicker .legend2 {
+.calendar .legend2 {
     background: #f6f9e8 url(../images/legend2.png) repeat;
     color: #5e9f42;
 }
 
-.ui-datepicker .ui-datepicker-today {
+.calendar .ui-datepicker-today {
     border: 1px solid #d22;
 }
 
-.ui-datepicker .ui-datepicker-prev {
+.calendar .ui-datepicker-prev {
     float: left;
 }
 
-.ui-datepicker .ui-datepicker-header {
+.calendar .ui-datepicker-header {
     position: relative;
     padding: .2em 0;
 }
 
-.ui-datepicker .ui-datepicker-prev,
-.ui-datepicker .ui-datepicker-next {
+.calendar .ui-datepicker-prev,
+.calendar .ui-datepicker-next {
     position:absolute;
     width: 1.8em;
     height: 1.8em;
 }
-.ui-datepicker .ui-datepicker-prev span,
-.ui-datepicker .ui-datepicker-next span {
+.calendar .ui-datepicker-prev span,
+.calendar .ui-datepicker-next span {
     display: block;
     position: absolute;
     left: 50%;
@@ -884,11 +884,11 @@ a#fdbk_tab {
     height: 16px;
     background-image: url(images/ui-icons_222222_256x240.png);
 }
-.ui-datepicker .ui-datepicker-next {
+.calendar .ui-datepicker-next {
     right: 2px;
 }
-.ui-datepicker .ui-datepicker-prev-hover,
-.ui-datepicker .ui-datepicker-next-hover {
+.calendar .ui-datepicker-prev-hover,
+.calendar .ui-datepicker-next-hover {
     top: 1px;
 }
 

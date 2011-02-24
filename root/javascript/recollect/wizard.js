@@ -715,6 +715,8 @@ Recollect.Wizard .prototype = {
     },
 
     showCalendar: function(zone) {
+        var self = this;
+
         var pickup_day = {};
         var legend = {};
         var legend_cnt = 1;
@@ -731,6 +733,7 @@ Recollect.Wizard .prototype = {
 
         $('#wizard .calendar').datepicker({
             beforeShowDay: function(day) {
+                // Colour the day
                 var ymd = [
                     day.getFullYear(), day.getMonth()+1, day.getDate()
                 ].join('-');
@@ -740,10 +743,12 @@ Recollect.Wizard .prototype = {
                 else {
                     return [false, 'day'];
                 }
+
             }
         });
 
-        $('#wizard .calendar .ui-datepicker-inline').append(
+        // render the legend
+        $('#wizard .calendar').append(
             Jemplate.process('legend', {
                 keys: legend,
                 names: {
