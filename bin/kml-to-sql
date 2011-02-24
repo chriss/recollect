@@ -90,8 +90,12 @@ for my $shape_name (keys %$placemarks) {
             $nice_name = "Edmonton Zone $zone$day";
             $style = 'blue';
         }
-        when ([qw/burnaby new-west/]) {
-            ($nice_name = $name) =~ s/^(.+)-(\w)$/ucfirst($1) . " Zone " . uc($2)/e;
+        when ('burnaby') {
+            ($nice_name = $name) =~ s/^burnaby-(\w)$/"Burnaby Zone " . uc($1)/e;
+            $style = $name;
+        }
+        when ('new-west') {
+            ($nice_name = $name) =~ s/^new-west-(\w)$/"New Westminister Zone " . uc($1)/e;
             $style = $name;
         }
     }

@@ -10,23 +10,23 @@ DELETE FROM zones WHERE name like 'new-west-%';
 
 -- Insert the zones
 INSERT INTO zones (id, area_id, name, title, colour_name, line_colour, poly_colour)
-    VALUES (nextval('zone_seq'),(SELECT id FROM areas WHERE name = 'Vancouver'),'new-west-b','New-west Zone B','new-west-b','FF22C4FE','9922C4FE');
+    VALUES (nextval('zone_seq'),(SELECT id FROM areas WHERE name = 'Vancouver'),'new-west-b','New Westminister Zone B','new-west-b','FF22C4FE','9922C4FE');
 UPDATE zones SET geom = ST_GeomFromText('MULTIPOLYGON(((49.205795 -122.952011,49.200775 -122.945786,49.200115 -122.945145,49.199192 -122.943939,49.198910 -122.941948,49.200089 -122.938232,49.200592 -122.934204,49.200157 -122.930984,49.198784 -122.927422,49.198124 -122.924248,49.197647 -122.917313,49.197746 -122.913773,49.200775 -122.906715,49.204250 -122.901886,49.208038 -122.898003,49.210224 -122.896332,49.211231 -122.897919,49.213448 -122.900620,49.211514 -122.904526,49.205151 -122.916473,49.214008 -122.927589,49.208836 -122.937248,49.211796 -122.940941,49.205795 -122.952011)))') WHERE name = 'new-west-b';
 
 INSERT INTO zones (id, area_id, name, title, colour_name, line_colour, poly_colour)
-    VALUES (nextval('zone_seq'),(SELECT id FROM areas WHERE name = 'Vancouver'),'new-west-c','New-west Zone C','new-west-c','FFD79606','99D79606');
+    VALUES (nextval('zone_seq'),(SELECT id FROM areas WHERE name = 'Vancouver'),'new-west-c','New Westminister Zone C','new-west-c','FFD79606','99D79606');
 UPDATE zones SET geom = ST_GeomFromText('MULTIPOLYGON(((49.214008 -122.927567,49.216057 -122.923943,49.222488 -122.911949,49.227436 -122.902573,49.223804 -122.902634,49.221436 -122.904846,49.220612 -122.902336,49.220570 -122.898773,49.216267 -122.898903,49.215088 -122.897079,49.213715 -122.896759,49.211964 -122.898773,49.213474 -122.900620,49.211540 -122.904526,49.205177 -122.916496,49.214008 -122.927567)))') WHERE name = 'new-west-c';
 
 INSERT INTO zones (id, area_id, name, title, colour_name, line_colour, poly_colour)
-    VALUES (nextval('zone_seq'),(SELECT id FROM areas WHERE name = 'Vancouver'),'new-west-a','New-west Zone A','new-west-a','FF67C171','9967C171');
+    VALUES (nextval('zone_seq'),(SELECT id FROM areas WHERE name = 'Vancouver'),'new-west-a','New Westminister Zone A','new-west-a','FF67C171','9967C171');
 UPDATE zones SET geom = ST_GeomFromText('MULTIPOLYGON(((49.202290 -122.958641,49.200581 -122.958595,49.194157 -122.951134,49.190678 -122.956581,49.187256 -122.957138,49.175587 -122.957352,49.185883 -122.931046,49.194351 -122.920616,49.196514 -122.920189,49.197384 -122.925125,49.197945 -122.943192,49.199261 -122.944008,49.200264 -122.945282,49.200874 -122.945908,49.201721 -122.946960,49.205799 -122.952065,49.203712 -122.956688,49.202290 -122.958641)))') WHERE name = 'new-west-a';
 
 INSERT INTO zones (id, area_id, name, title, colour_name, line_colour, poly_colour)
-    VALUES (nextval('zone_seq'),(SELECT id FROM areas WHERE name = 'Vancouver'),'new-west-d','New-west Zone D','new-west-d','FFB27DE4','99B27DE4');
+    VALUES (nextval('zone_seq'),(SELECT id FROM areas WHERE name = 'Vancouver'),'new-west-d','New Westminister Zone D','new-west-d','FFB27DE4','99B27DE4');
 UPDATE zones SET geom = ST_GeomFromText('MULTIPOLYGON(((49.211807 -122.940895,49.234722 -122.898430,49.229523 -122.898582,49.216026 -122.923965,49.208893 -122.937225,49.211807 -122.940895)))') WHERE name = 'new-west-d';
 
 INSERT INTO zones (id, area_id, name, title, colour_name, line_colour, poly_colour)
-    VALUES (nextval('zone_seq'),(SELECT id FROM areas WHERE name = 'Vancouver'),'new-west-e','New-west Zone E','new-west-e','FFC594B1','99C594B1');
+    VALUES (nextval('zone_seq'),(SELECT id FROM areas WHERE name = 'Vancouver'),'new-west-e','New Westminister Zone E','new-west-e','FFC594B1','99C594B1');
 UPDATE zones SET geom = ST_GeomFromText('MULTIPOLYGON(((49.211922 -122.898750,49.211147 -122.897789,49.210209 -122.896332,49.214642 -122.893021,49.219376 -122.891800,49.222572 -122.885109,49.223759 -122.882271,49.224689 -122.878349,49.231506 -122.878624,49.239288 -122.891991,49.239388 -122.895943,49.237602 -122.896111,49.236031 -122.896240,49.234722 -122.898422,49.229523 -122.898567,49.227413 -122.902573,49.223793 -122.902626,49.221451 -122.904854,49.220612 -122.902290,49.220573 -122.898788,49.216267 -122.898903,49.215088 -122.897079,49.213707 -122.896759,49.211922 -122.898750)))') WHERE name = 'new-west-e';
 
 
