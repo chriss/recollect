@@ -17,6 +17,7 @@ while (1) {
 
     if ($char eq 'j') { # down
         print $zone . ',' . $date->ymd . "\n";
+        warn "\t" . $zone . ',' . $date->ymd . "\n";
         $date->add(weeks => 1);
     }
     elsif ($char eq 'h') {
