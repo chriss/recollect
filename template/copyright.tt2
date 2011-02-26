@@ -3,58 +3,17 @@
 
 Recollect is &copy; 2010, 2011 Luke Closs, David Eaves and Kevin Jones
 
-<h2>Licensing Intent</h2>
-Our intent in releasing this code as open source is to enable other citizens to learn and use the code and tools we have created for non-commercial purposes.
-
-The code is available on <a href="http://github.com/deaves/recollect">Github</a>.
+<h2>Data used by Recollect</h2>
+The data comes either from public documents published by each city.  Some cities have <a href="http://data.vancouver.ca/">Open</a> <a href="http://data.edmonton.ca/>Data</a> <a href="http://www.geoweb.dnv.org/">websites</a> that provide the geographic and schedule data in easy to reuse formats, while other cities <a href="http://www.ottawa.ca/residents/recycling_garbage/collection_calendar/index_en.html">don't</a>.
 
 <h2>Logo and Name</h2>
 <p>
     The Recollect logo and name was created by <a href="http://twitter.com/dwmcleish">David McLeish</a> exclusively for Recollect.
 </p>
-<p>All images are Copyright &copy; 2009 by Luke Closs and Kevin Jones</p>
+<p>All images are Copyright &copy; 2009,2010,2011 by Kevin Jones</p>
 
-<h2>Data</h2>
-All of the trash pickup data is scraped from the City of Vancouver's website:
-<ul>
-    <li>
-        <a href="http://data.vancouver.ca/">http://data.vancouver.ca</a>
-    </li>
-    <li>
-        <a href="http://vancouver.ca/ENGSVCS/solidwaste/garbage/northSched.htm">
-            http://vancouver.ca/ENGSVCS/solidwaste/garbage/northSched.htm
-        </a>
-    </li>
-    <li>
-        <a href="http://vancouver.ca/ENGSVCS/solidwaste/garbage/southSched.htm">
-            http://vancouver.ca/ENGSVCS/solidwaste/garbage/southSched.htm
-        </a>
-    </li>
-</ul>
+<h2>Code</h2>
+<p>The Recollect code is available on <a href="http://github.com/deaves/recollect">Github</a>.</p>
 
-<h2>Perl Code License</h2>
-<p>The scraping codes and the reminder system codes are licensed under the folowing terms:</p>
-
-<p>Copyright &copy; 2009,2010 by Luke Closs and Kevin Jones</p>
-
-<p>This package is free software; you can redistribute it and/or modify it under the following terms:</p>
-
-<ol>
-    <li>The GNU General Public License as published by the Free Software Foundation; either version 1, or (at your option) any later version</li>
-</ol>
-
-<h2>JavaScript Licenses</h2>
-
-<h3>Recollect JavaScript</h3>
-<p>Copyright &copy; 2009,2010 by Luke Closs and Kevin Jones</p>
-
-<h3>Libraries</h3>
-
-<h4>jQuery</h4>
-<p>dually licensed under the MIT and GPL licenses</p>
-<p>Copyright &copy; 2009 John Resig</p>
-<a href="http://docs.jquery.com/License">http://docs.jquery.com/License</a>
-
-<h4>EGeoXML and EPolygon</h4>
-<p>licenced under a <a href="http://creativecommons.org/licenses/by/2.0/uk/">Creative Commons Licence</a></p>
+<p>All code commits are Copyright &copy; 2011 by their author and may be reused under the <a href="http://www.mozilla.org/MPL/MPL-1.1.html">Mozilla Public License 1.1</a> as published by <a href="http://www.mozilla.org/about/">Mozilla</a>.</p>
 [% END %]
