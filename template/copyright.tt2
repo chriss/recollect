@@ -1,19 +1,17 @@
 [% WRAPPER elements/static_wrapper.tt2 %]
-<h2>Recollect</h2>
-
-Recollect is &copy; 2010, 2011 Luke Closs, David Eaves and Kevin Jones
-
 <h2>Data used by Recollect</h2>
-The data comes either from public documents published by each city.  Some cities have <a href="http://data.vancouver.ca/">Open</a> <a href="http://data.edmonton.ca/>Data</a> <a href="http://www.geoweb.dnv.org/">websites</a> that provide the geographic and schedule data in easy to reuse formats, while other cities <a href="http://www.ottawa.ca/residents/recycling_garbage/collection_calendar/index_en.html">don't</a>.
-
-<h2>Logo and Name</h2>
-<p>
-    The Recollect logo and name was created by <a href="http://twitter.com/dwmcleish">David McLeish</a> exclusively for Recollect.
-</p>
-<p>All images are Copyright &copy; 2009,2010,2011 by Kevin Jones</p>
+<p>The data comes from public documents published by each city.</p>
+<p>Some cities have <a href="http://data.vancouver.ca/">Open</a> <a href="http://data.edmonton.ca/">Data</a> <a href="http://www.geoweb.dnv.org/">websites</a> that provide the geographic and schedule data in easy to reuse formats, while other cities <a href="http://www.ottawa.ca/residents/recycling_garbage/collection_calendar/index_en.html">don't</a>.</p>
 
 <h2>Code</h2>
 <p>The Recollect code is available on <a href="http://github.com/deaves/recollect">Github</a>.</p>
 
 <p>All code commits are Copyright &copy; 2011 by their author and may be reused under the <a href="http://www.mozilla.org/MPL/MPL-1.1.html">Mozilla Public License 1.1</a> as published by <a href="http://www.mozilla.org/about/">Mozilla</a>.</p>
+
+<h2>Recollect</h2>
+
+<p>Recollect is &copy; 2010, 2011 Luke Closs, David Eaves and Kevin Jones.</p>
+<p>The Recollect logo and name was created by <a href="http://twitter.com/dwmcleish">David McLeish</a> exclusively for Recollect.</p>
+<p>All images are Copyright &copy; 2009,2010,2011 by Kevin Jones</p>
+
 [% END %]
