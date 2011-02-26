@@ -8,12 +8,22 @@ use Recollect::RadminController;
 use Recollect::CallController;
 use Recollect::APIController;
 use Recollect::Controller;
+use SQL::PgSchema;
 
 use Recollect::Roles::Cacheable;
 Recollect::Roles::Cacheable->cache; # create the cache in the main process
 
 use Recollect::Util;
 my $config = Recollect::Util->config;
+
+use FindBin;
+SQL::PgSchema->new(
+    psql => "psql $config->{db_name}",
+    schema_name => "recollect",
+    schema_dir => "$ENV{HOME}/src/recollect/etc/sql",
+    debug => 1,
+)->update;
+
 
 builder {
     enable 'Debug', panels => [qw(

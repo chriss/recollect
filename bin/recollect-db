@@ -4,20 +4,38 @@ use warnings;
 use FindBin;
 use lib "$FindBin::Bin/../lib";
 use Recollect::Util;
+use SQL::PgSchema;
+use feature 'switch';
 
-my $command = shift;
+my $command = shift || 'update';
 die "USAGE: $0 <command>\n" unless $command;
 
-my $db = Recollect::Util->config->{db_name};
-warn "Using database $db\n";
-if ($command eq 'recreate') {
-    my $file = shift || "$FindBin::Bin/../data/recollect.dump";
-    print "Re-creating database ...\n";
-    system("dropdb $db");
-    system("createdb -E UTF8 -T template0 $db");
-    system("psql -c 'create language plpgsql' $db");
-    system("psql -f /usr/share/postgresql/8.4/contrib/postgis.sql $db");
-    system("psql -f $file $db");
+my $schema_dir = "$FindBin::Bin/../etc/sql";
+
+my $config = Recollect::Util->config;
+my $db = $config->{db_name};
+given ($command) {
+    when ('recreate') {
+        my $file = shift || "$schema_dir/schema.sql";
+        print "Re-creating database ...\n";
+        system("dropdb $db");
+        system("createdb -E UTF8 -T template0 $db");
+        system("psql -c 'create language plpgsql' $db");
+        system("psql -f /usr/share/postgresql/8.4/contrib/postgis.sql $db");
+        system("psql -f $file $db");
+    }
+    when ('update') {
+        my $schema = SQL::PgSchema->new(
+            psql => "psql -U $config->{db_user} $db",
+            schema_name => 'recollect',
+            schema_dir => $schema_dir,
+            debug => 1,
+        );
+        $schema->update;
+    }
+    default {
+        die "Unknown command: $command\n";
+    }
 }
 
 exit;

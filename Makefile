@@ -3,6 +3,7 @@ SOURCE_FILES=root/*
 LIB=lib
 TEMPLATE_DIR=template
 PRIVATE=../private
+SQL=etc/sql/*
 EXEC=bin/* $(PRIVATE)/bin/recollect-*
 MINIFY=perl -MJavaScript::Minifier::XS -0777 -e 'print JavaScript::Minifier::XS::minify(scalar <>);'
 #MINIFY=cat
@@ -94,24 +95,26 @@ $(INSTALL_DIR)/%:
 
 
 install: all $(INSTALL_DIR)/* $(SOURCE_FILES) $(LIB) \
-	$(TEMPLATES) $(EXEC) $(TEMPLATE_DIR) $(CRONJOB) $(PSGI)
+	$(TEMPLATES) $(EXEC) $(TEMPLATE_DIR) $(CRONJOB) $(PSGI) $(SQL)
 	rm -rf $(INSTALL_DIR)/root/css
 	rm -rf $(INSTALL_DIR)/root/images
 	rm -rf $(INSTALL_DIR)/root/javascript
 	if [ ! -d $(INSTALL_DIR)/root/reports ]; then mkdir $(INSTALL_DIR)/root/reports; fi
 	if [ ! -d $(INSTALL_DIR)/backup ]; then mkdir $(INSTALL_DIR)/backup; fi
+	if [ ! -d $(INSTALL_DIR)/etc/sql ]; then mkdir -p $(INSTALL_DIR)/etc/sql; fi
 	if [ ! -f /var/log/recollect-server.log ]; then touch /var/log/recollect-server.log; chown recollect:www-data /var/log/recollect-server.log; fi
 	cp -R $(SOURCE_FILES) $(INSTALL_DIR)/root
 	cp -R $(LIB) $(TEMPLATE_DIR) $(INSTALL_DIR)
+	cp -R $(SQL) $(INSTALL_DIR)/etc/sql
 	rm -f $(INSTALL_DIR)/root/*.html
 	cp $(PSGI) $(INSTALL_DIR)
 	cp $(EXEC) $(INSTALL_DIR)/bin
 	cp -f $(CRONJOB) /etc/cron.d/
-	cp -f etc/areas.yaml $(INSTALL_DIR)/etc/areas.yaml
 	cp -R etc/service $(INSTALL_DIR)/etc/service
 	if [ ! -d /etc/service/recollect ]; then \
 	    update-service --add $(INSTALL_DIR)/etc/service/recollect recollect; \
 	fi
+	sudo -u recollect $(INSTALL_DIR)/bin/recollect-db update
 	svc -h /etc/service/recollect
 	cp -f etc/nginx/sites-available/recollect.net /etc/nginx/sites-available
 	ln -sf /etc/nginx/sites-available/recollect.net /etc/nginx/sites-enabled/recollect.net
