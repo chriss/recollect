@@ -26,7 +26,7 @@ CREATE TABLE zones (
     poly_colour text NOT NULL
 );
 SELECT AddGeometryColumn('', 'zones','geom',-1,'MULTIPOLYGON',2);
-CREATE INDEX zones_name_idx ON zones (name);
+CREATE UNIQUE INDEX zones_name_idx ON zones (name);
 CREATE UNIQUE INDEX zones_area_name_idx ON zones (area_id, name);
 ALTER TABLE zones OWNER TO recollect;
 
