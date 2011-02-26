@@ -81,6 +81,7 @@ button {  width: auto; overflow: visible; }
 .clearfix:after { clear: both; }
 .clearfix { zoom: 1; }
 .clear { clear: both }
+.nowrap { white-space: nowrap }
 
 
  /* Primary Styles
@@ -267,6 +268,8 @@ input.hiddenButton {
     vertical-align: middle;
 }
 .beta {
+    height: 62px;
+    width: 62px;
 }
 
 #wizard div.error {
@@ -330,7 +333,6 @@ input.hiddenButton {
 .middle .row .right { left: 50%; width: 40% }
 
 /* Top row layout */
-.middle .top { height: 100px }
 .middle .top .left { margin-right: 140px }
 .middle .top .right { right: 50%; margin-left: -115px; width: 100% }
 
@@ -403,8 +405,16 @@ input.initial {
 
 .interest .map {
     width: 300px;
-    height: 320px;
+    height: 227px;
     margin: 0;
+}
+
+.interest p {
+    padding: 5px 0;
+}
+
+.interest .huge { /* .email */
+    width: 200px;
 }
 
 .zonePage .zoneName,
@@ -414,7 +424,7 @@ input.initial {
     border: 1px solid #D3D3D3;
     background: #fff;
     width: 300px;
-    height: 415px;
+    height: 355px;
     opacity: .8;
     filter: alpha(opacity = 80);
 }
@@ -429,6 +439,7 @@ input.initial {
 .zonePage .cityPromo img {
     border: 1px solid #D3D3D3;
     width: 290px;
+    height: 330px;
 }
 .zonePage .cityPromo .yourAd {
     display: block;
@@ -451,13 +462,13 @@ input.initial {
     height: 220px;
     width: 300px;
 }
-.zonePage .signup .description {
+.zonePage .signup p {
     margin: 10px 0;
     text-align: center;
 }
 .zonePage .signup .confirm {
     text-align: center;
-    margin: 0px 0 0 30px;
+    margin: 0px 0 0 40px;
 }
 
 /*

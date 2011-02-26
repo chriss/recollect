@@ -17,7 +17,7 @@
 
 [% BLOCK wizardWelcome %]
 <div class="middle">
-    <div class="row landingPage" style="height: 250px">
+    <div class="row landingPage" height="250">
         <div class="left">
             [% INCLUDE logo %]
         </div>
@@ -25,7 +25,7 @@
             <div class="title">Welcome to Recollect <img class="beta" src="/[% version %]/images/beta.png"/></div>
             <div class="subtitle">The Garbage and Recycling collection reminder service.</div>
             <div class="message">
-                <p>When you sign up with Recollect we will send you an email, text message, or phone call, at the time of your choosing, right before your garbage is about to picked up so that you never forget to take it out.</p>
+                <p>We'll remind you each to take out the garbage and recycling!  Sign up for an email, text message, phone call or tweet at the time of your choosing, and never forget to take out the trash again!</p>
             </div>
             <a id="start" class="next bigButtonGreen" href="#">Let's get started!</a>
             <div class="clear"></div>
@@ -36,15 +36,16 @@
 [% END %]
 
 [% BLOCK wizardAddress %]
-<div class="middle" style="height: 100px">
-    <div class="row">
-        <div class="left" style="height:100px">
+<div class="middle">
+    <div class="row" height="250">
+        <div class="left" height="100">
             [% INCLUDE logo %]
         </div>
-        <div class="right">
+        <div class="right" height="150">
+            <div class="title">Find out your collection zone.</div>
             <div class="message">
-                <b>Step One</b>: Fill in your address<br />
-                <i>e.g. 453 W 12 Ave, Vancouver, BC</i>
+                <p>Please type your home address.<br />
+                <i>e.g. 454 W 12 Ave, Vancouver, BC</i></p>
             </div>
             <div class="addressForm">
                 <form>
@@ -62,21 +63,23 @@
 
 [% BLOCK wizardZoneSuggestion %]
 <div class="middle interest">
-    <div class="row" style="height: 250px">
-        <div class="left" style="padding-top: 10px">
-            <div class="map" style="height: 227px"></div>
+    <div class="row" height="275">
+        <div class="left" height="227">
+            <div class="map"></div>
         </div>
-        <div class="right">
+        <div class="right" height="250">
             [% INCLUDE loading %]
             <form>
-                <div class="title">Thank you! Were excited to hear you'd like to have Recollect serve your community.</div>
+                <div class="title">Oh no! We don't have data there yet!</div>
 
-                <div>Once we start serving your community we will send you an email. We are constantly expanding our service to new areas and will prioritize those for whom we have a lot of requests. Most importantly, we will only email you once we start serving your community and will never share your email with a 3rd party.</div>
-                <br/>
+                <p>We've recorded your interest in this area, and we are constantly expanding our service.</p>
+                <p>Enter your email address and we'll notify you when we add coverage for this location.</p>
+                <p>Your email will not be used for any other purpose.</p>
 
                 <input name="email" class="huge floatleft">
-                <a class="submit bigButtonGreen" href="#">submit</a>
+                <a class="submit bigButtonGreen" href="#">Let me know!</a>
                 <input type="submit" class="hiddenButton"/>
+
             </form>
 
             <div class="status"></div>
@@ -97,8 +100,8 @@
 
 [% BLOCK wizardZone %]
 <div class="middle">
-    <div class="row zonePage" style="height: 525px">
-        <div class="left">
+    <div class="row zonePage" height="485">
+        <div class="left" height="470">
             [% INCLUDE logo %]
             <div class="cityPromo">
                 <div class="cityImageTitle">A word from our sponsors:</div>
@@ -115,10 +118,9 @@
             </div>
         </div>
 
-        <div class="right">
+        <div class="right" height="480">
             <div class="zoneName">
                 [% title %]
-                <span class="tiny">(<a class="wrongZone" href="#">not your zone?</a>)</span>
             </div>
             <div class="nextPickup">
                 Next pickup day: [% next %]
@@ -127,10 +129,14 @@
 
             <div class="signup">
                 <div class="map"></div>
-                <div class="description">
-                    <b>Step two:</b> Look at the map and confirm this is the correct collection zone.
-                </div>
-                <a id="subscribe" class="confirm bigButtonOrange" href="#">Confirm and Sign Up!</a>
+                <p>
+                    <b>If this is your zone …</b>
+                </p>
+                <a id="subscribe" class="confirm bigButtonOrange" href="#">Create a reminder!</a>
+                <div class="clear"></div>
+                <p class="tiny">
+                    (<a class="wrongZone" href="#">Not your zone?</a>)
+                </p>
             </div>
 
             <div class="calendarSection">
@@ -165,27 +171,25 @@
 [% BLOCK wizardSubscribe %]
 <div class="middle">
     <!-- first row -->
-    <div class="row top">
-        <div class="left">
+    <div class="row top" height="135">
+        <div class="left" height="100">
             [% INCLUDE logo %]
         </div>
-        <div class="right">
-            <div class="zoneName">[% title %]</div>
-            <div class="nextPickup">
-                Next pickup day: [% next %]
-                <div class="yardMsg">[% yard_msg %]</div>
-            </div>
+        <div class="right" height="75">
+            <div class="title">How should we notify you?</div>
+            <div class="description">
+                What's the best way to reach you? You may sign for several reminders if you'd like!</div>
         </div>
     </div>
 
-    <div class="boxes row">
+    <div class="boxes row" height="350">
         <div class="free boxOption">
             <div class="inside">
-                <div class="boxTitle">E-mail or Calendar</div>
+                <div class="boxTitle">Internet Reminders</div>
                 <div class="description">
-                    Send me an email or twitter direct message each week, or add my garbage and recycling calendar to my calendar.
+                    We can send you an email or tweet, or you can subscribe to your zone's calendar feed.
                 </div>
-                <a class="bigButtonBlack choose chooseFree" href="#">choose</a>
+                <a class="bigButtonBlack choose chooseFree" href="#">Choose</a>
             </div>
         </div>
 
@@ -193,9 +197,9 @@
             <div class="inside">
                 <div class="boxTitle">Text Message</div>
                 <div class="description">
-                    Send me a text message each week to remind me to take out the garbage, recycling and yard trimmings.
+                    We'll send you a text message to your mobile phone!
                 </div>
-                <a class="bigButtonBlack choose chooseText" href="#">choose</a>
+                <a class="bigButtonBlack choose chooseText" href="#">Choose</a>
             </div>
         </div>
 
@@ -203,9 +207,9 @@
             <div class="inside">
                 <div class="boxTitle">Phone Call</div>
                 <div class="description">
-                    Call me each week to remind me to take out the garbage, recycling and yard trimmings.
+                    We'll call your mobile or home phone and give you a brief message!
                 </div>
-                <a class="bigButtonBlack choose chooseVoice" href="#">choose</a>
+                <a class="bigButtonBlack choose chooseVoice" href="#">Choose</a>
             </div>
         </div>
 
@@ -218,27 +222,24 @@
 [% BLOCK wizardFree %]
 <div class="middle">
     <!-- first row -->
-    <div class="row top">
-        <div class="left">
+    <div class="row top" height="135">
+        <div class="left" height="100">
             [% INCLUDE logo %]
         </div>
-        <div class="right">
-            <div class="zoneName">[% title %]</div>
-            <div class="nextPickup">
-                Next pickup day: [% next %]
-                <div class="yardMsg">[% yard_msg %]</div>
-            </div>
+        <div class="right" height="100">
+            <div class="title">Choose an Internet Reminder</div>
+            <div class="description">For zone [% title %].</div>
         </div>
     </div>
 
-    <div class="boxes row">
+    <div class="boxes row" height="350">
         <div class="email boxOption">
             <div class="inside">
                 <div class="boxTitle">E-Mail</div>
                 <div class="description">
                     Send a weekly E-Mail reminding me to take out my Garbage, Recycling or Yard trimmings and kitchen waste.
                 </div>
-                <a class="bigButtonBlack choose chooseEmail" href="#">choose</a>
+                <a class="bigButtonBlack choose chooseEmail" href="#">Email me!</a>
             </div>
         </div>
 
@@ -250,7 +251,7 @@
                 <div class="description">
                     Send a weekly direct message to your twitter account. Please note that you will need to start following @<a target="_new" href="http://twitter.com/recollectnet">recollectnet</a>.
                 </div>
-                <a class="bigButtonBlack choose chooseTwitter" href="#">choose</a>
+                <a class="bigButtonBlack choose chooseTwitter" href="#">Tweet me!</a>
             </div>
         </div>
 
@@ -273,7 +274,7 @@
             </div>
         </div>
         <div class="clear"></div>
-        <a href="#" class="back">Back</a>
+        <a href="#" class="back">Worried it'll get lost in your inbox?  Try a phone or text message reminder!</a>
     </div>
 </div>
 [% END %]
@@ -281,20 +282,17 @@
 [% BLOCK wizardPremium %]
 <div class="middle">
     <!-- first row -->
-    <div class="row" style="height: 100px">
-        <div class="left">
+    <div class="row top" height="135">
+        <div class="left" height="100">
             [% INCLUDE logo %]
         </div>
-        <div class="right">
-            <div class="zoneName">[% title %]</div>
-            <div class="nextPickup">
-                Next pickup day: [% next %]
-                <div class="yardMsg">[% yard_msg %]</div>
-            </div>
+        <div class="right" height="75">
+            <div class="title">Texts and Calls have a small cost…</div>
+            <div class="description">… support Recollect so we can make it great for all citizens!</div>
         </div>
     </div>
 
-    <div class="boxes row twoBoxes">
+    <div class="boxes row twoBoxes" height="350">
         <div class="quarterly boxOption">
             <div class="inside">
                 <div class="boxTitle">Quarterly</div>
@@ -320,7 +318,7 @@
         </div>
 
         <div class="clear"></div>
-        <a href="#" class="back">Back</a>
+        <a href="#" class="back">… or choose one of the free Internet Reminders</a>
     </div>
 </div>
 [% END %]
@@ -328,17 +326,16 @@
 [% BLOCK wizardForm %]
 <div class="middle subscription">
     <!-- first row -->
-    <div class="row" style="height: 400px">
-        <div class="center">
-            <div class="zoneName">[% title %]</div>
+    <div class="row" height="485">
+        <div class="center" height="300">
             [% IF type == 'voice' %]
-                <div class="title">Schedule a Telephone Call Reminder</div>
+                <div class="title">Where and when should we phone you?</div>
             [% ELSIF type == 'text' %]
-                <div class="title">Schedule a Text Message Reminder:</div>
+                <div class="title">Where and when should we text you?</div>
             [% ELSIF type == 'email' %]
-                <div class="title">Schedule an E-Mail Reminder:</div>
+                <div class="title">Where and when should we email you?</div>
             [% ELSIF type == 'twitter' %]
-                <div class="title">Schedule a Twitter Reminder:</div>
+                <div class="title">Where and when should we tweet you?</div>
             [% ELSE %]
                 <div class="title">Unknown reminder type: [% type %]</div>
             [% END %]
@@ -346,35 +343,30 @@
             <form>
                 [% IF type == 'voice' %]
                     <div class="help">
-                        Please enter the 10 digit telephone number that you wish to receive weekly phone call pickup reminders. This can be a mobile phone or a land line.
+                        You can use a mobile phone or a land line.
                     </div>
-                    [% INCLUDE field name='phone' title='Telephone' %]
+                    [% INCLUDE field name='phone' title='Phone Number' %]
                     [% INCLUDE field name='email' title='Email' %]
                     [% INCLUDE time %]
                 [% ELSIF type == 'text' %]
-                    <div class="help">
-                        Please enter the 10 digit mobile telephone number that you wish to receive weekly text message pickup reminders.
-                    </div>
-                    [% INCLUDE field name='phone' title='Telephone' %]
+                    [% INCLUDE field name='phone' title='Mobile Number' %]
                     [% INCLUDE field name='email' title='Email' %]
                     [% INCLUDE time %]
                 [% ELSIF type == 'email' %]
-                    <div class="help">
-                        Please enter the valid email address you wish for weekly pickup reminders to be sent to.
-                    </div>
                     [% INCLUDE field name='email' title='Email' %]
                     [% INCLUDE time %]
                 [% ELSIF type == 'twitter' %]
                     <div class="help">
-                        Please enter your Twitter username that you wish to receive weekly direct messages to.
+                        Make sure you follow <a href="http://twitter.com/recollectnet">@RecollectNet</a> on twitter in order to receive the direct messages.
                     </div>
                     [% INCLUDE field name='twitter' title='Twitter Username' %]
                     [% INCLUDE field name='email' title='Email' %]
                     [% INCLUDE time %]
                 [% END %]
+                <div class="clear" style="height: 50px"></div>
                 <div id="subscriptionError"></div>
                 <a href="#" class="back">Back</a>
-                <a class="bigButtonGreen next" href="#">submit</a>
+                <a class="bigButtonGreen next" href="#">Sounds great!</a>
             </form>
         </div>
     </div>
@@ -408,14 +400,14 @@
 [% BLOCK success %]
 <div class="middle">
     <!-- first row -->
-    <div class="row" style="height:100px">
-        <div class="left">
+    <div class="row" height="200">
+        <div class="left" height="100">
             [% INCLUDE logo %]
         </div>
-        <div class="right">
-            <div class="title">You're all done!</div>                         
+        <div class="right" height="100">
+            <div class="title">Thank you! You're all done!</div>                         
             <div>       
-                We have successfully added your reminder.  We have sent you an email to welcome you to the service.  Thanks for using Recollect!</a>
+                We have sent you a welcome email and you should start receiving notifications each week!  Thanks for using Recollect!</a>
             </div>  
         </div>
     </div>  

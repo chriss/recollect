@@ -69,7 +69,6 @@ Recollect.Wizard .prototype = {
         '/': function() {
             var self = this;
             var opts = {
-                height: 300,
                 opacity: 0.8,
                 page: 'wizardWelcome'
             };
@@ -638,7 +637,24 @@ Recollect.Wizard .prototype = {
         opts.version = self.version;
         var html = Jemplate.process(opts.page, opts);
         var $newPage = $(html);
-        var new_height = opts.height || 200;
+
+        // Figure out heights
+        var new_height = 0;
+        $.each($newPage.find('.row'), function(_, row) {
+            var rowHeight = Number($(row).attr('height')) || 200;
+            $(row).css('height', rowHeight + 'px');
+            new_height += rowHeight;
+
+            // Now offset left/right based on their heights
+            $(row).find('.left, .right, .center').each(function(_, side) {
+                var height = Number($(side).attr('height'));
+                if (height) {
+                    var sideHeight = (rowHeight - height) / 2;
+                    $(side).css('margin-top', sideHeight + 'px');
+                }
+            });
+        });
+        $newPage.css('height', new_height + 'px');
 
         if (self.$currentPage) {
             if (new_height > self.$currentPage.height()) {
