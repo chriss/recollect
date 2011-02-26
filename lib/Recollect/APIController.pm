@@ -120,6 +120,10 @@ sub run {
                 when (m{^/lookup/($coord_rx),($coord_rx)(.*)$}) {
                     return $wrapper->('zone_at_latlng', undef, $1, $2, $3);
                 }
+                # Zone lookup by lat,lng
+                when (m{^/lookup/([\w-]+)(.*)$}) {
+                    return $wrapper->('zone_by_name', undef, $1, $2);
+                }
             }
         }
         when ('POST') {
@@ -582,6 +586,25 @@ sub zone_at_latlng {
     else {
         $resp->status(404);
         $resp->body("Sorry, no zone exists at $lat,$lng!");
+    }
+    return $resp->finalize;
+}
+
+sub zone_by_name {
+    my $self = shift;
+    my $req  = $self->request;
+    my $name = shift;
+    my $rest = shift || '';
+
+    my $resp = Plack::Response->new;
+    if (my $zone = Recollect::Zone->By_name($name)) {
+        my $area_name = $zone->area->name;
+        my $zone_name = $zone->name;
+        $resp->redirect("/api/areas/$area_name/zones/$zone_name$rest", 302);
+    }
+    else {
+        $resp->status(404);
+        $resp->body("Sorry, no zone exists with name: $name");
     }
     return $resp->finalize;
 }

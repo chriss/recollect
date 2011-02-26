@@ -95,8 +95,13 @@ Area_tests: {
             my $data = shift;
             like $data->{Document}{name}, qr/Area - Vancouver$/;
             my $styles = $data->{Document}{Style};
-            ok $styles->{$_}{PolyStyle}{color} for qw/green red blue yellow purple/;
-            ok $styles->{$_}{LineStyle}{color} for qw/green red blue yellow purple/;
+            for my $c (qw/green red blue yellow purple/) {
+                for my $d (qw/north south/) {
+                    my $name = "vancouver-$d-$c-$c";
+                    ok $styles->{$name}{PolyStyle}{color}, "$c polycolour";
+                    ok $styles->{$name}{LineStyle}{color}, "$c linecolour";
+                }
+            }
 
             my $polygons = $data->{Document}{Placemark};
             is scalar(keys %$polygons), 10, 'found 10 places';
@@ -174,12 +179,12 @@ EOT
     kml => sub {
         my $data = shift;
         like $data->{Document}{name}, qr/Vancouver North Red/;
-        is $data->{Document}{Placemark}{styleUrl}, '#red';
+        is $data->{Document}{Placemark}{styleUrl}, '#vancouver-north-red-red';
         is $data->{Document}{Placemark}{name}, 'vancouver-north-red';
         is $data->{Document}{Placemark}{description}, 'Vancouver North Red';
         is $data->{Document}{Style}{PolyStyle}{color}, '336565ff';
         is $data->{Document}{Style}{LineStyle}{color}, 'ff3333ff';
-        is $data->{Document}{Style}{id}, 'red';
+        is $data->{Document}{Style}{id}, 'vancouver-north-red-red';
         my $coords = $data->{Document}{Placemark}{Polygon}
                             ->{outerBoundaryIs}{LinearRing}{coordinates};
         like $coords, qr/49/;
@@ -308,9 +313,21 @@ test_the_api_for(
     },
 );
 
-# GET /api/areas/:area/zones/:lat,:lng(.+)
+# GET /api/lookup/:lat,:lng(.+)
 test_the_api_for(
     '/lookup/49.286283,-123.049622',
+    raw => sub {
+        my $resp = shift;
+        is $resp->code, 302, 'we got a redirect';
+        is $resp->header('Location'),
+            '/api/areas/Vancouver/zones/vancouver-north-purple',
+            'redirect is correct';
+    },
+);
+
+# GET /api/lookup/:zone-name
+test_the_api_for(
+    '/lookup/vancouver-north-purple',
     raw => sub {
         my $resp = shift;
         is $resp->code, 302, 'we got a redirect';
