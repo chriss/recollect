@@ -62,7 +62,7 @@ You can also choose the time you wish to be notified - the night before, the day
 
 <h3><a name="tou">What are Recollect's Terms of Use</a></h3>
 
-<p>Recollect's Terms of Use can be found <a href="http://recollect.net/terms">here</a>.</p>
+<p>Recollect's Terms of Use can be found <a href="/terms">here</a>.</p>
 
 <h3><a name="languages">What languages do you support?</a></h3>
 
@@ -118,10 +118,6 @@ We view sending some one an unsolicited reminder very seriously and will termina
 <h3><a name="contact">How can I contact Recollect?</a></h3> 
  
 <p>You can contact us via email at help@recollect.net</p> 
-
-<h3><a name="api">Does Recollect have an API?</a></h3> 
-
-<p>Yes! You can check out our API, its documentation and license, <a href="http://recollect.net/api.html">here</a>.</p>
  
 <p>Recollect<br>
 #327 - 425 W8th Ave<br>
@@ -129,4 +125,8 @@ Vancouver, BC<br>
 Canada<br>
 V5Y 3Z5<br>
 <p>P: 778-785-1357.</p> 
+
+<h3><a name="api">Does Recollect have an API?</a></h3> 
+
+<p>Yes! You can check out our API, its documentation and license, <a href="/api.html">here</a>.</p>
 [% END %]

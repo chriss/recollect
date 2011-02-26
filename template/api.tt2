@@ -91,6 +91,15 @@
         The <code>nextpickup</code> request accepts a <code>limit</code> GET parameter to show the next several pickups.<br />
         (eg: <code>/api/areas/Vancouver/zones/vancouver-north-blue/nextpickup.txt?limit=5</code>).
         </p>
+        <h2>Zone Lookups</h2>
+        <p>You can look up a zone either by lat,long or by zone name.  These
+        APIs will return a 302 redirect if a zone was found, or a 404
+        otherwise.</p>
+        <ul>
+            <li><code>/api/lookup/:lat,:long</code></li>
+            <li><code>/api/lookup/:zone-name</code></li>
+        </ul>
+        <p>These APIs can also be appended with a file extension (<code>.json</code>, say) which will be appended to the redirect URL.
         <h2>Webhooks</h2>
         Just like with the <a href="http://vantrash.ca/api.html">VanTrash API</a>, webhooks are a supported notification mechanism.  If you create a subscription with a target of "<code>webhook:http://example.com</code>", Recollect will send a HTTP POST to this URL with a JSON payload containing details about the notification.  If you want to use this please tweet <a href="http://twitter.com/lukec">@lukec</a> for help.
     </div>
