@@ -13,17 +13,21 @@ server {
     root   /var/www/recollect/root;
     index  index.html;
 
+    location ~ ^/(?:\d+\.\d+\.\d+)/javascript/(.+)\.jgz {
+        rewrite ^/(?:\d+\.\d+\.\d+)\/(images|javascript|css)/(.*)$ /$1/$2;  
+        expires max;
+        types {}
+        default_type application/javascript;
+        add_header Content-Encoding "gzip";
+        gzip off;
+        break;
+    }
+
     location ~ ^/(?:\d+\.\d+\.\d+)/(images|javascript|css) {
         rewrite ^/(?:\d+\.\d+\.\d+)\/(images|javascript|css)/(.*)$ /$1/$2;  
         expires max;  
         break;  
-    }  
-
-    location ~ ^/(images|javascript|css)/(?:\d+\.\d+\.\d+) {
-        rewrite ^/(images|javascript|css)/(?:\d+\.\d+\.\d+)\/(.*)$ /$1/$2;  
-        expires max;  
-        break;  
-    }  
+    }
 
     location / {
         proxy_redirect off;

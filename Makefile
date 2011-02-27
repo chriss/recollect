@@ -14,7 +14,7 @@ JEMPLATE=$(JS_DIR)/Jemplate.js
 JEMPLATES=$(wildcard $(JS_DIR)/template/*.tt2)
 
 RECOLLECT=$(JS_DIR)/compiled-recollect.js
-RECOLLECT_GZ=$(JS_DIR)/compiled-recollect.js.gz
+RECOLLECT_GZ=$(JS_DIR)/compiled-recollect.jgz
 RECOLLECT_MINIFIED=$(JS_DIR)/compiled-recollect-mini.js
 RECOLLECT_FILES=\
 	 $(JS_DIR)/libs/jquery-1.4.2.min.js \
@@ -24,7 +24,7 @@ RECOLLECT_FILES=\
 	 $(JS_DIR)/libs/json2.js \
 	 
 RECOLLECT_WIZARD=$(JS_DIR)/compiled-recollect-wizard.js
-RECOLLECT_WIZARD_GZ=$(JS_DIR)/compiled-recollect-wizard.js.gz
+RECOLLECT_WIZARD_GZ=$(JS_DIR)/compiled-recollect-wizard.jgz
 RECOLLECT_WIZARD_MINIFIED=$(JS_DIR)/compiled-recollect-wizard-mini.js
 RECOLLECT_WIZARD_FILES=\
 	 $(JS_DIR)/libs/jquery.timePicker.min.js \
@@ -56,7 +56,7 @@ javascript: $(BUILT_JS)
 clean:
 	rm -f  $(JEMPLATE) $(BUILT_JS)
 
-.SUFFIXES: .js -mini.js .js.gz
+.SUFFIXES: .js -mini.js .jgz
 
 root/make-time: $(MAKE_TIME_FILES)
 	date '+%s' > $@
@@ -82,7 +82,7 @@ $(RECOLLECT_WIZARD): $(RECOLLECT_WIZARD_FILES) Makefile
 	    (echo "// BEGIN $$js"; cat $$js; echo ';' | perl -pe 's/\r//g') >> $@; \
 	done
 
--mini.js.js.gz:
+-mini.js.jgz:
 	gzip -c $< > $@
 
 $(INSTALL_DIR)/%:

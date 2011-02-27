@@ -33,6 +33,9 @@ builder {
     enable 'Debug::DBIProfile', profile => 2;
     enable 'Debug::DBITrace';
 
+    enable_if { $_[0]{PATH_INFO} =~ /\.jgz$/ }
+        'Header', set => ['Content-encoding' => 'gzip'];
+
     enable "Plack::Middleware::Static",
            path => qr{^/(robots\.txt|kml/.+|favicon.ico)},
            root => './root/';

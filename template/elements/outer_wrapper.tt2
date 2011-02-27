@@ -20,14 +20,14 @@
 
     <link rel="stylesheet" href="/[% version %]/css/style.css?v=2"/>
 
-    <script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script>
-    <script src="/[% version %]/javascript/libs/modernizr-1.6.min.js"></script>
+    <script type="text/javascript" src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script>
+    <script type="text/javascript" src="/[% version %]/javascript/libs/modernizr-1.6.min.js"></script>
 
     <!-- recollect stuff -->
-    <script src="/[% version %]/javascript/compiled-recollect-mini.js"></script>
+    <script type="text/javascript" src="/[% version %]/javascript/compiled-recollect.jgz"></script>
 
     [% FOR js = javascript %]
-    <script src="[% js %]"></script>
+    <script type="text/javascript" src="[% js %]"></script>
     [% END %]
 </head>
 
