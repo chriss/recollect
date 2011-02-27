@@ -7,15 +7,16 @@ Recollect.Wizard  = function(opts) {
 }
 
 Recollect.Wizard .prototype = {
+    _defaults: {
+        _showQueue: []
+    },
+
     dayNames: [ 'Sun','Mon','Tue','Wed','Thu','Fri','Sat' ],
     monthNames: [
         'Jan','Feb','Mar','Apr','May','Jun',
         'Jul','Aug','Sept','Oct','Nov','Dec'
     ],
     validTypes: [ 'street_address', 'intersection', 'postal_code' ],
-
-    reminder: {},
-    zone: {},
 
     setHash: function() {
         var state = $.makeArray(arguments).join('/');
@@ -681,11 +682,51 @@ Recollect.Wizard .prototype = {
     show: function(opts, callback) {
         var self = this;
 
+        if (self.inProgress) {
+            self._showQueue.push([opts, callback]);
+            return;
+        }
+        self.inProgress = true;
+
         // Create the new page
         opts.version = self.version;
         var html = Jemplate.process(opts.page, opts);
         var $newPage = $(html);
 
+        var doneShow = function() {
+            self.inProgress = false;
+            callback();
+            var next = self._showQueue.shift();
+            if (next) self.show(next[0], next[1]);
+        }
+
+        var new_height = self.determineHeights($newPage);
+
+        if (self.$currentPage) {
+            if (new_height > self.$currentPage.height()) {
+                // if the new page is taller, adjust height first
+                self.changeHeight(new_height, function() {
+                    self.changePage($newPage, doneShow);
+                });
+            }
+            else {
+                // Otherwise, change the height after the current page is gone
+                self.changePage($newPage, function() {
+                    self.changeHeight(new_height, doneShow);
+                });
+            }
+        }
+        else {
+            self.changeHeight(new_height, function() {
+                // first time
+                self.$currentPage = $newPage.appendTo('#smallLayout');
+                self.adjustHeight();
+                doneShow();
+            });
+        }
+    },
+
+    determineHeights: function($newPage) {
         // Figure out heights
         var new_height = 0;
         $.each($newPage.find('.row'), function(_, row) {
@@ -703,36 +744,7 @@ Recollect.Wizard .prototype = {
             });
         });
         $newPage.css('height', new_height + 'px');
-
-        if (self.$currentPage) {
-            if (new_height > self.$currentPage.height()) {
-                // if the new page is taller, adjust height first
-                self.changeHeight(new_height, function() {
-                    self.changePage($newPage, function() {
-                        self.inProgress = false;
-                        callback();
-                    });
-                });
-            }
-            else {
-                // Otherwise, change the height after the current page is gone
-                self.changePage($newPage, function() {
-                    self.changeHeight(new_height, function() {
-                        self.inProgress = false;
-                        callback();
-                    });
-                });
-            }
-        }
-        else {
-            self.changeHeight(new_height, function() {
-                // first time
-                self.$currentPage = $newPage.appendTo('#smallLayout');
-                self.adjustHeight();
-                self.inProgress = false;
-                callback();
-            });
-        }
+        return new_height;
     },
 
     adjustHeight: function() {
