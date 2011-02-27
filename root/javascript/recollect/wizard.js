@@ -57,6 +57,7 @@ Recollect.Wizard .prototype = {
                     }
 
                     if (match) {
+                        self.trackPageview(test);
                         callback.call(self, args);
                         return false; // early out
                     }
@@ -68,7 +69,6 @@ Recollect.Wizard .prototype = {
     pages: {
         '/': function() {
             var self = this;
-            self.trackEvent('welcome');
 
             var opts = {
                 opacity: 0.8,
@@ -84,7 +84,6 @@ Recollect.Wizard .prototype = {
 
         '/r/start': function() {
             var self = this;
-            self.trackEvent('start');
 
             var opts = {
                 height: 200,
@@ -132,7 +131,6 @@ Recollect.Wizard .prototype = {
 
         '/r/interest/:lat/:lng': function(args) {
             var self = this;
-            self.trackEvent('interest', args.lat, args.lng);
 
             var opts = {
                 height: 300,
@@ -203,7 +201,6 @@ Recollect.Wizard .prototype = {
 
         '/r/:area/:zone/subscribe': function(args) {
             var self = this;
-            self.trackEvent('subscribe', args.zone);
 
             var opts = {
                 height: 500,
@@ -226,9 +223,9 @@ Recollect.Wizard .prototype = {
                         return false;
                     });
                     $('#wizard .back').click(function() {
-                        self.setHash(args.area, args.zone);
                         // Track clicking back from pay
                         self.trackEvent('subscribe.back', args.zone);
+                        self.setHash(args.area, args.zone);
                         return false;
                     });
                 });
@@ -237,7 +234,6 @@ Recollect.Wizard .prototype = {
 
         '/r/:area/:zone/subscribe/free': function(args) {
             var self = this;
-            self.trackEvent('subscribe.free', args.zone);
 
             self.getZone(args.area, args.zone, function(zone) {
                 var opts = {
@@ -261,16 +257,17 @@ Recollect.Wizard .prototype = {
                         return false;
                     });
                     $('#wizard .back').click(function() {
-                        self.setHash(args.area, args.zone, 'subscribe');
                         // Track clicking back from free
                         self.trackEvent('subscribe.free.back', args.zone);
+                        self.setHash(args.area, args.zone, 'subscribe');
                         return false;
                     });
 
                     // Track clicking on calendars in Google Analytics
                     $('#wizard .feed a').click(function() {
                         self.trackEvent(
-                            'subscribe.calendar', args.zone, $(this).attr('id')
+                            'subscribe.calendar',
+                            [args.zone, $(this).attr('id')]
                         );
                     });
                 });
@@ -279,7 +276,6 @@ Recollect.Wizard .prototype = {
 
         '/r/:area/:zone/subscribe/:type': function(args) {
             var self = this;
-            self.trackEvent('subscribe.pay.' + args.type, args.zone);
 
             self.getZone(args.area, args.zone, function(zone) {
                 var opts = {
@@ -305,11 +301,11 @@ Recollect.Wizard .prototype = {
                         return false;
                     });
                     $('#wizard .back').click(function() {
-                        self.setHash(args.area, args.zone, 'subscribe');
                         // Track clicking back from pay
                         self.trackEvent(
-                            'subscribe.pay.back', args.type, args.zone
+                            'subscribe.pay.back', [args.type, args.zone]
                         );
+                        self.setHash(args.area, args.zone, 'subscribe');
                         return false;
                     });
                 });
@@ -317,22 +313,16 @@ Recollect.Wizard .prototype = {
         },
 
         '/r/:area/:zone/subscribe/free/:type': function(args) {
-            this.trackEvent('subscribe.free.' + args.type, args.zone);
             this.showForm(args);
         },
 
         '/r/:area/:zone/subscribe/:type/:paycycle': function(args) {
-            this.trackEvent(
-                'subscribe.pay.' + args.type + '.' + args.paycycle, args.zone
-            );
             this.showForm(args);
         },
 
 
         '/r/success': function() {
             var self = this;
-            this.trackEvent('success');
-
             var opts = {
                 height: 200,
                 opacity: 1,
@@ -438,11 +428,11 @@ Recollect.Wizard .prototype = {
                 });
                 $('#wizard .back').click(function() {
                     var page = args.paycycle ? args.type : 'free';
-                    self.setHash(args.area, args.zone, 'subscribe', page);
                     self.trackEvent(
                         'subscribe.form.back',
-                        args.zone, args.type, args.paycycle || 'free'
+                        [args.zone, args.type, args.paycycle || 'free']
                     );
+                    self.setHash(args.area, args.zone, 'subscribe', page);
                     return false;
                 });
             });
@@ -473,11 +463,13 @@ Recollect.Wizard .prototype = {
         }, 250));
     },
 
-    trackEvent: function() {
-        var vars = $.makeArray(arguments);
-        var ga_args = ['_trackEvent', 'wizard', vars.shift()]
-        if (vars.length) ga_args.push(vars.join(','));
-        _gaq.push(ga_args);
+    trackEvent: function(action, label) {
+        if ($.isArray(label)) label = label.join(', ');
+        _gaq.push(['_trackEvent', 'wizard', action, label]);
+    },
+
+    trackPageview: function(url) {
+        _gaq.push(['_trackPageview', url]);
     },
 
     bounds: function() {

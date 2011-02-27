@@ -81,7 +81,9 @@
 
       var _gaq = _gaq || [];
       _gaq.push(['_setAccount', 'UA-21309914-1']);
+      [% UNLESS no_track_pageview %]
       _gaq.push(['_trackPageview']);
+      [% END %]
 
       (function() {
         var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
