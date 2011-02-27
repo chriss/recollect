@@ -451,18 +451,25 @@ Recollect.Wizard .prototype = {
     autocomplete: function($node) {
         var self = this;
 
-        self.geocode({
-            address: $node.val(),
-            biasViewport: true,
-            callback: function(results) {
-                if (!results.length) return;
-                $node.autocomplete({
-                    'source': $.map(results, function(r) {
-                        return r.formatted_address;
-                    })
-                });
-            }
-        });
+        var timout = $node.data('timout');
+        if (timout) clearTimeout(timout);
+
+        $node.data('timout', setTimeout(function() {
+            self.geocode({
+                address: $node.val(),
+                biasViewport: true,
+                callback: function(results) {
+                    if (!results.length) return;
+                    $node.autocomplete({
+                        'minLength': 0,
+                        'source': $.map(results, function(r) {
+                            return r.formatted_address;
+                        })
+                    });
+                    $node.autocomplete('search', '');
+                }
+            });
+        }, 250));
     },
 
     trackEvent: function() {
