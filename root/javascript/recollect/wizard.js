@@ -307,9 +307,7 @@ Recollect.Wizard .prototype = {
                         self.trackEvent(
                             'subscribe.pay.free', [args.type, args.zone]
                         );
-                        self.setHash(
-                            args.area, args.zone, 'subscribe', 'free', 'email'
-                        );
+                        self.setHash(args.area, args.zone, 'subscribe', 'free');
                         return false;
                     });
                     $('#wizard .back').click(function() {

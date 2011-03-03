@@ -264,7 +264,7 @@ input.hiddenButton {
 /* Wizard */
 
 .logo {
-    height: 100px;
+    width: 305px;
     vertical-align: middle;
 }
 .beta {
@@ -435,6 +435,7 @@ input.initial {
 .zonePage .nextPickup {
 }
 .zonePage .cityPromo {
+    margin-top: 15px;
     border: 1px solid #D3D3D3;
     background: #fff;
     width: 300px;

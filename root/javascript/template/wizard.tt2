@@ -17,13 +17,13 @@
 
 [% BLOCK wizardWelcome %]
 <div class="middle">
-    <div class="row landingPage" height="265">
+    <div class="row landingPage" height="250">
         <div class="left">
             [% INCLUDE logo %]
         </div>
-        <div class="right">
+        <div class="right" height="200">
             <div class="message">
-                <p class="big">Welcome to Recollect <img class="beta" src="/[% version %]/images/beta.png"/></p>
+                <p class="big">Welcome to Recollect</p>
                 <p>The Garbage and Recycling collection reminder service.</p>
             </div>
             <div class="message">
@@ -104,7 +104,7 @@
 [% BLOCK wizardZone %]
 <div class="middle">
     <div class="row zonePage" height="485">
-        <div class="left" height="470">
+        <div class="left" height="450">
             [% INCLUDE logo %]
             <div class="cityPromo">
                 <div class="cityImageTitle">A word from our sponsors:</div>
@@ -121,7 +121,7 @@
             </div>
         </div>
 
-        <div class="right" height="460">
+        <div class="right" height="450">
             <div class="zoneName">
                 [% title %]
             </div>
@@ -323,7 +323,7 @@
             </div>
         </div>
 
-        <div class="free boxOption whiteBox halfBox">
+        <div class="free boxOption halfBox">
             <div class="inside">
                 <div class="boxTitle">E-mail</div>
                 <div class="description">
@@ -334,7 +334,7 @@
         </div>
 
         <div class="clear"></div>
-        <a href="#" class="back">… or choose one of the free Internet Reminders</a>
+        <a href="#" class="back">back</a>
     </div>
 </div>
 [% END %]
