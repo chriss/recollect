@@ -1,7 +1,7 @@
 [% WRAPPER elements/static_wrapper.tt2 title="Privacy" %]
 <h1>Partner Page</h1>
 
-<p>If you are a city employee, politician, or a business/contractor that believes your customers could benefit from reminders, please <a href="mailto:partner@recollect.net">contact us</a>about our solutions.</p>
+<p>If you are a city employee, politician, or a business/contractor that believes your customers could benefit from reminders, please <a href="mailto:partner@recollect.net">contact us</a> about our solutions.</p>
 
 <p>Increasingly, citizens expect better, more customized services. Recollect can help meet these rising expectations. Our goal is to offer a simple, effective and low cost method that customers can customize to work into their daily routines.</p>
 
@@ -13,15 +13,12 @@
 <li>Advertise or post a public service announcement on the Recollect Website</li>
 <li>Customize the background photo to reflect your city's or company's unique aesthetic and brand</li>
 <li>Provide an easy to use API for your garbage schedule or other services to encourage further innovation.</li>
-</ul>
-
-<img class="screenshot" src="/[% version %]/images/partner-ad.jpg" alt="Screenshot of an Ad in Recollect" />
-
-<ul>
 <li>Choose the pricing structure for reminders that best suites your citizens, and your governments, needs</li>
 <li>Access the Recollect backend where you can change zones, schedules, and notification parameters on the fly</li>
 <li>Offer reminders for any multitude of services your government may offer</li>
 </ul>
+
+<img class="screenshot" src="/[% version %]/images/partner-ad.jpg" alt="Screenshot of an Ad in Recollect" />
 
 <p>If you'd like to start a conversation please <a href="mailto:partner@recollect.net">contact us</a> if you are interested.</p>
 [% END %]
