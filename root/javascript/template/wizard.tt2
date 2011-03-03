@@ -379,7 +379,10 @@
                     [% INCLUDE field name='email' title='Email' %]
                     [% INCLUDE time %]
                 [% END %]
-                <div class="clear" style="height: 50px"></div>
+                <div class="privacyLink" style="margin: 25px">
+                    Recollect will never share your information with a third party. See our privacy policy <a href="/privacy" target="_blank">here</a>
+                </div>
+                <div class="clear" style="margin-top: 25px"></div>
                 <div id="subscriptionError"></div>
                 <a href="#" class="back">Back</a>
                 <a class="bigButtonGreen next" href="#">Sounds great!</a>

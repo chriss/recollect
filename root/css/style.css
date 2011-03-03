@@ -136,7 +136,7 @@ header {
 .socialButtons .google-buzz-button { position: absolute; right: 95px }
 .socialButtons .fb_iframe_widget { position: absolute; right: 0px }
 
-header .socialButtons { position: absolute; left: 0; top: 0 }
+header .socialButtons { position: absolute; left: 10px; top: 0 }
 header .twitter-share-button { top: 5px }
 header .google-buzz-button { top: 4px }
 header .fb_iframe_widget { top: 5px }
@@ -196,6 +196,7 @@ header .fb_iframe_widget { top: 5px }
 /* Static pages */
 #staticLayout {
     height: 100%;
+    margin-top: 20px;
 }
 #staticLayout .main {
     position: absolute;
@@ -205,7 +206,7 @@ header .fb_iframe_widget { top: 5px }
 #staticLayout .logo {
     position: absolute;
     left: 10px;
-    top: 17px;
+    top: 37px;
 }
 
 #staticLayout .text {
@@ -665,6 +666,10 @@ input.initial {
 
 .middle .next {
     float: right;
+}
+
+.privacyPolicy {
+    font-size: 9pt;
 }
 
 /**
