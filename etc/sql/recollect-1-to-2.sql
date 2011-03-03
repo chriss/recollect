@@ -44,7 +44,7 @@ UPDATE zones SET city_id = (SELECT id FROM cities WHERE name = 'Victoria')
 UPDATE zones SET city_id = (SELECT id FROM cities WHERE name = 'Esquimalt')
     WHERE name like 'esquimalt-%';
 UPDATE zones SET city_id = (SELECT id FROM cities WHERE name = 'Oak Bay')
-    WHERE name like 'oak-bay-%';
+    WHERE name like 'oakbay-%';
 UPDATE zones SET city_id = (SELECT id FROM cities WHERE name = 'Burnaby')
     WHERE name like 'burnaby-%';
 UPDATE zones SET city_id = (SELECT id FROM cities WHERE name = 'New Westminister')
