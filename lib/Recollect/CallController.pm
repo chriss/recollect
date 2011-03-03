@@ -173,9 +173,9 @@ EOT
     return <<EOT;
 <Pause length="1"/>
 <Say voice="woman">
-Hello, this is Recollect, your garbage reminder service. 
-Your next pickup day is $day_name. 
-$extra.
+Hello, this is Recollect, your garbage reminder service.
+Your next pickup day is $day_name.
+$extra
 Goodbye!
 </Say>
 <Hangup/>
