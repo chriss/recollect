@@ -15,12 +15,37 @@ has 'zone'       => (is => 'ro', isa => 'Object',   lazy_build => 1);
 has 'string'     => (is => 'ro', isa => 'Str',      lazy_build => 1);
 has 'pretty_day' => (is => 'ro', isa => 'Str',      lazy_build => 1);
 has 'desc'       => (is => 'ro', isa => 'Str',      lazy_build => 1);
+has 'flag_names' => (is => 'ro', isa => 'ArrayRef[Str]', lazy_build => 1);
 has 'datetime'   => (is => 'ro', isa => 'DateTime', lazy_build => 1,
                      handles => [ qw/ymd day_of_week/ ]);
 
 extends 'Recollect::Collection';
 with 'Recollect::Roles::HasZone';
 with 'Recollect::Roles::Cacheable';
+
+my %flag_map = (
+    Y => 'Yard trimmings',
+    G => 'Garbage',
+    R => 'Recycling',
+    C => 'Compost',
+    X => 'Xmas Trees',
+    2 => 'Two garbage bins',
+);
+
+sub _build_flag_names {
+    my $self = shift;
+    my @names;
+
+    # Always put Garbage and Recycling first
+    push @names, $flag_map{G} if $self->has_flag('G');;
+    push @names, $flag_map{R} if $self->has_flag('R');;
+    for my $flag (sort split '', $self->flags) {
+        next if $flag eq 'G';
+        next if $flag eq 'R';
+        push @names, $flag_map{$flag} || die "Couldn't lookup flag $flag!";
+    }
+    return \@names;
+}
 
 sub By_zone_id {
     my $class = shift;

@@ -134,13 +134,8 @@ sub short_and_sweet_message {
     my %args = @_;
 
     my $msg = "It's garbage day on " . $args{pickup}->datetime->day_name
-            . " for " . $args{zone}->title;
-    if ($args{pickup}->has_flag('Y')) {
-        $msg .= " - yard trimmings & food scraps will be picked up";
-    }
-    else {
-        $msg .= " - no yard trimming pickup today";
-    }
+            . " for " . $args{zone}->title . "\n";
+    $msg .= join "\n", map { "* $_" } @{ $args{pickup}->flag_names };
     return $msg;
 }
 
