@@ -356,6 +356,7 @@
                 <div class="title">Unknown reminder type: [% type %]</div>
             [% END %]
 
+            [% INCLUDE loading %]
             <form>
                 [% IF type == 'voice' %]
                     <div class="help">
