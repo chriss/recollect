@@ -76,22 +76,7 @@
     <script src="/[% version %]/javascript/libs/profiling/config.js"></script>
          end profiling code -->
 
-    <!-- Google Analytics -->
-    <script type="text/javascript">
-
-      var _gaq = _gaq || [];
-      _gaq.push(['_setAccount', 'UA-21309914-1']);
-      [% UNLESS no_track_pageview %]
-      _gaq.push(['_trackPageview']);
-      [% END %]
-
-      (function() {
-        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-      })();
-
-    </script>
+    [% INCLUDE elements/analytics %]
 
     <!-- GetSatisfaction -->
     <script type="text/javascript" charset="utf-8">

@@ -9,5 +9,7 @@
         <div class="sorry">
             Unfortunately, Recollect does not currently support mobile devices. We hope to have this feature shortly.
         </div>
+
+        [% INCLUDE elements/analytics %]
     </body>
 <html>

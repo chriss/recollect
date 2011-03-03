@@ -75,6 +75,7 @@ sub ui_html {
     my $params = $req->parameters;
     $params->{host_port} = $req->uri->host_port;
     $params->{twitter} = $self->config->{twitter_username};
+    $params->{analytics_id} = $self->config->{analytics_id};
     return $self->process_template("$tmpl.tt2", $params)->finalize;
 }
 
