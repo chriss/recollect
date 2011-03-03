@@ -877,6 +877,14 @@ a#fdbk_tab {
     background: #f6f9e8 url(../images/legend2.png) repeat;
     color: #5e9f42;
 }
+.calendar .legend3 {
+    background: #f6f9e8 url(../images/legend3.png) repeat;
+    color: #5e9f42;
+}
+.calendar .legend4 {
+    background: #f6f9e8 url(../images/legend4.png) repeat;
+    color: #5e9f42;
+}
 
 .calendar .ui-datepicker-today {
     border: 1px solid #d22;
