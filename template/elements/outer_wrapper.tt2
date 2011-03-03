@@ -18,7 +18,7 @@
 
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
-    <link rel="stylesheet" href="/[% version %]/css/style.css?v=2"/>
+    <link rel="stylesheet" href="/[% version %]/css/style.css"/>
 
     <script type="text/javascript" src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script>
     <script type="text/javascript" src="/[% version %]/javascript/libs/modernizr-1.6.min.js"></script>

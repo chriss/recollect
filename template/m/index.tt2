@@ -1,0 +1,13 @@
+<html>
+    <head>
+        <title>Recollect - the simple solution to remembering garbage day.</title>
+        <link rel="stylesheet" href="/[% version %]/css/mobile.css"/>
+        <meta name="viewport" content="width=device-width, maximum-scale=1.0" />
+    </head>
+    <body>
+        <div class="white"></div>
+        <div class="sorry">
+            Unfortunately, Recollect does not currently support mobile devices. We hope to have this feature shortly.
+        </div>
+    </body>
+<html>

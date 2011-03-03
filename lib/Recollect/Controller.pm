@@ -26,10 +26,11 @@ sub run {
     my %func_map = (
         GET => [
             [ qr{^/$}           => \&ui_html ], # Landing page
-            [ qr{^/m/?$}        => \&ui_html ], # Mobile site
             [ qr{^/r/.+}        => \&ui_html ], # HTML5 wizard
+            [ qr{^/(m/.+)}      => \&ui_html ], # Mobile wizard
             [ qr{^/(.+)\.html$} => \&ui_html ], # Rendered pages
             [ qr{^/([\w-]+)$}   => \&ui_html ], # Same, but make the .html optional
+
             # Delete subscription link confirmation page:
             [ qr{^/subscription/delete/([\w-]+)$} => \&delete_subscription_page ],
             # Payment success / cancel page
@@ -69,6 +70,7 @@ sub default_page {
 
 sub ui_html {
     my ($self, $req, $tmpl) = @_;
+    return $self->redirect('/m/index') if $self->is_mobile($req) and !$tmpl;
     $tmpl ||= $self->default_page($req);
     my $params = $req->parameters;
     $params->{host_port} = $req->uri->host_port;
