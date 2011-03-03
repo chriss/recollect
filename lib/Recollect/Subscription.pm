@@ -144,7 +144,7 @@ sub _build_payment_url {
     my $self = shift;
     return if $self->free;
     my $host = $self->payment_host;
-    my $plan_name = lc($self->reminders->[0]->zone->area->name) . '-' . $self->payment_period;;
+    my $plan_name = $self->payment_period;
     my $email = uri_encode $self->user->email;
     return
           "$host/subscribe/$plan_name/"
