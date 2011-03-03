@@ -7,6 +7,11 @@ use lib 'lib';
 use Recollect::Subscription;
 use Recollect::Zone;
 use Recollect::Area;
+use FindBin;
+
+$ENV{RECOLLECT_TEST_CONFIG_FILE} = "$FindBin::Bin/../etc/recollect.yaml";
+$ENV{RECOLLECT_BASE_PATH} = "$FindBin::Bin/..";
+$Recollect::Roles::Config::CONFIG = undef;
 
 my $file = shift || 'active-reminders.yaml';
 die "Can't find import file at $file" unless -e $file;
