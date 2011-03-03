@@ -422,8 +422,18 @@
         </div>
         <div class="right" height="100">
             <div class="title">Thank you! You're all done!</div>                         
+            <div>We are really grateful for your business and thank you for helping make our little company become a bit more successful.</div>
+<div class="socialButtons">
+    <!-- Tweet button -->
+    <a href="http://twitter.com/share" class="twitter-share-button" data-count="none" data-via="recollectnet" data-url="http://recollect.net" data-text="Garbage days have just become stress free, thanks to Recollect pickup reminders!">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+    <!-- buzz -->
+    <a title="Post to Google Buzz" class="google-buzz-button" href="http://www.google.com/buzz/post" data-button-style="small-button" data-url="http://recollect.net"></a><script type="text/javascript" src="http://www.google.com/buzz/api/button.js"></script>
+    <!-- facebook like -->
+    <script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script>
+    <fb:like href="http://www.facebook.com/pages/recollectnet/194196287264770" layout="button_count" width="50"></fb:like>
+</div>
             <div>       
-                We have sent you a welcome email and you should start receiving notifications each week!  Thanks for using Recollect!</a>
+                We have sent you a welcome email and you should start receiving notifications each week!</a>
             </div>  
         </div>
     </div>  
