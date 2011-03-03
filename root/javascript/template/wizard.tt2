@@ -185,16 +185,6 @@
     </div>
 
     <div class="boxes row" height="350">
-        <div class="free boxOption">
-            <div class="inside">
-                <div class="boxTitle">Internet Reminders</div>
-                <div class="description">
-                    We can send you an email or tweet, or you can subscribe to your zone's calendar feed.
-                </div>
-                <a class="bigButtonBlack choose chooseFree" href="#">Choose</a>
-            </div>
-        </div>
-
         <div class="text boxOption">
             <div class="inside">
                 <div class="boxTitle">Text Message</div>
@@ -212,6 +202,16 @@
                     We'll call your mobile or home phone and give you a brief message!
                 </div>
                 <a class="bigButtonBlack choose chooseVoice" href="#">Choose</a>
+            </div>
+        </div>
+
+        <div class="free boxOption">
+            <div class="inside">
+                <div class="boxTitle">Online Reminders</div>
+                <div class="description">
+                    We can send you an email or tweet, or you can subscribe to your zone's calendar feed.
+                </div>
+                <a class="bigButtonBlack choose chooseFree" href="#">Choose</a>
             </div>
         </div>
 
