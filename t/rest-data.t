@@ -166,6 +166,9 @@ name: vancouver-north-red
 title: Vancouver North Red
 area_name: Vancouver
 area_id: $Vancouver_area_id
+city_name: Vancouver
+licence_url: http://data.vancouver.ca/termsOfUse.htm
+ad_img: recollect-ad-no-plastic-borderless.jpg
 EOT
     },
     json => sub {
@@ -173,6 +176,9 @@ EOT
         is $data->{id},    $North_red_id;
         is $data->{name},  'vancouver-north-red';
         is $data->{title}, 'Vancouver North Red';
+        is $data->{city}{name}, 'Vancouver';
+        is $data->{city}{licence_url},'http://data.vancouver.ca/termsOfUse.htm';
+        is $data->{city}{ad_img}, 'recollect-ad-no-plastic-borderless.jpg';
         ok !$data->{pickupdays}, 'no pickupdays, not verbose';
         ok !$data->{nextpickup}, 'no nextpickup, not verbose';
     },

@@ -17,6 +17,7 @@ use mocked 'Business::PayPal::IPN';
 use mocked 'LWP::UserAgent';
 
 use lib 'lib';
+use SQL::PgSchema;
 use namespace::clean -except => 'meta';
 
 our $DEBUG;
@@ -94,6 +95,12 @@ sub _build_base_path {
                 and die "Couldn't psql $db_name -f $sql_file";
         }
     }
+    SQL::PgSchema->new(
+        psql => $psql,
+        schema_name => 'recollect',
+        schema_dir => "etc/sql",
+        debug => 1,
+    )->update;
     system(qq{$psql -c "DELETE FROM areas WHERE name != 'Vancouver' " });
     system(qq{$psql -c 'DELETE FROM reminders' > /dev/null});
     system(qq{$psql -c 'DELETE FROM subscriptions' > /dev/null});

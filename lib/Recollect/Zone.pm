@@ -1,6 +1,7 @@
 package Recollect::Zone;
 use Moose;
 use Recollect::Area;
+use Recollect::City;
 use Recollect::Pickup;
 use Recollect::PlaceInterest;
 use Scalar::Util qw/weaken/;
@@ -16,8 +17,10 @@ has 'colour_name' => (is => 'ro', isa => 'Str', required => 1);
 has 'line_colour' => (is => 'ro', isa => 'Str', required => 1);
 has 'poly_colour' => (is => 'ro', isa => 'Str', required => 1);
 has 'area_id'     => (is => 'ro', isa => 'Int', required => 1);
+has 'city_id'     => (is => 'ro', isa => 'Int', required => 1);
 
 has 'area'    => (is => 'ro', isa => 'Object',           lazy_build => 1);
+has 'city'    => (is => 'ro', isa => 'Object',           lazy_build => 1);
 has 'pickups' => (is => 'ro', isa => 'ArrayRef[Object]', lazy_build => 1);
 has 'uri'     => (is => 'ro', isa => 'Str',              lazy_build => 1);
 has 'style'   => (is => 'ro', isa => 'HashRef',          lazy_build => 1);
@@ -25,13 +28,25 @@ has 'polygons' => (is => 'ro', isa => 'ArrayRef[HashRef]', lazy_build => 1);
 
 # Load geometry only on demand
 sub Columns {
-    'id, name, title, colour_name, line_colour, poly_colour, area_id'
+    'id, name, title, colour_name, line_colour, poly_colour, area_id, city_id'
 }
 
 sub By_area_id {
     my $class = shift;
     my $area_id = shift;
     my $sth = $class->By_field(area_id => $area_id, args => [ ['name ASC'] ],
+        handle_pls => 1);
+    my @zones;
+    while (my $row = $sth->fetchrow_hashref) {
+        push @zones, $class->new($row);
+    }
+    return \@zones;
+}
+
+sub By_city_id {
+    my $class = shift;
+    my $city_id = shift;
+    my $sth = $class->By_field(city_id => $city_id, args => [ ['name ASC'] ],
         handle_pls => 1);
     my @zones;
     while (my $row = $sth->fetchrow_hashref) {
@@ -111,6 +126,7 @@ sub to_hash {
 
     my $hash = {
         area => $self->area->to_hash,
+        city => $self->city->to_hash,
         map { $_ => $self->$_() }
             qw/id name title colour_name line_colour poly_colour/
     };
@@ -136,6 +152,11 @@ sub add_pickups {
 sub _build_area {
     my $self = shift;
     return Recollect::Area->By_id($self->area_id);
+}
+
+sub _build_city {
+    my $self = shift;
+    return Recollect::City->By_id($self->city_id);
 }
 
 sub _build_pickups {
