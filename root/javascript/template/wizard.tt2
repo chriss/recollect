@@ -17,17 +17,20 @@
 
 [% BLOCK wizardWelcome %]
 <div class="middle">
-    <div class="row landingPage" height="250">
+    <div class="row landingPage" height="265">
         <div class="left">
             [% INCLUDE logo %]
         </div>
         <div class="right">
-            <div class="title">Welcome to Recollect <img class="beta" src="/[% version %]/images/beta.png"/></div>
-            <div class="subtitle">The Garbage and Recycling collection reminder service.</div>
             <div class="message">
-                <p>We'll remind you each to take out the garbage and recycling!  Sign up for an email, text message, phone call or tweet at the time of your choosing, and never forget to take out the trash again!</p>
+                <p class="big">Welcome to Recollect <img class="beta" src="/[% version %]/images/beta.png"/></p>
+                <p>The Garbage and Recycling collection reminder service.</p>
             </div>
-            <a id="start" class="next bigButtonGreen" href="#">Let's get started!</a>
+            <div class="message">
+                <p>Ever forget to take out the garbage? Stuck with overflowing bins?</p>
+                <p>We have your city's garbage schedule on file and can send you a reminder email, text message, phone call or tweet at the time of your choosing. Never forget to take out the trash again!</p>
+            </div>
+            <a id="start" class="next bigButtonGreen" href="#">Click here to get started!</a>
             <div class="clear"></div>
             <div class="status"></div>
         </div>
@@ -124,7 +127,6 @@
             </div>
             <div class="nextPickup">
                 Next pickup day: [% next %]
-                <div class="yardMsg">[% yard_msg %]</div>
             </div>
 
             <div class="signup">
@@ -292,14 +294,16 @@
         </div>
     </div>
 
-    <div class="boxes row twoBoxes" height="350">
+    <div class="boxes row" height="350">
         <div class="quarterly boxOption">
             <div class="inside">
-                <div class="boxTitle">Quarterly</div>
-                <div class="discount">$2 / month</div>
+                <div class="boxTitle">Every 3 months</div>
                 <div class="price">
-                    <div class="dollarsign">$</div> 6
-                    <div class="billingCycle">billed every 3 months</div>
+                    <div class="dollarsign">$</div>
+                    <div class="dollars">2</div>
+                    <div class="cents">00</div>
+                    <div class="cycle">per month</div>
+                    <div class="billingCycle">billed $6 every 3 months</div>
                 </div>
                 <a class="bigButtonBlack choose chooseQuarterly" href="#">choose</a>
             </div>
@@ -308,12 +312,24 @@
         <div class="annually boxOption">
             <div class="inside">
                 <div class="boxTitle">Annually</div>
-                <div class="discount">$1.50 / month</div>
                 <div class="price">
-                    <div class="dollarsign">$</div> 18 
-                    <div class="billingCycle">billed annually</div>
+                    <div class="dollarsign">$</div>
+                    <div class="dollars">1</div>
+                    <div class="cents">50</div>
+                    <div class="cycle">per month</div>
+                    <div class="billingCycle">billed $18 annually</div>
                 </div>
                 <a class="bigButtonBlack choose chooseAnnual" href="#">choose</a>
+            </div>
+        </div>
+
+        <div class="free boxOption whiteBox halfBox">
+            <div class="inside">
+                <div class="boxTitle">E-mail</div>
+                <div class="description">
+                    Don't want to pay? We find e-mail reminders are less effective, but we do offer them for free. 
+                </div>
+                <a class="bigButtonBlack choose chooseEmail" href="#">choose</a>
             </div>
         </div>
 

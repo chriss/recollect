@@ -11,10 +11,12 @@ Recollect.Wizard .prototype = {
         _showQueue: []
     },
 
-    dayNames: [ 'Sun','Mon','Tue','Wed','Thu','Fri','Sat' ],
+    dayNames: [
+        'Sunday','Monday','Tuesday', 'Wednesday','Thursday','Friday','Saturday'
+    ],
     monthNames: [
-        'Jan','Feb','Mar','Apr','May','Jun',
-        'Jul','Aug','Sept','Oct','Nov','Dec'
+        'January','February','March','April','May','June',
+        'July','August','September','October','November','December'
     ],
     validTypes: [ 'street_address', 'intersection', 'postal_code' ],
 
@@ -297,6 +299,16 @@ Recollect.Wizard .prototype = {
                         self.setHash(
                             args.area, args.zone, 'subscribe',
                             args.type, 'annual'
+                        );
+                        return false;
+                    });
+                    $('#wizard .chooseEmail').click(function() {
+                        // Track clicking back from pay
+                        self.trackEvent(
+                            'subscribe.pay.free', [args.type, args.zone]
+                        );
+                        self.setHash(
+                            args.area, args.zone, 'subscribe', 'free', 'email'
                         );
                         return false;
                     });

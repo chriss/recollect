@@ -332,6 +332,12 @@ input.hiddenButton {
 .middle .row .center { left: 25%; width: 50% }
 .middle .row .right { left: 50%; width: 40% }
 
+.subscription .row .center {
+    left: 50%;
+    width: 450px;
+    margin-left: -225px;
+}
+
 /* Top row layout */
 .middle .top .left { margin-right: 140px }
 .middle .top .right { right: 50%; margin-left: -115px; width: 100% }
@@ -346,7 +352,7 @@ input.hiddenButton {
 .middle .zonePage .left { left: 0; margin: 0; width: 300px }
 .middle .zonePage .right { left: 330px; width: 550px } /* end: 880px */
 
-.middle .landingPage .left { right: 60%; height:100px; margin-top: 53px }
+.middle .landingPage .left { right: 60%; height:100px; margin-top: 73px }
 .middle .landingPage .right { left: 40%; width: 50% }
 
 noscript.middle .row .left { top: 45px; left: 30px }
@@ -366,7 +372,15 @@ noscript.middle .row .right { top: 85px; left: 380px }
 
 #wizard .message {
     font-size: 12pt;
-    padding: 8px 3px 5px 3px;
+    padding: 3px 3px 3px 3px;
+}
+
+#wizard .message p {
+    margin: 5px 0;
+}
+
+#wizard .message p.big {
+    font-size: 18pt;
 }
 
 input.initial {
@@ -454,7 +468,7 @@ input.initial {
 }
 .zonePage .signup {
     position: absolute;
-    top: 110px;
+    top: 80px;
     left: 260px;
 }
 .zonePage .map {
@@ -526,10 +540,19 @@ input.initial {
     filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#8e9884'); /* drop shadow only */
 }
 
+.boxes .halfBox {
+    height: 175px;
+    margin-top: 85px;
+}
+
 .boxes .boxOption .inside {
     padding: 10px;
     height: 230px;
     position: relative;
+}
+
+.boxes .halfBox .inside {
+    height: 155px;
 }
 
 .boxes .boxOption .boxTitle {
@@ -545,30 +568,46 @@ input.initial {
 
 .boxes .boxOption .price {
     position: relative;
-    padding-left: 20px;
-    padding-top: 20px;
-    font-size: 60pt;
-    margin-left: 30px;
+    top: 25px;
+    left: 50px;
 }
 .boxes .boxOption .price .dollarsign {
     font-size: 30pt;
     position: absolute;
     left: 0;
-    top: 30px;
+    top: 5px;
+}
+.boxes .boxOption .price .dollars {
+    position: absolute;
+    left: 20px;
+    top: 0;
+    font-size: 60pt;
+}
+.boxes .boxOption .price .cents {
+    font-size: 15pt;
+    position: absolute;
+    top: 5px;
+    left: 55px;
+}
+.boxes .price .cycle {
+    font-size: 12pt;
+    position: absolute;
+    top: 48px;
+    left: 60px;
 }
 .boxes .price .billingCycle {
     font-size: 8pt;
     position: absolute;
-    bottom: 15px;
+    top: 90px;
+    width: 155px;
+    text-align: center;
 }
 
-.boxes .quarterly .price { margin-left: 50px; }
-.boxes .annually .price { margin-left: 30px; }
-.boxes .free .price { margin-left: 85px; }
-
-.boxes .quarterly .price .billingCycle { left: 68px; }
-.boxes .annually .price .billingCycle { left: 120px; }
-.boxes .free .price .billingCycle { left: 120px; }
+/* 1 is skinnier than 2 */
+.boxes .quarterly .price .cents,
+.boxes .quarterly .price .cycle {
+    margin-left: 10px;
+}
 
 .boxes .boxOption .service {
     text-align: center;
@@ -591,6 +630,11 @@ input.initial {
     position: absolute;
     top: 50px;
     padding: 10px;
+}
+
+
+.boxes .halfBox .description {
+    padding-top: 0;
 }
 
 .boxes .boxOption .description .feeds {
