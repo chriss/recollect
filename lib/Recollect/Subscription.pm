@@ -103,6 +103,7 @@ sub send_confirmation_email {
         from => 'Recollect <feedback@recollect.net>',
         to => $self->user->email,
         subject => 'Welcome to the Recollect Reminder Service',
+        content_type => 'text/html',
     );
 }
 

@@ -1,7 +1,9 @@
-Welcome to the Recollect Family!
+<p><img src="http://recollect.net/0.0.0/images/recollect_logo_small.png" alt="Recollect Logo" /></p>
+<p>Welcome to the Recollect Family!</p>
 
-You're all signed up!
+<p>You're all signed up!</p>
 
+<p>
 [% IF subscription.phone_target -%]
 We'll be calling you weekly with a garbage and recycling pick up reminder for your neighborhood.
 [% ELSIF subscription.sms_target -%]
@@ -9,20 +11,19 @@ Every week we will send you a garbage and recycling pick up reminder via text me
 [% ELSIF subscription.email_target -%]
 Every week we will send you a garbage and recycling pick up reminder via email message for your neighborhood.
 [% ELSIF subscription.twitter_target -%]
-Every week we will send you a garbage and recycling pick up reminder via twitter message for your neighborhood. Make sure you follow us at @[% twitter %] to receive the messages: http://twitter.com/[% twitter %]
+Every week we will send you a garbage and recycling pick up reminder via twitter message for your neighborhood. Make sure you follow us at <a href="http://twitter.com/[% twitter %]">@[% twitter %]</a> to receive the messages.
 [% ELSIF subscription.webhook_target -%]
 Every week we will make a HTTP POST to your URL to let you know it's pickup time!
 [% END -%]
+</p>
 
-If you think this service would be useful for your friends or family, please let them know! Click the link below to send them a note:
+<p>If you think this service would be useful for your friends or family, please let them know! <a href="[% base %]/tell-a-friend">Click here</a> to send them an email.</p>
 
-  [% base %]/tell-a-friend
+<p>If you have any problems, ideas or questions, please feel free to contact us at <a href="mailto:feedback@recollect.net">feedback@recollect.net</a>.</p>
 
-If you have any problems, ideas or questions, please feel free to contact us at feedback@recollect.net.
-
-Cheers,
+<p>
+Cheers,<br />
 The Recollect Team
+</p>
 
-
-To delete this reminder, click on the link below or copy and paste it into your browser: [% subscription.delete_url %]
-[% base %]
+<p>To delete this reminder <a href="[% subscription.delete_url %]">click here</a>.</p>
