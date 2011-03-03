@@ -36,23 +36,23 @@
 
     <div id="container">
         <header>
-        </header>
-
-        [% content %]
-
-        <footer>
             <div id="links">
                 <div class="white"></div>
                 [% INCLUDE elements/links.tt2 %]
                 [% INCLUDE elements/social.tt2 %]
             </div>
+        </header>
+
+        [% content %]
+
+        <footer>
         </footer>
     </div> <!-- end of #container -->
 
     <script>
         $(window).resize(function() {
             // Keep the whitebar and content in the center
-            $('#container').height( $(window).height() - 30 );
+            $('#container').height( $(window).height() + 30 );
 
             // Keep the background fullscreen
             if ($(window).height() > $('#background').height()) {

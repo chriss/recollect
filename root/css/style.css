@@ -136,10 +136,10 @@ header {
 .socialButtons .google-buzz-button { position: absolute; right: 95px }
 .socialButtons .fb_iframe_widget { position: absolute; right: 0px }
 
-footer .socialButtons { position: absolute; right: 0; top: 0 }
-footer .twitter-share-button { top: 5px }
-footer .google-buzz-button { top: 4px }
-footer .fb_iframe_widget { top: 5px }
+header .socialButtons { position: absolute; left: 0; top: 0 }
+header .twitter-share-button { top: 5px }
+header .google-buzz-button { top: 4px }
+header .fb_iframe_widget { top: 5px }
 
 .tellafriend .twitter-share-button { top: 8px }
 .tellafriend .google-buzz-button { top: 4px }
@@ -151,7 +151,7 @@ footer .fb_iframe_widget { top: 5px }
     height: 30px;
     text-align: center;
     position: absolute;
-    bottom: 0;
+    top: 0;
 }
 #links .links {
     margin: 8px 0;
@@ -170,15 +170,12 @@ footer .fb_iframe_widget { top: 5px }
     padding: 0 6px 0 2px;
 }
 
-footer {
-}
-
 #simpleLayout,
 #smallLayout {
     position: absolute;
     top: 50%;
     height: 200px;
-    margin-top: -120px;
+    margin-top: -90px;
     width: 100%;
 }
 
