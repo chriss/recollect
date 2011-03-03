@@ -89,8 +89,8 @@ sub _send_notification_twitter {
     my %args = @_;
     my $msg = $self->short_and_sweet_message(%args);
 
-
-    unless ($self->twitter->new_direct_message($args{target}, $msg)) {
+    (my $target = $args{target}) =~ s/^\@//;
+    unless ($self->twitter->new_direct_message($target, $msg)) {
         if (my $error = $self->twitter->get_error()) {
             if ($error->{error} =~ m/not following you/) {
                 $self->send_email(
@@ -100,11 +100,11 @@ sub _send_notification_twitter {
                     template_args => {
                         reminder    => $args{reminder},
                         garbage_day => $args{pickup},
-                        target => $args{target},
+                        target => $target,
                         twitter => $self->config->{twitter_username},
                     },
                 );
-                $self->log("Send Twitter fail email for $args{target}");
+                $self->log("Send Twitter fail email for \@$target");
 
                 # Lets call this a success because we emailed the person, and 
                 # we don't want to keep emailing them over and over.
