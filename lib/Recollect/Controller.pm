@@ -26,7 +26,7 @@ sub run {
     my %func_map = (
         GET => [
             [ qr{^/$}           => \&ui_html ], # Landing page
-            [ qr{^/r/.+}        => \&ui_html ], # HTML5 wizard
+            [ qr{^/r(?:/.*)?$}  => \&ui_html ], # HTML5 wizard
             [ qr{^/(m/.+)}      => \&ui_html ], # Mobile wizard
             [ qr{^/(.+)\.html$} => \&ui_html ], # Rendered pages
             [ qr{^/([\w-]+)$}   => \&ui_html ], # Same, but make the .html optional

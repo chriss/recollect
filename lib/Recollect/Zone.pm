@@ -131,10 +131,8 @@ sub to_hash {
             qw/id name title colour_name line_colour poly_colour/
     };
 
-    if ($opts{verbose}) {
-        $hash->{pickupdays} = [ map { $_->to_hash } @{ $self->pickups } ];
-        $hash->{nextpickup} = $self->next_pickup->[0]->to_hash;
-    }
+    $hash->{pickupdays} = [ map { $_->to_hash } @{ $self->pickups } ];
+    $hash->{nextpickup} = $self->next_pickup->[0]->to_hash;
 
     return $hash;
 }

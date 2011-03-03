@@ -431,8 +431,7 @@ sub zone {
 
 sub zone_json {
     my ($self, $area, $zone) = @_;
-    my $verbose = $self->request->param('verbose');
-    return $self->process_json( $zone->to_hash(verbose => $verbose) );
+    return $self->process_json($zone->to_hash);
 }
 
 sub zone_txt {

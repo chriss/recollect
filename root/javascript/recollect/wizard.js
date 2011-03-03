@@ -38,7 +38,9 @@ Recollect.Wizard .prototype = {
 
             var parts = state.url.replace(
                 new RegExp('.+' + location.host), ''
-            ).split('/');
+            ).replace(/\/$/,'').split('/');
+
+            var found_url = false;
 
             $.each(self.pages, function(test, callback) {
                 var test_parts = test.split('/');
@@ -59,17 +61,22 @@ Recollect.Wizard .prototype = {
                     }
 
                     if (match) {
+                        found_url = true;
                         self.trackPageview(test);
                         callback.call(self, args);
                         return false; // early out
                     }
                 }
             });
+
+            if (!found_url) {
+                self.setHash();
+            }
         });
     },
 
     pages: {
-        '/': function() {
+        '/r': function() {
             var self = this;
 
             var opts = {
@@ -173,11 +180,22 @@ Recollect.Wizard .prototype = {
             });
         },
 
-        '/r/:area/:zone': function(args) {
+        '/r/success': function() {
+            var self = this;
+            var opts = {
+                height: 200,
+                opacity: 1,
+                page: 'success'
+            };
+            self.show(opts, function() {
+            });
+        },
+
+        '/r/:zone': function(args) {
             var self = this;
             self.trackEvent('zone', args.zone);
 
-            self.getZone(args.area, args.zone, function(zone) {
+            self.getZone(args.zone, function(zone) {
                 var opts = {
                     height: 550,
                     opacity: 1,
@@ -187,9 +205,9 @@ Recollect.Wizard .prototype = {
                 self.show(opts, function() {
                     self.showCalendar(zone);
                     var map = self.showMap();
-                    self.showZoneOnMap(map, args.area, zone);
+                    self.showZoneOnMap(map, zone);
                     $('#wizard #subscribe').click(function(){
-                        self.setHash(args.area, args.zone, 'subscribe');
+                        self.setHash(args.zone, 'subscribe');
                         return false;
                     });
                     $('#wizard .wrongZone').click(function(){
@@ -201,7 +219,7 @@ Recollect.Wizard .prototype = {
             });
         },
 
-        '/r/:area/:zone/subscribe': function(args) {
+        '/r/:zone/subscribe': function(args) {
             var self = this;
 
             var opts = {
@@ -209,35 +227,35 @@ Recollect.Wizard .prototype = {
                 opacity: 1,
                 page: 'wizardSubscribe'
             };
-            self.getZone(args.area, args.zone, function(zone) {
+            self.getZone(args.zone, function(zone) {
                 $.extend(opts, zone);
                 self.show(opts, function() {
                     $('#wizard .chooseText').click(function(){
-                        self.setHash(args.area, args.zone, 'subscribe', 'text');
+                        self.setHash(args.zone, 'subscribe', 'text');
                         return false;
                     });
                     $('#wizard .chooseVoice').click(function(){
-                        self.setHash(args.area, args.zone, 'subscribe','voice');
+                        self.setHash(args.zone, 'subscribe','voice');
                         return false;
                     });
                     $('#wizard .chooseFree').click(function(){
-                        self.setHash(args.area, args.zone, 'subscribe', 'free');
+                        self.setHash(args.zone, 'subscribe', 'free');
                         return false;
                     });
                     $('#wizard .back').click(function() {
                         // Track clicking back from pay
                         self.trackEvent('subscribe.back', args.zone);
-                        self.setHash(args.area, args.zone);
+                        self.setHash(args.zone);
                         return false;
                     });
                 });
             });
         },
 
-        '/r/:area/:zone/subscribe/free': function(args) {
+        '/r/:zone/subscribe/free': function(args) {
             var self = this;
 
-            self.getZone(args.area, args.zone, function(zone) {
+            self.getZone(args.zone, function(zone) {
                 var opts = {
                     height: 500,
                     opacity: 1,
@@ -247,21 +265,17 @@ Recollect.Wizard .prototype = {
                 $.extend(opts, zone);
                 self.show(opts, function() {
                     $('#wizard .chooseEmail').click(function(){
-                        self.setHash(
-                            args.area, args.zone, 'subscribe', 'free', 'email'
-                        );
+                        self.setHash(args.zone, 'subscribe', 'free', 'email');
                         return false;
                     });
                     $('#wizard .chooseTwitter').click(function(){
-                        self.setHash(
-                            args.area, args.zone, 'subscribe', 'free', 'twitter'
-                        );
+                        self.setHash(args.zone, 'subscribe', 'free', 'twitter');
                         return false;
                     });
                     $('#wizard .back').click(function() {
                         // Track clicking back from free
                         self.trackEvent('subscribe.free.back', args.zone);
-                        self.setHash(args.area, args.zone, 'subscribe');
+                        self.setHash(args.zone, 'subscribe');
                         return false;
                     });
 
@@ -276,10 +290,10 @@ Recollect.Wizard .prototype = {
             });
         },
 
-        '/r/:area/:zone/subscribe/:type': function(args) {
+        '/r/:zone/subscribe/:type': function(args) {
             var self = this;
 
-            self.getZone(args.area, args.zone, function(zone) {
+            self.getZone(args.zone, function(zone) {
                 var opts = {
                     height: 500,
                     opacity: 1,
@@ -290,14 +304,14 @@ Recollect.Wizard .prototype = {
                 self.show(opts, function() {
                     $('#wizard .chooseQuarterly').click(function(){
                         self.setHash(
-                            args.area, args.zone, 'subscribe',
+                            args.zone, 'subscribe',
                             args.type, 'quarterly'
                         );
                         return false;
                     });
                     $('#wizard .chooseAnnual').click(function(){
                         self.setHash(
-                            args.area, args.zone, 'subscribe',
+                            args.zone, 'subscribe',
                             args.type, 'annual'
                         );
                         return false;
@@ -307,7 +321,7 @@ Recollect.Wizard .prototype = {
                         self.trackEvent(
                             'subscribe.pay.free', [args.type, args.zone]
                         );
-                        self.setHash(args.area, args.zone, 'subscribe', 'free');
+                        self.setHash(args.zone, 'subscribe', 'free');
                         return false;
                     });
                     $('#wizard .back').click(function() {
@@ -315,31 +329,19 @@ Recollect.Wizard .prototype = {
                         self.trackEvent(
                             'subscribe.pay.back', [args.type, args.zone]
                         );
-                        self.setHash(args.area, args.zone, 'subscribe');
+                        self.setHash(args.zone, 'subscribe');
                         return false;
                     });
                 });
             });
         },
 
-        '/r/:area/:zone/subscribe/free/:type': function(args) {
+        '/r/:zone/subscribe/free/:type': function(args) {
             this.showForm(args);
         },
 
-        '/r/:area/:zone/subscribe/:type/:paycycle': function(args) {
+        '/r/:zone/subscribe/:type/:paycycle': function(args) {
             this.showForm(args);
-        },
-
-
-        '/r/success': function() {
-            var self = this;
-            var opts = {
-                height: 200,
-                opacity: 1,
-                page: 'success'
-            };
-            self.show(opts, function() {
-            });
         }
     },
 
@@ -405,7 +407,7 @@ Recollect.Wizard .prototype = {
             page: 'wizardForm'
         };
         $.extend(opts, args);
-        self.getZone(args.area, args.zone, function(zone) {
+        self.getZone(args.zone, function(zone) {
             $.extend(opts, zone);
             self.show(opts, function() {
                 $('#wizard form').validate(self.validate[args.type])
@@ -416,7 +418,6 @@ Recollect.Wizard .prototype = {
                 });
                 $('#wizard form').submit(function() {
                     var reminder = {
-                        area: args.area,
                         zone: args.zone,
                         type: args.type,
                         payment_period: args.paycycle
@@ -442,7 +443,7 @@ Recollect.Wizard .prototype = {
                         'subscribe.form.back',
                         [args.zone, args.type, args.paycycle || 'free']
                     );
-                    self.setHash(args.area, args.zone, 'subscribe', page);
+                    self.setHash(args.zone, 'subscribe', page);
                     return false;
                 });
             });
@@ -627,7 +628,7 @@ Recollect.Wizard .prototype = {
         $.ajax({
             url: '/api/lookup/' + zone + '.json',
             success: function(data) {
-                self.setHash(data.area.name, data.name);
+                self.setHash(data.name);
             },
             error: function(xhr) {
                 if (xhr.status == 404) {
@@ -758,18 +759,17 @@ Recollect.Wizard .prototype = {
         });
     },
 
-    getZone: function(area, name, callback) {
+    getZone: function(name, callback) {
         var self = this;
 
         // Cache zone info
         if (typeof(self._zoneCache) == 'undefined') self._zoneCache = {};
-        if (typeof(self._zoneCache[area]) == 'undefined') self._zoneCache[area] = {};
-        if (self._zoneCache[area][name]) {
-            callback(self._zoneCache[area][name]);
+        if (self._zoneCache[name]) {
+            callback(self._zoneCache[name]);
             return;
         }
 
-        var url = '/api/areas/' + area + '/zones/' + name + '.json?verbose=1';
+        var url = '/api/lookup/' + name + '.json';
         $.getJSON(url, function (zone) {
             var yard = '';
             zone.next = zone.nextpickup.day;
@@ -787,7 +787,7 @@ Recollect.Wizard .prototype = {
             zone.yard_msg = zone.nextpickup.flags.match(/Y/)
                 ? ' (Yard trimmings will be picked up)'
                 : ' (Yard trimmings will NOT be picked up)'
-            self._zoneCache[area][name] = zone; // store cached value
+            self._zoneCache[name] = zone; // store cached value
             callback(zone);
         });
     },
@@ -851,7 +851,7 @@ Recollect.Wizard .prototype = {
         return marker
     },
 
-    showZoneOnMap: function(map, area, zone) {
+    showZoneOnMap: function(map, zone) {
         var self = this;
         var stored = self.getLocation();
         var parser = new geoXML3.parser({
@@ -879,7 +879,7 @@ Recollect.Wizard .prototype = {
                 return;
             }
         });
-        parser.parse('/api/areas/' + area + '/zones/' + zone.name + '.kml');
+        parser.parse('/api/lookup/' + zone.name + '.kml');
     },
 
     showMap: function(position, zone) {
@@ -901,8 +901,7 @@ Recollect.Wizard .prototype = {
 
     feeds: function(zone) {
         var url = location.href.replace(/#.*$/,'')
-            + 'api/areas/' + zone.area.name + '/zones/'
-            + zone.name + '/pickupdays.ics'
+            + 'api/lookup/' + zone.name + '/pickupdays.ics'
             + '?t=' + (new Date).getTime();
 
         return [
@@ -963,8 +962,7 @@ Recollect.Wizard .prototype = {
 
         var reminder = {
             delivery_offset: self.calculateOffset(opts),
-            zone_id: opts.zone,
-            area: opts.area
+            zone_id: opts.zone
         };
 
         if (opts.payment_period) data.payment_period = opts.payment_period;
