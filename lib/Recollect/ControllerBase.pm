@@ -30,6 +30,7 @@ around 'run' => sub {
     $self->request( Plack::Request->new($env) );
     my $rc = eval { $orig->($self, $env) };
     if ($@) {
+        warn $@;
         $self->log("Error processing " . $self->request->path . " - $@");
         if (is_dev_env()) {
             return $self->response('text/plain', "Error: $@", 500);
