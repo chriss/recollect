@@ -1,36 +1,27 @@
 [% WRAPPER elements/static_wrapper.tt2 title="Privacy" %]
 <h1>Partner Page</h1>
 
-<p>Citizens increasingly expecting better, more customized services from their governments. Recollect can be part of meeting these expectations. We offer a simple, light touch and effective method to connect directly with citizens and improve their experience with government, all at a very low cost.</p>
+<p>If you are a city employee, politician, or a business/contractor that believes your customers could benefit from reminders, please <a href="mailto:partner@recollect.net">contact us</a>about our solutions.</p>
 
-<h2>Recollect Pro</h2>
+<p>Increasingly, citizens expect better, more customized services. Recollect can help meet these rising expectations. Our goal is to offer a simple, effective and low cost method that customers can customize to work into their daily routines.</p>
 
-<p>
-The Recollect team is looking for municipal partners interested in offering reminder subscriptions to their citizens and consumers.  With Recollect Pro you can:
+<p>We are open to exploring whatever needs you might have. Some of the services governments and businesses have already contacted us about include:</p>
+
 <ul>
-<li>Bring the benefits of Recollect to your community</li>
+<li>Bringing the benefits of Recollect to your community</li>
 <li>Directly connect with citizens: notify them of service changes, interruptions and other important messages.</li>
-<li>Advertise or post a public service announcement on the Recollect Website
-<li>Customize the background photo to reflect your city's unique aesthetic</li>
-<li>Provide an easy to use API for your garbage zones and schedule to encourage further innovation.</li>
+<li>Advertise or post a public service announcement on the Recollect Website</li>
+<li>Customize the background photo to reflect your city's or company's unique aesthetic and brand</li>
+<li>Provide an easy to use API for your garbage schedule or other services to encourage further innovation.</li>
 </ul>
-
-<p>We offer a variety of pricing models, please <a href="mailto:partner@recollect.net">contact us</a> if you are interested.
-</p>
 
 <img class="screenshot" src="/[% version %]/images/partner-ad.jpg" alt="Screenshot of an Ad in Recollect" />
 
-<h2>Recollect Manager</h2>
-<p>If you are interested in offering citizen reminders services we offer a white label version of Recollect that can be integrated into your website. This will offer you:
 <ul>
-<li>Bring the benefits of Recollect to your community</li>
 <li>Choose the pricing structure for reminders that best suites your citizens, and your governments, needs</li>
-<li>Directly connect with citizens: notify them of service changes, interruptions and other important messages.</li>
-<li>Advertise or post a public service announcement on the Recollect Website
-<li>Customize the background photo to reflect your city's unique aesthetic</li>
 <li>Access the Recollect backend where you can change zones, schedules, and notification parameters on the fly</li>
 <li>Offer reminders for any multitude of services your government may offer</li>
 </ul>
 
-<p>We offer a variety of pricing models, please <a href="mailto:partner@recollect.net">contact us</a> if you are interested.</p>
+<p>If you'd like to start a conversation please <a href="mailto:partner@recollect.net">contact us</a> if you are interested.</p>
 [% END %]
