@@ -74,6 +74,7 @@ sub _send_notification_email {
     $self->send_email(
         to            => $args{target},
         subject       => 'It is garbage day',
+        content_type  => 'text/html',
         template      => 'notification.html',
         template_args => {
             reminder    => $args{reminder},

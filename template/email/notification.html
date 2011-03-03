@@ -1,19 +1,25 @@
-Just a friendly reminder that garbage in the [% reminder.zone.title %] zone will be picked up on: [% garbage_day.pretty_day %]
+<p><img src="http://recollect.net/0.0.0/images/recollect_logo_small.png" alt="Recollect Logo" /></p>
 
-[% IF garbage_day.has_flag('Y') -%]
-The city will be collecting yard trimmings in this pickup.
+<p>Just a friendly reminder that garbage in the <a href="[% base %]/r/[% garbage_day.zone.area.name %]/[% garbage_day.zone.name %]">[% garbage_day.zone.title %] zone</a> will be picked up on: [% garbage_day.pretty_day %]</p>
 
-You can now put uncooked vegetable and fruit scraps, coffee ground and filters, teabags and eggshells in your yard trimmings cart. See http://vancouver.ca/projects/foodWaste/index.htm for more details.
-[% ELSE -%]
-The city will not be collecting yard trimmings in this pickup.
-[%- END %]
+<p>The following items will be picked up:
+<ul>
+[% FOREACH flag IN garbage_day.flag_names %]
+<li>[% flag %]</li>
+[% END %]
+</ul>
 
-Click here to tell your friends about Recollect:
+[% IF garbage_day.has_flag('C') AND garbage_day.zone.city.name == 'Vancouver' -%]
+<p>You can now put uncooked vegetable and fruit scraps, coffee ground and filters, teabags and eggshells in your yard trimmings cart. <a href="http://vancouver.ca/projects/foodWaste/index.htm">Click here for more details</a>.</p>
+[% END -%]
 
-  [% base %]/tell-a-friend.html
+<p>Would a text message or phone call be more effective? <a href="[% base %]/r/[% garbage_day.zone.area.name %]/[% garbage_day.zone.name %]/subscribe">Click here to upgrade!</a></p>
 
-Cheers,
+<p>Spread the word about Recollect! <a href="[% base %]/tell-a-friend">Click here</a></p>
+
+<p>
+Cheers,<br />
 The Recollect Team
+</p>
 
-Unsubscribe to this reminder service by clicking the following link: 
-  [% reminder.delete_url %]
+<p>Unsubscribe to this reminder service by <a href="[% reminder.delete_url %]">clicking here</a></p>
