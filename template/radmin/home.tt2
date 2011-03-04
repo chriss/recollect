@@ -49,7 +49,17 @@
             });
         });
   </script>
-  
+
+  <h2>New Reminders</h2>
+  [% IF new_reminders.size %]
+    <ul>
+      [% FOREACH r IN new_reminders %]
+        <li>[% r.zone.city.name %] ([% r.zone.name %]) - [% r.user.email_address %] to [% r.target %]</li>
+      [% END %]
+    </ul>
+  [% ELSE %]
+    <p>No reminders were created recently.</p>
+  [% END %]
   <h2>Stats</h2>
   <h3>Database table sizes</h3>
   <ul>

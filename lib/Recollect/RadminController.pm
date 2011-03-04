@@ -60,6 +60,7 @@ sub home_screen {
         stats => $self->_gather_stats,
         reminders_by_city_json => $self->_reminders_by_city_json,
         reminders_over_time_json => $self->_reminders_over_time_json,
+        new_reminders => $self->_new_reminders,
     };
     return $self->process_template("radmin/home.tt2", $params)->finalize;
 }
@@ -143,6 +144,20 @@ EOSQL
     }
 
     return encode_json [ values %cities ];
+}
+
+sub _new_reminders {
+    my $self = shift;
+
+    my $sth = $self->run_sql(<<EOSQL);
+SELECT * from reminders
+ WHERE created_at > 'now'::timestamptz - '2days'::interval
+ ORDER BY created_at DESC
+EOSQL
+    return [
+        map { Recollect::Reminder->new($_)->to_hash }
+        @{ $sth->fetchall_arrayref({}) }
+    ];
 }
 
 __PACKAGE__->meta->make_immutable;
