@@ -30,7 +30,3 @@ my $scraper = Recollect::Scraper->new(
     area => $area,
 );
 $scraper->scrape;
-
-my $dumpfile = "$FindBin::Bin/../data/recollect.dump";
-print "Dumping database to $dumpfile\n";
-system("pg_dump > $dumpfile");
