@@ -93,8 +93,12 @@ subtest 'Free twitter notification' => sub {
     my @msgs = @Net::Twitter::MESSAGES;
     is scalar(@msgs), 1, 'a twitter dm is found';
     is $msgs[0]->{to}, 'test', 'twitter recipient';
-    is $msgs[0]->{msg}, qq{It's garbage day on Monday for Vancouver North Red - }
-        . q{yard trimmings & food scraps will be picked up}, 'twitter body';
+    is $msgs[0]->{msg}, qq{It's garbage day on Monday for Vancouver North Red
+* Garbage
+* Recycling
+* Compost
+* Yard trimmings},
+        'twitter body';
     is scalar(@{ $notifier->need_notification }), 0, 'reminder was sent';
 };
 
@@ -170,7 +174,11 @@ subtest 'Paid sms notification' => sub {
     my $p = shift @posts;
     my ($type, %args) = @$p;
     is $type, 'SMS/Messages', 'type';
-    is $args{Body}, q{It's garbage day on Monday for Vancouver North Red - yard trimmings & food scraps will be picked up}, 'body';
+    is $args{Body}, q{It's garbage day on Monday for Vancouver North Red
+* Garbage
+* Recycling
+* Compost
+* Yard trimmings};
     is scalar(@{ $notifier->need_notification }), 0, 'reminder was sent';
 };
 

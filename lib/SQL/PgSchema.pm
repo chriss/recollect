@@ -27,7 +27,7 @@ sub update {
         next unless $p->{from} == $cur_ver;
 
         print "Running $p->{file} ...\n";
-        run3 $self->psql . " -f $p->{file}";
+        run3 $self->psql . " -f $p->{file}", undef, $self->debug ? undef : '/dev/null';
 
         $cur_ver = $self->current_version;
         die "Error! schema should be at $p->{to} but is only at $cur_ver!"
@@ -42,7 +42,7 @@ sub current_version {
 
     my $version;
     my $stderr;
-    warn "Checking current_version from $table using $psql\n";
+    warn "Checking current_version from $table using $psql\n" if $self->debug;
     run3 $psql . qq{ -qt -c "SELECT current_version FROM $table"},
         undef, \$version, \$stderr;
     # warn "stdout=($version) stderr=($stderr)";
