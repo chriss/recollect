@@ -1,7 +1,16 @@
 [% WRAPPER elements/static_wrapper.tt2 %]
+  <script type="text/javascript" src="/[% version %]/javascript/jquery.flot.min.js"></script>
+
   <h1>Welcome, [% doorman.twitter_screen_name %].</h1>
   The only thing you can do so far in /radmin is to: <a href="[% doorman.sign_out_path %]">sign out</a>.
 
+  <div id="placeholder" style="width:600px;height:300px"></div>
+  <script>
+      $(document).ready(function() {
+          $.plot($("#placeholder"), [ [[0, 0], [1, 1]] ], { yaxis: { max: 1 } });
+      });
+  </script>
+  
   <h2>Stats</h2>
   <h3>Database table sizes</h3>
   <ul>
