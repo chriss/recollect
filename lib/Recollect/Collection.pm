@@ -27,6 +27,7 @@ sub Create {
     my %args = @_;
 
     $args{id} ||= do { $class->_sequence_nextval };
+    delete $args{id} unless defined $args{id};
     $class->insert($class->db_table, \%args);
     return $class->By_id($args{id});
 }
