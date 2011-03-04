@@ -59,6 +59,7 @@ sub home_screen {
         doorman => $self->doorman,
         stats => $self->_gather_stats,
         reminders_by_city_json => $self->_reminders_by_city_json,
+        reminders_over_time_json => $self->_reminders_over_time_json,
     };
     return $self->process_template("radmin/home.tt2", $params)->finalize;
 }
@@ -90,9 +91,58 @@ SELECT city.name, COUNT(reminder.id)
     GROUP BY city.name
 EOSQL
 
-    my $result = $sth->fetchall_arrayref({});
-    return encode_json($result);
+    my $result = $sth->fetchall_arrayref;
+    return encode_json([
+            grep { $_->{label} ne 'Vancouver' }
+            map { 
+                label => $_->[0],
+                data => int $_->[1],
+                }, @$result 
+            ]);
+}
 
+sub _reminders_over_time_json {
+    my $self = shift;
+    my $sth = $self->run_sql(<<EOSQL, []);
+SELECT city_name, created_at, COUNT(created_at) FROM (
+        SELECT date_trunc('day', created_at) AS created_at, city.name AS city_name
+            FROM reminders reminder
+            JOIN zones zone ON (reminder.zone_id = zone.id)
+            JOIN cities city ON (zone.city_id = city.id)
+            ) R
+    GROUP BY city_name, created_at
+    ORDER BY created_at ASC
+EOSQL
+
+    my %cities;
+    my %dates;
+    for my $row (@{  $sth->fetchall_arrayref }) {
+        my ($name, $date, $count) = @$row;
+        next if $name eq 'Vancouver';
+        $date =~ s/ .+//;
+        my @date = split '-', $date;
+        my $dt = DateTime->new(year => $date[0], month => $date[1], day => $date[2]);
+        $date = $dt->epoch * 1000;
+
+        $cities{$name} ||= { label => $name };
+
+        $cities{$name}{dates}{$date} = $count;
+        $dates{$date}++;
+    }
+
+    my %rolling_count;
+    for my $day (sort keys %dates) {
+        for my $city (keys %cities) {
+            my $count = ($rolling_count{$city}||0) + ($cities{$city}{dates}{$day} || 0);
+            push @{ $cities{$city}{data} }, [$day, $count];
+            $rolling_count{$city} = $count;
+        }
+    }
+    for my $city (keys %cities) {
+        delete $cities{$city}{dates};
+    }
+
+    return encode_json [ values %cities ];
 }
 
 __PACKAGE__->meta->make_immutable;

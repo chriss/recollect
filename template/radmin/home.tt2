@@ -1,14 +1,21 @@
 [% WRAPPER elements/static_wrapper.tt2 %]
   <script type="text/javascript" src="/[% version %]/javascript/libs/jquery.flot.min.js"></script>
+  <script type="text/javascript" src="/[% version %]/javascript/libs/jquery.flot.pie.js"></script>
 
   <h1>Welcome, [% doorman.twitter_screen_name %].</h1>
   The only thing you can do so far in /radmin is to: <a href="[% doorman.sign_out_path %]">sign out</a>.
 
+  <h2>Reminders by City</h2>
+  (Vancouver is removed b/c it dwarfs the others.)
   <div id="remindersbycity" style="width:600px;height:300px"></div>
+  <h2>Reminders over time</h2>
+  (Vancouver is removed b/c it dwarfs the others.)
+  <div id="remindersovertime" style="width:600px;height:300px"></div>
+
   <script>
       $(document).ready(function() {
-        var data = [% reminders_by_city_json %];
-        $.plot($("#remindersbycity"), data, 
+        var rbc_data = [% reminders_by_city_json %];
+        $.plot($("#remindersbycity"), rbc_data, 
         {
             series: {
                     pie: { 
@@ -26,12 +33,21 @@
                             }
                         }
                     },
+            },
+      });
+
+        var rot_data = [% reminders_over_time_json %];
+        $.plot($("#remindersovertime"), rot_data, {
+                yaxis: { min: 0 },
+                xaxis: {
+                    mode: "time",
+                    timeformat: "%m/%d"
+                },
                 legend: {
-                    show: false
+                    position: 'nw'
                 }
-            }
-      });
-      });
+            });
+        });
   </script>
   
   <h2>Stats</h2>
