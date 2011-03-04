@@ -1,5 +1,8 @@
 BEGIN;
 
+-- Avoid the implicit index warnings
+SET client_min_messages='warning';
+
 -- Make this index a UNIQUE index
 CREATE SEQUENCE city_seq;
 CREATE TABLE cities (
