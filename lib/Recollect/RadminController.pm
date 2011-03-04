@@ -3,6 +3,7 @@ use Moose;
 use Plack::Request;
 use Plack::Response;
 use Recollect::User;
+use JSON qw/encode_json/;
 use namespace::clean -except => 'meta';
 
 with 'Recollect::ControllerBase';
@@ -57,6 +58,7 @@ sub home_screen {
     my $params = {
         doorman => $self->doorman,
         stats => $self->_gather_stats,
+        reminders_by_city_json => $self->_reminders_by_city_json,
     };
     return $self->process_template("radmin/home.tt2", $params)->finalize;
 }
@@ -74,6 +76,23 @@ sub _gather_stats {
                    place_interest place_notify/
         },
     };
+}
+
+sub _reminders_by_city_json {
+    my $self = shift;
+    my $sth = $self->run_sql(<<EOSQL, []);
+SELECT city.name, COUNT(reminder.id)
+    FROM reminders reminder
+    JOIN zones zone ON (reminder.zone_id = zone.id)
+    JOIN cities city ON (zone.city_id = city.id)
+    JOIN subscriptions subscr ON (reminder.subscription_id = subscr.id)
+    WHERE subscr.active
+    GROUP BY city.name
+EOSQL
+
+    my $result = $sth->fetchall_arrayref({});
+    return encode_json($result);
+
 }
 
 __PACKAGE__->meta->make_immutable;
