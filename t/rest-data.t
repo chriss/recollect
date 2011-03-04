@@ -179,8 +179,8 @@ EOT
         is $data->{city}{name}, 'Vancouver';
         is $data->{city}{licence_url},'http://data.vancouver.ca/termsOfUse.htm';
         is $data->{city}{ad_img}, 'recollect-ad-no-plastic-borderless.jpg';
-        ok !$data->{pickupdays}, 'no pickupdays, not verbose';
-        ok !$data->{nextpickup}, 'no nextpickup, not verbose';
+        ok $data->{pickupdays}, 'pickupdays';
+        ok $data->{nextpickup}, 'nextpickup';
     },
     kml => sub {
         my $data = shift;
@@ -199,17 +199,6 @@ EOT
 
 test_the_api_for("/areas/Vancouver/zones/$North_red_id",                   %zone_tests);
 test_the_api_for('/areas/Vancouver/zones/vancouver-north-red', %zone_tests);
-
-test_the_api_for('/areas/Vancouver/zones/vancouver-north-red?verbose=1',
-    json => sub {
-        my $data = shift;
-        is $data->{id},    $North_red_id;
-        is $data->{name},  'vancouver-north-red';
-        is $data->{title}, 'Vancouver North Red';
-        isa_ok $data->{pickupdays}, 'ARRAY', 'pickupdays should be an arrayref';
-        isa_ok $data->{nextpickup}, 'HASH', 'nextpickup should be an hashref';
-    },
-);
 
 # GET /api/areas/:area/zones/:zone/pickupdays
 test_the_api_for(
