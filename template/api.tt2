@@ -1,6 +1,7 @@
 [% WRAPPER elements/static_wrapper.tt2 %]
     <h1>Recollect API</h1>
-    This page defines the simple REST API that exposes collection times data.
+    <p>This page defines the simple REST API that exposes collection times data.</p>
+    <p>This is a working API <i>under development</i>, one subject to evolution and change. If you would like to depend on certain parts of the API, you should contact <a href="http://twitter.com/lukec">@lukec</a> and let him know.</p>
 
       <div class="content">
         <h2>API Version</h2>
