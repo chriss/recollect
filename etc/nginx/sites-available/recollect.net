@@ -2,6 +2,14 @@ upstream mod_perl {
     server 127.0.0.1:2080;
 }
 
+# Luke goofed up and told people to go to :5000, so lets make it work
+ ^ domain.com$request_uri permanent;
+
+server {
+    listen 5000;
+    server_name recollect.net;
+    rewrite ^ recollect.net$request_uri permanent;
+}
 
 server {
     listen   80;
