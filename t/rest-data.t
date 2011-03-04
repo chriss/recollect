@@ -17,6 +17,7 @@ use_ok 'Recollect::APIController';
 my ($test_version) = $Recollect::APIController::API_Version = '1.42';
 my $vancouver_latlng = '49.26422,-123.138542';
 
+$t::Recollect::DEBUG = 1;
 
 test_the_api_for(
     '/version',
@@ -246,11 +247,11 @@ test_the_api_for(
     html => sub {
         my $content = shift;
         like $content, qr/2011-01-06/, 'html has a date';
-        unlike $content, qr/2011-01-06 Y/, 'is not yard pickup';
+        unlike $content, qr/2011-01-06 GRYC/, 'is not yard pickup';
     },
     text => sub {
         my $content = shift;
-        is $content, "2011-01-06", 'text is just the date';
+        is $content, "2011-01-06 GR", 'text is just the date';
     },
     json => sub {
         my $data = shift;
@@ -267,14 +268,14 @@ test_the_api_for(
     html => sub {
         my $content = shift;
         like $content, qr/2011-01-06/, 'html has a date';
-        unlike $content, qr/2011-01-06 Y/, 'is not yard pickup';
-        like $content, qr/2011-01-13 Y/, 'second date is a yard pickup';
+        unlike $content, qr/2011-01-06 GRYC/, 'is not yard pickup';
+        like $content, qr/2011-01-13 GRYC/, 'second date is a yard pickup';
         like $content, qr/2011-01-20/, 'third date is present';
         unlike $content, qr/2011-01-29/, 'fourth date is not present';
     },
     text => sub {
         my $content = shift;
-        is $content, "2011-01-06\n2011-01-13 Y\n2011-01-20", 'text is just the date';
+        is $content, "2011-01-06 GR\n2011-01-13 GRYC\n2011-01-20 GR", 'text is just the date';
     },
     json => sub {
         my $data = shift;
@@ -298,7 +299,7 @@ test_the_api_for(
     },
     text => sub {
         my $content = shift;
-        is $content, "2011-05-02", 'text is just the date';
+        is $content, "2011-05-02 GR", 'text is the date with flags';
     },
     json => sub {
         my $data = shift;

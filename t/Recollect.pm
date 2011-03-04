@@ -90,9 +90,11 @@ sub _build_base_path {
         system("sudo -u postgres $psql -f $sql_file > /dev/null")
             and die "Couldn't psql $db_name -f $sql_file";
         if (!$ENV{RECOLLECT_EMPTY_DB_PLS}) {
-            $sql_file = "$FindBin::Bin/../etc/sql/vancouver.sql";
-            system("$psql -f $sql_file > /dev/null")
-                and die "Couldn't psql $db_name -f $sql_file";
+            for my $sql (qw/vancouver-area vancouver/) {
+                $sql_file = "$FindBin::Bin/../etc/sql/$sql.sql";
+                system("$psql -f $sql_file > /dev/null")
+                    and die "Couldn't psql $db_name -f $sql_file";
+            }
         }
     }
     SQL::PgSchema->new(
