@@ -17,6 +17,8 @@ my $r = Recollect::Area->Create(
     name   => 'Vancouver',
     centre => '49.26422,-123.138542',
 );
+my $c = Recollect::City->By_name('Vancouver')
+    || Recollect::City->Create(name => 'Vancouver');
 
 $areas = Recollect::Area->All;
 is scalar(@$areas), 1;
@@ -33,6 +35,7 @@ $area->add_zone(
     colour_name => 'blue',
     line_colour => 'ffff3333',
     poly_colour => '33ff6565',
+    city_id => $c->id,
 );
 
 my $zones = $area->zones;
