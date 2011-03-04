@@ -99,7 +99,7 @@ sub _build_base_path {
         psql => $psql,
         schema_name => 'recollect',
         schema_dir => "etc/sql",
-        debug => 1,
+        debug => $DEBUG,
     )->update;
     system(qq{$psql -c "DELETE FROM areas WHERE name != 'Vancouver' " });
     system(qq{$psql -c 'DELETE FROM reminders' > /dev/null});
@@ -111,7 +111,8 @@ sub _build_base_path {
 sub _setup_postgis {
     my $db_name = shift;
 
-    system(qq{sudo -u postgres psql $db_name -c "CREATE LANGUAGE 'plpgsql'"})
+    my $redirect = $DEBUG ? '' : '>/dev/null 2>&1';
+    system(qq{sudo -u postgres psql $db_name -c "CREATE LANGUAGE 'plpgsql'" $redirect})
         and die "Couldn't psql $db_name -c create language plpgsql";
     my @postgises = (
         '/usr/share/postgresql/8.4/contrib/postgis-1.5/postgis.sql',
@@ -119,7 +120,7 @@ sub _setup_postgis {
     );
     for my $p (@postgises) {
         next unless -e $p;
-        my $cmd = "sudo -u postgres psql $db_name -f $p > /dev/null";
+        my $cmd = "sudo -u postgres psql $db_name -f $p $redirect";
         system($cmd) and die "Couldn't $cmd";
     }
 }
