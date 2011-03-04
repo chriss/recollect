@@ -54,7 +54,7 @@
   [% IF new_reminders.size %]
     <ul>
       [% FOREACH r IN new_reminders %]
-        <li>[% r.zone.city.name %] ([% r.zone.name %]) - [% r.user.email_address %] to [% r.target %]</li>
+        <li>[% r.zone.name %] - [% r.user.email_address %] to [% r.target %] at offset [% r.delivery_offset %]</li>
       [% END %]
     </ul>
   [% ELSE %]
