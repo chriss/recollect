@@ -17,8 +17,6 @@ use_ok 'Recollect::APIController';
 my ($test_version) = $Recollect::APIController::API_Version = '1.42';
 my $vancouver_latlng = '49.26422,-123.138542';
 
-$t::Recollect::DEBUG = 1;
-
 test_the_api_for(
     '/version',
     html => sub {
@@ -210,15 +208,15 @@ test_the_api_for(
     },
     text => sub {
         my $content = shift;
-        like $content, qr/^2011-01-10\n/, 'text has a date';
+        like $content, qr/^2011-01-10 GR\n/, 'text has a date';
     },
     json => sub {
         my $data = shift;
         return unless is ref($data), 'ARRAY';
         is $data->[0]{day}, '2011-01-10', 'json has a day';
         like $data->[0]{zone_id}, qr/^\d+$/, 'json has a zone_id';
-        is $data->[0]{flags}, '', 'json has flags';
-        is $data->[1]{flags}, 'Y', 'json has flags';
+        is $data->[0]{flags}, 'GR', 'json has flags';
+        is $data->[1]{flags}, 'GRYC', 'json has flags';
     },
 );
 

@@ -121,5 +121,6 @@ CREATE TABLE ical_users (
     zone_id integer references zones(id) NOT NULL,
     last_get timestamptz NOT NULL
 );
+ALTER TABLE ical_users OWNER TO recollect;
 
 COMMIT;
