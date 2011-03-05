@@ -173,8 +173,8 @@
 [% BLOCK wizardSubscribe %]
 <div class="middle">
     <!-- first row -->
-    <div class="row top" height="135">
-        <div class="left" height="100">
+    <div class="row centered top" height="135">
+        <div class="left" height="75">
             [% INCLUDE logo %]
         </div>
         <div class="right" height="75">
@@ -224,8 +224,8 @@
 [% BLOCK wizardFree %]
 <div class="middle">
     <!-- first row -->
-    <div class="row top" height="135">
-        <div class="left" height="100">
+    <div class="row centered top" height="135">
+        <div class="left" height="75">
             [% INCLUDE logo %]
         </div>
         <div class="right" height="100">
@@ -284,8 +284,8 @@
 [% BLOCK wizardPremium %]
 <div class="middle">
     <!-- first row -->
-    <div class="row top" height="135">
-        <div class="left" height="100">
+    <div class="row centered top" height="135">
+        <div class="left" height="75">
             [% INCLUDE logo %]
         </div>
         <div class="right" height="75">
