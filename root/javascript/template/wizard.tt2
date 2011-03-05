@@ -47,7 +47,7 @@
         <div class="right" height="150">
             <div class="title">Find out your collection zone.</div>
             <div class="message">
-                <p>Please type your home address.<br />
+                <p>Please type your home address or postal code.<br />
                 <i>e.g. 454 W 12 Ave, Vancouver, BC</i></p>
             </div>
             <div class="addressForm">
