@@ -1,8 +1,8 @@
 <div class="links">
-    <a href="/">Home</a>&middot;
+    <a href="/" class="homeLink">Home</a>&middot;
     <a href="/faq">Frequently Asked Questions</a>&middot;
     <a href="/about">About Us</a>&middot;
     <a href="/partner">Partner</a>&middot;
-    <a href="/r/tell-a-friend">Tell a Friend</a>&middot;
+    <a href="/r/tell-a-friend" class="tell-a-friend">Tell a Friend</a>&middot;
     <a href="/copyright">&copy;2011</a>
 </div>

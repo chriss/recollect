@@ -30,6 +30,15 @@ Recollect.Wizard .prototype = {
 
         $('#wizard').html(Jemplate.process('wizard'));
 
+        $('.homeLink').click(function() {
+            self.setHash();
+            return false;
+        });
+        $('.tell-a-friend').click(function() {
+            self.setHash('tell-a-friend');
+            return false;
+        });
+
         if (location.href.match(/#$/)) {
             self.setHash('start');
         }
@@ -705,6 +714,11 @@ Recollect.Wizard .prototype = {
         opts.version = self.version;
         var html = Jemplate.process(opts.page, opts);
         var $newPage = $(html);
+
+        $newPage.find('.homeLink').click(function() {
+            self.setHash();
+            return false;
+        });
 
         var doneShow = function() {
             self.inProgress = false;

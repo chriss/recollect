@@ -5,7 +5,7 @@
 [% END %]
 
 [% BLOCK logo %]
-    <a href="/"><img class="logo" src="/[% version %]/images/recollect_logo_small.png"/></a>
+    <a class="homeLink" href="/"><img class="logo" src="/[% version %]/images/recollect_logo_small.png"/></a>
 [% END %]
 
 [% BLOCK error %]
