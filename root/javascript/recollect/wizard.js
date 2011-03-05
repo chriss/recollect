@@ -900,8 +900,8 @@ Recollect.Wizard .prototype = {
     },
 
     feeds: function(zone) {
-        var url = location.href.replace(/#.*$/,'')
-            + 'api/lookup/' + zone.name + '/pickupdays.ics'
+        var url = location.protocol + '//' + location.host
+            + '/api/lookup/' + zone.name + '/pickupdays.ics'
             + '?t=' + (new Date).getTime();
 
         return [
