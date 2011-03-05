@@ -98,7 +98,7 @@ html, body {
 }
 
 body {
-    font: 12px 'Helvetica', Arial, sans-serif;
+    font: 12px 'Helvetica Neue', Arial, sans-serif;
     background: #000;
 }
 
@@ -595,26 +595,29 @@ input.initial {
 
 .boxes .boxOption .price {
     position: relative;
-    top: 25px;
+    top: 28px;
     left: 50px;
 }
 .boxes .boxOption .price .dollarsign {
-    font-size: 30pt;
+    font-size: 27pt;
     position: absolute;
     left: 0;
-    top: 5px;
+    top: 14px;
+    line-height: 30px;
 }
 .boxes .boxOption .price .dollars {
     position: absolute;
-    left: 20px;
-    top: 0;
+    left: 17px;
+    top: 10px;
     font-size: 60pt;
+    line-height: 62px;
 }
 .boxes .boxOption .price .cents {
     font-size: 15pt;
     position: absolute;
-    top: 5px;
-    left: 55px;
+    top: 14px;
+    left: 52px;
+    line-height: 15px;
 }
 .boxes .price .cycle {
     font-size: 12pt;
@@ -631,6 +634,9 @@ input.initial {
 }
 
 /* 1 is skinnier than 2 */
+.boxes .quarterly .price .dollars {
+    margin-left: 2px;
+}
 .boxes .quarterly .price .cents,
 .boxes .quarterly .price .cycle {
     margin-left: 10px;
