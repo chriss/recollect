@@ -437,6 +437,23 @@
 </div>
 [% END %]
 
+[% BLOCK tell_a_friend %]
+<div class="middle">
+    <!-- first row -->
+    <div class="row" height="225">
+        <div class="left" height="100">
+            [% INCLUDE logo %]
+        </div>
+        <div class="right" height="150">
+            <div class="title">Tell your friends about Recollect!!</div>                         
+            <div>We are really grateful for your business and thank you for helping make our little company become a bit more successful.</div>
+<div class="socialButtons">
+            [% INCLUDE social_buttons %]
+        </div>
+    </div>  
+</div>
+[% END %]
+
 [% BLOCK social_buttons%]
 <div class="bigSocialButtons">
     <iframe src="http://www.facebook.com/plugins/likebox.php?href=https%3A%2F%2Fwww.facebook.com%2Frecollect.net&amp;width=200&amp;colorscheme=light&amp;show_faces=false&amp;stream=false&amp;header=true&amp;height=62" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:200px; height:62px;" allowTransparency="true"></iframe>

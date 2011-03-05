@@ -191,6 +191,16 @@ Recollect.Wizard .prototype = {
             });
         },
 
+        '/r/tell-a-friend': function() {
+            var self = this;
+            var opts = {
+                height: 200,
+                opacity: 1,
+                page: 'tell_a_friend'
+            };
+            self.show(opts, function() {});
+        },
+
         '/r/:zone': function(args) {
             var self = this;
             self.trackEvent('zone', args.zone);
