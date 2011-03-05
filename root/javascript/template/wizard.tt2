@@ -83,6 +83,12 @@
                 <a class="submit bigButtonGreen" href="#">Let me know!</a>
                 <input type="submit" class="hiddenButton"/>
 
+                <div class="clear"></div>
+
+                <div class="privacyLink" style="margin: 10px 0">
+                    Recollect will never share your information with a third party. See our privacy policy <a href="/privacy" target="_blank">here</a>
+                </div>
+
             </form>
 
             <div class="status"></div>
