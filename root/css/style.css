@@ -102,10 +102,20 @@ body {
     background: #000;
 }
 
-body, .middle {
-    min-width: 1000px;
-    width: expression(document.body.clientWidth < 1000 ? "1000px" : "100%"); /* IE */
+/* MIN WIDTH */
+body, .middle, #links {
+    min-width: 900px;
+    width: expression(document.body.clientWidth < 900 ? "900px" : "100%");
 }
+#wizard .boxes {
+    width: 900px;
+    margin-left: -450px;
+}
+#links {
+    min-width: 950px;
+    width: expression(document.body.clientWidth < 950 ? "950px" : "100%");
+}
+/*****/
 
 #background {
     position: absolute;
@@ -326,9 +336,9 @@ input.hiddenButton {
 .middle .row .right {
     position: absolute;
 }
-.middle .row .left { right: 50%; margin-right: 50px }
+.middle .row .left { right: 50%; margin-right: 25px }
 .middle .row .center { left: 25%; width: 50% }
-.middle .row .right { left: 50%; width: 40% }
+.middle .row .right { left: 50%; width: 50% }
 
 .subscription .row .center {
     left: 50%;
@@ -351,7 +361,7 @@ input.hiddenButton {
 .middle .zonePage .right { left: 330px; width: 550px } /* end: 880px */
 
 .middle .landingPage .left { right: 60%; height:100px; margin-top: 73px }
-.middle .landingPage .right { left: 40%; width: 50% }
+.middle .landingPage .right { left: 40%; width: 55% }
 
 noscript.middle .row .left { top: 45px; left: 30px }
 noscript.middle .row .right { top: 85px; left: 380px }
@@ -473,7 +483,7 @@ input.initial {
 .zonePage .map {
     margin-top: 20px;
     height: 220px;
-    width: 300px;
+    width: 275px;
 }
 .zonePage .signup p {
     margin: 10px 0;
@@ -489,16 +499,14 @@ input.initial {
  */
 
 .middle .boxes {
-    width: 1000px;
     left: 50%;
-    margin-left: -450px;
     margin-top: 10px;
 }
 .middle .twoBoxes { margin-left: -300px; }
 
 .boxes .boxOption {
     float: left;
-    width: 280px;
+    width: 270px;
     height: 250px;
     margin: 10px;
     background-color: #fff;
