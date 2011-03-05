@@ -141,19 +141,31 @@ header {
     vertical-align: middle;
 }
 
-.socialButtons { height: 25px; position: relative; z-index: 101; width: 210px }
-.socialButtons .twitter-share-button { position: absolute; right: 154px }
-.socialButtons .google-buzz-button { position: absolute; right: 95px }
-.socialButtons .fb_iframe_widget { position: absolute; right: 0px }
-
-header .socialButtons { position: absolute; left: 10px; top: 0 }
-header .twitter-share-button { top: 5px }
-header .google-buzz-button { top: 4px }
-header .fb_iframe_widget { top: 5px }
-
-.tellafriend .twitter-share-button { top: 8px }
-.tellafriend .google-buzz-button { top: 4px }
-.tellafriend .fb_iframe_widget { top: 6px }
+.smallSocialButtons {
+    position: absolute;
+    left: 10px;
+    top: 0;
+    height: 25px;
+    z-index: 101;
+    width: 210px;
+}
+.smallSocialButtons .facebook_like {
+    position: absolute;
+    left: 0px;
+    top: 4px;
+}
+.smallSocialButtons .google-buzz-button {
+    position: absolute;
+    left: 83px;
+    top: 3px;
+    line-height: 22px;
+}
+/*.smallSocialButtons .google-buzz-button span { : 15px }*/
+.smallSocialButtons .twitter-share-button {
+    position: absolute;
+    left: 145px;
+    top: 4px;
+}
 
 #links {
     font-size: 10pt;
@@ -336,9 +348,21 @@ input.hiddenButton {
 .middle .row .right {
     position: absolute;
 }
-.middle .row .left { right: 50%; margin-right: 25px }
+
+.middle .row .left {
+    right: 60%;
+    height:100px;
+    margin-top: 73px;
+    margin-right: 25px;
+}
+.middle .row .right {
+    left: 40%;
+    width: 55%;
+}
 .middle .row .center { left: 25%; width: 50% }
-.middle .row .right { left: 50%; width: 50% }
+
+.middle .centered .left { right: 50%; }
+.middle .centered .right { left: 50%; width: 50% }
 
 .subscription .row .center {
     left: 50%;
@@ -359,9 +383,6 @@ input.hiddenButton {
 }
 .middle .zonePage .left { left: 0; margin: 0; width: 300px }
 .middle .zonePage .right { left: 330px; width: 550px } /* end: 880px */
-
-.middle .landingPage .left { right: 60%; height:100px; margin-top: 73px }
-.middle .landingPage .right { left: 40%; width: 55% }
 
 noscript.middle .row .left { top: 45px; left: 30px }
 noscript.middle .row .right { top: 85px; left: 380px }

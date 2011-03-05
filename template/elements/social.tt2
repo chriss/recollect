@@ -1,9 +1,8 @@
-<div class="socialButtons">
+<div class="smallSocialButtons">
     <!-- Tweet button -->
     <a href="http://twitter.com/share" class="twitter-share-button" data-count="none" data-via="recollectnet" data-url="http://recollect.net" data-text="My garbage days have just become stress free thanks to Recollect pickup reminders! Get yours here:">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
     <!-- buzz -->
     <a title="Post to Google Buzz" class="google-buzz-button" href="http://www.google.com/buzz/post" data-button-style="small-button" data-url="http://recollect.net"></a><script type="text/javascript" src="http://www.google.com/buzz/api/button.js"></script>
     <!-- facebook like -->
-    <script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script>
-    <fb:like href="http://www.facebook.com/pages/recollectnet/194196287264770" layout="button_count" width="50"></fb:like>
+    <iframe class="facebook_like" src="http://www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2Frecollect.net&amp;layout=button_count&amp;show_faces=false&amp;width=75&amp;action=like&amp;font=arial&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:75px; height:21px;" allowTransparency="true"></iframe>
 </div>
