@@ -51,7 +51,7 @@
     <script>
         $(window).resize(function() {
             // Keep the whitebar and content in the center
-            $('#container').height( $(window).height() + 30 );
+            $('#container').height( $(window).height() - 30 );
 
             // Keep the background fullscreen
             if ($(window).height() > $('#background').height()) {

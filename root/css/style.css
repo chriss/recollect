@@ -218,7 +218,12 @@ header {
 /* Static pages */
 #staticLayout {
     height: 100%;
-    margin-top: 20px;
+}
+#staticLayout .staticContentWrapper {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: 100%;
+    margin: 30px 0;
 }
 #staticLayout .main {
     position: absolute;
@@ -227,8 +232,8 @@ header {
 }
 #staticLayout .logo {
     position: absolute;
-    left: 10px;
-    top: 37px;
+    left: 17px;
+    top: 50px;
 }
 
 #staticLayout .text {
@@ -236,12 +241,6 @@ header {
     top: 0;
     height: 100%;
     width: 600px;
-}
-#staticLayout .staticContentWrapper {
-    overflow-y: scroll;
-    overflow-x: hidden;
-    height: 100%;
-    margin-bottom: 30px;
 }
 #staticLayout img.screenshot {
     width: 600px;
