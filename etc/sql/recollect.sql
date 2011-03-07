@@ -10,7 +10,7 @@ CREATE TABLE areas (
     name   text NOT NULL,
     centre text NOT NULL
 );
-CREATE UNIQUE INDEX zone_name_idx ON areas (LOWER(name));
+CREATE UNIQUE INDEX areas_name_idx ON areas (LOWER(name));
 ALTER TABLE areas OWNER TO recollect;
 
 

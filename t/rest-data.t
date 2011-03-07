@@ -15,7 +15,6 @@ no warnings 'once';
 
 use_ok 'Recollect::APIController';
 my ($test_version) = $Recollect::APIController::API_Version = '1.42';
-my $vancouver_latlng = '49.26422,-123.138542';
 
 test_the_api_for(
     '/version',
@@ -47,7 +46,7 @@ test_the_api_for(
     },
     text => sub {
         my $content = shift;
-        is $content, "$Vancouver_area_id - Vancouver: $vancouver_latlng\n";
+        is $content, "$Vancouver_area_id - Vancouver\n";
     },
     json => sub {
         my $data = shift;
@@ -62,7 +61,6 @@ test_the_post_api(
     '/areas',
     {
         name => 'Victoria',
-        centre => '49.891235,-97.15369',
     },
     sub {
         my $data = shift;
@@ -77,18 +75,21 @@ Area_tests: {
         html => sub {
             my $content = shift;
             like $content, qr/Area - Vancouver/;
-            like $content, qr/$vancouver_latlng/;
         },
         text => sub {
             my $content = shift;
-            is $content,
-                "id: $Vancouver_area_id\nname: Vancouver\ncentre: $vancouver_latlng\n";
+            is $content, <<EOT;
+id: $Vancouver_area_id
+name: Vancouver
+ad_img: recollect-ad-no-plastic-borderless.jpg
+ad_url: http://vancouver.ca/projects/foodWaste/noplastic.htm
+licence_url: http://data.vancouver.ca/termsOfUse.htm
+EOT
         },
         json => sub {
             my $data = shift;
             is $data->{id},     $Vancouver_area_id;
             is $data->{name},   'Vancouver';
-            is $data->{centre}, $vancouver_latlng;
         },
         kml => sub {
             my $data = shift;
@@ -165,7 +166,6 @@ name: vancouver-north-red
 title: Vancouver North Red
 area_name: Vancouver
 area_id: $Vancouver_area_id
-city_name: Vancouver
 licence_url: http://data.vancouver.ca/termsOfUse.htm
 ad_img: recollect-ad-no-plastic-borderless.jpg
 EOT
@@ -175,9 +175,9 @@ EOT
         is $data->{id},    $North_red_id;
         is $data->{name},  'vancouver-north-red';
         is $data->{title}, 'Vancouver North Red';
-        is $data->{city}{name}, 'Vancouver';
-        is $data->{city}{licence_url},'http://data.vancouver.ca/termsOfUse.htm';
-        is $data->{city}{ad_img}, 'recollect-ad-no-plastic-borderless.jpg';
+        is $data->{area}{name}, 'Vancouver';
+        is $data->{area}{licence_url},'http://data.vancouver.ca/termsOfUse.htm';
+        is $data->{area}{ad_img}, 'recollect-ad-no-plastic-borderless.jpg';
         ok $data->{pickupdays}, 'pickupdays';
         ok $data->{nextpickup}, 'nextpickup';
     },

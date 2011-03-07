@@ -1,3 +1,5 @@
 id: [% area.id %]
 name: [% area.name %]
-centre: [% area.centre %]
+ad_img: [% area.ad_img %]
+ad_url: [% area.ad_url %]
+licence_url: [% area.licence_url %]

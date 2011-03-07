@@ -58,7 +58,7 @@ sub home_screen {
     my $params = {
         doorman => $self->doorman,
         stats => $self->_gather_stats,
-        reminders_by_city_json => $self->_reminders_by_city_json,
+        reminders_by_area_json => $self->_reminders_by_area_json,
         reminders_over_time_json => $self->_reminders_over_time_json,
         new_reminders => $self->_new_reminders,
     };
@@ -80,16 +80,16 @@ sub _gather_stats {
     };
 }
 
-sub _reminders_by_city_json {
+sub _reminders_by_area_json {
     my $self = shift;
     my $sth = $self->run_sql(<<EOSQL, []);
-SELECT city.name, COUNT(reminder.id)
+SELECT area.name, COUNT(reminder.id)
     FROM reminders reminder
     JOIN zones zone ON (reminder.zone_id = zone.id)
-    JOIN cities city ON (zone.city_id = city.id)
+    JOIN areas area ON (zone.area_id = area.id)
     JOIN subscriptions subscr ON (reminder.subscription_id = subscr.id)
     WHERE subscr.active
-    GROUP BY city.name
+    GROUP BY area.name
 EOSQL
 
     my $result = $sth->fetchall_arrayref;
@@ -105,13 +105,13 @@ EOSQL
 sub _reminders_over_time_json {
     my $self = shift;
     my $sth = $self->run_sql(<<EOSQL, []);
-SELECT city_name, created_at, COUNT(created_at) FROM (
-        SELECT date_trunc('day', created_at) AS created_at, city.name AS city_name
+SELECT area_name, created_at, COUNT(created_at) FROM (
+        SELECT date_trunc('day', created_at) AS created_at, area.name AS area_name
             FROM reminders reminder
             JOIN zones zone ON (reminder.zone_id = zone.id)
-            JOIN cities city ON (zone.city_id = city.id)
+            JOIN areas area ON (zone.area_id = area.id)
             ) R
-    GROUP BY city_name, created_at
+    GROUP BY area_name, created_at
     ORDER BY created_at ASC
 EOSQL
 
@@ -133,14 +133,14 @@ EOSQL
 
     my %rolling_count;
     for my $day (sort keys %dates) {
-        for my $city (keys %cities) {
-            my $count = ($rolling_count{$city}||0) + ($cities{$city}{dates}{$day} || 0);
-            push @{ $cities{$city}{data} }, [$day, $count];
-            $rolling_count{$city} = $count;
+        for my $area (keys %cities) {
+            my $count = ($rolling_count{$area}||0) + ($cities{$area}{dates}{$day} || 0);
+            push @{ $cities{$area}{data} }, [$day, $count];
+            $rolling_count{$area} = $count;
         }
     }
-    for my $city (keys %cities) {
-        delete $cities{$city}{dates};
+    for my $area (keys %cities) {
+        delete $cities{$area}{dates};
     }
 
     return encode_json [ values %cities ];

@@ -87,7 +87,7 @@ sub _build_base_path {
         diag "created database $db_name, loading $sql_file" if $DEBUG;
         _setup_postgis($db_name);
 
-        system("sudo -u postgres $psql -f $sql_file > /dev/null")
+        system("$psql -f $sql_file > /dev/null")
             and die "Couldn't psql $db_name -f $sql_file";
         if (!$ENV{RECOLLECT_EMPTY_DB_PLS}) {
             for my $sql (qw/vancouver-area vancouver/) {
@@ -114,6 +114,7 @@ sub _setup_postgis {
     my $db_name = shift;
 
     my $redirect = $DEBUG ? '' : '>/dev/null 2>&1';
+    $redirect = '';
     system(qq{sudo -u postgres psql $db_name -c "CREATE LANGUAGE 'plpgsql'" $redirect})
         and die "Couldn't psql $db_name -c create language plpgsql";
     my @postgises = (

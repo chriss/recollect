@@ -351,8 +351,8 @@ sub POST_areas {
     return $self->forbidden unless $self->user_is_admin;
 
     my $area = Recollect::Area->Create(
-        name => $args->{name},
-        centre => $args->{centre},
+        map { $_ => $args->{$_} }
+            qw/name ad_img ad_url licence_url/
     );
 
     my $response = $area->to_hash;

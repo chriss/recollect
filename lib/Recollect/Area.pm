@@ -8,7 +8,9 @@ with 'Recollect::Roles::Cacheable';
 
 has 'id'     => (is => 'ro', isa => 'Int',              required   => 1);
 has 'name'   => (is => 'ro', isa => 'Str',              required   => 1);
-has 'centre' => (is => 'ro', isa => 'Str',              required   => 1);
+has 'ad_img'      => (is => 'ro', isa => 'Maybe[Str]');
+has 'ad_url'      => (is => 'ro', isa => 'Maybe[Str]');
+has 'licence_url' => (is => 'ro', isa => 'Maybe[Str]');
 *title = \&name;
 
 has 'uri'   => (is => 'ro', isa => 'Str',              lazy_build => 1);
@@ -19,7 +21,7 @@ has 'polygons' => (is => 'ro', isa => 'ArrayRef[HashRef]', lazy_build => 1);
 sub to_hash {
     my $self = shift;
     return {
-        map { $_ => $self->$_() } qw/id name centre/
+        map { $_ => $self->$_() } qw/id name ad_img ad_url licence_url/
     };
 }
 
