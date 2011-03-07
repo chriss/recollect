@@ -23,7 +23,7 @@ sub need_notification {
     my $due = Recollect::Reminder->All_due(
         as_of => $self->now,
     );
-    $self->log("Found " . @$due . " reminders due.");
+    $self->log("Found " . @$due . " reminders due as of " . $self->now);
 
     return $due;
 }
