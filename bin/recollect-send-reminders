@@ -22,14 +22,16 @@ Getopt::Long::GetOptions( \%args,
     'loopdelay=i',
 ) or usage();
 
+my $notifier = Recollect::Notifier->new;
 if (my $lifespan = $args{loop}) {
-    warn_it("$0 checking $lifespan times with a $args{loopdelay} pause");
+    my $delay = $args{loopdelay} || 60;
+    $notifier->log("$0 checking $lifespan times with a $delay pause");
     while ($lifespan > 0) {
         check_and_send_reminders();
         $lifespan--;
-        sleep $args{loopdelay} if $lifespan;
+        sleep $delay if $lifespan;
     }
-    warn_it("$0 finished serving $lifespan checks");
+    $notifier->log("$0 finished serving $args{loop} checks");
 }
 else {
     check_and_send_reminders();
@@ -38,10 +40,13 @@ else {
 exit;
 
 sub check_and_send_reminders {
-    my $notifier = Recollect::Notifier->new;
     if (my $t = $args{'use-time'}) {
         $notifier->now(DateTime::Format::Pg->parse_datetime($t));
     }
+    else {
+        $notifier->now(DateTime->now);
+    }
+
     my $reminders = $notifier->need_notification;
     for my $r_id (@$reminders) {
         my $rem = Recollect::Reminder->By_id($r_id);
