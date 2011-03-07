@@ -1,43 +1,59 @@
 #!/usr/bin/perl
 use strict;
 use warnings;
+use Lazy::Lockfile;
 use FindBin;
 use lib "$FindBin::Bin/../lib";
-use Recollect::Notifier;
-use Recollect::Reminder;
-use Lazy::Lockfile;
-use DateTime;
-use Getopt::Long;
 
 my $lockfile = "/var/www/recollect/run/send-reminders.lock";
-my $lock = Lazy::Lockfile->new($lockfile);
+my $lock = Lazy::Lockfile->new($lockfile) || die "no lock";
+
+require Recollect::Notifier;
+require Recollect::Reminder;
+require DateTime;
+require DateTime::Format::Pg;
+require Getopt::Long;
 
 my %args;
-GetOptions( \%args,
+Getopt::Long::GetOptions( \%args,
     'dry-run',
     'use-time=s',
+    'loop=i',
+    'lifespan=i',
 ) or usage();
-if ($ENV{RECOLLECT_DEBUG}) {
-    $Recollect::Roles::SQL::DEBUG = $args{'dry-run'} = 1;
-}
 
-my $notifier = Recollect::Notifier->new;
-if (my $t = $args{'use-time'}) {
-    $notifier->now(DateTime::Format::Pg->parse_datetime($t));
-}
-my $reminders = $notifier->need_notification;
-for my $r_id (@$reminders) {
-    my $rem = Recollect::Reminder->By_id($r_id);
-
-    if ($args{'dry-run'}) {
-        print "Would have notified reminder " . $rem->nice_name . " about "
-            . $rem->zone->next_pickup->[0]->day . " \n";
-        next;
+if ($args{loop}) {
+    my $lifespan = $args{lifespan} || 10;
+    while ($lifespan-- > 0) {
+        check_and_send_reminders();
+        sleep $args{loop} if $lifespan;
     }
-    eval { $notifier->notify($rem) };
-    if ($@) {
-        my $now = localtime;
-        warn "$now: $@";
+}
+else {
+    check_and_send_reminders();
+}
+
+exit;
+
+sub check_and_send_reminders {
+    my $notifier = Recollect::Notifier->new;
+    if (my $t = $args{'use-time'}) {
+        $notifier->now(DateTime::Format::Pg->parse_datetime($t));
+    }
+    my $reminders = $notifier->need_notification;
+    for my $r_id (@$reminders) {
+        my $rem = Recollect::Reminder->By_id($r_id);
+
+        if ($args{'dry-run'}) {
+            print "Would have notified reminder " . $rem->nice_name . " about "
+                . $rem->zone->next_pickup->[0]->day . " \n";
+            next;
+        }
+        eval { $notifier->notify($rem) };
+        if ($@) {
+            my $now = localtime;
+            warn "$now: $@";
+        }
     }
 }
 
@@ -46,6 +62,6 @@ exit;
 
 sub usage {
     die <<EOT;
-USAGE: $0 [--dry-run]
+USAGE: $0 [--dry-run] [--loop=60] [--lifespan=10]
 EOT
 }
