@@ -19,15 +19,17 @@ Getopt::Long::GetOptions( \%args,
     'dry-run',
     'use-time=s',
     'loop=i',
-    'lifespan=i',
+    'loopdelay=i',
 ) or usage();
 
-if ($args{loop}) {
-    my $lifespan = $args{lifespan} || 10;
-    while ($lifespan-- > 0) {
+if (my $lifespan = $args{loop}) {
+    warn_it("$0 checking $lifespan times with a $args{loopdelay} pause");
+    while ($lifespan > 0) {
         check_and_send_reminders();
-        sleep $args{loop} if $lifespan;
+        $lifespan--;
+        sleep $args{loopdelay} if $lifespan;
     }
+    warn_it("$0 finished serving $lifespan checks");
 }
 else {
     check_and_send_reminders();
@@ -50,18 +52,19 @@ sub check_and_send_reminders {
             next;
         }
         eval { $notifier->notify($rem) };
-        if ($@) {
-            my $now = localtime;
-            warn "$now: $@";
-        }
+        warn_it($@) if $@;
     }
 }
 
 exit;
 
+sub warn_it {
+    my $now = localtime;
+    warn localtime() . ": @_";
+}
 
 sub usage {
     die <<EOT;
-USAGE: $0 [--dry-run] [--loop=60] [--lifespan=10]
+USAGE: $0 [--dry-run] [--loop=60] [--loopdelay=60]
 EOT
 }
