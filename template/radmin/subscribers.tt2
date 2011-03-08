@@ -1,0 +1,25 @@
+[% WRAPPER elements/static_wrapper.tt2 %]
+  <h1>Subscribers</h1>
+  <strong>Actions:</strong>
+  <ul>
+    <li><a href="[% doorman.sign_out_path %]">Sign Out</a></li>
+    <li><a href="/radmin">Radmin Home</a></li>
+  </ul>
+
+  <h2>All Active Users</h2>
+  <table>
+      <tr>
+          <th>Email</th>
+          <th>Create Date</th>
+          <th>Twittername</th>
+      </tr>
+      [% FOREACH sub IN subscribers %]
+      <tr>
+          <td><a href="/radmin/subscribers/[% sub.id %]">[% sub.email %]</a></td>
+          <td>[% sub.created_at %]</td>
+          <td><a href="http://twitter.com/[% sub.twittername %]">
+                  [% sub.twittername %]</a></td>
+      </tr>
+      [% END %]
+  </table>
+[% END %]

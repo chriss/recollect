@@ -3,7 +3,11 @@
   <script type="text/javascript" src="/[% version %]/javascript/libs/jquery.flot.pie.js"></script>
 
   <h1>Welcome, [% doorman.twitter_screen_name %].</h1>
-  The only thing you can do so far in /radmin is to: <a href="[% doorman.sign_out_path %]">sign out</a>.
+  <strong>Actions:</strong>
+  <ul>
+    <li><a href="[% doorman.sign_out_path %]">Sign Out</a></li>
+    <li><a href="/radmin/subscribers">Subscriber list</a></li>
+  </ul>
 
   <h2>Reminders by City</h2>
   (Vancouver is removed b/c it dwarfs the others.)

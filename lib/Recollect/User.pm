@@ -1,6 +1,7 @@
 package Recollect::User;
 use Moose;
 use DateTime::Format::Pg;
+use Recollect::Reminder;
 use namespace::clean -except => 'meta';
 
 extends 'Recollect::Collection';
@@ -11,6 +12,33 @@ has 'created_at'   => (is => 'ro', isa => 'Str',        required   => 1);
 has 'twittername'  => (is => 'ro', isa => 'Maybe[Str]', required   => 1);
 has 'is_admin'     => (is => 'ro', isa => 'Bool',       required   => 1);
 has 'created_date' => (is => 'ro', isa => 'Object',     lazy_build => 1);
+has 'subscription_count' => (is => 'ro', isa => 'Num',  lazy_build => 1);
+has 'reminders'    => (is => 'ro', isa => 'ArrayRef[Recollect::Reminder]',
+                                                        lazy_build => 1);
+sub All_active {
+    my $class = shift;
+    my $sth = $class->run_sql(<<EOT, []);
+SELECT u.* FROM users u
+    JOIN subscriptions s ON (s.user_id = u.id)
+    WHERE s.active = 't'
+    ORDER BY created_at DESC
+EOT
+    return $class->_all_as_obj($sth);
+}
+
+sub _build_subscription_count { die "Not implemented yet" }
+
+sub _build_reminders {
+    my $self = shift;
+
+    my $sth = $self->run_sql(<<EOT, [$self->id]);
+SELECT r.* FROM reminders r
+    JOIN subscriptions s ON (r.subscription_id = s.id)
+    JOIN users u ON (s.user_id = u.id)
+    WHERE u.id = ?
+EOT
+    return Recollect::Reminder->_all_as_obj($sth);
+}
 
 sub _build_created_date {
     my $self = shift;

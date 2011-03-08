@@ -1,0 +1,35 @@
+[% WRAPPER elements/static_wrapper.tt2 %]
+  <h1>[% subscriber.email %]</h1>
+  <strong>Actions:</strong>
+  <ul>
+    <li><a href="/radmin/subscribers">Subscribers</a></li>
+    <li><a href="/radmin">Radmin Home</a></li>
+    <li><a href="[% doorman.sign_out_path %]">Sign Out</a></li>
+  </ul>
+
+  <h2>Reminders</h2>
+
+  <table>
+      <tr>
+          <th>ID</th>
+          <th>Zone</th>
+          <th>Create Date</th>
+          <th>Last Notified</th>
+          <th>Delivery Offset</th>
+          <th>Target</th>
+      </tr>
+
+      [% FOREACH r IN subscriber.reminders %]
+      <tr>
+          <td>[% r.id %]</td>
+          <td>
+              <a href="/radmin/zones/[% r.zone.name %]">[% r.zone.name %]</a>
+          </td>
+          <td>[% r.creation_datetime.ymd %]</td>
+          <td>[% r.last_notified %]</td>
+          <td>[% r.delivery_offset %]</td>
+          <td>[% r.target %]</td>
+      </tr>
+      [% END %]
+  </table>
+[% END %]

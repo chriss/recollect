@@ -25,6 +25,8 @@ sub run {
     my %func_map = (
         GET => [
             [ qr{^/sign_out$}           => sub { shift->redirect('/radmin') } ],
+            [ qr{^/subscribers$}        => \&subscribers ],
+            [ qr{^/subscribers/(\d+)$}  => \&show_subscriber ],
             [ qr{^/twitter_verified$}   => \&twitter_verified ],
             [ qr{^/$}                   => \&home_screen ],
         ],
@@ -63,6 +65,23 @@ sub home_screen {
         new_reminders => $self->_new_reminders,
     };
     return $self->process_template("radmin/home.tt2", $params)->finalize;
+}
+
+sub subscribers {
+    my $self = shift;
+    my $params = {
+        subscribers => Recollect::User->All_active,
+    };
+    return $self->process_template("radmin/subscribers.tt2", $params)->finalize;
+}
+
+sub show_subscriber {
+    my $self = shift;
+    my $id = shift;
+    my $params = {
+        subscriber => Recollect::User->By_id($id),
+    };
+    return $self->process_template("radmin/subscriber.tt2", $params)->finalize;
 }
 
 sub twitter_verified { shift->redirect("/radmin") }
