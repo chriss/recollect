@@ -18,6 +18,7 @@ Add_a_free_subscription: {
     is scalar(@{ Recollect::Subscription->All }), 0, 'no Subscriptions';
     my $subscr = Recollect::Subscription->Create(
         email     => $test_email,
+        location  => '49.2877347,-123.04528540000001',
         reminders => [
             {
                 target  => "email:$test_email",

@@ -22,6 +22,7 @@ has 'created_at' => (is => 'ro', isa => 'Str',  required => 1);
 has 'free'       => (is => 'ro', isa => 'Str',  required => 1);
 has 'active'     => (is => 'ro', isa => 'Bool', required => 1);
 has 'payment_period' => (is => 'ro', isa => 'Maybe[Str]');
+has 'location'       => (is => 'ro', isa => 'Maybe[Str]', lazy_build => 1);
 
 has 'user'        => (is => 'ro', isa => 'Object',           lazy_build => 1);
 has 'url'         => (is => 'ro', isa => 'Str',              lazy_build => 1);
@@ -29,6 +30,9 @@ has 'payment_url' => (is => 'ro', isa => 'Maybe[Str]',       lazy_build => 1);
 has 'reminders'   => (is => 'ro', isa => 'ArrayRef[Object]', lazy_build => 1);
 has 'created_date' => (is => 'ro', isa => 'Object', lazy_build => 1);
 has 'delete_url'   => (is => 'ro', isa => 'Str', lazy_build => 1);
+
+# Don't fetch the location geometry by default
+sub Columns { 'id, user_id, created_at, free, active, payment_period' }
 
 around 'Create' => sub {
     my $orig = shift;
@@ -47,6 +51,10 @@ around 'Create' => sub {
     die "payment_period is required for non-free reminders!"
         if !$args{free} and !$args{payment_period};
 
+    if (my $loc = $args{location}) {
+        $loc =~ s/,/ /;
+        $args{location} = "POINT($loc)";
+    }
     my $subscription = $orig->($class, %args);
     if ($args{free}) {
         $subscription->recurly->create_account(
