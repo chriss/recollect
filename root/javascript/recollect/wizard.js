@@ -6,6 +6,11 @@ Recollect.Wizard  = function(opts) {
     $.extend(this, this._defaults, opts);
 }
 
+jQuery.validator.addMethod("phone", function(phone, element) {
+    return this.optional(element)
+        || phone.match(/^[2-9]\d{2}-[2-9]\d{2}-\d{4}$/);
+}, "Please specify a valid phone number");
+
 Recollect.Wizard .prototype = {
     _defaults: {
         _showQueue: []
@@ -109,14 +114,14 @@ Recollect.Wizard .prototype = {
                 page: 'wizardAddress'
             };
             self.show(opts, function() {
-                $('#wizard .address').autocomplete({
-                    source: [],
-                    select: function(evt, ui) {
-                        $('#wizard .address').val(ui.item.value)
-                        $('#wizard form').submit();
-                    }
-                });
                 $('#wizard .address')
+                    .autocomplete({
+                        source: [],
+                        select: function(evt, ui) {
+                            $('#wizard .address').val(ui.item.value)
+                            $('#wizard form').submit();
+                        }
+                    })
                     .click(function() {
                         $(this).removeClass('initial').val('').unbind('click');
                     })
@@ -391,7 +396,10 @@ Recollect.Wizard .prototype = {
         },
         text: {
             rules: {
-                phone: 'required',
+                phone: {
+                    required: true,
+                    phone: true
+                },
                 email: {
                     required: true,
                     email: true
@@ -404,7 +412,10 @@ Recollect.Wizard .prototype = {
         },
         voice: {
             rules: {
-                phone: 'required',
+                phone: {
+                    required: true,
+                    phone: true
+                },
                 email: {
                     required: true,
                     email: true
@@ -423,6 +434,7 @@ Recollect.Wizard .prototype = {
         var opts = {
             height: 500,
             opacity: 1,
+            location: self._location,
             page: 'wizardForm'
         };
         $.extend(opts, args);
@@ -431,25 +443,17 @@ Recollect.Wizard .prototype = {
             self.show(opts, function() {
                 $('#wizard form').validate(self.validate[args.type])
                 $('#wizard input[name=phone]').mask('999-999-9999');
+                $('#wizard .address').keyup(function(e) {
+                    self.autocomplete($(this));
+                });
                 $('#wizard .time').timePicker({
                     show24Hours: false,
                     step: 30
                 });
                 $('#wizard form').submit(function() {
-                    var reminder = {
-                        zone: args.zone,
-                        type: args.type,
-                        payment_period: args.paycycle
-                    };
-                    var form = $('#wizard form').serializeArray();
-                    $.each(form, function(i,field) {
-                        reminder[field.name] = field.value;
-                    });
-
-                    // Grab the time out of the timepicker
-                    reminder.time = $.timePicker('#wizard .time').getTime();
-
-                    self.addReminder(reminder);
+                    if ($(this).valid()) {
+                        self.submitReminderForm(args);
+                    }
                     return false;
                 });
                 $('#wizard .next').click(function() {
@@ -585,7 +589,7 @@ Recollect.Wizard .prototype = {
             var link = $('#wizard .status a').get(i);
             $(link).click(function() {
                 $('#wizard .status').fadeOut(function() {
-                    callback(result.formatted_address);
+                    callback(result);
                 });
                 return false;
             });
@@ -605,8 +609,8 @@ Recollect.Wizard .prototype = {
                 }
                 else if (results.length > 1) {
                     // show a list of results to suggest
-                    self.showAddressSelection(results, function(address) {
-                        self.searchForZone(address);
+                    self.showAddressSelection(results, function(result) {
+                        self.searchForZone(result.formatted_address);
                     });
                 }
                 else {
@@ -621,18 +625,6 @@ Recollect.Wizard .prototype = {
         });
     },
 
-    storeLocation: function(lat, lng) {
-        $.cookie('LatLng', [lat,lng].join(','), { expires: 365 });
-    },
-
-    getLocation: function() {
-        var coord_string = $.cookie('LatLng');
-        if (!coord_string) return;
-
-        coord_array = coord_string.split(',');
-        return new google.maps.LatLng(coord_array[0], coord_array[1]);
-    },
-
     showZoneAt: function(result) {
         var self = this;
 
@@ -641,7 +633,7 @@ Recollect.Wizard .prototype = {
         var locality = self.addressComponent('locality', result);
 
         // Store user's lat, lng
-        self.storeLocation(loc.lat(), loc.lng());
+        self._location = new google.maps.LatLng(loc.lat(), loc.lng());
 
         var zone = [ loc.lat(), loc.lng() ].join(',');
         $.ajax({
@@ -877,30 +869,17 @@ Recollect.Wizard .prototype = {
 
     showZoneOnMap: function(map, zone) {
         var self = this;
-        var stored = self.getLocation();
         var parser = new geoXML3.parser({
             map: map,
             processStyles: true,
             afterParse: function(docs) {
+                if (!self._location) return;
                 var placemarks = docs[0].placemarks;
-
-                // For zones with multiple polygons 
-                var foundLocation = false;
-
-                var marker;
                 $.each(placemarks, function(i, pmark) {
-                    if (!foundLocation && pmark.name == zone.name) {
-                        // Add a new Marker
-                        var position = pmark.polygon.bounds.getCenter();
-                        if (stored && polygonContains(pmark.polygon, stored)) {
-                            foundLocation = true;
-                            position = stored;
-                        }
-                        if (marker) marker.setMap(null);
-                        marker = self.showPointOnMap(map, position);
+                    if (polygonContains(pmark.polygon, self._location)) {
+                        self.showPointOnMap(map, self._location);
                     }
                 });
-                return;
             }
         });
         parser.parse('/api/lookup/' + zone.name + '.kml');
@@ -908,14 +887,10 @@ Recollect.Wizard .prototype = {
 
     showMap: function(position, zone) {
         var self = this;
-
-        if (!position) position = self.getLocation();
-        if (!position) throw new Error('Missing position');
-
         var node = $('#wizard .map').get(0);
         var map = new google.maps.Map(node, {
             zoom: 13,
-            center: position,
+            center: self._location,
             mapTypeId: google.maps.MapTypeId.ROADMAP,
             disableDefaultUI: true
         });
@@ -973,6 +948,63 @@ Recollect.Wizard .prototype = {
         return hours + ':' + minutes;
     },
 
+    submitReminderForm: function(args) {
+        var self = this;
+
+        var reminder = {
+            zone: args.zone,
+            type: args.type,
+            payment_period: args.paycycle
+        };
+
+        var form = $('#wizard form').serializeArray();
+        $.each(form, function(i,field) {
+            reminder[field.name] = field.value;
+        });
+
+        // Grab the time out of the timepicker
+        reminder.time = $.timePicker('#wizard .time').getTime();
+
+        if (typeof(reminder.address) == 'undefined') {
+            self.addReminder(reminder);
+        }
+        else {
+            self.geocode({
+                force: true,
+                address: reminder.address,
+                biasViewport: true,
+                callback: function(results) {
+                    if (results.length == 1) {
+                        self._location = results[0].geometry.location;
+                        self.addReminder(reminder);
+                    }
+                    else if (results.length > 1) {
+                        self.showError(
+                            '#wizard .address',
+                            "Sorry, we couldn't find your address."
+                        );
+                    }
+                    else {
+                        self.showError(
+                            '#wizard .address',
+                            "Sorry, we couldn't find your address."
+                        );
+                    }
+                }
+            });
+        }
+    },
+
+    showError: function(node, error) {
+        $(node).addClass('error');
+        $('<label></label>')
+            .addClass('error')
+            .attr('for', $(node).attr('name'))
+            .css('display', 'inline')
+            .html("Sorry, we couldn't find your address.")
+            .insertAfter(node);
+    },
+
     addReminder: function (opts) {
         var self = this;
 
@@ -981,6 +1013,7 @@ Recollect.Wizard .prototype = {
 
         var data = {
             email: opts.email,
+            location: wizard._location.toUrlValue(),
             reminders: []
         };
 

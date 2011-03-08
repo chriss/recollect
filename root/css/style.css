@@ -830,14 +830,24 @@ a#fdbk_tab {
 }
 
 #wizard .field {
+    position: relative;
     clear: both;
-    padding: 10px 5px;
+    padding: 13px 5px;
 }
 #wizard .field .name {
     float: left;
-    width: 130px;
+    width: 160px;
     text-align: right;
     margin-right: 10px;
+}
+#wizard .field input { width: 245px }
+#wizard .field .phone { width: 95px }
+#wizard .field .time { width: 71px }
+
+#wizard .field label.error{
+    position: absolute;
+    left: 45px;
+    top: 35px;
 }
 
 #wizard .loading {
@@ -1165,11 +1175,6 @@ p.inshort {
 p.rhetorical {
     padding: 1em;
     font-size: 150%;
-}
-
-
-.time {
-    width: 71px;
 }
 
 /* timePicker */
