@@ -7,7 +7,8 @@ use JSON qw/encode_json/;
 use Carp qw/croak/;
 use namespace::clean -except => 'meta';
 
-has 'now'     => (is => 'rw', isa => 'Object', default    => sub { now() });
+has 'now'   => (is => 'rw', isa => 'Object', default => sub { now() });
+has 'debug' => (is => 'rw', isa => 'Bool',   default => sub {0});
 
 with 'Recollect::Roles::Config';
 with 'Recollect::Roles::Log';
@@ -23,7 +24,7 @@ sub need_notification {
     my $due = Recollect::Reminder->All_due(
         as_of => $self->now,
     );
-    $self->log("Found " . @$due . " reminders due as of " . $self->now);
+    $self->log("Found " . @$due . " reminders due as of " . $self->now) if $self->debug;
 
     return $due;
 }
