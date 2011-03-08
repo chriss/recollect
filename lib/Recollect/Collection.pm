@@ -75,13 +75,7 @@ sub By_field {
         @{ $opts{args} || [] },
     );
     return $sth if $opts{handle_pls};
-    if ($opts{all}) {
-        my @objs;
-        while (my $row = $sth->fetchrow_hashref) {
-            push @objs, $class->new($row);
-        }
-        return \@objs;
-    }
+    return $class->_all_as_obj($sth) if $opts{all};
     return $class->_first_row_as_obj($sth);
 }
 
@@ -98,6 +92,17 @@ sub _first_row_as_obj {
     my $sth = shift;
     my $row = $sth->fetchrow_hashref;
     return $row ? $class->new($row) : undef;
+}
+
+sub _all_as_obj {
+    my $self_or_class = shift;
+    my $class = ref($self_or_class) || $self_or_class;
+    my $sth = shift;
+    my @objs;
+    while (my $row = $sth->fetchrow_hashref) {
+        push @objs, $class->new($row);
+    }
+    return \@objs;
 }
 
 sub _sequence_nextval {
