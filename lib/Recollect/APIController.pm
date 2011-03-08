@@ -167,7 +167,9 @@ sub subscriptions {
     my $args = shift;
     my $req  = $self->request;
 
-    my %new_sub;
+    my %new_sub = (
+        location => $args->{location},
+    );
     if (my $email = $args->{email}) {
         if (Email::Valid->address($email)) {
             $new_sub{email} = $email;
