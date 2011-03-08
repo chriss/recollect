@@ -21,6 +21,8 @@ has 'subscription'     => (is => 'ro', isa => 'Object', lazy_build => 1,
 has 'offset_duration'  => (is => 'ro', isa => 'Object', lazy_build => 1);
 has 'nice_name'        => (is => 'ro', isa => 'Str', lazy_build => 1);
 has 'zone_url'         => (is => 'ro', isa => 'Str', lazy_build => 1);
+has 'creation_datetime' => (is => 'ro', isa => 'DateTime', lazy_build => 1);
+has 'last_notify_datetime' => (is => 'ro', isa => 'DateTime', lazy_build => 1);
 
 extends 'Recollect::Collection';
 with 'Recollect::Roles::HasZone';
@@ -113,6 +115,17 @@ sub _build_offset_duration {
         hours => $h,
         minutes => $m,
     );
+}
+
+
+sub _build_creation_datetime {
+    my $self = shift;
+    return DateTime::Format::Pg->parse_datetime( $self->created_at );
+}
+
+sub _build_last_notified_datetime {
+    my $self = shift;
+    return DateTime::Format::Pg->parse_datetime( $self->last_notified );
 }
 
 __PACKAGE__->meta->make_immutable;
