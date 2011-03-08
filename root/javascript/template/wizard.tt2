@@ -335,7 +335,7 @@
                 <div class="description">
                     Don't want to pay? We find e-mail reminders are less effective, but we do offer them for free. 
                 </div>
-                <a class="bigButtonBlack choose chooseEmail" href="#">choose</a>
+                <a class="bigButtonBlack choose chooseOnline" href="#">choose</a>
             </div>
         </div>
 

@@ -340,7 +340,7 @@ Recollect.Wizard .prototype = {
                         );
                         return false;
                     });
-                    $('#wizard .chooseEmail').click(function() {
+                    $('#wizard .chooseOnline').click(function() {
                         // Track clicking back from pay
                         self.trackEvent(
                             'subscribe.pay.free', [args.type, args.zone]

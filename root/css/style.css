@@ -654,9 +654,13 @@ input.initial {
 }
 
 .boxes .boxOption .choose {
-    margin-left: 70px;
+    margin-left: 65px;
     position: absolute;
     bottom: 20px;
+}
+.boxes .boxOption .chooseTwitter,
+.boxes .boxOption .chooseEmail {
+    margin-left: 58px;
 }
 
 .boxes .boxOption .description {
