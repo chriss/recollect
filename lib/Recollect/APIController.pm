@@ -53,6 +53,7 @@ sub run {
     my $area_wrapper = sub {
         my ($area_id, $resource_type, $sub_name, @other) = @_;
         my $area = Recollect::Area->Resolve($area_id);
+        return $self->not_found unless $area;
         return $wrapper->($sub_name, $resource_type, $area, @other);
     };
 
@@ -60,6 +61,7 @@ sub run {
         my ($area_id, $zone_id, $resource_type, $sub_name) = @_;
         my $area = Recollect::Area->Resolve($area_id);
         my $zone = $area->resolve_zone_id($zone_id);
+        return $self->not_found unless $zone;
         return $wrapper->($sub_name, $resource_type, $area, $zone);
     };
 
