@@ -158,7 +158,6 @@ sub voice_notify {
 EOT
     }
 
-
     my $extra;
     my $items = $pickup->flag_names;
     if (@$items == 1) {
@@ -171,10 +170,14 @@ EOT
     $extra .= ' will be picked up.';
 
     return <<EOT;
-<Pause length="1"/>
 <Say voice="woman">
 Hello, this is Recollect, your garbage reminder service.
 Your next pickup day is $day_name.
+$extra
+</Say>
+<Pause length="1"/>
+<Say voice="woman">
+Once again, your next pickup day is $day_name.
 $extra
 Goodbye!
 </Say>
