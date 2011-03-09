@@ -96,31 +96,28 @@ $(INSTALL_DIR)/%:
 
 install: all $(INSTALL_DIR)/* $(SOURCE_FILES) $(LIB) \
 	$(TEMPLATES) $(EXEC) $(TEMPLATE_DIR) $(CRONJOB) $(PSGI) $(SQL)
-	rm -rf $(INSTALL_DIR)/root/css
-	rm -rf $(INSTALL_DIR)/root/images
-	rm -rf $(INSTALL_DIR)/root/javascript
 	if [ ! -d $(INSTALL_DIR)/root/reports ]; then mkdir $(INSTALL_DIR)/root/reports; fi
 	if [ ! -d $(INSTALL_DIR)/backup ]; then mkdir $(INSTALL_DIR)/backup; fi
+	chown -R recollect:www-data $(INSTALL_DIR)/backup/
 	if [ ! -d $(INSTALL_DIR)/etc/sql ]; then mkdir -p $(INSTALL_DIR)/etc/sql; fi
 	if [ ! -f /var/log/recollect-server.log ]; then touch /var/log/recollect-server.log; chown recollect:www-data /var/log/recollect-server.log; fi
+	rm -rf $(INSTALL_DIR)/root/css $(INSTALL_DIR)/root/images $(INSTALL_DIR)/root/javascript
 	cp -R $(SOURCE_FILES) $(INSTALL_DIR)/root
+	chown -R recollect:www-data $(INSTALL_DIR)/root
 	cp -R $(LIB) $(TEMPLATE_DIR) $(INSTALL_DIR)
 	cp -R $(SQL) $(INSTALL_DIR)/etc/sql
-	rm -f $(INSTALL_DIR)/root/*.html
 	cp $(PSGI) $(INSTALL_DIR)
 	cp $(EXEC) $(INSTALL_DIR)/bin
 	cp -f $(CRONJOB) /etc/cron.d/
+	touch /var/www/recollect/run/send-reminders.quit
 	cp -R etc/service $(INSTALL_DIR)/etc/service
 	if [ ! -d /etc/service/recollect ]; then \
 	    update-service --add $(INSTALL_DIR)/etc/service/recollect recollect; \
 	fi
 	sudo -u recollect $(INSTALL_DIR)/bin/recollect-db update
 	svc -h /etc/service/recollect
-	touch /var/www/recollect/run/send-reminders.quit
 	cp -f etc/nginx/sites-available/recollect.net /etc/nginx/sites-available
 	ln -sf /etc/nginx/sites-available/recollect.net /etc/nginx/sites-enabled/recollect.net
-	chown -R recollect:www-data $(INSTALL_DIR)/root
-	chown -R recollect:www-data $(INSTALL_DIR)/backup/
 	/etc/init.d/nginx reload
 
 install-templates: $(TEMPLATES)
