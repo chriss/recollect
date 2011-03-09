@@ -1,7 +1,6 @@
 BEGIN;
 
 -- Make this index a UNIQUE index
-DROP INDEX zones_name_idx;
 CREATE UNIQUE INDEX zones_name_idx ON zones (name);
 
 DELETE FROM recollect_schema;
