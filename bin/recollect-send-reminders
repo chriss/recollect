@@ -4,6 +4,7 @@ use warnings;
 use Lazy::Lockfile;
 use FindBin;
 use lib "$FindBin::Bin/../lib";
+use Recollect::Util qw/now/;
 
 my $lockfile = "/var/www/recollect/run/send-reminders.lock";
 my $lock = Lazy::Lockfile->new($lockfile) || die "no lock";
@@ -44,7 +45,7 @@ sub check_and_send_reminders {
         $notifier->now(DateTime::Format::Pg->parse_datetime($t));
     }
     else {
-        $notifier->now(DateTime->now);
+        $notifier->now(now());
     }
 
     my $reminders = $notifier->need_notification;
