@@ -116,6 +116,7 @@ install: all $(INSTALL_DIR)/* $(SOURCE_FILES) $(LIB) \
 	fi
 	sudo -u recollect $(INSTALL_DIR)/bin/recollect-db update
 	svc -h /etc/service/recollect
+	touch /var/www/recollect/run/send-reminders.quit
 	cp -f etc/nginx/sites-available/recollect.net /etc/nginx/sites-available
 	ln -sf /etc/nginx/sites-available/recollect.net /etc/nginx/sites-enabled/recollect.net
 	chown -R recollect:www-data $(INSTALL_DIR)/root
