@@ -158,15 +158,7 @@ sub voice_notify {
 EOT
     }
 
-    my $extra;
-    my $items = $pickup->flag_names;
-    if (@$items == 1) {
-        $extra = $items->[0];
-    }
-    else {
-        my $last = pop @$items;
-        $extra = join(', ', @$items) . " and $last";
-    }
+    my $extra = $pickup->flags_desc;
     $extra .= ' will be picked up.';
 
     return <<EOT;

@@ -14,8 +14,8 @@ has 'flags'      => (is => 'ro', isa => 'Str',      required   => 1);
 has 'zone'       => (is => 'ro', isa => 'Object',   lazy_build => 1);
 has 'string'     => (is => 'ro', isa => 'Str',      lazy_build => 1);
 has 'pretty_day' => (is => 'ro', isa => 'Str',      lazy_build => 1);
-has 'desc'       => (is => 'ro', isa => 'Str',      lazy_build => 1);
 has 'flag_names' => (is => 'ro', isa => 'ArrayRef[Str]', lazy_build => 1);
+has 'flags_desc' => (is => 'ro', isa => 'Str',      lazy_build => 1);
 has 'datetime'   => (is => 'ro', isa => 'DateTime', lazy_build => 1,
                      handles => [ qw/ymd day_of_week/ ]);
 
@@ -45,6 +45,15 @@ sub _build_flag_names {
         push @names, $flag_map{$flag} || die "Couldn't lookup flag $flag!";
     }
     return \@names;
+}
+
+sub _build_flags_desc {
+    my $self = shift;
+
+    my $items = $self->flag_names;
+    return $items->[0] if @$items == 1;;
+    my $last = pop @$items;
+    return join(', ', @$items) . " and $last";
 }
 
 sub By_zone_id {
@@ -79,14 +88,6 @@ sub _build_pretty_day {
     my $self = shift;
     my $dt = $self->datetime;
     return $dt->day_name . ', ' . $dt->month_name . ' ' . $dt->day;
-}
-
-sub _build_desc {
-    my $self = shift;
-    given ($self->flags) {
-        when (m/Y/) { return "Garbage & Yard Trimmings Pickup" }
-        default     { return "Garbage Pickup" }
-    }
 }
 
 sub _build_datetime {

@@ -500,7 +500,7 @@ sub pickupdays_ical {
     for my $pickup (@{ $zone->pickups }) {
         my $evt = Data::ICal::Entry::Event->new;
         $evt->add_properties(
-            summary => $pickup->desc,
+            summary => "Recollect - " . $pickup->flags_desc,
             dtstart => $pickup->ymd(''),
         );
         $ical->add_entry($evt);
