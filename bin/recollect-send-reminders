@@ -34,9 +34,7 @@ if (my $lifespan = $args{loop}) {
         sleep $delay if $lifespan;
         if (-e $quitfile) {
             unlink $quitfile;
-            $notifier->log("$0 exiting because of quit request after "
-                    . $args{loop} - $lifespan
-                    . " requests");
+            $notifier->log("$0 exiting because of quit request");
             last;
         }
     }
