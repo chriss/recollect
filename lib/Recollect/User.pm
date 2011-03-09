@@ -18,7 +18,7 @@ has 'reminders'    => (is => 'ro', isa => 'ArrayRef[Recollect::Reminder]',
 sub All_active {
     my $class = shift;
     my $sth = $class->run_sql(<<EOT, []);
-SELECT u.* FROM users u
+SELECT DISTINCT(u.*) FROM users u
     JOIN subscriptions s ON (s.user_id = u.id)
     WHERE s.active = 't'
     ORDER BY created_at DESC
