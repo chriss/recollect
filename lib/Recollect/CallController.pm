@@ -158,9 +158,7 @@ sub voice_notify {
 EOT
     }
 
-    my $extra = $pickup->flags_desc;
-    $extra .= ' will be picked up.';
-
+    my $extra = $pickup->flags_desc . ' will be picked up.';
     return <<EOT;
 <Say voice="woman">
 Hello, this is Recollect, your garbage reminder service.
@@ -230,10 +228,7 @@ sub lookup_zone {
         my $zone = Recollect::Zone->By_name($zone_name);
         my $d = $zone->next_pickup->[0];
         my $nice_date = $d->pretty_day;
-        my $extra = "No yard trimmings will be picked up.";
-        if ($d->has_flag('Y')) {
-            $extra = "Yard trimmings and food compost will be picked up.";
-        }
+        my $extra = $d->flags_desc . ' will be picked up.';
         return <<EOT;
     <Say voice="woman">
       The next pickup day for Vancouver $type $zones[$num] is: $nice_date. $extra
