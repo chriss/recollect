@@ -25,9 +25,9 @@ Recollect.Wizard .prototype = {
     ],
     validTypes: [ 'street_address', 'intersection', 'postal_code' ],
 
-    setHash: function() {
+    setLocation: function() {
         var state = $.makeArray(arguments).join('/');
-        History.pushState(null, null, '/r/' + state);
+        History.pushState(null, null, state);
     },
 
     start: function() {
@@ -36,23 +36,20 @@ Recollect.Wizard .prototype = {
         $('#wizard').html(Jemplate.process('wizard'));
 
         $('.homeLink').click(function() {
-            self.setHash();
+            self.setLocation('/');
             return false;
         });
         $('.tell-a-friend').click(function() {
-            self.setHash('tell-a-friend');
+            self.setLocation('/r/tell-a-friend');
             return false;
         });
 
-        if (location.href.match(/#$/)) {
-            self.setHash('start');
-        }
         History.Adapter.bind(window, 'statechange', function() {
             var state = History.getState();
 
             var parts = state.url.replace(
                 new RegExp('.+' + location.host), ''
-            ).replace(/\/$/,'').split('/');
+            ).split('/');
 
             var found_url = false;
 
@@ -84,13 +81,18 @@ Recollect.Wizard .prototype = {
             });
 
             if (!found_url) {
-                self.setHash();
+                self.setLocation('/');
             }
         });
+
+        // Grab initial state
+        if (!History.getState()) {
+            self.setLocation(location.pathname);
+        }
     },
 
     pages: {
-        '/r': function() {
+        '/': function() {
             var self = this;
 
             var opts = {
@@ -99,7 +101,7 @@ Recollect.Wizard .prototype = {
             };
             self.show(opts, function() {
                 $('#start').click(function(){
-                    self.setHash('start');
+                    self.setLocation('/r/start');
                     return false;
                 });
             });
@@ -182,7 +184,7 @@ Recollect.Wizard .prototype = {
                             );
                         },
                         success: function() {
-                            self.setHash(); // Redirect to /
+                            self.setLocation('/'); // Redirect to /
                         }
                     });
                     return false;
@@ -231,11 +233,11 @@ Recollect.Wizard .prototype = {
                     var map = self.showMap();
                     self.showZoneOnMap(map, zone);
                     $('#wizard #subscribe').click(function(){
-                        self.setHash(args.zone, 'subscribe');
+                        self.setLocation('/r', args.zone, 'subscribe');
                         return false;
                     });
                     $('#wizard .wrongZone').click(function(){
-                        self.setHash('start');
+                        self.setLocation('/r/start');
                         self.trackEvent('zone.wrong_zone', args.zone);
                         return false;
                     })
@@ -255,21 +257,21 @@ Recollect.Wizard .prototype = {
                 $.extend(opts, zone);
                 self.show(opts, function() {
                     $('#wizard .chooseText').click(function(){
-                        self.setHash(args.zone, 'subscribe', 'text');
+                        self.setLocation('/r', args.zone, 'subscribe', 'text');
                         return false;
                     });
                     $('#wizard .chooseVoice').click(function(){
-                        self.setHash(args.zone, 'subscribe','voice');
+                        self.setLocation('/r', args.zone, 'subscribe','voice');
                         return false;
                     });
                     $('#wizard .chooseFree').click(function(){
-                        self.setHash(args.zone, 'subscribe', 'free');
+                        self.setLocation('/r', args.zone, 'subscribe', 'free');
                         return false;
                     });
                     $('#wizard .back').click(function() {
                         // Track clicking back from pay
                         self.trackEvent('subscribe.back', args.zone);
-                        self.setHash(args.zone);
+                        self.setLocation('/r', args.zone);
                         return false;
                     });
                 });
@@ -289,17 +291,17 @@ Recollect.Wizard .prototype = {
                 $.extend(opts, zone);
                 self.show(opts, function() {
                     $('#wizard .chooseEmail').click(function(){
-                        self.setHash(args.zone, 'subscribe', 'free', 'email');
+                        self.setLocation('/r', args.zone, 'subscribe', 'free', 'email');
                         return false;
                     });
                     $('#wizard .chooseTwitter').click(function(){
-                        self.setHash(args.zone, 'subscribe', 'free', 'twitter');
+                        self.setLocation('/r', args.zone, 'subscribe', 'free', 'twitter');
                         return false;
                     });
                     $('#wizard .back').click(function() {
                         // Track clicking back from free
                         self.trackEvent('subscribe.free.back', args.zone);
-                        self.setHash(args.zone, 'subscribe');
+                        self.setLocation('/r', args.zone, 'subscribe');
                         return false;
                     });
 
@@ -327,14 +329,14 @@ Recollect.Wizard .prototype = {
                 $.extend(opts, zone);
                 self.show(opts, function() {
                     $('#wizard .chooseQuarterly').click(function(){
-                        self.setHash(
+                        self.setLocation( '/r',
                             args.zone, 'subscribe',
                             args.type, 'quarterly'
                         );
                         return false;
                     });
                     $('#wizard .chooseAnnual').click(function(){
-                        self.setHash(
+                        self.setLocation( '/r',
                             args.zone, 'subscribe',
                             args.type, 'annual'
                         );
@@ -345,7 +347,7 @@ Recollect.Wizard .prototype = {
                         self.trackEvent(
                             'subscribe.pay.free', [args.type, args.zone]
                         );
-                        self.setHash(args.zone, 'subscribe', 'free');
+                        self.setLocation('/r', args.zone, 'subscribe', 'free');
                         return false;
                     });
                     $('#wizard .back').click(function() {
@@ -353,7 +355,7 @@ Recollect.Wizard .prototype = {
                         self.trackEvent(
                             'subscribe.pay.back', [args.type, args.zone]
                         );
-                        self.setHash(args.zone, 'subscribe');
+                        self.setLocation('/r', args.zone, 'subscribe');
                         return false;
                     });
                 });
@@ -466,7 +468,7 @@ Recollect.Wizard .prototype = {
                         'subscribe.form.back',
                         [args.zone, args.type, args.paycycle || 'free']
                     );
-                    self.setHash(args.zone, 'subscribe', page);
+                    self.setLocation('/r', args.zone, 'subscribe', page);
                     return false;
                 });
             });
@@ -503,7 +505,7 @@ Recollect.Wizard .prototype = {
     },
 
     trackPageview: function(url) {
-        _gaq.push(['_trackPageview', url]);
+        if (typeof(_gaq) != 'undefined') _gaq.push(['_trackPageview', url]);
     },
 
     bounds: function() {
@@ -639,11 +641,11 @@ Recollect.Wizard .prototype = {
         $.ajax({
             url: '/api/lookup/' + zone + '.json',
             success: function(data) {
-                self.setHash(data.name);
+                self.setLocation('/r', data.name);
             },
             error: function(xhr) {
                 if (xhr.status == 404) {
-                    self.setHash('interest', loc.lat(), loc.lng());
+                    self.setLocation('/r/interest', loc.lat(), loc.lng());
                 }
                 else {
                     // Error: zero results
@@ -708,7 +710,7 @@ Recollect.Wizard .prototype = {
         var $newPage = $(html);
 
         $newPage.find('.homeLink').click(function() {
-            self.setHash();
+            self.setLocation('/');
             return false;
         });
 
@@ -1054,7 +1056,7 @@ Recollect.Wizard .prototype = {
                     location = data.payment_url;
                 }
                 else {
-                    self.setHash('success');
+                    self.setLocation('/r/success');
                 }
             }
         });
