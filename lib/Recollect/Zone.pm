@@ -22,6 +22,7 @@ has 'pickups' => (is => 'ro', isa => 'ArrayRef[Object]', lazy_build => 1);
 has 'uri'     => (is => 'ro', isa => 'Str',              lazy_build => 1);
 has 'style'   => (is => 'ro', isa => 'HashRef',          lazy_build => 1);
 has 'polygons' => (is => 'ro', isa => 'ArrayRef[HashRef]', lazy_build => 1);
+has 'rgb_color' => (is => 'ro', isa => 'Str',            lazy_build => 1);
 
 # Load geometry only on demand
 sub Columns {
@@ -191,6 +192,16 @@ sub _build_polygons {
     }
     return \@polygons;
 }
+
+sub _build_rgb_color {
+    my $self = shift;
+    # Poly & Line color is AABBGGRR, so we need to reverse it & drop the AA
+    my $pcolor = $self->poly_colour;
+    $pcolor =~ m/^(..)(..)(..)(..)$/;
+    return "$3$2$1";
+
+}
+
 
 __PACKAGE__->meta->make_immutable;
 1;

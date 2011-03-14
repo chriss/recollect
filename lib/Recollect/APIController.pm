@@ -66,7 +66,7 @@ sub run {
     };
 
     my $coord_rx = qr{[+-]?\d+\.\d+};
-    my $ext_rx   = qr{(?:\.(txt|json|kml))?$};
+    my $ext_rx   = qr{(?:\.(txt|json|kml|tron))?$};
     my $area_rx  = qr{([\w ]+?)};
     my $zone_rx  = qr{([\w\-_]+?)};
     given ($req->method) {
@@ -436,6 +436,36 @@ sub zone {
 sub zone_json {
     my ($self, $area, $zone) = @_;
     return $self->process_json($zone->to_hash);
+}
+
+sub zone_tron {
+    my ($self, $area, $zone) = @_;
+    my $tron = {
+        tron_version => 1,
+        zones => [
+            {
+                name => $zone->name,
+                title => $zone->title,
+                color => $zone->rgb_color,
+                geography => [
+                    map {
+                        [ map { [ $_->{lat}, $_->{lng} ] } @{ $_->{points} } ]
+                    }
+                    @{ $zone->polygons }
+                ],
+            }
+        ],
+        pickups => [
+            map {
+                {
+                    date => $_->day,
+                    zone => $zone->name,
+                    flags => $_->flags,
+                }
+            } @{ $zone->pickups }
+        ],
+    };
+    return $self->process_json($tron);
 }
 
 sub zone_txt {
