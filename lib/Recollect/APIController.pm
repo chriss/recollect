@@ -393,6 +393,26 @@ sub area_json {
     return $self->process_json( $area->to_hash );
 }
 
+sub area_tron {
+    my $self = shift;
+    my $area = shift;
+
+    my @zones;
+    my @pickups;
+    for my $zone (@{ $area->zones }) {
+        my $ztron = $zone->as_tron;
+        push @zones, @{ $ztron->{zones} };
+        push @pickups, @{ $ztron->{pickups} };
+    }
+
+    my $tron = {
+        tron_verison => 1,
+        zones => \@zones,
+        pickups => \@pickups,
+    };
+    return $self->process_json($tron);
+}
+
 sub area_txt {
     my $self = shift;
     my $area = shift;
@@ -440,32 +460,7 @@ sub zone_json {
 
 sub zone_tron {
     my ($self, $area, $zone) = @_;
-    my $tron = {
-        tron_version => 1,
-        zones => [
-            {
-                name => $zone->name,
-                title => $zone->title,
-                color => $zone->rgb_color,
-                geography => [
-                    map {
-                        [ map { [ $_->{lat}, $_->{lng} ] } @{ $_->{points} } ]
-                    }
-                    @{ $zone->polygons }
-                ],
-            }
-        ],
-        pickups => [
-            map {
-                {
-                    date => $_->day,
-                    zone => $zone->name,
-                    flags => $_->flags,
-                }
-            } @{ $zone->pickups }
-        ],
-    };
-    return $self->process_json($tron);
+    return $self->process_json($zone->as_tron);
 }
 
 sub zone_txt {

@@ -202,6 +202,35 @@ sub _build_rgb_color {
 
 }
 
+sub as_tron {
+    my $self = shift;
+
+    return {
+        tron_version => 1,
+        zones => [
+            {
+                name => $self->name,
+                title => $self->title,
+                color => $self->rgb_color,
+                geography => [
+                    map {
+                        [ map { [ $_->{lat}, $_->{lng} ] } @{ $_->{points} } ]
+                    }
+                    @{ $self->polygons }
+                ],
+            }
+        ],
+        pickups => [
+            map {
+                {
+                    date => $_->day,
+                    zone => $self->name,
+                    flags => $_->flags,
+                }
+            } @{ $self->pickups }
+        ],
+    };
+}
 
 __PACKAGE__->meta->make_immutable;
 1;
