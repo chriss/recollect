@@ -18,6 +18,12 @@ has 'zones' => (is => 'ro', isa => 'ArrayRef[Object]', lazy_build => 1);
 has 'styles' => (is => 'ro', isa => 'ArrayRef[HashRef]', lazy_build => 1);
 has 'polygons' => (is => 'ro', isa => 'ArrayRef[HashRef]', lazy_build => 1);
 
+around 'All' => sub {
+    my $orig = shift;
+    my $class = shift;
+    return $orig->($class, {}, \"name ASC");
+};
+
 sub to_hash {
     my $self = shift;
     return {

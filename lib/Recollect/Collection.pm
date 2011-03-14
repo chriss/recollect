@@ -18,7 +18,7 @@ sub _select {
 
 sub All {
     my $class = shift;
-    my $sth = $class->_select($class->Columns);
+    my $sth = $class->_select($class->Columns, @_);
     return [ map { $class->new($_) } @{ $sth->fetchall_arrayref({}) } ];
 }
 
