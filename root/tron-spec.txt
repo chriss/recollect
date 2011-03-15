@@ -1,0 +1,103 @@
+Trash & Recycling Object Notation
+
+This document describes a simple JSON notation to describe Municipal Waste
+Management collection schedules.  This specification covers both geographic
+collection zones as well as collection pickup schedules.
+
+
+Terms
+=====
+
+* "Collection Zone" or just "Zone" - refers to a geographic area defined by a
+  multipolygon which has a specific collection schedule. Zones should not
+  overlap.
+
+* "Collection Pickup" or just "Pickup" - refers to a date for a
+  specific zone when a pickup is scheduled to occur. Each pickup may be for
+  a different set of waste items.
+
+
+Data Format
+===========
+
+The data is stored in a JSON format (http://json.org) with a specific structure.
+This section defines the structure to be used.
+
+Each document may omit either the geographic data or the schedule data. In other
+words, it is permissible to have one file which describes the Collection Zones,
+and then other files that describe the Collection Pickup schedule. It may be
+desirable to have one file for each year's schedule.
+
+Each document will have the following JSON structure:
+
+{
+    "tron_version": 1,
+    "zones": [ ... ],
+    "pickups": [ ... ]
+}
+
+* `tron_version` is a mandatory field, which must be set to 1. All valid documents
+  must have this field. 
+* `zones` describes the geographic data. It must be an array of Zone objects, as
+  defined below. It may be omitted.
+* `pickups` describes the collection schedule.
+  It must be an array of Pickup objects, as defined below. It may be omitted.
+
+Zone Objects have the following structure:
+
+{
+    "name": "cityname-zonename",
+    "title": "Cityname Zonename",
+    "color": "RRGGBB",
+    "geography": [
+        [
+            [ lat, lng ],
+            ...
+        ],
+        ...
+    ]
+}
+
+* `name` is an identifier for this zone.  It should not contain spaces or any
+  other character that requires URL escaping.
+* `title` is a pretty version of the name suitable for display.
+* `color` is the RGB color for this zone, to be used when drawing the zone.
+* `geography` is an array of polygons, each polygon containing an array of
+  latitude, longitude points.
+
+Pickup Objects have the following structure:
+
+{
+    "date": "2011-03-14T07:00-08",
+    "zone": "cityname-zonename",
+    "flags": "GR"
+}
+
+* `date` is an ISO8601 timestamp describing the date and time the pickup will
+  occur. It should explictly specify the timezone of the pickup.
+* `zone` refers to which Collection Zone this pickup is for.
+* `flags` describes the items that are being collected on this pickup. Each
+  character in the flags string represents a different type of collection item.
+
+Pickup Flags
+------------
+
+Each pickup lists the items which will be collected on that date using "Pickup
+Flags". Each flag is a single UTF8 character. Acceptable characters are listed
+below. New characters may be added to this spec without increasing the version
+number, so consumers of this spec should allow unknown flags.
+
+* G - Garbage
+* R - Recycling
+* Y - Yard Trimmings
+* C - Compost
+* F - Food Compost
+* O - Organics
+* 2 - 2 Garbage Bags
+* X - X-mas Trees
+
+Multiple flags may represent the same items, so that the Flag language can be
+consistent with the language used by each municipality.  (At the expense of
+having multiple, similar flags).  For instance, Compost, Food Compost and
+Organics may all refer to very similar collections, but reflect the different
+language used by the municipalities of the Collection Zones.
