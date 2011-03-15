@@ -101,3 +101,15 @@ consistent with the language used by each municipality.  (At the expense of
 having multiple, similar flags).  For instance, Compost, Food Compost and
 Organics may all refer to very similar collections, but reflect the different
 language used by the municipalities of the Collection Zones.
+
+
+Implementations
+===============
+
+The Recollect API can emit TRON files for a specific Zone or a collection of
+zones for a particular municipality.
+
+See:
+
+* http://recollect.net/api/areas/Vancouver.tron
+* http://recollect.net/api/areas/Vancouver/zones/vancouver-north-blue.tron
