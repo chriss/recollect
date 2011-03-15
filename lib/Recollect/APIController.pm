@@ -412,7 +412,7 @@ sub area_tron {
     }
 
     my $tron = {
-        tron_verison => 1,
+        tron_version => 1,
         zones => \@zones,
         pickups => \@pickups,
     };

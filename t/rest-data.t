@@ -118,6 +118,27 @@ EOT
                 unlike $coords, qr/\(|\)/, 'no parens';
             }
         },
+        tron => sub {
+            my $data = shift;
+            my $zones = $data->{zones};
+            isa_ok $zones, 'ARRAY';
+            is scalar(@$zones), 10;
+            my $z1 = $zones->[0];
+            isa_ok $z1, 'HASH';
+            like $z1->{name}, qr/^vancouver-/, 'name looks ok';
+            like $z1->{title}, qr/^Vancouver /, 'title looks ok';
+            like $z1->{color}, qr/^\w{6}$/, 'color exists';
+            isa_ok $z1->{geography}, 'ARRAY', 'geography is an array';
+            ok $z1->{geography}[0][0], 'geography is a double array';
+
+            my $pickups = $data->{pickups};
+            isa_ok $pickups, 'ARRAY';
+            is scalar(@$pickups), 582;
+            my $p1 = $pickups->[0];
+            ok $p1->{zone}, 'name is correct';
+            ok $p1->{date}, 'date exists';
+            like $p1->{flags}, qr/^\w+$/, 'pickup flags exist';
+        },
     );
     test_the_api_for("/areas/$Vancouver_area_id",         %area_tests);
     test_the_api_for('/areas/Vancouver', %area_tests);
@@ -184,6 +205,27 @@ EOT
         is $data->{area}{ad_img}, 'recollect-ad-no-plastic-borderless.jpg';
         ok $data->{pickupdays}, 'pickupdays';
         ok $data->{nextpickup}, 'nextpickup';
+    },
+    tron => sub {
+        my $data = shift;
+        my $zones = $data->{zones};
+        isa_ok $zones, 'ARRAY';
+        is scalar(@$zones), 1;
+        my $z1 = $zones->[0];
+        isa_ok $z1, 'HASH';
+        like $z1->{name}, qr/^vancouver-north-red$/, 'name looks ok';
+        like $z1->{title}, qr/^Vancouver North Red/, 'title looks ok';
+        like $z1->{color}, qr/^\w{6}$/, 'color exists';
+        isa_ok $z1->{geography}, 'ARRAY', 'geography is an array';
+        ok $z1->{geography}[0][0], 'geography is a double array';
+
+        my $pickups = $data->{pickups};
+        isa_ok $pickups, 'ARRAY';
+        is scalar(@$pickups), 58;
+        my $p1 = $pickups->[0];
+        ok $p1->{zone}, 'name is correct';
+        ok $p1->{date}, 'date exists';
+        like $p1->{flags}, qr/^\w+$/, 'pickup flags exist';
     },
     kml => sub {
         my $data = shift;
@@ -412,6 +454,18 @@ sub test_the_api_for {
             }
             if (my $test = $tests{json}) {
                 (my $json_uri = $uri) =~ s/(\?(.+)$|$)/.json$1/;
+                $test_uri->(
+                    $json_uri,
+                    sub {
+                        my $json = shift;
+                        my $data = eval { decode_json($json) };
+                        is $@, '', "json is valid";
+                        $test->($data) unless $@;
+                    }
+                );
+            }
+            if (my $test = $tests{tron}) {
+                (my $json_uri = $uri) =~ s/(\?(.+)$|$)/.tron$1/;
                 $test_uri->(
                     $json_uri,
                     sub {
