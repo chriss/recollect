@@ -16,6 +16,7 @@ $Recollect::Roles::Config::CONFIG = undef;
 my %args;
 GetOptions( \%args,
     'zone=s',
+    'asof=s',
 );
 
 my $zone;
@@ -26,10 +27,20 @@ else {
     $zone = Recollect::Zone->All->[0];
 }
 
+my %notify_opts;
+if (my $asof = $args{asof}) {
+    $asof =~ m/^(\d{4})-(\d{2})-(\d{2})$/
+        or die "Could not parse $asof as a date\n";
+    my ($y, $m, $d) = ($1, $2, $3);
+    $notify_opts{now} = DateTime->new(year => $y, month => $m, day => $d);
+    $ENV{RECOLLECT_NOW} = $notify_opts{now};
+}
+
 my $target = shift or usage();
 Recollect::Notifier->new->send_notification(
     zone => $zone,
     target => $target,
+    %notify_opts,
 );
 exit;
 
