@@ -1,6 +1,7 @@
 package Recollect::Notifier;
 use Moose;
 use DateTime;
+use DateTime::Duration;
 use Recollect::Reminder;
 use Recollect::Util qw/now/;
 use JSON qw/encode_json/;
@@ -73,9 +74,22 @@ sub _send_notification_email {
     my $self = shift;
     my %args = @_;
 
+    my $now = $self->now;
+    my $p = $args{pickup};
+    my $subject = "Garbage day is almost here";
+    if ($now->ymd eq $p->ymd) {
+        $subject = "Garbage day is today";
+    }
+    else {
+        my $tomorrow = $now + DateTime::Duration->new(days => 1);
+        if ($tomorrow->ymd eq $p->ymd) {
+            $subject = "Garbage day is tomorrow";
+        }
+    }
+
     $self->send_email(
         to            => $args{target},
-        subject       => 'It is garbage day',
+        subject       => $subject,
         content_type  => 'text/html',
         template      => 'notification.html',
         template_args => {
