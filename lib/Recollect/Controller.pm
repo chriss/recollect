@@ -11,6 +11,7 @@ use Email::Valid;
 use Plack::Request;
 use Plack::Response;
 use Data::Dumper;
+use HTML::Calendar::Simple;
 use namespace::clean -except => 'meta';
 
 with 'Recollect::ControllerBase';
@@ -137,8 +138,37 @@ sub schedule {
     my $zone = Recollect::Zone->By_name($zone_name);
     return $self->redirect('/') unless $zone;
 
+    my %months;
+    for my $p (@{ $zone->pickups }) {
+        my $sort = sprintf('%d-%02d', $p->datetime->year, $p->datetime->month);
+        my $cal = $months{$sort} ||= {
+            month => $p->datetime->month,
+            calendar => HTML::Calendar::Simple->new({
+                year => $p->datetime->year,
+                month => $p->datetime->month,
+            }),
+        };
+        $cal->{calendar}->daily_info({
+                day => $p->datetime->day,
+                text => $p->flags,
+            },
+        );
+    }
+
+    my @months;
+    for my $m (sort keys %months) {
+        push @months, {
+            month => $months{$m}->{month},
+            html => $months{$m}->{calendar}->calendar_month,
+        }
+    }
+
+
     $self->log("SCHEDULE - $zone_name");
-    return $self->process_template("schedule.tt2", { zone => $zone })->finalize;
+    return $self->process_template("schedule.tt2", {
+            zone => $zone,
+            months => \@months,
+        })->finalize;
 }
 
 sub tell_friends {

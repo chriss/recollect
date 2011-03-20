@@ -37,41 +37,14 @@
     [% END %]
     </td>
     </table>
-    <table class="schedule" width="100%">
-    <tr><td width="100%" colspan="3">2011 Calendar</td></tr>
-    <tr>
-      <td width="33%">Jan 2011<br />
-        <div class="calendar"></div>
-      </td>
-      <td width="33%">Feb 2011<br />
-      </td>
-      <td width="33%">March 2011<br />
-      </td>
-    </tr>
-    <tr>
-      <td width="33%">April 2011<br />
-      </td>
-      <td width="33%">May 2011<br />
-      </td>
-      <td width="33%">June 2011<br />
-      </td>
-    </tr>
-    <tr>
-      <td width="33%">July 2011<br />
-      </td>
-      <td width="33%">August 2011<br />
-      </td>
-      <td width="33%">Sept 2011<br />
-      </td>
-    </tr>
-    <tr>
-      <td width="33%">Oct 2011<br />
-      </td>
-      <td width="33%">Nov 2011<br />
-      </td>
-      <td width="33%">Dec 2011<br />
-      </td>
-    </tr>
+    <table width="600px">
+    [% SET in_tr = 0 %]
+    [% FOREACH m IN months %]
+      [% IF (m.month - 1) % 3 == 0 %]<tr>[% SET in_tr = 1 %][% END %]
+      <td width="33%">[% m.html %]</a>
+      [% IF (m.month - 3) % 3 == 0 %]</tr>[% SET in_tr = 0 %][% END %]
+    [% END %]
+    [% IF in_tr %]</tr>[% END %]
     </table>
 
     <div id="calendars"></div>
