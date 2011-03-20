@@ -18,7 +18,7 @@
 
   <script>
       $(document).ready(function() {
-        var rbc_data = [% reminders_by_city_json %];
+        var rbc_data = [% reminders_by_area_json %];
         $.plot($("#remindersbycity"), rbc_data, 
         {
             series: {
