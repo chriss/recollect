@@ -5,6 +5,7 @@ use Fatal qw/open/;
 use Template;
 use Recollect::CallController;
 use Recollect::Subscription;
+use Recollect::Zone;
 use JSON qw/encode_json decode_json/;
 use Email::Valid;
 use Plack::Request;
@@ -35,6 +36,8 @@ sub run {
             [ qr{^/subscription/delete/([\w-]+)$} => \&delete_subscription_page ],
             # Payment success / cancel page
             [ qr{^/payment/([^/]+)/(.+)$} => \&payment_ui ],
+            # Full-page schedule view
+            [ qr{^/schedule/(.+)$} => \&schedule ],
         ],
 
         POST => [
@@ -124,6 +127,18 @@ sub payment_ui {
         }
     }
     return $self->redirect("/");
+}
+
+sub schedule {
+    my $self = shift;
+    my $req  = shift;
+    my $zone_name = shift;
+
+    my $zone = Recollect::Zone->By_name($zone_name);
+    return $self->redirect('/') unless $zone;
+
+    $self->log("SCHEDULE - $zone_name");
+    return $self->process_template("schedule.tt2", { zone => $zone })->finalize;
 }
 
 sub tell_friends {

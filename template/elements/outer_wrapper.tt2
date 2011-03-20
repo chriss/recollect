@@ -30,8 +30,10 @@
     [% END %]
 </head>
 
-<body>
-    <img id="background" src="/[% version %]/images/background.jpg"/>
+<body[% IF class %] class="[% class %]"[% END %]>
+    [% UNLESS nobg %]
+        <img id="background" src="/[% version %]/images/background.jpg"/>
+    [% END %]
 
     <div id="container">
         <header>
@@ -78,6 +80,7 @@
     [% INCLUDE elements/analytics %]
 
     <!-- GetSatisfaction -->
+    [% UNLESS nofeedback %]
     <script type="text/javascript" charset="utf-8">
         var is_ssl = ("https:" == document.location.protocol);
         var asset_host = is_ssl ? "https://s3.amazonaws.com/getsatisfaction.com/" : "http://s3.amazonaws.com/getsatisfaction.com/";
@@ -93,6 +96,7 @@
             style: "idea"
         });
     </script>
+    [% END %]
     
 </body>
 </html>
