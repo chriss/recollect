@@ -9,8 +9,6 @@ use namespace::clean -except => 'meta';
 with 'Recollect::ControllerBase';
 with 'Recollect::Roles::SQL';
 
-has 'doorman' => (is => 'rw', isa => 'Object', lazy_build => 1);
-
 sub run {
     my $self = shift;
     my $req = $self->request;
@@ -85,7 +83,6 @@ sub show_subscriber {
 }
 
 sub twitter_verified { shift->redirect("/radmin") }
-sub _build_doorman   { shift->env->{'doorman.radmin.twitter'} }
 
 sub _gather_stats {
     my $self = shift;

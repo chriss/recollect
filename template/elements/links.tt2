@@ -5,4 +5,5 @@
     <a href="/partner">Partner</a>&middot;
     <a href="/r/tell-a-friend" class="tell-a-friend">Tell a Friend</a>&middot;
     <a href="/copyright">&copy;2011</a>
+    [% IF is_admin %]<a href="/radmin">RADmin</a>[% END %]
 </div>

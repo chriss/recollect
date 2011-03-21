@@ -12,6 +12,7 @@ with 'Recollect::Roles::Template';
 has 'request'   => (is => 'rw', isa => 'Plack::Request');
 has 'env'       => (is => 'rw', isa => 'HashRef');
 has 'message' => (is => 'rw', isa => 'Str');
+has 'doorman' => (is => 'rw', isa => 'Object', lazy_build => 1);
 
 has 'version' => ( is => 'ro', isa => 'Str', lazy_build => 1 );
 sub _build_version {
@@ -77,6 +78,7 @@ sub render_template {
     $param->{base} = $self->base_url,
     $param->{request_uri} = $self->request->request_uri;
     $param->{message} = $self->message;
+    $param->{is_admin} = $self->user_is_admin ? 1 : 0;
     $self->tt2->process($template, $param, ref($html) ? $html : \$html);
     return \$html;
 }
@@ -198,5 +200,7 @@ sub redirect {
     $resp->body("Redirecting to $url");
     return $resp->finalize;
 }
+
+sub _build_doorman   { shift->env->{'doorman.radmin.twitter'} }
 
 1;
