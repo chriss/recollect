@@ -92,11 +92,11 @@ sub process_template {
     $self->render_template($template, $param, \$body);
     if (!defined $body) {
         my $err = $self->tt2->error;
+        my $msg = "Error rendering template $template: $err";
+        warn $msg;
         if ($err =~ m/not found/) {
             return $self->process_template('404.tt2', {}, 404);
         }
-        my $msg = "Error rendering template $template: $err";
-        warn $msg;
         $self->log($msg);
         return $self->process_template("500.tt2", {}, 500);
     }
