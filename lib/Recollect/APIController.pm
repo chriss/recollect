@@ -126,6 +126,10 @@ sub run {
                 when (m{^/lookup/([\w-]+)(.*)$}) {
                     return $wrapper->('zone_by_name', undef, $1, $2);
                 }
+
+                when (m{^/reports/subscriptions_by_area\.json$}) {
+                    return $wrapper->('report_subs_by_area', $1)
+                }
             }
         }
         when ('POST') {
