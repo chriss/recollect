@@ -12,7 +12,7 @@ with 'Recollect::Roles::Template';
 has 'request'   => (is => 'rw', isa => 'Plack::Request');
 has 'env'       => (is => 'rw', isa => 'HashRef');
 has 'message' => (is => 'rw', isa => 'Str');
-has 'doorman' => (is => 'rw', isa => 'Object', lazy_build => 1);
+has 'doorman' => (is => 'rw', isa => 'Maybe[Object]', lazy_build => 1);
 
 has 'version' => ( is => 'ro', isa => 'Str', lazy_build => 1 );
 sub _build_version {
@@ -47,7 +47,7 @@ sub user_is_admin {
     my $self = shift;
 
     # Unit Test mode
-    return $ENV{RECOLLECT_USER_IS_ADMIN} unless $self->can('doorman');
+    return $ENV{RECOLLECT_USER_IS_ADMIN} unless $self->doorman;
 
     return 0 unless $self->doorman->is_sign_in;
 

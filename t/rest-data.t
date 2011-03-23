@@ -36,7 +36,11 @@ test_the_api_for(
 
 
 # GET /api/areas
-my $Vancouver_area_id = Recollect::Area->By_name('Vancouver')->id;
+my $Vancouver = Recollect::Area->By_name('Vancouver');
+ok $Vancouver, "Vancouver data is not loaded!";
+exit unless $Vancouver;
+my $Vancouver_area_id = $Vancouver->id;
+
 test_the_api_for(
     '/areas',
     html => sub {
