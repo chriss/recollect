@@ -4,6 +4,13 @@ use warnings;
 use Test::More;
 use t::Recollect;
 use Recollect::Area;
+use Sys::Hostname qw/hostname/;
+
+if (hostname() eq 'recollect.net') {
+    diag "Tests skipped on recollect.net";
+    done_testing();
+    exit;
+}
 
 $ENV{RECOLLECT_EMPTY_DB_PLS} = 1;
 
