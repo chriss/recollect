@@ -501,7 +501,7 @@ Recollect.Wizard .prototype = {
 
     trackEvent: function(action, label) {
         if ($.isArray(label)) label = label.join(', ');
-        _gaq.push(['_trackEvent', 'wizard', action, label]);
+        if (typeof(_gaq) != 'undefined') _gaq.push(['_trackEvent', 'wizard', action, label]);
     },
 
     trackPageview: function(url) {
