@@ -119,6 +119,7 @@ install: all $(INSTALL_DIR)/* $(SOURCE_FILES) $(LIB) \
 	cp -f etc/nginx/sites-available/recollect.net /etc/nginx/sites-available
 	ln -sf /etc/nginx/sites-available/recollect.net /etc/nginx/sites-enabled/recollect.net
 	/etc/init.d/nginx reload
+	sudo -u recollect $(INSTALL_DIR)/bin/generate-sitemap.pl
 
 install-templates: $(TEMPLATES)
 	cp -R $(TEMPLATE_DIR)/* $(INSTALL_DIR)/template
