@@ -659,5 +659,29 @@ sub request_place_notification {
     return $self->no_content;
 }
 
+sub report_subs_by_area {
+    my $self = shift;
+    my $args = shift;
+
+    my $response = {
+        item => [
+            {
+                value => 10,
+                label => 'Toronto',
+            },
+            {
+                value => 20,
+                label => 'Edmonton',
+            },
+            {
+                value => 30,
+                label => 'Vancouver',
+            },
+
+        ],
+    };
+    return $self->process_json($response, 201);
+}
+
 __PACKAGE__->meta->make_immutable;
 1;
