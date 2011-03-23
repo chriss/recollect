@@ -13,10 +13,11 @@ die "USAGE: $0 <command>\n" unless $command;
 my $schema_dir = "$FindBin::Bin/../etc/sql";
 
 my $config = Recollect::Util->config;
-my $db = $config->{db_name};
+my $db = shift || $config->{db_name};
 given ($command) {
     when ('recreate') {
-        my $file = shift || "$schema_dir/schema.sql";
+        my $file = shift || "$schema_dir/recollect.sql";
+        die "No such schema $file!" unless -e $file;
         print "Re-creating database ...\n";
         system("dropdb $db");
         system("createdb -E UTF8 -T template0 $db");
