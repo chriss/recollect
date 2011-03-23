@@ -2,6 +2,6 @@
     <div id="simpleLayout">
         <div class="white"></div>
         <a href="/"><img class="logo" src="/[% version %]/images/recollect_logo.png"/></a>
-        <div class="error">The server encountered an error!</div>
+        <div class="error">Oops - we had a problem!<br />Click <a href="/">here</a> to go back to the homepage.</div>
     </div>
 [% END %]
