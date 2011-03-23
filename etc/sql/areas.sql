@@ -1,4 +1,8 @@
 -- This file lists the SQL to create areas
 
-INSERT INTO areas VALUES (nextval('area_seq'), 'Edmonton', '36.980056,-85.612191');
-INSERT INTO areas VALUES (nextval('area_seq'), 'Toronto', '43.565467,-79.361115');
+INSERT INTO areas (name, ad_img, ad_url, licence_url)
+    VALUES ('Vancouver', 'recollect-ad-no-plastic-borderless.jpg', 'http://vancouver.ca/projects/foodWaste/noplastic.htm', 'http://data.vancouver.ca/termsOfUse.htm');
+INSERT INTO areas (name, ad_img, ad_url, licence_url)
+    VALUES ('Edmonton', '', '', '');
+INSERT INTO areas (name, ad_img, ad_url, licence_url)
+    VALUES ('Toronto', '', '', '');
