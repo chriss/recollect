@@ -164,7 +164,9 @@ sub run {
 around 'process_template' => sub {
     my $orig = shift;
     my $self = shift;
-    my $template = 'api/' . shift;
+    my $template = shift;
+
+    $template = "api/$template" unless $template =~ m/^\d+.tt2$/;
     $orig->($self, $template, @_)->finalize;
 };
 

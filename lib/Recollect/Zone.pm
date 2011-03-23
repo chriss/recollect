@@ -101,8 +101,10 @@ sub next_dow_change {
         }
         $last_pickup = $p;
     }
-
-    die "Could not find the next dow change for zone " . $self->name;
+    return {
+        last => 0,
+        next => 0,
+    };
 }
 
 
