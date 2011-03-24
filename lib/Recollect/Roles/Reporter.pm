@@ -25,13 +25,14 @@ sub load_reminders_in_area {
     my $area_name = shift || return [];
     my $area      = Recollect::Area->By_name($area_name) || return [];
 
-    my $sth = $self->run_sql(<<EOSQL, []);
+    my $sth = $self->run_sql(<<EOSQL, [$area->id]);
 SELECT zone.name, COUNT(reminder.id)
     FROM reminders reminder
     JOIN zones zone ON (reminder.zone_id = zone.id)
     JOIN areas area ON (zone.area_id = area.id)
     JOIN subscriptions subscr ON (reminder.subscription_id = subscr.id)
     WHERE subscr.active
+      AND area.id = ?
     GROUP BY zone.name
 EOSQL
 
