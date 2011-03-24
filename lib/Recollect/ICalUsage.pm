@@ -22,8 +22,8 @@ sub Record {
     return if $rows > 0;
 
     $class->run_sql(
-        "INSERT INTO ical_users (ical_id, zone_id, last_get)
-        VALUES (?,?,'now'::timestamptz)",
+        "INSERT INTO ical_users (ical_id, zone_id, last_get, created_at)
+        VALUES (?,?,'now'::timestamptz, 'now'::timestamptz)",
         [$ical_id, $zone->id]
     );
 }

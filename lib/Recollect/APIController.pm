@@ -130,13 +130,10 @@ sub run {
                 }
 
                 when (m{^/reports/subscriptions_by_area\.json$}) {
-                    return $wrapper->('report_subs_by_area', $1)
+                    return $wrapper->('report_subs_by_area', undef, $1)
                 }
-                when (m{^/report/reminders_by_area$}) {
-                    return $wrapper->('reminders_by_area');
-                }
-                when (m{^/report/reminders_by_time$}) {
-                    return $wrapper->('reminders_by_time');
+                when (m{^/report/(\w+)(?:/(.+))?$}) {
+                    return $wrapper->('report_json', undef, $1, $2);
                 }
             }
         }
@@ -693,18 +690,12 @@ sub report_subs_by_area {
     return $self->process_json($response, 201);
 }
 
-sub reminders_by_area {
+sub report_json {
     my $self = shift;
-    my $args = shift;
-    return $self->process_json($self->load_reminders_by_area, 200);
+    my $report_name = shift;
+    my $method = "load_$report_name";
+    return $self->process_json($self->$method(@_), 200);
 }
-
-sub reminders_by_time {
-    my $self = shift;
-    my $args = shift;
-    return $self->process_json($self->load_reminders_by_time, 200);
-}
-
 
 __PACKAGE__->meta->make_immutable;
 1;
