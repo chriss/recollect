@@ -55,6 +55,15 @@ sub login_ui {
 
 sub home_screen {
     my $self = shift;
+
+    if (my $area = $self->user->area_admin) {
+        my $params = {
+            doorman => $self->doorman,
+            area => $area,
+        };
+        return $self->process_template('radmin/area.tt2', $params)->finalize;
+    }
+
     my $params = {
         doorman => $self->doorman,
         stats => $self->_gather_stats,

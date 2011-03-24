@@ -13,6 +13,7 @@ has 'request'   => (is => 'rw', isa => 'Plack::Request');
 has 'env'       => (is => 'rw', isa => 'HashRef');
 has 'message' => (is => 'rw', isa => 'Str');
 has 'doorman' => (is => 'rw', isa => 'Maybe[Object]', lazy_build => 1);
+has 'user'    => (is => 'ro', isa => 'Maybe[Object]', lazy_build => 1);
 
 has 'version' => ( is => 'ro', isa => 'Str', lazy_build => 1 );
 sub _build_version {
@@ -51,9 +52,9 @@ sub user_is_admin {
 
     return 0 unless $self->doorman->is_sign_in;
 
-    my $tweeter = $self->doorman->twitter_screen_name;
-    my $user = Recollect::User->By_twitter($tweeter);
+    my $user = $self->user;
     return 1 if $user and $user->is_admin;
+    return 1 if $user and $user->is_area_admin;
     return 0;
 }
 
@@ -202,5 +203,13 @@ sub redirect {
 }
 
 sub _build_doorman   { shift->env->{'doorman.radmin.twitter'} }
+
+sub _build_user {
+    my $self = shift;
+    return undef unless $self->doorman;
+    my $tweeter = $self->doorman->twitter_screen_name;
+    return undef unless $tweeter;
+    return Recollect::User->By_twitter($tweeter);
+}
 
 1;

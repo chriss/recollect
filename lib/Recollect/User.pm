@@ -15,6 +15,9 @@ has 'created_date' => (is => 'ro', isa => 'Object',     lazy_build => 1);
 has 'subscription_count' => (is => 'ro', isa => 'Num',  lazy_build => 1);
 has 'reminders'    => (is => 'ro', isa => 'ArrayRef[Recollect::Reminder]',
                                                         lazy_build => 1);
+has 'is_area_admin' => (is => 'ro', isa => 'Bool',      lazy_build => 1);
+has 'area_admin'    => (is => 'ro', isa => 'Maybe[Object]', lazy_build => 1);
+
 sub All_active {
     my $class = shift;
     my $sth = $class->run_sql(<<EOT, []);
@@ -61,6 +64,20 @@ sub to_hash {
         email => $self->email,
         created_at => $self->created_at,
     };
+}
+
+sub _build_area_admin {
+    my $self = shift;
+    my $area_id = $self->sql_singlevalue(
+        'SELECT area_id FROM area_admins WHERE user_id = ?', [$self->id],
+    );
+    return undef unless $area_id;
+    return Recollect::Area->By_id($area_id);
+}
+
+sub _build_is_area_admin {
+    my $self = shift;
+    return $self->area_admin ? 1 : 0;
 }
 
 __PACKAGE__->meta->make_immutable;

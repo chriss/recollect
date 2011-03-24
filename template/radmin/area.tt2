@@ -1,0 +1,11 @@
+[% WRAPPER elements/static_wrapper.tt2 %]
+  <script type="text/javascript" src="/[% version %]/javascript/libs/jquery.flot.min.js"></script>
+  <script type="text/javascript" src="/[% version %]/javascript/libs/jquery.flot.pie.js"></script>
+
+  <h1>Welcome, [% doorman.twitter_screen_name %] - [% area.name %]</h1>
+  <strong>Actions:</strong>
+  <ul>
+    <li><a href="[% doorman.sign_out_path %]">Sign Out</a></li>
+  </ul>
+
+[% END %]
