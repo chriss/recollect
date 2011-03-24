@@ -20,6 +20,8 @@ use namespace::clean -except => 'meta';
 
 with 'Recollect::ControllerBase';
 with 'Recollect::Roles::Recurly';
+with 'Recollect::Roles::SQL';
+with 'Recollect::Roles::Reporter';
 
 our $API_Version = 1.0;
 
@@ -129,6 +131,12 @@ sub run {
 
                 when (m{^/reports/subscriptions_by_area\.json$}) {
                     return $wrapper->('report_subs_by_area', $1)
+                }
+                when (m{^/report/reminders_by_area$}) {
+                    return $wrapper->('reminders_by_area');
+                }
+                when (m{^/report/reminders_by_time$}) {
+                    return $wrapper->('reminders_by_time');
                 }
             }
         }
@@ -684,6 +692,19 @@ sub report_subs_by_area {
     };
     return $self->process_json($response, 201);
 }
+
+sub reminders_by_area {
+    my $self = shift;
+    my $args = shift;
+    return $self->process_json($self->load_reminders_by_area, 200);
+}
+
+sub reminders_by_time {
+    my $self = shift;
+    my $args = shift;
+    return $self->process_json($self->load_reminders_by_time, 200);
+}
+
 
 __PACKAGE__->meta->make_immutable;
 1;
