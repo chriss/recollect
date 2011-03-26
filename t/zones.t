@@ -39,6 +39,12 @@ Next_dow_change: {
     is $np->{next}->string, '2011-04-27 GR', 'next pickup is correct';
 }
 
+Geo: {
+    my $zone = Recollect::Zone->By_latlng('49.2877347', '-123.04528540000001');
+    is $zone->name, 'vancouver-north-purple', 'by latlng';
+}
+
+
 done_testing();
 exit;
 
