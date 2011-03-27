@@ -9,8 +9,8 @@ Terms
 =====
 
 * "Collection Zone" or just "Zone" - refers to a geographic area defined by a
-  multipolygon which has a specific collection schedule. Zones should not
-  overlap.
+  polygon or a multipolygon which has a specific collection schedule. Zones 
+  should not overlap.  GeoJSON is used to define the zones.
 
 * "Collection Pickup" or just "Pickup" - refers to a date for a
   specific zone when a pickup is scheduled to occur. Each pickup may be for
@@ -49,7 +49,7 @@ Zone Objects have the following structure:
     "name": "cityname-zonename",
     "title": "Cityname Zonename",
     "color": "RRGGBB",
-    "geography": [
+    "geometry": [
         [
             [ lat, lng ],
             ...
@@ -62,8 +62,8 @@ Zone Objects have the following structure:
   other character that requires URL escaping.
 * `title` is a pretty version of the name suitable for display.
 * `color` is the RGB color for this zone, to be used when drawing the zone.
-* `geography` is an array of polygons, each polygon containing an array of
-  latitude, longitude points.
+* `geometry` is a GeoJSON object, typically a Polygon or a MultiPolygon.
+  See http://geojson.org/geojson-spec.html
 
 Pickup Objects have the following structure:
 
