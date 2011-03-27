@@ -1,0 +1,127 @@
+#!/usr/bin/perl
+use strict;
+use warnings;
+use LWP::Simple qw/get/;
+use XML::Simple;
+use Getopt::Long;
+use Term::ReadLine;
+use JSON;
+use autodie;
+
+my $Term = Term::ReadLine->new('Tron Creator');
+my $OUT = $Term->OUT || \*STDOUT;
+my $Json = JSON->new->pretty;
+
+my $output_file = "output.json";
+GetOptions(
+    'output=s' => \$output_file,
+) or usage();
+
+my $url = shift || usage();
+
+print $OUT "Fetching $url ...\n";
+my $kml = get($url);
+die "Could not fetch $url" unless $kml;
+print $OUT "Got $url - " . length($kml) . " bytes\n";
+my $xml = XMLin(\$kml);
+
+my $xml_zones = $xml->{Document}{Placemark};
+my $styles    = $xml->{Document}{Style};
+print $OUT "Found " . scalar(keys %$xml_zones) . " zones\n";
+
+my %zones;
+for my $name (sort keys %$xml_zones) {
+    my $hash = $xml_zones->{$name};
+    $name =~ s/\s+\d+$//;
+
+    # First look in the Polygon description for encoded title and color
+    my $desc = $hash->{description};
+    my ($title, $color, $polygon);
+    $title = $1 if $desc =~ m/title: (.+?)</;
+    $color = $1 if $desc =~ m/color: (\w{6})</;
+
+    # Prompt the user for the name
+    unless ($title) {
+        (my $default = $name) =~ s/\b(\w)/uc($1)/eg;
+        $default =~ s/-/ /g;
+        $title = $Term->readline("Enter the title for '$name' (Default: $default): ");
+        $title ||= $default;
+        $Term->addhistory($title);
+    }
+    die "Could not find a title for $name!\n" unless $title;
+
+    # Look up style information
+    unless ($color) {
+        # In KML: The order of expression is aabbggrr, where aa=alpha
+        my $styleurl = $hash->{styleUrl} || '';
+        if ($styleurl =~ m/^#(\w+)/) {
+            $color = $styles->{$1}{PolyStyle}{color};
+            $color =~ s/^\w\w(\w\w)(\w\w)(\w\w)$/$3$2$1/;
+            warn "Found color '$color' ($styleurl)\n";
+        }
+    }
+    die "Could not find a color for $name!\n" unless $color;
+
+    if (my $coords = $hash->{Polygon}{outerBoundaryIs}{LinearRing}{coordinates}) {
+        $polygon = [
+            map { 
+                my ($y, $x, undef) = split ",", $_;
+                ($x && $y) ? ([ $x, $y ]) : ();
+            }
+            map { s/^\s*//; s/\s*$//; $_ }
+            split "\n", $coords
+        ];
+    }
+
+    $zones{$name} ||= {
+        name => $name,
+        title => $title,
+        color => $color,
+    };
+    push @{ $zones{$name}{polygons} }, $polygon;
+}
+
+my $tron = {
+    tron_version => 1,
+    zones => [],
+    pickups => [],
+};
+for my $name (keys %zones) {
+    my $zone = $zones{$name};
+
+    my $geom;
+    my $polygons = delete $zone->{polygons};
+    if (@$polygons == 1) {
+        $geom = {
+            type => "Polygon",
+            coordinates => $polygons,
+        };
+    }
+    else {
+        $geom = {
+            type => "MultiPolygon",
+            coordinates => [ $polygons ],
+        };
+    }
+
+    push @{ $tron->{zones} }, {
+        %$zone,
+        geometry => $geom,
+    };
+}
+
+print $OUT "Dumping to $output_file\n";
+my $encoded = $Json->encode($tron);
+open(my $fh, ">$output_file");
+print $fh $encoded;
+close $fh;
+
+exit;
+
+sub usage {
+    die <<EOT;
+USAGE: $0 --area Vancouver <kml URL>
+
+Reads the specified KML URL and converts it into a tron file.
+EOT
+}

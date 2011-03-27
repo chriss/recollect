@@ -1,0 +1,70 @@
+#!/usr/bin/perl
+use strict;
+use warnings;
+use LWP::Simple qw/get/;
+use Getopt::Long;
+use Term::ReadLine;
+use JSON;
+use autodie;
+use Text::CSV_XS;
+
+my $Term = Term::ReadLine->new('Tron Creator');
+my $OUT = $Term->OUT || \*STDOUT;
+my $Json = JSON->new->pretty;
+my $UTC = '-0800';
+
+my $output_file = "output.json";
+GetOptions(
+    'output=s' => \$output_file,
+) or usage();
+
+my $csv_file = shift || usage();
+
+my $tron = {
+    tron_version => 1,
+    pickups => [],
+    zones => [],
+};
+if (-e $output_file) {
+    my $json_data = get("file:$output_file");
+    $tron = $Json->decode($json_data);
+}
+
+my %zones = map { $_->{name} => 1 } @{ $tron->{zones} };
+
+my $csv = Text::CSV_XS->new or die "Cannot use CSV: ".Text::CSV->error_diag;
+open my $csv_fh, "<:encoding(utf8)", $csv_file or die "Can't open $csv_file: $!";
+while (my $row = $csv->getline ($csv_fh)) {
+    next if $row->[0] =~ m/^#/;
+    next if $row->[0] =~ m/^\w+$/;
+    my ($zone_name, $day, $flags, $utc) = @$row;
+    $utc ||= $UTC;
+    $flags = uc $flags;
+    $day =~ s{/}{-}g;
+    die "Unknown date format: '$day'" unless $day =~ m/^\d{4}-\d{2}-\d{2}$/;
+
+    die "Found zones in $output_file, but could not find $zone_name there"
+        if %zones and not $zones{$zone_name};
+
+    push @{ $tron->{pickups} }, {
+        zone => $zone_name,
+        date => "$day 07:00:00$utc",
+        flags => $flags,
+    },
+}
+
+print $OUT "Dumping to $output_file\n";
+my $encoded = $Json->encode($tron);
+open(my $fh, ">$output_file");
+print $fh $encoded;
+close $fh;
+
+exit;
+
+sub usage {
+    die <<EOT;
+USAGE: $0 <csv file>
+
+Reads the specified KML URL and converts it into a tron file.
+EOT
+}

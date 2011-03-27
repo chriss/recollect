@@ -1,0 +1,5801 @@
+{
+   "pickups" : [
+      {
+         "flags" : "GR",
+         "date" : "2011-03-07 07:00:00-0800",
+         "zone" : "langley-dark-red"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-03-14 07:00:00-0800",
+         "zone" : "langley-dark-red"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-03-21 07:00:00-0800",
+         "zone" : "langley-dark-red"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-03-28 07:00:00-0800",
+         "zone" : "langley-dark-red"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-04-04 07:00:00-0800",
+         "zone" : "langley-dark-red"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-04-11 07:00:00-0800",
+         "zone" : "langley-dark-red"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-04-18 07:00:00-0800",
+         "zone" : "langley-dark-red"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-04-26 07:00:00-0800",
+         "zone" : "langley-dark-red"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-05-02 07:00:00-0800",
+         "zone" : "langley-dark-red"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-05-09 07:00:00-0800",
+         "zone" : "langley-dark-red"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-05-16 07:00:00-0800",
+         "zone" : "langley-dark-red"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-05-24 07:00:00-0800",
+         "zone" : "langley-dark-red"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-05-30 07:00:00-0800",
+         "zone" : "langley-dark-red"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-06-06 07:00:00-0800",
+         "zone" : "langley-dark-red"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-06-13 07:00:00-0800",
+         "zone" : "langley-dark-red"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-06-20 07:00:00-0800",
+         "zone" : "langley-dark-red"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-06-27 07:00:00-0800",
+         "zone" : "langley-dark-red"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-07-04 07:00:00-0800",
+         "zone" : "langley-dark-red"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-07-11 07:00:00-0800",
+         "zone" : "langley-dark-red"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-07-18 07:00:00-0800",
+         "zone" : "langley-dark-red"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-07-25 07:00:00-0800",
+         "zone" : "langley-dark-red"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-08-02 07:00:00-0800",
+         "zone" : "langley-dark-red"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-08-08 07:00:00-0800",
+         "zone" : "langley-dark-red"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-08-15 07:00:00-0800",
+         "zone" : "langley-dark-red"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-08-22 07:00:00-0800",
+         "zone" : "langley-dark-red"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-08-29 07:00:00-0800",
+         "zone" : "langley-dark-red"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-09-06 07:00:00-0800",
+         "zone" : "langley-dark-red"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-09-12 07:00:00-0800",
+         "zone" : "langley-dark-red"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-09-19 07:00:00-0800",
+         "zone" : "langley-dark-red"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-09-26 07:00:00-0800",
+         "zone" : "langley-dark-red"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-10-03 07:00:00-0800",
+         "zone" : "langley-dark-red"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-10-11 07:00:00-0800",
+         "zone" : "langley-dark-red"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-10-17 07:00:00-0800",
+         "zone" : "langley-dark-red"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-10-24 07:00:00-0800",
+         "zone" : "langley-dark-red"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-10-31 07:00:00-0800",
+         "zone" : "langley-dark-red"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-11-07 07:00:00-0800",
+         "zone" : "langley-dark-red"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-11-14 07:00:00-0800",
+         "zone" : "langley-dark-red"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-11-21 07:00:00-0800",
+         "zone" : "langley-dark-red"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-11-28 07:00:00-0800",
+         "zone" : "langley-dark-red"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-12-05 07:00:00-0800",
+         "zone" : "langley-dark-red"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-12-12 07:00:00-0800",
+         "zone" : "langley-dark-red"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-12-19 07:00:00-0800",
+         "zone" : "langley-dark-red"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-12-28 07:00:00-0800",
+         "zone" : "langley-dark-red"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-03-08 07:00:00-0800",
+         "zone" : "langley-dark-blue"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-03-15 07:00:00-0800",
+         "zone" : "langley-dark-blue"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-03-22 07:00:00-0800",
+         "zone" : "langley-dark-blue"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-03-29 07:00:00-0800",
+         "zone" : "langley-dark-blue"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-04-05 07:00:00-0800",
+         "zone" : "langley-dark-blue"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-04-12 07:00:00-0800",
+         "zone" : "langley-dark-blue"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-04-19 07:00:00-0800",
+         "zone" : "langley-dark-blue"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-04-27 07:00:00-0800",
+         "zone" : "langley-dark-blue"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-05-03 07:00:00-0800",
+         "zone" : "langley-dark-blue"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-05-10 07:00:00-0800",
+         "zone" : "langley-dark-blue"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-05-17 07:00:00-0800",
+         "zone" : "langley-dark-blue"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-05-25 07:00:00-0800",
+         "zone" : "langley-dark-blue"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-05-31 07:00:00-0800",
+         "zone" : "langley-dark-blue"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-06-07 07:00:00-0800",
+         "zone" : "langley-dark-blue"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-06-14 07:00:00-0800",
+         "zone" : "langley-dark-blue"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-06-21 07:00:00-0800",
+         "zone" : "langley-dark-blue"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-06-28 07:00:00-0800",
+         "zone" : "langley-dark-blue"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-07-05 07:00:00-0800",
+         "zone" : "langley-dark-blue"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-07-12 07:00:00-0800",
+         "zone" : "langley-dark-blue"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-07-19 07:00:00-0800",
+         "zone" : "langley-dark-blue"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-07-26 07:00:00-0800",
+         "zone" : "langley-dark-blue"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-08-03 07:00:00-0800",
+         "zone" : "langley-dark-blue"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-08-09 07:00:00-0800",
+         "zone" : "langley-dark-blue"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-08-16 07:00:00-0800",
+         "zone" : "langley-dark-blue"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-08-23 07:00:00-0800",
+         "zone" : "langley-dark-blue"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-08-30 07:00:00-0800",
+         "zone" : "langley-dark-blue"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-09-07 07:00:00-0800",
+         "zone" : "langley-dark-blue"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-09-13 07:00:00-0800",
+         "zone" : "langley-dark-blue"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-09-20 07:00:00-0800",
+         "zone" : "langley-dark-blue"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-09-27 07:00:00-0800",
+         "zone" : "langley-dark-blue"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-10-04 07:00:00-0800",
+         "zone" : "langley-dark-blue"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-10-12 07:00:00-0800",
+         "zone" : "langley-dark-blue"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-10-18 07:00:00-0800",
+         "zone" : "langley-dark-blue"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-10-25 07:00:00-0800",
+         "zone" : "langley-dark-blue"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-11-01 07:00:00-0800",
+         "zone" : "langley-dark-blue"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-11-08 07:00:00-0800",
+         "zone" : "langley-dark-blue"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-11-15 07:00:00-0800",
+         "zone" : "langley-dark-blue"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-11-22 07:00:00-0800",
+         "zone" : "langley-dark-blue"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-11-29 07:00:00-0800",
+         "zone" : "langley-dark-blue"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-12-06 07:00:00-0800",
+         "zone" : "langley-dark-blue"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-12-13 07:00:00-0800",
+         "zone" : "langley-dark-blue"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-12-20 07:00:00-0800",
+         "zone" : "langley-dark-blue"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-12-29 07:00:00-0800",
+         "zone" : "langley-dark-blue"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-03-09 07:00:00-0800",
+         "zone" : "langley-dark-green"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-03-16 07:00:00-0800",
+         "zone" : "langley-dark-green"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-03-23 07:00:00-0800",
+         "zone" : "langley-dark-green"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-03-30 07:00:00-0800",
+         "zone" : "langley-dark-green"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-04-06 07:00:00-0800",
+         "zone" : "langley-dark-green"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-04-13 07:00:00-0800",
+         "zone" : "langley-dark-green"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-04-20 07:00:00-0800",
+         "zone" : "langley-dark-green"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-04-28 07:00:00-0800",
+         "zone" : "langley-dark-green"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-05-04 07:00:00-0800",
+         "zone" : "langley-dark-green"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-05-11 07:00:00-0800",
+         "zone" : "langley-dark-green"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-05-18 07:00:00-0800",
+         "zone" : "langley-dark-green"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-05-26 07:00:00-0800",
+         "zone" : "langley-dark-green"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-06-01 07:00:00-0800",
+         "zone" : "langley-dark-green"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-06-08 07:00:00-0800",
+         "zone" : "langley-dark-green"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-06-15 07:00:00-0800",
+         "zone" : "langley-dark-green"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-06-22 07:00:00-0800",
+         "zone" : "langley-dark-green"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-06-29 07:00:00-0800",
+         "zone" : "langley-dark-green"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-07-06 07:00:00-0800",
+         "zone" : "langley-dark-green"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-07-13 07:00:00-0800",
+         "zone" : "langley-dark-green"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-07-20 07:00:00-0800",
+         "zone" : "langley-dark-green"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-07-27 07:00:00-0800",
+         "zone" : "langley-dark-green"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-08-04 07:00:00-0800",
+         "zone" : "langley-dark-green"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-08-10 07:00:00-0800",
+         "zone" : "langley-dark-green"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-08-17 07:00:00-0800",
+         "zone" : "langley-dark-green"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-08-24 07:00:00-0800",
+         "zone" : "langley-dark-green"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-08-31 07:00:00-0800",
+         "zone" : "langley-dark-green"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-09-08 07:00:00-0800",
+         "zone" : "langley-dark-green"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-09-14 07:00:00-0800",
+         "zone" : "langley-dark-green"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-09-21 07:00:00-0800",
+         "zone" : "langley-dark-green"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-09-28 07:00:00-0800",
+         "zone" : "langley-dark-green"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-10-05 07:00:00-0800",
+         "zone" : "langley-dark-green"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-10-13 07:00:00-0800",
+         "zone" : "langley-dark-green"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-10-19 07:00:00-0800",
+         "zone" : "langley-dark-green"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-10-26 07:00:00-0800",
+         "zone" : "langley-dark-green"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-11-02 07:00:00-0800",
+         "zone" : "langley-dark-green"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-11-09 07:00:00-0800",
+         "zone" : "langley-dark-green"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-11-16 07:00:00-0800",
+         "zone" : "langley-dark-green"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-11-23 07:00:00-0800",
+         "zone" : "langley-dark-green"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-11-30 07:00:00-0800",
+         "zone" : "langley-dark-green"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-12-07 07:00:00-0800",
+         "zone" : "langley-dark-green"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-12-14 07:00:00-0800",
+         "zone" : "langley-dark-green"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-12-21 07:00:00-0800",
+         "zone" : "langley-dark-green"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-12-30 07:00:00-0800",
+         "zone" : "langley-dark-green"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-03-10 07:00:00-0800",
+         "zone" : "langley-dark-yellow"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-03-17 07:00:00-0800",
+         "zone" : "langley-dark-yellow"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-03-24 07:00:00-0800",
+         "zone" : "langley-dark-yellow"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-03-31 07:00:00-0800",
+         "zone" : "langley-dark-yellow"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-04-07 07:00:00-0800",
+         "zone" : "langley-dark-yellow"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-04-14 07:00:00-0800",
+         "zone" : "langley-dark-yellow"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-04-21 07:00:00-0800",
+         "zone" : "langley-dark-yellow"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-04-29 07:00:00-0800",
+         "zone" : "langley-dark-yellow"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-05-05 07:00:00-0800",
+         "zone" : "langley-dark-yellow"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-05-12 07:00:00-0800",
+         "zone" : "langley-dark-yellow"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-05-19 07:00:00-0800",
+         "zone" : "langley-dark-yellow"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-05-27 07:00:00-0800",
+         "zone" : "langley-dark-yellow"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-06-02 07:00:00-0800",
+         "zone" : "langley-dark-yellow"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-06-09 07:00:00-0800",
+         "zone" : "langley-dark-yellow"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-06-16 07:00:00-0800",
+         "zone" : "langley-dark-yellow"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-06-23 07:00:00-0800",
+         "zone" : "langley-dark-yellow"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-06-30 07:00:00-0800",
+         "zone" : "langley-dark-yellow"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-07-07 07:00:00-0800",
+         "zone" : "langley-dark-yellow"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-07-14 07:00:00-0800",
+         "zone" : "langley-dark-yellow"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-07-21 07:00:00-0800",
+         "zone" : "langley-dark-yellow"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-07-28 07:00:00-0800",
+         "zone" : "langley-dark-yellow"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-08-05 07:00:00-0800",
+         "zone" : "langley-dark-yellow"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-08-11 07:00:00-0800",
+         "zone" : "langley-dark-yellow"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-08-18 07:00:00-0800",
+         "zone" : "langley-dark-yellow"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-08-25 07:00:00-0800",
+         "zone" : "langley-dark-yellow"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-09-01 07:00:00-0800",
+         "zone" : "langley-dark-yellow"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-09-09 07:00:00-0800",
+         "zone" : "langley-dark-yellow"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-09-15 07:00:00-0800",
+         "zone" : "langley-dark-yellow"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-09-22 07:00:00-0800",
+         "zone" : "langley-dark-yellow"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-09-29 07:00:00-0800",
+         "zone" : "langley-dark-yellow"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-10-06 07:00:00-0800",
+         "zone" : "langley-dark-yellow"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-10-14 07:00:00-0800",
+         "zone" : "langley-dark-yellow"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-10-20 07:00:00-0800",
+         "zone" : "langley-dark-yellow"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-10-27 07:00:00-0800",
+         "zone" : "langley-dark-yellow"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-11-03 07:00:00-0800",
+         "zone" : "langley-dark-yellow"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-11-10 07:00:00-0800",
+         "zone" : "langley-dark-yellow"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-11-17 07:00:00-0800",
+         "zone" : "langley-dark-yellow"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-11-24 07:00:00-0800",
+         "zone" : "langley-dark-yellow"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-12-01 07:00:00-0800",
+         "zone" : "langley-dark-yellow"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-12-08 07:00:00-0800",
+         "zone" : "langley-dark-yellow"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-12-15 07:00:00-0800",
+         "zone" : "langley-dark-yellow"
+      },
+      {
+         "flags" : "GR",
+         "date" : "2011-12-22 07:00:00-0800",
+         "zone" : "langley-dark-yellow"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-03-07 07:00:00-0800",
+         "zone" : "langley-light-red"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-03-14 07:00:00-0800",
+         "zone" : "langley-light-red"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-03-21 07:00:00-0800",
+         "zone" : "langley-light-red"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-03-28 07:00:00-0800",
+         "zone" : "langley-light-red"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-04-04 07:00:00-0800",
+         "zone" : "langley-light-red"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-04-11 07:00:00-0800",
+         "zone" : "langley-light-red"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-04-18 07:00:00-0800",
+         "zone" : "langley-light-red"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-04-26 07:00:00-0800",
+         "zone" : "langley-light-red"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-05-02 07:00:00-0800",
+         "zone" : "langley-light-red"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-05-09 07:00:00-0800",
+         "zone" : "langley-light-red"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-05-16 07:00:00-0800",
+         "zone" : "langley-light-red"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-05-24 07:00:00-0800",
+         "zone" : "langley-light-red"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-05-30 07:00:00-0800",
+         "zone" : "langley-light-red"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-06-06 07:00:00-0800",
+         "zone" : "langley-light-red"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-06-13 07:00:00-0800",
+         "zone" : "langley-light-red"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-06-20 07:00:00-0800",
+         "zone" : "langley-light-red"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-06-27 07:00:00-0800",
+         "zone" : "langley-light-red"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-07-04 07:00:00-0800",
+         "zone" : "langley-light-red"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-07-11 07:00:00-0800",
+         "zone" : "langley-light-red"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-07-18 07:00:00-0800",
+         "zone" : "langley-light-red"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-07-25 07:00:00-0800",
+         "zone" : "langley-light-red"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-08-02 07:00:00-0800",
+         "zone" : "langley-light-red"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-08-08 07:00:00-0800",
+         "zone" : "langley-light-red"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-08-15 07:00:00-0800",
+         "zone" : "langley-light-red"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-08-22 07:00:00-0800",
+         "zone" : "langley-light-red"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-08-29 07:00:00-0800",
+         "zone" : "langley-light-red"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-09-06 07:00:00-0800",
+         "zone" : "langley-light-red"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-09-12 07:00:00-0800",
+         "zone" : "langley-light-red"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-09-19 07:00:00-0800",
+         "zone" : "langley-light-red"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-09-26 07:00:00-0800",
+         "zone" : "langley-light-red"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-10-03 07:00:00-0800",
+         "zone" : "langley-light-red"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-10-11 07:00:00-0800",
+         "zone" : "langley-light-red"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-10-17 07:00:00-0800",
+         "zone" : "langley-light-red"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-10-24 07:00:00-0800",
+         "zone" : "langley-light-red"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-10-31 07:00:00-0800",
+         "zone" : "langley-light-red"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-11-07 07:00:00-0800",
+         "zone" : "langley-light-red"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-11-14 07:00:00-0800",
+         "zone" : "langley-light-red"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-11-21 07:00:00-0800",
+         "zone" : "langley-light-red"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-11-28 07:00:00-0800",
+         "zone" : "langley-light-red"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-12-05 07:00:00-0800",
+         "zone" : "langley-light-red"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-12-12 07:00:00-0800",
+         "zone" : "langley-light-red"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-12-19 07:00:00-0800",
+         "zone" : "langley-light-red"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-12-28 07:00:00-0800",
+         "zone" : "langley-light-red"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-03-08 07:00:00-0800",
+         "zone" : "langley-light-blue"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-03-15 07:00:00-0800",
+         "zone" : "langley-light-blue"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-03-22 07:00:00-0800",
+         "zone" : "langley-light-blue"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-03-29 07:00:00-0800",
+         "zone" : "langley-light-blue"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-04-05 07:00:00-0800",
+         "zone" : "langley-light-blue"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-04-12 07:00:00-0800",
+         "zone" : "langley-light-blue"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-04-19 07:00:00-0800",
+         "zone" : "langley-light-blue"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-04-27 07:00:00-0800",
+         "zone" : "langley-light-blue"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-05-03 07:00:00-0800",
+         "zone" : "langley-light-blue"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-05-10 07:00:00-0800",
+         "zone" : "langley-light-blue"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-05-17 07:00:00-0800",
+         "zone" : "langley-light-blue"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-05-25 07:00:00-0800",
+         "zone" : "langley-light-blue"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-05-31 07:00:00-0800",
+         "zone" : "langley-light-blue"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-06-07 07:00:00-0800",
+         "zone" : "langley-light-blue"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-06-14 07:00:00-0800",
+         "zone" : "langley-light-blue"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-06-21 07:00:00-0800",
+         "zone" : "langley-light-blue"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-06-28 07:00:00-0800",
+         "zone" : "langley-light-blue"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-07-05 07:00:00-0800",
+         "zone" : "langley-light-blue"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-07-12 07:00:00-0800",
+         "zone" : "langley-light-blue"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-07-19 07:00:00-0800",
+         "zone" : "langley-light-blue"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-07-26 07:00:00-0800",
+         "zone" : "langley-light-blue"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-08-03 07:00:00-0800",
+         "zone" : "langley-light-blue"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-08-09 07:00:00-0800",
+         "zone" : "langley-light-blue"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-08-16 07:00:00-0800",
+         "zone" : "langley-light-blue"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-08-23 07:00:00-0800",
+         "zone" : "langley-light-blue"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-08-30 07:00:00-0800",
+         "zone" : "langley-light-blue"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-09-07 07:00:00-0800",
+         "zone" : "langley-light-blue"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-09-13 07:00:00-0800",
+         "zone" : "langley-light-blue"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-09-20 07:00:00-0800",
+         "zone" : "langley-light-blue"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-09-27 07:00:00-0800",
+         "zone" : "langley-light-blue"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-10-04 07:00:00-0800",
+         "zone" : "langley-light-blue"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-10-12 07:00:00-0800",
+         "zone" : "langley-light-blue"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-10-18 07:00:00-0800",
+         "zone" : "langley-light-blue"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-10-25 07:00:00-0800",
+         "zone" : "langley-light-blue"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-11-01 07:00:00-0800",
+         "zone" : "langley-light-blue"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-11-08 07:00:00-0800",
+         "zone" : "langley-light-blue"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-11-15 07:00:00-0800",
+         "zone" : "langley-light-blue"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-11-22 07:00:00-0800",
+         "zone" : "langley-light-blue"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-11-29 07:00:00-0800",
+         "zone" : "langley-light-blue"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-12-06 07:00:00-0800",
+         "zone" : "langley-light-blue"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-12-13 07:00:00-0800",
+         "zone" : "langley-light-blue"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-12-20 07:00:00-0800",
+         "zone" : "langley-light-blue"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-12-29 07:00:00-0800",
+         "zone" : "langley-light-blue"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-03-09 07:00:00-0800",
+         "zone" : "langley-light-green"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-03-16 07:00:00-0800",
+         "zone" : "langley-light-green"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-03-23 07:00:00-0800",
+         "zone" : "langley-light-green"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-03-30 07:00:00-0800",
+         "zone" : "langley-light-green"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-04-06 07:00:00-0800",
+         "zone" : "langley-light-green"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-04-13 07:00:00-0800",
+         "zone" : "langley-light-green"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-04-20 07:00:00-0800",
+         "zone" : "langley-light-green"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-04-28 07:00:00-0800",
+         "zone" : "langley-light-green"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-05-04 07:00:00-0800",
+         "zone" : "langley-light-green"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-05-11 07:00:00-0800",
+         "zone" : "langley-light-green"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-05-18 07:00:00-0800",
+         "zone" : "langley-light-green"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-05-26 07:00:00-0800",
+         "zone" : "langley-light-green"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-06-01 07:00:00-0800",
+         "zone" : "langley-light-green"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-06-08 07:00:00-0800",
+         "zone" : "langley-light-green"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-06-15 07:00:00-0800",
+         "zone" : "langley-light-green"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-06-22 07:00:00-0800",
+         "zone" : "langley-light-green"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-06-29 07:00:00-0800",
+         "zone" : "langley-light-green"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-07-06 07:00:00-0800",
+         "zone" : "langley-light-green"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-07-13 07:00:00-0800",
+         "zone" : "langley-light-green"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-07-20 07:00:00-0800",
+         "zone" : "langley-light-green"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-07-27 07:00:00-0800",
+         "zone" : "langley-light-green"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-08-04 07:00:00-0800",
+         "zone" : "langley-light-green"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-08-10 07:00:00-0800",
+         "zone" : "langley-light-green"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-08-17 07:00:00-0800",
+         "zone" : "langley-light-green"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-08-24 07:00:00-0800",
+         "zone" : "langley-light-green"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-08-31 07:00:00-0800",
+         "zone" : "langley-light-green"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-09-08 07:00:00-0800",
+         "zone" : "langley-light-green"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-09-14 07:00:00-0800",
+         "zone" : "langley-light-green"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-09-21 07:00:00-0800",
+         "zone" : "langley-light-green"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-09-28 07:00:00-0800",
+         "zone" : "langley-light-green"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-10-05 07:00:00-0800",
+         "zone" : "langley-light-green"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-10-13 07:00:00-0800",
+         "zone" : "langley-light-green"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-10-19 07:00:00-0800",
+         "zone" : "langley-light-green"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-10-26 07:00:00-0800",
+         "zone" : "langley-light-green"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-11-02 07:00:00-0800",
+         "zone" : "langley-light-green"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-11-09 07:00:00-0800",
+         "zone" : "langley-light-green"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-11-16 07:00:00-0800",
+         "zone" : "langley-light-green"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-11-23 07:00:00-0800",
+         "zone" : "langley-light-green"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-11-30 07:00:00-0800",
+         "zone" : "langley-light-green"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-12-07 07:00:00-0800",
+         "zone" : "langley-light-green"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-12-14 07:00:00-0800",
+         "zone" : "langley-light-green"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-12-21 07:00:00-0800",
+         "zone" : "langley-light-green"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-12-30 07:00:00-0800",
+         "zone" : "langley-light-green"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-03-10 07:00:00-0800",
+         "zone" : "langley-light-yellow"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-03-17 07:00:00-0800",
+         "zone" : "langley-light-yellow"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-03-24 07:00:00-0800",
+         "zone" : "langley-light-yellow"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-03-31 07:00:00-0800",
+         "zone" : "langley-light-yellow"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-04-07 07:00:00-0800",
+         "zone" : "langley-light-yellow"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-04-14 07:00:00-0800",
+         "zone" : "langley-light-yellow"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-04-21 07:00:00-0800",
+         "zone" : "langley-light-yellow"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-04-29 07:00:00-0800",
+         "zone" : "langley-light-yellow"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-05-05 07:00:00-0800",
+         "zone" : "langley-light-yellow"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-05-12 07:00:00-0800",
+         "zone" : "langley-light-yellow"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-05-19 07:00:00-0800",
+         "zone" : "langley-light-yellow"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-05-27 07:00:00-0800",
+         "zone" : "langley-light-yellow"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-06-02 07:00:00-0800",
+         "zone" : "langley-light-yellow"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-06-09 07:00:00-0800",
+         "zone" : "langley-light-yellow"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-06-16 07:00:00-0800",
+         "zone" : "langley-light-yellow"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-06-23 07:00:00-0800",
+         "zone" : "langley-light-yellow"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-06-30 07:00:00-0800",
+         "zone" : "langley-light-yellow"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-07-07 07:00:00-0800",
+         "zone" : "langley-light-yellow"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-07-14 07:00:00-0800",
+         "zone" : "langley-light-yellow"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-07-21 07:00:00-0800",
+         "zone" : "langley-light-yellow"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-07-28 07:00:00-0800",
+         "zone" : "langley-light-yellow"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-08-05 07:00:00-0800",
+         "zone" : "langley-light-yellow"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-08-11 07:00:00-0800",
+         "zone" : "langley-light-yellow"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-08-18 07:00:00-0800",
+         "zone" : "langley-light-yellow"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-08-25 07:00:00-0800",
+         "zone" : "langley-light-yellow"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-09-01 07:00:00-0800",
+         "zone" : "langley-light-yellow"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-09-09 07:00:00-0800",
+         "zone" : "langley-light-yellow"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-09-15 07:00:00-0800",
+         "zone" : "langley-light-yellow"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-09-22 07:00:00-0800",
+         "zone" : "langley-light-yellow"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-09-29 07:00:00-0800",
+         "zone" : "langley-light-yellow"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-10-06 07:00:00-0800",
+         "zone" : "langley-light-yellow"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-10-14 07:00:00-0800",
+         "zone" : "langley-light-yellow"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-10-20 07:00:00-0800",
+         "zone" : "langley-light-yellow"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-10-27 07:00:00-0800",
+         "zone" : "langley-light-yellow"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-11-03 07:00:00-0800",
+         "zone" : "langley-light-yellow"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-11-10 07:00:00-0800",
+         "zone" : "langley-light-yellow"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-11-17 07:00:00-0800",
+         "zone" : "langley-light-yellow"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-11-24 07:00:00-0800",
+         "zone" : "langley-light-yellow"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-12-01 07:00:00-0800",
+         "zone" : "langley-light-yellow"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-12-08 07:00:00-0800",
+         "zone" : "langley-light-yellow"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-12-15 07:00:00-0800",
+         "zone" : "langley-light-yellow"
+      },
+      {
+         "flags" : "R",
+         "date" : "2011-12-22 07:00:00-0800",
+         "zone" : "langley-light-yellow"
+      }
+   ],
+   "tron_version" : 1,
+   "zones" : [
+      {
+         "color" : "FFBEBE",
+         "name" : "langley-light-red",
+         "title" : "Langley Light Red",
+         "geometry" : {
+            "coordinates" : [
+               [
+                  [
+                     "49.163528",
+                     "-122.532661"
+                  ],
+                  [
+                     "49.164959",
+                     "-122.536308"
+                  ],
+                  [
+                     "49.165871",
+                     "-122.541557"
+                  ],
+                  [
+                     "49.166691",
+                     "-122.545052"
+                  ],
+                  [
+                     "49.167931",
+                     "-122.548988"
+                  ],
+                  [
+                     "49.168072",
+                     "-122.555939"
+                  ],
+                  [
+                     "49.169899",
+                     "-122.570892"
+                  ],
+                  [
+                     "49.170021",
+                     "-122.573036"
+                  ],
+                  [
+                     "49.170471",
+                     "-122.574219"
+                  ],
+                  [
+                     "49.169651",
+                     "-122.575104"
+                  ],
+                  [
+                     "49.169300",
+                     "-122.575081"
+                  ],
+                  [
+                     "49.168152",
+                     "-122.573387"
+                  ],
+                  [
+                     "49.167122",
+                     "-122.574516"
+                  ],
+                  [
+                     "49.166599",
+                     "-122.573418"
+                  ],
+                  [
+                     "49.163860",
+                     "-122.576309"
+                  ],
+                  [
+                     "49.163860",
+                     "-122.576393"
+                  ],
+                  [
+                     "49.163651",
+                     "-122.576622"
+                  ],
+                  [
+                     "49.162842",
+                     "-122.578293"
+                  ],
+                  [
+                     "49.161980",
+                     "-122.577454"
+                  ],
+                  [
+                     "49.160660",
+                     "-122.579453"
+                  ],
+                  [
+                     "49.159691",
+                     "-122.582687"
+                  ],
+                  [
+                     "49.161339",
+                     "-122.582771"
+                  ],
+                  [
+                     "49.161320",
+                     "-122.583237"
+                  ],
+                  [
+                     "49.162048",
+                     "-122.582916"
+                  ],
+                  [
+                     "49.162071",
+                     "-122.584763"
+                  ],
+                  [
+                     "49.160900",
+                     "-122.585999"
+                  ],
+                  [
+                     "49.160839",
+                     "-122.586113"
+                  ],
+                  [
+                     "49.161129",
+                     "-122.587410"
+                  ],
+                  [
+                     "49.161201",
+                     "-122.587593"
+                  ],
+                  [
+                     "49.159760",
+                     "-122.589737"
+                  ],
+                  [
+                     "49.159840",
+                     "-122.590958"
+                  ],
+                  [
+                     "49.152851",
+                     "-122.589928"
+                  ],
+                  [
+                     "49.152821",
+                     "-122.588593"
+                  ],
+                  [
+                     "49.152191",
+                     "-122.588318"
+                  ],
+                  [
+                     "49.151321",
+                     "-122.587257"
+                  ],
+                  [
+                     "49.150372",
+                     "-122.587158"
+                  ],
+                  [
+                     "49.149792",
+                     "-122.586670"
+                  ],
+                  [
+                     "49.149471",
+                     "-122.584763"
+                  ],
+                  [
+                     "49.149601",
+                     "-122.584740"
+                  ],
+                  [
+                     "49.149578",
+                     "-122.581047"
+                  ],
+                  [
+                     "49.148232",
+                     "-122.581062"
+                  ],
+                  [
+                     "49.148071",
+                     "-122.569969"
+                  ],
+                  [
+                     "49.144379",
+                     "-122.570488"
+                  ],
+                  [
+                     "49.143028",
+                     "-122.570961"
+                  ],
+                  [
+                     "49.142281",
+                     "-122.571632"
+                  ],
+                  [
+                     "49.141441",
+                     "-122.572578"
+                  ],
+                  [
+                     "49.140781",
+                     "-122.574402"
+                  ],
+                  [
+                     "49.140850",
+                     "-122.581253"
+                  ],
+                  [
+                     "49.138290",
+                     "-122.581261"
+                  ],
+                  [
+                     "49.138329",
+                     "-122.582420"
+                  ],
+                  [
+                     "49.138000",
+                     "-122.583847"
+                  ],
+                  [
+                     "49.138020",
+                     "-122.584442"
+                  ],
+                  [
+                     "49.138142",
+                     "-122.586014"
+                  ],
+                  [
+                     "49.142590",
+                     "-122.597343"
+                  ],
+                  [
+                     "49.145081",
+                     "-122.596092"
+                  ],
+                  [
+                     "49.145672",
+                     "-122.595108"
+                  ],
+                  [
+                     "49.145859",
+                     "-122.595596"
+                  ],
+                  [
+                     "49.146351",
+                     "-122.596100"
+                  ],
+                  [
+                     "49.147339",
+                     "-122.593941"
+                  ],
+                  [
+                     "49.147770",
+                     "-122.594254"
+                  ],
+                  [
+                     "49.148281",
+                     "-122.594460"
+                  ],
+                  [
+                     "49.149071",
+                     "-122.592552"
+                  ],
+                  [
+                     "49.149212",
+                     "-122.591423"
+                  ],
+                  [
+                     "49.150639",
+                     "-122.592033"
+                  ],
+                  [
+                     "49.151249",
+                     "-122.591698"
+                  ],
+                  [
+                     "49.151932",
+                     "-122.589828"
+                  ],
+                  [
+                     "49.159870",
+                     "-122.591019"
+                  ],
+                  [
+                     "49.160130",
+                     "-122.591972"
+                  ],
+                  [
+                     "49.160889",
+                     "-122.594109"
+                  ],
+                  [
+                     "49.161079",
+                     "-122.594749"
+                  ],
+                  [
+                     "49.161030",
+                     "-122.596100"
+                  ],
+                  [
+                     "49.160820",
+                     "-122.596840"
+                  ],
+                  [
+                     "49.160809",
+                     "-122.597061"
+                  ],
+                  [
+                     "49.160900",
+                     "-122.597183"
+                  ],
+                  [
+                     "49.161030",
+                     "-122.597168"
+                  ],
+                  [
+                     "49.161869",
+                     "-122.596748"
+                  ],
+                  [
+                     "49.162800",
+                     "-122.595970"
+                  ],
+                  [
+                     "49.162842",
+                     "-122.604187"
+                  ],
+                  [
+                     "49.162788",
+                     "-122.606979"
+                  ],
+                  [
+                     "49.159142",
+                     "-122.607018"
+                  ],
+                  [
+                     "49.159241",
+                     "-122.624069"
+                  ],
+                  [
+                     "49.152290",
+                     "-122.624100"
+                  ],
+                  [
+                     "49.162930",
+                     "-122.664078"
+                  ],
+                  [
+                     "49.164001",
+                     "-122.668900"
+                  ],
+                  [
+                     "49.163071",
+                     "-122.669167"
+                  ],
+                  [
+                     "49.164501",
+                     "-122.670212"
+                  ],
+                  [
+                     "49.152180",
+                     "-122.624153"
+                  ],
+                  [
+                     "49.142132",
+                     "-122.624069"
+                  ],
+                  [
+                     "49.142349",
+                     "-122.630760"
+                  ],
+                  [
+                     "49.140450",
+                     "-122.630760"
+                  ],
+                  [
+                     "49.138142",
+                     "-122.632568"
+                  ],
+                  [
+                     "49.139431",
+                     "-122.635139"
+                  ],
+                  [
+                     "49.140388",
+                     "-122.635048"
+                  ],
+                  [
+                     "49.140388",
+                     "-122.639954"
+                  ],
+                  [
+                     "49.135109",
+                     "-122.639862"
+                  ],
+                  [
+                     "49.135342",
+                     "-122.637199"
+                  ],
+                  [
+                     "49.133991",
+                     "-122.633774"
+                  ],
+                  [
+                     "49.118931",
+                     "-122.654114"
+                  ],
+                  [
+                     "49.118931",
+                     "-122.668610"
+                  ],
+                  [
+                     "49.116798",
+                     "-122.668610"
+                  ],
+                  [
+                     "49.116741",
+                     "-122.678574"
+                  ],
+                  [
+                     "49.118092",
+                     "-122.679939"
+                  ],
+                  [
+                     "49.116692",
+                     "-122.679688"
+                  ],
+                  [
+                     "49.113880",
+                     "-122.679604"
+                  ],
+                  [
+                     "49.111488",
+                     "-122.674797"
+                  ],
+                  [
+                     "49.114792",
+                     "-122.674759"
+                  ],
+                  [
+                     "49.114769",
+                     "-122.672180"
+                  ],
+                  [
+                     "49.115429",
+                     "-122.672173"
+                  ],
+                  [
+                     "49.115421",
+                     "-122.668579"
+                  ],
+                  [
+                     "49.115292",
+                     "-122.668587"
+                  ],
+                  [
+                     "49.114922",
+                     "-122.647049"
+                  ],
+                  [
+                     "49.113178",
+                     "-122.644112"
+                  ],
+                  [
+                     "49.112370",
+                     "-122.645142"
+                  ],
+                  [
+                     "49.108341",
+                     "-122.637917"
+                  ],
+                  [
+                     "49.107140",
+                     "-122.638573"
+                  ],
+                  [
+                     "49.104549",
+                     "-122.638657"
+                  ],
+                  [
+                     "49.100174",
+                     "-122.638580"
+                  ],
+                  [
+                     "49.099751",
+                     "-122.638580"
+                  ],
+                  [
+                     "49.098824",
+                     "-122.635147"
+                  ],
+                  [
+                     "49.096012",
+                     "-122.624718"
+                  ],
+                  [
+                     "49.097672",
+                     "-122.624588"
+                  ],
+                  [
+                     "49.097813",
+                     "-122.621887"
+                  ],
+                  [
+                     "49.098541",
+                     "-122.622009"
+                  ],
+                  [
+                     "49.098625",
+                     "-122.614677"
+                  ],
+                  [
+                     "49.096802",
+                     "-122.614502"
+                  ],
+                  [
+                     "49.096912",
+                     "-122.611839"
+                  ],
+                  [
+                     "49.097755",
+                     "-122.611839"
+                  ],
+                  [
+                     "49.097839",
+                     "-122.609222"
+                  ],
+                  [
+                     "49.098148",
+                     "-122.609222"
+                  ],
+                  [
+                     "49.098232",
+                     "-122.605019"
+                  ],
+                  [
+                     "49.098797",
+                     "-122.605019"
+                  ],
+                  [
+                     "49.098850",
+                     "-122.603905"
+                  ],
+                  [
+                     "49.095085",
+                     "-122.603691"
+                  ],
+                  [
+                     "49.090141",
+                     "-122.603516"
+                  ],
+                  [
+                     "49.089378",
+                     "-122.601448"
+                  ],
+                  [
+                     "49.082218",
+                     "-122.581299"
+                  ],
+                  [
+                     "49.082581",
+                     "-122.581337"
+                  ],
+                  [
+                     "49.092999",
+                     "-122.581284"
+                  ],
+                  [
+                     "49.103951",
+                     "-122.581146"
+                  ],
+                  [
+                     "49.118931",
+                     "-122.581657"
+                  ],
+                  [
+                     "49.126270",
+                     "-122.581558"
+                  ],
+                  [
+                     "49.136311",
+                     "-122.581306"
+                  ],
+                  [
+                     "49.118832",
+                     "-122.536636"
+                  ],
+                  [
+                     "49.110241",
+                     "-122.514977"
+                  ],
+                  [
+                     "49.098202",
+                     "-122.484222"
+                  ],
+                  [
+                     "49.088409",
+                     "-122.459328"
+                  ],
+                  [
+                     "49.089489",
+                     "-122.459312"
+                  ],
+                  [
+                     "49.105400",
+                     "-122.459869"
+                  ],
+                  [
+                     "49.110722",
+                     "-122.459999"
+                  ],
+                  [
+                     "49.117950",
+                     "-122.459991"
+                  ],
+                  [
+                     "49.132511",
+                     "-122.460487"
+                  ],
+                  [
+                     "49.143532",
+                     "-122.461113"
+                  ],
+                  [
+                     "49.146160",
+                     "-122.461189"
+                  ],
+                  [
+                     "49.154362",
+                     "-122.461670"
+                  ],
+                  [
+                     "49.159809",
+                     "-122.461761"
+                  ],
+                  [
+                     "49.167690",
+                     "-122.462173"
+                  ],
+                  [
+                     "49.167980",
+                     "-122.473701"
+                  ],
+                  [
+                     "49.167740",
+                     "-122.477493"
+                  ],
+                  [
+                     "49.165981",
+                     "-122.488411"
+                  ],
+                  [
+                     "49.165981",
+                     "-122.490334"
+                  ],
+                  [
+                     "49.164631",
+                     "-122.503052"
+                  ],
+                  [
+                     "49.164181",
+                     "-122.510513"
+                  ],
+                  [
+                     "49.164120",
+                     "-122.514008"
+                  ],
+                  [
+                     "49.164021",
+                     "-122.515770"
+                  ],
+                  [
+                     "49.164211",
+                     "-122.516670"
+                  ],
+                  [
+                     "49.164021",
+                     "-122.516670"
+                  ],
+                  [
+                     "49.163380",
+                     "-122.521637"
+                  ],
+                  [
+                     "49.163021",
+                     "-122.525322"
+                  ],
+                  [
+                     "49.163071",
+                     "-122.528091"
+                  ],
+                  [
+                     "49.163010",
+                     "-122.530907"
+                  ],
+                  [
+                     "49.163528",
+                     "-122.532661"
+                  ]
+               ]
+            ],
+            "type" : "Polygon"
+         }
+      },
+      {
+         "color" : "E6E600",
+         "name" : "langley-dark-yellow",
+         "title" : "Langley Dark Yellow",
+         "geometry" : {
+            "coordinates" : [
+               [
+                  [
+                     [
+                        "49.008133",
+                        "-122.663498"
+                     ],
+                     [
+                        "49.009354",
+                        "-122.663475"
+                     ],
+                     [
+                        "49.009354",
+                        "-122.664848"
+                     ],
+                     [
+                        "49.009354",
+                        "-122.668777"
+                     ],
+                     [
+                        "49.009354",
+                        "-122.669106"
+                     ],
+                     [
+                        "49.009315",
+                        "-122.674492"
+                     ],
+                     [
+                        "49.009296",
+                        "-122.677261"
+                     ],
+                     [
+                        "49.009285",
+                        "-122.678627"
+                     ],
+                     [
+                        "49.009281",
+                        "-122.680016"
+                     ],
+                     [
+                        "49.005875",
+                        "-122.680084"
+                     ],
+                     [
+                        "49.005867",
+                        "-122.675888"
+                     ],
+                     [
+                        "49.002308",
+                        "-122.675957"
+                     ],
+                     [
+                        "49.002308",
+                        "-122.674362"
+                     ],
+                     [
+                        "49.002312",
+                        "-122.669579"
+                     ],
+                     [
+                        "49.002312",
+                        "-122.669121"
+                     ],
+                     [
+                        "49.002316",
+                        "-122.662224"
+                     ],
+                     [
+                        "49.002384",
+                        "-122.662224"
+                     ],
+                     [
+                        "49.002384",
+                        "-122.659081"
+                     ],
+                     [
+                        "49.002316",
+                        "-122.659081"
+                     ],
+                     [
+                        "49.002316",
+                        "-122.658211"
+                     ],
+                     [
+                        "49.005745",
+                        "-122.658165"
+                     ],
+                     [
+                        "49.005741",
+                        "-122.660492"
+                     ],
+                     [
+                        "49.005741",
+                        "-122.661636"
+                     ],
+                     [
+                        "49.005741",
+                        "-122.662643"
+                     ],
+                     [
+                        "49.005741",
+                        "-122.663536"
+                     ],
+                     [
+                        "49.008133",
+                        "-122.663498"
+                     ]
+                  ],
+                  [
+                     [
+                        "49.089355",
+                        "-122.618599"
+                     ],
+                     [
+                        "49.089401",
+                        "-122.620918"
+                     ],
+                     [
+                        "49.089420",
+                        "-122.624695"
+                     ],
+                     [
+                        "49.089535",
+                        "-122.637917"
+                     ],
+                     [
+                        "49.089550",
+                        "-122.641182"
+                     ],
+                     [
+                        "49.088539",
+                        "-122.641258"
+                     ],
+                     [
+                        "49.088013",
+                        "-122.641281"
+                     ],
+                     [
+                        "49.087482",
+                        "-122.641281"
+                     ],
+                     [
+                        "49.087009",
+                        "-122.641296"
+                     ],
+                     [
+                        "49.086941",
+                        "-122.641365"
+                     ],
+                     [
+                        "49.083900",
+                        "-122.641502"
+                     ],
+                     [
+                        "49.084000",
+                        "-122.647034"
+                     ],
+                     [
+                        "49.081970",
+                        "-122.647125"
+                     ],
+                     [
+                        "49.082062",
+                        "-122.658073"
+                     ],
+                     [
+                        "49.082153",
+                        "-122.669022"
+                     ],
+                     [
+                        "49.082153",
+                        "-122.669022"
+                     ],
+                     [
+                        "49.083660",
+                        "-122.668915"
+                     ],
+                     [
+                        "49.083660",
+                        "-122.669121"
+                     ],
+                     [
+                        "49.083656",
+                        "-122.672508"
+                     ],
+                     [
+                        "49.083656",
+                        "-122.672646"
+                     ],
+                     [
+                        "49.084007",
+                        "-122.672623"
+                     ],
+                     [
+                        "49.084007",
+                        "-122.672760"
+                     ],
+                     [
+                        "49.084007",
+                        "-122.677055"
+                     ],
+                     [
+                        "49.083996",
+                        "-122.679832"
+                     ],
+                     [
+                        "49.083988",
+                        "-122.679909"
+                     ],
+                     [
+                        "49.082058",
+                        "-122.680016"
+                     ],
+                     [
+                        "49.074726",
+                        "-122.680405"
+                     ],
+                     [
+                        "49.071671",
+                        "-122.680412"
+                     ],
+                     [
+                        "49.071522",
+                        "-122.680542"
+                     ],
+                     [
+                        "49.067402",
+                        "-122.680542"
+                     ],
+                     [
+                        "49.062683",
+                        "-122.680542"
+                     ],
+                     [
+                        "49.060131",
+                        "-122.680534"
+                     ],
+                     [
+                        "49.052891",
+                        "-122.680489"
+                     ],
+                     [
+                        "49.045666",
+                        "-122.680405"
+                     ],
+                     [
+                        "49.038391",
+                        "-122.680321"
+                     ],
+                     [
+                        "49.031105",
+                        "-122.680267"
+                     ],
+                     [
+                        "49.031151",
+                        "-122.674767"
+                     ],
+                     [
+                        "49.034695",
+                        "-122.674805"
+                     ],
+                     [
+                        "49.034882",
+                        "-122.672279"
+                     ],
+                     [
+                        "49.035698",
+                        "-122.672287"
+                     ],
+                     [
+                        "49.035698",
+                        "-122.672081"
+                     ],
+                     [
+                        "49.038338",
+                        "-122.672096"
+                     ],
+                     [
+                        "49.038467",
+                        "-122.672112"
+                     ],
+                     [
+                        "49.038433",
+                        "-122.669312"
+                     ],
+                     [
+                        "49.038437",
+                        "-122.666573"
+                     ],
+                     [
+                        "49.038445",
+                        "-122.661957"
+                     ],
+                     [
+                        "49.038445",
+                        "-122.661079"
+                     ],
+                     [
+                        "49.038445",
+                        "-122.658318"
+                     ],
+                     [
+                        "49.038437",
+                        "-122.656815"
+                     ],
+                     [
+                        "49.038452",
+                        "-122.649963"
+                     ],
+                     [
+                        "49.038456",
+                        "-122.647209"
+                     ],
+                     [
+                        "49.045689",
+                        "-122.647285"
+                     ],
+                     [
+                        "49.045700",
+                        "-122.641624"
+                     ],
+                     [
+                        "49.052959",
+                        "-122.641724"
+                     ],
+                     [
+                        "49.061527",
+                        "-122.641777"
+                     ],
+                     [
+                        "49.061607",
+                        "-122.641937"
+                     ],
+                     [
+                        "49.062950",
+                        "-122.641655"
+                     ],
+                     [
+                        "49.063011",
+                        "-122.641548"
+                     ],
+                     [
+                        "49.067490",
+                        "-122.641563"
+                     ],
+                     [
+                        "49.067596",
+                        "-122.641861"
+                     ],
+                     [
+                        "49.071060",
+                        "-122.641861"
+                     ],
+                     [
+                        "49.074589",
+                        "-122.641830"
+                     ],
+                     [
+                        "49.074692",
+                        "-122.641708"
+                     ],
+                     [
+                        "49.074692",
+                        "-122.636337"
+                     ],
+                     [
+                        "49.074692",
+                        "-122.636330"
+                     ],
+                     [
+                        "49.074699",
+                        "-122.632545"
+                     ],
+                     [
+                        "49.074703",
+                        "-122.632370"
+                     ],
+                     [
+                        "49.074875",
+                        "-122.629585"
+                     ],
+                     [
+                        "49.074875",
+                        "-122.629135"
+                     ],
+                     [
+                        "49.074844",
+                        "-122.628586"
+                     ],
+                     [
+                        "49.074829",
+                        "-122.628052"
+                     ],
+                     [
+                        "49.074860",
+                        "-122.626427"
+                     ],
+                     [
+                        "49.074982",
+                        "-122.626808"
+                     ],
+                     [
+                        "49.075535",
+                        "-122.627335"
+                     ],
+                     [
+                        "49.077122",
+                        "-122.629211"
+                     ],
+                     [
+                        "49.077412",
+                        "-122.629211"
+                     ],
+                     [
+                        "49.077412",
+                        "-122.629555"
+                     ],
+                     [
+                        "49.078476",
+                        "-122.630798"
+                     ],
+                     [
+                        "49.079102",
+                        "-122.631523"
+                     ],
+                     [
+                        "49.079369",
+                        "-122.631760"
+                     ],
+                     [
+                        "49.079525",
+                        "-122.631966"
+                     ],
+                     [
+                        "49.079834",
+                        "-122.632133"
+                     ],
+                     [
+                        "49.081505",
+                        "-122.633286"
+                     ],
+                     [
+                        "49.082104",
+                        "-122.633713"
+                     ],
+                     [
+                        "49.082130",
+                        "-122.632416"
+                     ],
+                     [
+                        "49.082153",
+                        "-122.630463"
+                     ],
+                     [
+                        "49.082191",
+                        "-122.630402"
+                     ],
+                     [
+                        "49.082172",
+                        "-122.624641"
+                     ],
+                     [
+                        "49.082172",
+                        "-122.624641"
+                     ],
+                     [
+                        "49.082169",
+                        "-122.619385"
+                     ],
+                     [
+                        "49.082161",
+                        "-122.615150"
+                     ],
+                     [
+                        "49.082920",
+                        "-122.615128"
+                     ],
+                     [
+                        "49.082932",
+                        "-122.614525"
+                     ],
+                     [
+                        "49.082878",
+                        "-122.614433"
+                     ],
+                     [
+                        "49.082249",
+                        "-122.614426"
+                     ],
+                     [
+                        "49.082153",
+                        "-122.614250"
+                     ],
+                     [
+                        "49.082176",
+                        "-122.613045"
+                     ],
+                     [
+                        "49.082146",
+                        "-122.606491"
+                     ],
+                     [
+                        "49.082150",
+                        "-122.605064"
+                     ],
+                     [
+                        "49.082088",
+                        "-122.604736"
+                     ],
+                     [
+                        "49.082088",
+                        "-122.604172"
+                     ],
+                     [
+                        "49.082169",
+                        "-122.603920"
+                     ],
+                     [
+                        "49.082291",
+                        "-122.603828"
+                     ],
+                     [
+                        "49.082504",
+                        "-122.603661"
+                     ],
+                     [
+                        "49.082699",
+                        "-122.603592"
+                     ],
+                     [
+                        "49.084579",
+                        "-122.603523"
+                     ],
+                     [
+                        "49.087780",
+                        "-122.603500"
+                     ],
+                     [
+                        "49.089390",
+                        "-122.603462"
+                     ],
+                     [
+                        "49.089390",
+                        "-122.608124"
+                     ],
+                     [
+                        "49.089394",
+                        "-122.611443"
+                     ],
+                     [
+                        "49.089405",
+                        "-122.616798"
+                     ],
+                     [
+                        "49.089405",
+                        "-122.617287"
+                     ],
+                     [
+                        "49.089348",
+                        "-122.618080"
+                     ],
+                     [
+                        "49.089355",
+                        "-122.618599"
+                     ]
+                  ]
+               ]
+            ],
+            "type" : "MultiPolygon"
+         }
+      },
+      {
+         "color" : "BEE8FF",
+         "name" : "langley-light-blue",
+         "title" : "Langley Light Blue",
+         "geometry" : {
+            "coordinates" : [
+               [
+                  [
+                     "49.053139",
+                     "-122.492699"
+                  ],
+                  [
+                     "49.061916",
+                     "-122.492752"
+                  ],
+                  [
+                     "49.061943",
+                     "-122.481682"
+                  ],
+                  [
+                     "49.066414",
+                     "-122.481766"
+                  ],
+                  [
+                     "49.063744",
+                     "-122.476143"
+                  ],
+                  [
+                     "49.065964",
+                     "-122.476059"
+                  ],
+                  [
+                     "49.066021",
+                     "-122.470779"
+                  ],
+                  [
+                     "49.064529",
+                     "-122.470695"
+                  ],
+                  [
+                     "49.064503",
+                     "-122.465157"
+                  ],
+                  [
+                     "49.062702",
+                     "-122.465157"
+                  ],
+                  [
+                     "49.062817",
+                     "-122.459839"
+                  ],
+                  [
+                     "49.071270",
+                     "-122.459831"
+                  ],
+                  [
+                     "49.076839",
+                     "-122.459793"
+                  ],
+                  [
+                     "49.088409",
+                     "-122.459328"
+                  ],
+                  [
+                     "49.098202",
+                     "-122.484222"
+                  ],
+                  [
+                     "49.110241",
+                     "-122.514977"
+                  ],
+                  [
+                     "49.118832",
+                     "-122.536636"
+                  ],
+                  [
+                     "49.136311",
+                     "-122.581306"
+                  ],
+                  [
+                     "49.126270",
+                     "-122.581558"
+                  ],
+                  [
+                     "49.118931",
+                     "-122.581657"
+                  ],
+                  [
+                     "49.118790",
+                     "-122.566483"
+                  ],
+                  [
+                     "49.120838",
+                     "-122.566597"
+                  ],
+                  [
+                     "49.121010",
+                     "-122.565323"
+                  ],
+                  [
+                     "49.119831",
+                     "-122.564163"
+                  ],
+                  [
+                     "49.119751",
+                     "-122.559349"
+                  ],
+                  [
+                     "49.118790",
+                     "-122.559311"
+                  ],
+                  [
+                     "49.118649",
+                     "-122.548447"
+                  ],
+                  [
+                     "49.111488",
+                     "-122.548241"
+                  ],
+                  [
+                     "49.111382",
+                     "-122.526138"
+                  ],
+                  [
+                     "49.096802",
+                     "-122.526260"
+                  ],
+                  [
+                     "49.096741",
+                     "-122.536949"
+                  ],
+                  [
+                     "49.079262",
+                     "-122.536949"
+                  ],
+                  [
+                     "49.079651",
+                     "-122.539352"
+                  ],
+                  [
+                     "49.084259",
+                     "-122.559090"
+                  ],
+                  [
+                     "49.083672",
+                     "-122.559143"
+                  ],
+                  [
+                     "49.083729",
+                     "-122.564537"
+                  ],
+                  [
+                     "49.083900",
+                     "-122.564758"
+                  ],
+                  [
+                     "49.083900",
+                     "-122.570251"
+                  ],
+                  [
+                     "49.084660",
+                     "-122.570251"
+                  ],
+                  [
+                     "49.084042",
+                     "-122.577591"
+                  ],
+                  [
+                     "49.084599",
+                     "-122.577812"
+                  ],
+                  [
+                     "49.084400",
+                     "-122.579010"
+                  ],
+                  [
+                     "49.082909",
+                     "-122.578957"
+                  ],
+                  [
+                     "49.082802",
+                     "-122.581322"
+                  ],
+                  [
+                     "49.082218",
+                     "-122.581299"
+                  ],
+                  [
+                     "49.074360",
+                     "-122.559174"
+                  ],
+                  [
+                     "49.059818",
+                     "-122.559433"
+                  ],
+                  [
+                     "49.009071",
+                     "-122.559753"
+                  ],
+                  [
+                     "49.002270",
+                     "-122.558937"
+                  ],
+                  [
+                     "49.002319",
+                     "-122.497566"
+                  ],
+                  [
+                     "49.002300",
+                     "-122.485817"
+                  ],
+                  [
+                     "49.002258",
+                     "-122.484940"
+                  ],
+                  [
+                     "49.002338",
+                     "-122.459541"
+                  ],
+                  [
+                     "49.016899",
+                     "-122.459686"
+                  ],
+                  [
+                     "49.031521",
+                     "-122.459679"
+                  ],
+                  [
+                     "49.042278",
+                     "-122.459587"
+                  ],
+                  [
+                     "49.050468",
+                     "-122.459747"
+                  ],
+                  [
+                     "49.050381",
+                     "-122.470650"
+                  ],
+                  [
+                     "49.045914",
+                     "-122.470650"
+                  ],
+                  [
+                     "49.045856",
+                     "-122.487000"
+                  ],
+                  [
+                     "49.049400",
+                     "-122.487129"
+                  ],
+                  [
+                     "49.049515",
+                     "-122.481636"
+                  ],
+                  [
+                     "49.053284",
+                     "-122.481720"
+                  ],
+                  [
+                     "49.053139",
+                     "-122.492699"
+                  ]
+               ]
+            ],
+            "type" : "Polygon"
+         }
+      },
+      {
+         "color" : "99FF99",
+         "name" : "langley-light-green",
+         "title" : "Langley Light Green",
+         "geometry" : {
+            "coordinates" : [
+               [
+                  [
+                     "49.177006",
+                     "-122.652443"
+                  ],
+                  [
+                     "49.177341",
+                     "-122.652527"
+                  ],
+                  [
+                     "49.177593",
+                     "-122.652786"
+                  ],
+                  [
+                     "49.177860",
+                     "-122.653107"
+                  ],
+                  [
+                     "49.178589",
+                     "-122.653511"
+                  ],
+                  [
+                     "49.179222",
+                     "-122.654480"
+                  ],
+                  [
+                     "49.179249",
+                     "-122.657372"
+                  ],
+                  [
+                     "49.180187",
+                     "-122.659477"
+                  ],
+                  [
+                     "49.180973",
+                     "-122.660248"
+                  ],
+                  [
+                     "49.181492",
+                     "-122.660660"
+                  ],
+                  [
+                     "49.181549",
+                     "-122.660103"
+                  ],
+                  [
+                     "49.183613",
+                     "-122.660141"
+                  ],
+                  [
+                     "49.183640",
+                     "-122.659157"
+                  ],
+                  [
+                     "49.183598",
+                     "-122.658531"
+                  ],
+                  [
+                     "49.182110",
+                     "-122.646263"
+                  ],
+                  [
+                     "49.177048",
+                     "-122.617638"
+                  ],
+                  [
+                     "49.175335",
+                     "-122.617676"
+                  ],
+                  [
+                     "49.175293",
+                     "-122.620789"
+                  ],
+                  [
+                     "49.162189",
+                     "-122.620834"
+                  ],
+                  [
+                     "49.162750",
+                     "-122.613792"
+                  ],
+                  [
+                     "49.162834",
+                     "-122.596046"
+                  ],
+                  [
+                     "49.164040",
+                     "-122.595512"
+                  ],
+                  [
+                     "49.164940",
+                     "-122.596138"
+                  ],
+                  [
+                     "49.165333",
+                     "-122.599098"
+                  ],
+                  [
+                     "49.165600",
+                     "-122.599358"
+                  ],
+                  [
+                     "49.166313",
+                     "-122.599052"
+                  ],
+                  [
+                     "49.166805",
+                     "-122.597939"
+                  ],
+                  [
+                     "49.167046",
+                     "-122.598282"
+                  ],
+                  [
+                     "49.165794",
+                     "-122.600601"
+                  ],
+                  [
+                     "49.165936",
+                     "-122.601051"
+                  ],
+                  [
+                     "49.166428",
+                     "-122.600746"
+                  ],
+                  [
+                     "49.167549",
+                     "-122.598663"
+                  ],
+                  [
+                     "49.167831",
+                     "-122.597420"
+                  ],
+                  [
+                     "49.167858",
+                     "-122.596649"
+                  ],
+                  [
+                     "49.167564",
+                     "-122.595619"
+                  ],
+                  [
+                     "49.166973",
+                     "-122.595085"
+                  ],
+                  [
+                     "49.167004",
+                     "-122.594543"
+                  ],
+                  [
+                     "49.168011",
+                     "-122.594696"
+                  ],
+                  [
+                     "49.168686",
+                     "-122.595619"
+                  ],
+                  [
+                     "49.168545",
+                     "-122.597076"
+                  ],
+                  [
+                     "49.168434",
+                     "-122.598129"
+                  ],
+                  [
+                     "49.168602",
+                     "-122.599266"
+                  ],
+                  [
+                     "49.168896",
+                     "-122.599289"
+                  ],
+                  [
+                     "49.169472",
+                     "-122.597527"
+                  ],
+                  [
+                     "49.169388",
+                     "-122.596710"
+                  ],
+                  [
+                     "49.169189",
+                     "-122.595749"
+                  ],
+                  [
+                     "49.169315",
+                     "-122.594635"
+                  ],
+                  [
+                     "49.169655",
+                     "-122.594116"
+                  ],
+                  [
+                     "49.170017",
+                     "-122.594437"
+                  ],
+                  [
+                     "49.170059",
+                     "-122.595451"
+                  ],
+                  [
+                     "49.172401",
+                     "-122.599419"
+                  ],
+                  [
+                     "49.173679",
+                     "-122.597511"
+                  ],
+                  [
+                     "49.174900",
+                     "-122.597145"
+                  ],
+                  [
+                     "49.175335",
+                     "-122.592873"
+                  ],
+                  [
+                     "49.176121",
+                     "-122.590775"
+                  ],
+                  [
+                     "49.175953",
+                     "-122.589745"
+                  ],
+                  [
+                     "49.176483",
+                     "-122.588387"
+                  ],
+                  [
+                     "49.176571",
+                     "-122.587616"
+                  ],
+                  [
+                     "49.176373",
+                     "-122.586632"
+                  ],
+                  [
+                     "49.176807",
+                     "-122.585854"
+                  ],
+                  [
+                     "49.177143",
+                     "-122.586159"
+                  ],
+                  [
+                     "49.180359",
+                     "-122.588837"
+                  ],
+                  [
+                     "49.186501",
+                     "-122.590042"
+                  ],
+                  [
+                     "49.189644",
+                     "-122.590126"
+                  ],
+                  [
+                     "49.195393",
+                     "-122.591393"
+                  ],
+                  [
+                     "49.199371",
+                     "-122.593193"
+                  ],
+                  [
+                     "49.201195",
+                     "-122.595192"
+                  ],
+                  [
+                     "49.205879",
+                     "-122.600876"
+                  ],
+                  [
+                     "49.208599",
+                     "-122.606178"
+                  ],
+                  [
+                     "49.208992",
+                     "-122.609032"
+                  ],
+                  [
+                     "49.208389",
+                     "-122.622810"
+                  ],
+                  [
+                     "49.207069",
+                     "-122.629562"
+                  ],
+                  [
+                     "49.201630",
+                     "-122.645958"
+                  ],
+                  [
+                     "49.193050",
+                     "-122.664093"
+                  ],
+                  [
+                     "49.186249",
+                     "-122.679459"
+                  ],
+                  [
+                     "49.166862",
+                     "-122.679222"
+                  ],
+                  [
+                     "49.164516",
+                     "-122.670204"
+                  ],
+                  [
+                     "49.163074",
+                     "-122.669197"
+                  ],
+                  [
+                     "49.164028",
+                     "-122.668877"
+                  ],
+                  [
+                     "49.162991",
+                     "-122.664139"
+                  ],
+                  [
+                     "49.160995",
+                     "-122.656815"
+                  ],
+                  [
+                     "49.162807",
+                     "-122.656921"
+                  ],
+                  [
+                     "49.162849",
+                     "-122.659798"
+                  ],
+                  [
+                     "49.163620",
+                     "-122.659866"
+                  ],
+                  [
+                     "49.164154",
+                     "-122.660233"
+                  ],
+                  [
+                     "49.164856",
+                     "-122.661690"
+                  ],
+                  [
+                     "49.165668",
+                     "-122.662415"
+                  ],
+                  [
+                     "49.166313",
+                     "-122.662506"
+                  ],
+                  [
+                     "49.168701",
+                     "-122.662544"
+                  ],
+                  [
+                     "49.169598",
+                     "-122.662758"
+                  ],
+                  [
+                     "49.170666",
+                     "-122.663124"
+                  ],
+                  [
+                     "49.171913",
+                     "-122.663147"
+                  ],
+                  [
+                     "49.172878",
+                     "-122.663750"
+                  ],
+                  [
+                     "49.173920",
+                     "-122.664993"
+                  ],
+                  [
+                     "49.174213",
+                     "-122.665443"
+                  ],
+                  [
+                     "49.175083",
+                     "-122.664711"
+                  ],
+                  [
+                     "49.175686",
+                     "-122.664413"
+                  ],
+                  [
+                     "49.176723",
+                     "-122.664459"
+                  ],
+                  [
+                     "49.177006",
+                     "-122.663940"
+                  ],
+                  [
+                     "49.177006",
+                     "-122.652443"
+                  ]
+               ]
+            ],
+            "type" : "Polygon"
+         }
+      },
+      {
+         "color" : "00A9E6",
+         "name" : "langley-dark-blue",
+         "title" : "Langley Dark Blue",
+         "geometry" : {
+            "coordinates" : [
+               [
+                  [
+                     [
+                        "49.066460",
+                        "-122.481773"
+                     ],
+                     [
+                        "49.061970",
+                        "-122.481720"
+                     ],
+                     [
+                        "49.061890",
+                        "-122.491737"
+                     ],
+                     [
+                        "49.061970",
+                        "-122.491882"
+                     ],
+                     [
+                        "49.061958",
+                        "-122.492493"
+                     ],
+                     [
+                        "49.061859",
+                        "-122.492691"
+                     ],
+                     [
+                        "49.053070",
+                        "-122.492630"
+                     ],
+                     [
+                        "49.053120",
+                        "-122.485977"
+                     ],
+                     [
+                        "49.053108",
+                        "-122.484573"
+                     ],
+                     [
+                        "49.053082",
+                        "-122.484520"
+                     ],
+                     [
+                        "49.053101",
+                        "-122.481621"
+                     ],
+                     [
+                        "49.049469",
+                        "-122.481598"
+                     ],
+                     [
+                        "49.049438",
+                        "-122.487083"
+                     ],
+                     [
+                        "49.045818",
+                        "-122.487030"
+                     ],
+                     [
+                        "49.045879",
+                        "-122.470589"
+                     ],
+                     [
+                        "49.050400",
+                        "-122.470642"
+                     ],
+                     [
+                        "49.050411",
+                        "-122.459633"
+                     ],
+                     [
+                        "49.052608",
+                        "-122.459709"
+                     ],
+                     [
+                        "49.053226",
+                        "-122.459709"
+                     ],
+                     [
+                        "49.054604",
+                        "-122.459839"
+                     ],
+                     [
+                        "49.059422",
+                        "-122.459801"
+                     ],
+                     [
+                        "49.062752",
+                        "-122.459770"
+                     ],
+                     [
+                        "49.062752",
+                        "-122.465149"
+                     ],
+                     [
+                        "49.064541",
+                        "-122.465149"
+                     ],
+                     [
+                        "49.064541",
+                        "-122.470734"
+                     ],
+                     [
+                        "49.065979",
+                        "-122.470749"
+                     ],
+                     [
+                        "49.065948",
+                        "-122.476089"
+                     ],
+                     [
+                        "49.063808",
+                        "-122.476082"
+                     ],
+                     [
+                        "49.063770",
+                        "-122.476242"
+                     ],
+                     [
+                        "49.066460",
+                        "-122.481773"
+                     ]
+                  ],
+                  [
+                     [
+                        "49.118759",
+                        "-122.559258"
+                     ],
+                     [
+                        "49.119701",
+                        "-122.559250"
+                     ],
+                     [
+                        "49.119732",
+                        "-122.559387"
+                     ],
+                     [
+                        "49.119759",
+                        "-122.564110"
+                     ],
+                     [
+                        "49.120560",
+                        "-122.564949"
+                     ],
+                     [
+                        "49.120960",
+                        "-122.565269"
+                     ],
+                     [
+                        "49.120911",
+                        "-122.566620"
+                     ],
+                     [
+                        "49.118778",
+                        "-122.566566"
+                     ],
+                     [
+                        "49.118790",
+                        "-122.569733"
+                     ],
+                     [
+                        "49.118931",
+                        "-122.581657"
+                     ],
+                     [
+                        "49.103951",
+                        "-122.581146"
+                     ],
+                     [
+                        "49.082829",
+                        "-122.581337"
+                     ],
+                     [
+                        "49.082821",
+                        "-122.578972"
+                     ],
+                     [
+                        "49.084431",
+                        "-122.578949"
+                     ],
+                     [
+                        "49.084541",
+                        "-122.577713"
+                     ],
+                     [
+                        "49.083961",
+                        "-122.577660"
+                     ],
+                     [
+                        "49.084309",
+                        "-122.573853"
+                     ],
+                     [
+                        "49.084599",
+                        "-122.571518"
+                     ],
+                     [
+                        "49.084591",
+                        "-122.570259"
+                     ],
+                     [
+                        "49.083851",
+                        "-122.570297"
+                     ],
+                     [
+                        "49.083851",
+                        "-122.564583"
+                     ],
+                     [
+                        "49.083672",
+                        "-122.564499"
+                     ],
+                     [
+                        "49.083672",
+                        "-122.559097"
+                     ],
+                     [
+                        "49.084202",
+                        "-122.559097"
+                     ],
+                     [
+                        "49.080872",
+                        "-122.544952"
+                     ],
+                     [
+                        "49.080170",
+                        "-122.542084"
+                     ],
+                     [
+                        "49.079540",
+                        "-122.539284"
+                     ],
+                     [
+                        "49.079182",
+                        "-122.536888"
+                     ],
+                     [
+                        "49.081741",
+                        "-122.536888"
+                     ],
+                     [
+                        "49.089310",
+                        "-122.537086"
+                     ],
+                     [
+                        "49.096649",
+                        "-122.537010"
+                     ],
+                     [
+                        "49.096661",
+                        "-122.526176"
+                     ],
+                     [
+                        "49.098469",
+                        "-122.526123"
+                     ],
+                     [
+                        "49.100250",
+                        "-122.526192"
+                     ],
+                     [
+                        "49.103939",
+                        "-122.526192"
+                     ],
+                     [
+                        "49.104019",
+                        "-122.526154"
+                     ],
+                     [
+                        "49.109558",
+                        "-122.526100"
+                     ],
+                     [
+                        "49.111351",
+                        "-122.525963"
+                     ],
+                     [
+                        "49.111408",
+                        "-122.548187"
+                     ],
+                     [
+                        "49.118622",
+                        "-122.548126"
+                     ],
+                     [
+                        "49.118698",
+                        "-122.548241"
+                     ],
+                     [
+                        "49.118759",
+                        "-122.559258"
+                     ]
+                  ]
+               ]
+            ],
+            "type" : "MultiPolygon"
+         }
+      },
+      {
+         "color" : "E60000",
+         "name" : "langley-dark-red",
+         "title" : "Langley Dark Red",
+         "geometry" : {
+            "coordinates" : [
+               [
+                  [
+                     [
+                        "49.150391",
+                        "-122.587158"
+                     ],
+                     [
+                        "49.151291",
+                        "-122.587273"
+                     ],
+                     [
+                        "49.152191",
+                        "-122.588310"
+                     ],
+                     [
+                        "49.152821",
+                        "-122.588562"
+                     ],
+                     [
+                        "49.152851",
+                        "-122.589920"
+                     ],
+                     [
+                        "49.152451",
+                        "-122.589722"
+                     ],
+                     [
+                        "49.152111",
+                        "-122.589706"
+                     ],
+                     [
+                        "49.151859",
+                        "-122.589882"
+                     ],
+                     [
+                        "49.151680",
+                        "-122.590302"
+                     ],
+                     [
+                        "49.151531",
+                        "-122.591042"
+                     ],
+                     [
+                        "49.151249",
+                        "-122.591682"
+                     ],
+                     [
+                        "49.150990",
+                        "-122.591888"
+                     ],
+                     [
+                        "49.150620",
+                        "-122.592041"
+                     ],
+                     [
+                        "49.150230",
+                        "-122.591957"
+                     ],
+                     [
+                        "49.149841",
+                        "-122.591660"
+                     ],
+                     [
+                        "49.149658",
+                        "-122.591652"
+                     ],
+                     [
+                        "49.149220",
+                        "-122.591431"
+                     ],
+                     [
+                        "49.149071",
+                        "-122.592537"
+                     ],
+                     [
+                        "49.148281",
+                        "-122.594437"
+                     ],
+                     [
+                        "49.147781",
+                        "-122.594261"
+                     ],
+                     [
+                        "49.147339",
+                        "-122.593948"
+                     ],
+                     [
+                        "49.147011",
+                        "-122.594719"
+                     ],
+                     [
+                        "49.146339",
+                        "-122.596123"
+                     ],
+                     [
+                        "49.145870",
+                        "-122.595619"
+                     ],
+                     [
+                        "49.145679",
+                        "-122.595078"
+                     ],
+                     [
+                        "49.145088",
+                        "-122.596077"
+                     ],
+                     [
+                        "49.143269",
+                        "-122.597023"
+                     ],
+                     [
+                        "49.142601",
+                        "-122.597313"
+                     ],
+                     [
+                        "49.138161",
+                        "-122.586029"
+                     ],
+                     [
+                        "49.137989",
+                        "-122.584381"
+                     ],
+                     [
+                        "49.138039",
+                        "-122.583748"
+                     ],
+                     [
+                        "49.138321",
+                        "-122.582420"
+                     ],
+                     [
+                        "49.138279",
+                        "-122.581284"
+                     ],
+                     [
+                        "49.140850",
+                        "-122.581230"
+                     ],
+                     [
+                        "49.140789",
+                        "-122.574417"
+                     ],
+                     [
+                        "49.141460",
+                        "-122.572594"
+                     ],
+                     [
+                        "49.142139",
+                        "-122.571777"
+                     ],
+                     [
+                        "49.143059",
+                        "-122.570961"
+                     ],
+                     [
+                        "49.144379",
+                        "-122.570488"
+                     ],
+                     [
+                        "49.148090",
+                        "-122.569969"
+                     ],
+                     [
+                        "49.148232",
+                        "-122.581062"
+                     ],
+                     [
+                        "49.149578",
+                        "-122.581047"
+                     ],
+                     [
+                        "49.149601",
+                        "-122.584740"
+                     ],
+                     [
+                        "49.149479",
+                        "-122.584747"
+                     ],
+                     [
+                        "49.149780",
+                        "-122.586533"
+                     ],
+                     [
+                        "49.149780",
+                        "-122.586639"
+                     ],
+                     [
+                        "49.149750",
+                        "-122.586662"
+                     ],
+                     [
+                        "49.150391",
+                        "-122.587158"
+                     ]
+                  ],
+                  [
+                     [
+                        "49.163589",
+                        "-122.669579"
+                     ],
+                     [
+                        "49.164501",
+                        "-122.670212"
+                     ],
+                     [
+                        "49.166889",
+                        "-122.679192"
+                     ],
+                     [
+                        "49.162979",
+                        "-122.679108"
+                     ],
+                     [
+                        "49.148129",
+                        "-122.679443"
+                     ],
+                     [
+                        "49.117981",
+                        "-122.679817"
+                     ],
+                     [
+                        "49.116692",
+                        "-122.678307"
+                     ],
+                     [
+                        "49.116749",
+                        "-122.668571"
+                     ],
+                     [
+                        "49.119011",
+                        "-122.668541"
+                     ],
+                     [
+                        "49.118900",
+                        "-122.654457"
+                     ],
+                     [
+                        "49.118801",
+                        "-122.654022"
+                     ],
+                     [
+                        "49.124031",
+                        "-122.647186"
+                     ],
+                     [
+                        "49.124870",
+                        "-122.646240"
+                     ],
+                     [
+                        "49.125050",
+                        "-122.645821"
+                     ],
+                     [
+                        "49.126099",
+                        "-122.644386"
+                     ],
+                     [
+                        "49.126190",
+                        "-122.644341"
+                     ],
+                     [
+                        "49.129070",
+                        "-122.640404"
+                     ],
+                     [
+                        "49.129269",
+                        "-122.640213"
+                     ],
+                     [
+                        "49.129879",
+                        "-122.639320"
+                     ],
+                     [
+                        "49.132519",
+                        "-122.635910"
+                     ],
+                     [
+                        "49.132690",
+                        "-122.635551"
+                     ],
+                     [
+                        "49.134090",
+                        "-122.633698"
+                     ],
+                     [
+                        "49.134079",
+                        "-122.634453"
+                     ],
+                     [
+                        "49.135231",
+                        "-122.637199"
+                     ],
+                     [
+                        "49.135189",
+                        "-122.640068"
+                     ],
+                     [
+                        "49.140530",
+                        "-122.640083"
+                     ],
+                     [
+                        "49.140419",
+                        "-122.635063"
+                     ],
+                     [
+                        "49.139431",
+                        "-122.635033"
+                     ],
+                     [
+                        "49.137970",
+                        "-122.632523"
+                     ],
+                     [
+                        "49.140270",
+                        "-122.630836"
+                     ],
+                     [
+                        "49.140442",
+                        "-122.630760"
+                     ],
+                     [
+                        "49.142368",
+                        "-122.630753"
+                     ],
+                     [
+                        "49.142250",
+                        "-122.624321"
+                     ],
+                     [
+                        "49.142349",
+                        "-122.624191"
+                     ],
+                     [
+                        "49.152290",
+                        "-122.624100"
+                     ],
+                     [
+                        "49.162930",
+                        "-122.664078"
+                     ],
+                     [
+                        "49.164001",
+                        "-122.668900"
+                     ],
+                     [
+                        "49.163071",
+                        "-122.669167"
+                     ],
+                     [
+                        "49.163589",
+                        "-122.669579"
+                     ]
+                  ],
+                  [
+                     [
+                        "49.107071",
+                        "-122.638687"
+                     ],
+                     [
+                        "49.107582",
+                        "-122.637993"
+                     ],
+                     [
+                        "49.107674",
+                        "-122.637794"
+                     ],
+                     [
+                        "49.107758",
+                        "-122.637733"
+                     ],
+                     [
+                        "49.108089",
+                        "-122.637947"
+                     ],
+                     [
+                        "49.107964",
+                        "-122.638412"
+                     ],
+                     [
+                        "49.107246",
+                        "-122.639351"
+                     ],
+                     [
+                        "49.106457",
+                        "-122.640388"
+                     ],
+                     [
+                        "49.106346",
+                        "-122.640526"
+                     ],
+                     [
+                        "49.105507",
+                        "-122.641624"
+                     ],
+                     [
+                        "49.105377",
+                        "-122.641792"
+                     ],
+                     [
+                        "49.104805",
+                        "-122.642540"
+                     ],
+                     [
+                        "49.104610",
+                        "-122.642807"
+                     ],
+                     [
+                        "49.104576",
+                        "-122.640594"
+                     ],
+                     [
+                        "49.104549",
+                        "-122.638741"
+                     ],
+                     [
+                        "49.104549",
+                        "-122.638702"
+                     ],
+                     [
+                        "49.107071",
+                        "-122.638687"
+                     ]
+                  ],
+                  [
+                     [
+                        "49.099747",
+                        "-122.638588"
+                     ],
+                     [
+                        "49.097050",
+                        "-122.638695"
+                     ],
+                     [
+                        "49.095245",
+                        "-122.638771"
+                     ],
+                     [
+                        "49.095272",
+                        "-122.640594"
+                     ],
+                     [
+                        "49.094845",
+                        "-122.640602"
+                     ],
+                     [
+                        "49.094154",
+                        "-122.640137"
+                     ],
+                     [
+                        "49.094147",
+                        "-122.637871"
+                     ],
+                     [
+                        "49.089626",
+                        "-122.637917"
+                     ],
+                     [
+                        "49.089535",
+                        "-122.637917"
+                     ],
+                     [
+                        "49.089420",
+                        "-122.624695"
+                     ],
+                     [
+                        "49.089401",
+                        "-122.620918"
+                     ],
+                     [
+                        "49.089355",
+                        "-122.618599"
+                     ],
+                     [
+                        "49.089348",
+                        "-122.618080"
+                     ],
+                     [
+                        "49.089405",
+                        "-122.617287"
+                     ],
+                     [
+                        "49.089405",
+                        "-122.616798"
+                     ],
+                     [
+                        "49.089394",
+                        "-122.611443"
+                     ],
+                     [
+                        "49.089390",
+                        "-122.608124"
+                     ],
+                     [
+                        "49.089390",
+                        "-122.603462"
+                     ],
+                     [
+                        "49.089249",
+                        "-122.603127"
+                     ],
+                     [
+                        "49.089268",
+                        "-122.602356"
+                     ],
+                     [
+                        "49.089516",
+                        "-122.601807"
+                     ],
+                     [
+                        "49.090107",
+                        "-122.603477"
+                     ],
+                     [
+                        "49.098824",
+                        "-122.603951"
+                     ],
+                     [
+                        "49.098820",
+                        "-122.604141"
+                     ],
+                     [
+                        "49.098797",
+                        "-122.604980"
+                     ],
+                     [
+                        "49.098206",
+                        "-122.604942"
+                     ],
+                     [
+                        "49.098122",
+                        "-122.609276"
+                     ],
+                     [
+                        "49.097801",
+                        "-122.609261"
+                     ],
+                     [
+                        "49.097782",
+                        "-122.609398"
+                     ],
+                     [
+                        "49.097721",
+                        "-122.611847"
+                     ],
+                     [
+                        "49.096947",
+                        "-122.611816"
+                     ],
+                     [
+                        "49.096870",
+                        "-122.611931"
+                     ],
+                     [
+                        "49.096806",
+                        "-122.614502"
+                     ],
+                     [
+                        "49.096901",
+                        "-122.614563"
+                     ],
+                     [
+                        "49.098614",
+                        "-122.614647"
+                     ],
+                     [
+                        "49.098522",
+                        "-122.621925"
+                     ],
+                     [
+                        "49.097778",
+                        "-122.621895"
+                     ],
+                     [
+                        "49.097755",
+                        "-122.623795"
+                     ],
+                     [
+                        "49.097748",
+                        "-122.624428"
+                     ],
+                     [
+                        "49.097599",
+                        "-122.624580"
+                     ],
+                     [
+                        "49.096024",
+                        "-122.624611"
+                     ],
+                     [
+                        "49.099747",
+                        "-122.638588"
+                     ]
+                  ]
+               ]
+            ],
+            "type" : "MultiPolygon"
+         }
+      },
+      {
+         "color" : "38A800",
+         "name" : "langley-dark-green",
+         "title" : "Langley Dark Green",
+         "geometry" : {
+            "coordinates" : [
+               [
+                  [
+                     [
+                        "49.182053",
+                        "-122.646156"
+                     ],
+                     [
+                        "49.183556",
+                        "-122.658363"
+                     ],
+                     [
+                        "49.183594",
+                        "-122.658905"
+                     ],
+                     [
+                        "49.183578",
+                        "-122.659904"
+                     ],
+                     [
+                        "49.183563",
+                        "-122.660088"
+                     ],
+                     [
+                        "49.182785",
+                        "-122.660080"
+                     ],
+                     [
+                        "49.181507",
+                        "-122.660110"
+                     ],
+                     [
+                        "49.181511",
+                        "-122.660622"
+                     ],
+                     [
+                        "49.181232",
+                        "-122.660461"
+                     ],
+                     [
+                        "49.180855",
+                        "-122.660149"
+                     ],
+                     [
+                        "49.180187",
+                        "-122.659462"
+                     ],
+                     [
+                        "49.179424",
+                        "-122.657837"
+                     ],
+                     [
+                        "49.179237",
+                        "-122.657249"
+                     ],
+                     [
+                        "49.179234",
+                        "-122.655869"
+                     ],
+                     [
+                        "49.179222",
+                        "-122.654480"
+                     ],
+                     [
+                        "49.178806",
+                        "-122.653679"
+                     ],
+                     [
+                        "49.177906",
+                        "-122.653107"
+                     ],
+                     [
+                        "49.177765",
+                        "-122.653053"
+                     ],
+                     [
+                        "49.177708",
+                        "-122.652954"
+                     ],
+                     [
+                        "49.177555",
+                        "-122.652725"
+                     ],
+                     [
+                        "49.177269",
+                        "-122.652489"
+                     ],
+                     [
+                        "49.176994",
+                        "-122.652420"
+                     ],
+                     [
+                        "49.176998",
+                        "-122.654411"
+                     ],
+                     [
+                        "49.176998",
+                        "-122.654892"
+                     ],
+                     [
+                        "49.177006",
+                        "-122.657349"
+                     ],
+                     [
+                        "49.177013",
+                        "-122.664406"
+                     ],
+                     [
+                        "49.175789",
+                        "-122.664375"
+                     ],
+                     [
+                        "49.175411",
+                        "-122.664490"
+                     ],
+                     [
+                        "49.175018",
+                        "-122.664688"
+                     ],
+                     [
+                        "49.174591",
+                        "-122.665024"
+                     ],
+                     [
+                        "49.174210",
+                        "-122.665436"
+                     ],
+                     [
+                        "49.173908",
+                        "-122.664917"
+                     ],
+                     [
+                        "49.173191",
+                        "-122.664093"
+                     ],
+                     [
+                        "49.172935",
+                        "-122.663780"
+                     ],
+                     [
+                        "49.172806",
+                        "-122.663643"
+                     ],
+                     [
+                        "49.172428",
+                        "-122.663368"
+                     ],
+                     [
+                        "49.172050",
+                        "-122.663177"
+                     ],
+                     [
+                        "49.171825",
+                        "-122.663109"
+                     ],
+                     [
+                        "49.171612",
+                        "-122.663086"
+                     ],
+                     [
+                        "49.171410",
+                        "-122.663086"
+                     ],
+                     [
+                        "49.170834",
+                        "-122.663101"
+                     ],
+                     [
+                        "49.170712",
+                        "-122.663078"
+                     ],
+                     [
+                        "49.170452",
+                        "-122.663055"
+                     ],
+                     [
+                        "49.170238",
+                        "-122.662994"
+                     ],
+                     [
+                        "49.170017",
+                        "-122.662895"
+                     ],
+                     [
+                        "49.169632",
+                        "-122.662727"
+                     ],
+                     [
+                        "49.169456",
+                        "-122.662651"
+                     ],
+                     [
+                        "49.169273",
+                        "-122.662598"
+                     ],
+                     [
+                        "49.169079",
+                        "-122.662575"
+                     ],
+                     [
+                        "49.168602",
+                        "-122.662506"
+                     ],
+                     [
+                        "49.165928",
+                        "-122.662491"
+                     ],
+                     [
+                        "49.165752",
+                        "-122.662437"
+                     ],
+                     [
+                        "49.165596",
+                        "-122.662376"
+                     ],
+                     [
+                        "49.165405",
+                        "-122.662277"
+                     ],
+                     [
+                        "49.165264",
+                        "-122.662170"
+                     ],
+                     [
+                        "49.165131",
+                        "-122.662041"
+                     ],
+                     [
+                        "49.164974",
+                        "-122.661858"
+                     ],
+                     [
+                        "49.164841",
+                        "-122.661667"
+                     ],
+                     [
+                        "49.164730",
+                        "-122.661484"
+                     ],
+                     [
+                        "49.164337",
+                        "-122.660606"
+                     ],
+                     [
+                        "49.164200",
+                        "-122.660316"
+                     ],
+                     [
+                        "49.164089",
+                        "-122.660164"
+                     ],
+                     [
+                        "49.163952",
+                        "-122.660042"
+                     ],
+                     [
+                        "49.163765",
+                        "-122.659920"
+                     ],
+                     [
+                        "49.163605",
+                        "-122.659866"
+                     ],
+                     [
+                        "49.162849",
+                        "-122.659821"
+                     ],
+                     [
+                        "49.162807",
+                        "-122.656914"
+                     ],
+                     [
+                        "49.161812",
+                        "-122.656853"
+                     ],
+                     [
+                        "49.161011",
+                        "-122.656860"
+                     ],
+                     [
+                        "49.158051",
+                        "-122.645782"
+                     ],
+                     [
+                        "49.155441",
+                        "-122.636017"
+                     ],
+                     [
+                        "49.155125",
+                        "-122.634811"
+                     ],
+                     [
+                        "49.152294",
+                        "-122.624107"
+                     ],
+                     [
+                        "49.152752",
+                        "-122.624107"
+                     ],
+                     [
+                        "49.157345",
+                        "-122.624084"
+                     ],
+                     [
+                        "49.158401",
+                        "-122.624077"
+                     ],
+                     [
+                        "49.159245",
+                        "-122.620499"
+                     ],
+                     [
+                        "49.159245",
+                        "-122.618889"
+                     ],
+                     [
+                        "49.159138",
+                        "-122.607025"
+                     ],
+                     [
+                        "49.160160",
+                        "-122.607002"
+                     ],
+                     [
+                        "49.160648",
+                        "-122.607002"
+                     ],
+                     [
+                        "49.162350",
+                        "-122.606949"
+                     ],
+                     [
+                        "49.162800",
+                        "-122.606987"
+                     ],
+                     [
+                        "49.162739",
+                        "-122.613060"
+                     ],
+                     [
+                        "49.162701",
+                        "-122.614044"
+                     ],
+                     [
+                        "49.162174",
+                        "-122.620628"
+                     ],
+                     [
+                        "49.162163",
+                        "-122.620773"
+                     ],
+                     [
+                        "49.162285",
+                        "-122.620773"
+                     ],
+                     [
+                        "49.162903",
+                        "-122.620766"
+                     ],
+                     [
+                        "49.164783",
+                        "-122.620758"
+                     ],
+                     [
+                        "49.167805",
+                        "-122.620735"
+                     ],
+                     [
+                        "49.169437",
+                        "-122.620781"
+                     ],
+                     [
+                        "49.171066",
+                        "-122.620773"
+                     ],
+                     [
+                        "49.171879",
+                        "-122.620781"
+                     ],
+                     [
+                        "49.173763",
+                        "-122.620758"
+                     ],
+                     [
+                        "49.175282",
+                        "-122.620750"
+                     ],
+                     [
+                        "49.175282",
+                        "-122.619972"
+                     ],
+                     [
+                        "49.175285",
+                        "-122.619202"
+                     ],
+                     [
+                        "49.175285",
+                        "-122.617653"
+                     ],
+                     [
+                        "49.176853",
+                        "-122.617638"
+                     ],
+                     [
+                        "49.176960",
+                        "-122.617661"
+                     ],
+                     [
+                        "49.176949",
+                        "-122.617210"
+                     ],
+                     [
+                        "49.179306",
+                        "-122.630577"
+                     ],
+                     [
+                        "49.182053",
+                        "-122.646156"
+                     ]
+                  ],
+                  [
+                     [
+                        "49.176807",
+                        "-122.585808"
+                     ],
+                     [
+                        "49.176395",
+                        "-122.586479"
+                     ],
+                     [
+                        "49.176399",
+                        "-122.586922"
+                     ],
+                     [
+                        "49.176533",
+                        "-122.587585"
+                     ],
+                     [
+                        "49.176449",
+                        "-122.588364"
+                     ],
+                     [
+                        "49.176060",
+                        "-122.589226"
+                     ],
+                     [
+                        "49.175915",
+                        "-122.589714"
+                     ],
+                     [
+                        "49.176094",
+                        "-122.590752"
+                     ],
+                     [
+                        "49.175304",
+                        "-122.592819"
+                     ],
+                     [
+                        "49.175247",
+                        "-122.593788"
+                     ],
+                     [
+                        "49.175091",
+                        "-122.594429"
+                     ],
+                     [
+                        "49.175140",
+                        "-122.594513"
+                     ],
+                     [
+                        "49.174877",
+                        "-122.597076"
+                     ],
+                     [
+                        "49.173615",
+                        "-122.597618"
+                     ],
+                     [
+                        "49.173565",
+                        "-122.597641"
+                     ],
+                     [
+                        "49.173550",
+                        "-122.597664"
+                     ],
+                     [
+                        "49.173183",
+                        "-122.598335"
+                     ],
+                     [
+                        "49.172600",
+                        "-122.599396"
+                     ],
+                     [
+                        "49.172558",
+                        "-122.599403"
+                     ],
+                     [
+                        "49.172367",
+                        "-122.599426"
+                     ],
+                     [
+                        "49.171944",
+                        "-122.598480"
+                     ],
+                     [
+                        "49.171478",
+                        "-122.598022"
+                     ],
+                     [
+                        "49.170197",
+                        "-122.595840"
+                     ],
+                     [
+                        "49.170021",
+                        "-122.595383"
+                     ],
+                     [
+                        "49.170048",
+                        "-122.594826"
+                     ],
+                     [
+                        "49.170017",
+                        "-122.594406"
+                     ],
+                     [
+                        "49.169811",
+                        "-122.594162"
+                     ],
+                     [
+                        "49.169594",
+                        "-122.594170"
+                     ],
+                     [
+                        "49.169365",
+                        "-122.594498"
+                     ],
+                     [
+                        "49.169250",
+                        "-122.595009"
+                     ],
+                     [
+                        "49.169193",
+                        "-122.595695"
+                     ],
+                     [
+                        "49.169270",
+                        "-122.596184"
+                     ],
+                     [
+                        "49.169399",
+                        "-122.596863"
+                     ],
+                     [
+                        "49.169418",
+                        "-122.597420"
+                     ],
+                     [
+                        "49.169273",
+                        "-122.598015"
+                     ],
+                     [
+                        "49.169044",
+                        "-122.598724"
+                     ],
+                     [
+                        "49.168873",
+                        "-122.599304"
+                     ],
+                     [
+                        "49.168613",
+                        "-122.599304"
+                     ],
+                     [
+                        "49.168407",
+                        "-122.598755"
+                     ],
+                     [
+                        "49.168362",
+                        "-122.597778"
+                     ],
+                     [
+                        "49.168461",
+                        "-122.597206"
+                     ],
+                     [
+                        "49.168659",
+                        "-122.596474"
+                     ],
+                     [
+                        "49.168701",
+                        "-122.595833"
+                     ],
+                     [
+                        "49.168568",
+                        "-122.595322"
+                     ],
+                     [
+                        "49.168091",
+                        "-122.594772"
+                     ],
+                     [
+                        "49.167393",
+                        "-122.594521"
+                     ],
+                     [
+                        "49.166927",
+                        "-122.594498"
+                     ],
+                     [
+                        "49.166885",
+                        "-122.594719"
+                     ],
+                     [
+                        "49.166859",
+                        "-122.594917"
+                     ],
+                     [
+                        "49.166946",
+                        "-122.595070"
+                     ],
+                     [
+                        "49.167149",
+                        "-122.595207"
+                     ],
+                     [
+                        "49.167397",
+                        "-122.595383"
+                     ],
+                     [
+                        "49.167568",
+                        "-122.595619"
+                     ],
+                     [
+                        "49.167686",
+                        "-122.596039"
+                     ],
+                     [
+                        "49.167774",
+                        "-122.596375"
+                     ],
+                     [
+                        "49.167820",
+                        "-122.596832"
+                     ],
+                     [
+                        "49.167824",
+                        "-122.597298"
+                     ],
+                     [
+                        "49.167725",
+                        "-122.597809"
+                     ],
+                     [
+                        "49.167294",
+                        "-122.598961"
+                     ],
+                     [
+                        "49.166718",
+                        "-122.600182"
+                     ],
+                     [
+                        "49.166328",
+                        "-122.600761"
+                     ],
+                     [
+                        "49.166065",
+                        "-122.600937"
+                     ],
+                     [
+                        "49.165848",
+                        "-122.600899"
+                     ],
+                     [
+                        "49.165760",
+                        "-122.600746"
+                     ],
+                     [
+                        "49.165775",
+                        "-122.600548"
+                     ],
+                     [
+                        "49.166119",
+                        "-122.599808"
+                     ],
+                     [
+                        "49.166771",
+                        "-122.598946"
+                     ],
+                     [
+                        "49.166985",
+                        "-122.598541"
+                     ],
+                     [
+                        "49.167103",
+                        "-122.598190"
+                     ],
+                     [
+                        "49.167099",
+                        "-122.597992"
+                     ],
+                     [
+                        "49.166985",
+                        "-122.597839"
+                     ],
+                     [
+                        "49.166737",
+                        "-122.597908"
+                     ],
+                     [
+                        "49.166622",
+                        "-122.598129"
+                     ],
+                     [
+                        "49.166409",
+                        "-122.598793"
+                     ],
+                     [
+                        "49.166145",
+                        "-122.599129"
+                     ],
+                     [
+                        "49.165901",
+                        "-122.599281"
+                     ],
+                     [
+                        "49.165627",
+                        "-122.599350"
+                     ],
+                     [
+                        "49.165394",
+                        "-122.599129"
+                     ],
+                     [
+                        "49.165218",
+                        "-122.598717"
+                     ],
+                     [
+                        "49.165199",
+                        "-122.598068"
+                     ],
+                     [
+                        "49.165169",
+                        "-122.597031"
+                     ],
+                     [
+                        "49.165092",
+                        "-122.596504"
+                     ],
+                     [
+                        "49.164890",
+                        "-122.595978"
+                     ],
+                     [
+                        "49.164394",
+                        "-122.595627"
+                     ],
+                     [
+                        "49.164062",
+                        "-122.595482"
+                     ],
+                     [
+                        "49.162815",
+                        "-122.595970"
+                     ],
+                     [
+                        "49.161873",
+                        "-122.596756"
+                     ],
+                     [
+                        "49.161144",
+                        "-122.597130"
+                     ],
+                     [
+                        "49.161034",
+                        "-122.597176"
+                     ],
+                     [
+                        "49.160900",
+                        "-122.597183"
+                     ],
+                     [
+                        "49.160816",
+                        "-122.597069"
+                     ],
+                     [
+                        "49.160828",
+                        "-122.596848"
+                     ],
+                     [
+                        "49.161037",
+                        "-122.596100"
+                     ],
+                     [
+                        "49.161087",
+                        "-122.595268"
+                     ],
+                     [
+                        "49.161087",
+                        "-122.594757"
+                     ],
+                     [
+                        "49.160892",
+                        "-122.594116"
+                     ],
+                     [
+                        "49.160130",
+                        "-122.591980"
+                     ],
+                     [
+                        "49.159874",
+                        "-122.591019"
+                     ],
+                     [
+                        "49.159805",
+                        "-122.589516"
+                     ],
+                     [
+                        "49.160118",
+                        "-122.589127"
+                     ],
+                     [
+                        "49.161209",
+                        "-122.587593"
+                     ],
+                     [
+                        "49.161438",
+                        "-122.587257"
+                     ],
+                     [
+                        "49.162693",
+                        "-122.585945"
+                     ],
+                     [
+                        "49.162674",
+                        "-122.584167"
+                     ],
+                     [
+                        "49.162582",
+                        "-122.584229"
+                     ],
+                     [
+                        "49.162079",
+                        "-122.584770"
+                     ],
+                     [
+                        "49.162067",
+                        "-122.584290"
+                     ],
+                     [
+                        "49.162064",
+                        "-122.583878"
+                     ],
+                     [
+                        "49.162056",
+                        "-122.583458"
+                     ],
+                     [
+                        "49.162048",
+                        "-122.582924"
+                     ],
+                     [
+                        "49.161324",
+                        "-122.583244"
+                     ],
+                     [
+                        "49.161343",
+                        "-122.582771"
+                     ],
+                     [
+                        "49.161282",
+                        "-122.582771"
+                     ],
+                     [
+                        "49.159695",
+                        "-122.582695"
+                     ],
+                     [
+                        "49.160343",
+                        "-122.580521"
+                     ],
+                     [
+                        "49.160667",
+                        "-122.579460"
+                     ],
+                     [
+                        "49.161339",
+                        "-122.578445"
+                     ],
+                     [
+                        "49.161869",
+                        "-122.577621"
+                     ],
+                     [
+                        "49.161983",
+                        "-122.577454"
+                     ],
+                     [
+                        "49.162712",
+                        "-122.578178"
+                     ],
+                     [
+                        "49.162842",
+                        "-122.578293"
+                     ],
+                     [
+                        "49.163368",
+                        "-122.577209"
+                     ],
+                     [
+                        "49.163582",
+                        "-122.576767"
+                     ],
+                     [
+                        "49.163651",
+                        "-122.576622"
+                     ],
+                     [
+                        "49.163830",
+                        "-122.576431"
+                     ],
+                     [
+                        "49.163868",
+                        "-122.576393"
+                     ],
+                     [
+                        "49.163868",
+                        "-122.576317"
+                     ],
+                     [
+                        "49.164112",
+                        "-122.576080"
+                     ],
+                     [
+                        "49.164440",
+                        "-122.575745"
+                     ],
+                     [
+                        "49.165028",
+                        "-122.575058"
+                     ],
+                     [
+                        "49.165569",
+                        "-122.574509"
+                     ],
+                     [
+                        "49.166599",
+                        "-122.573425"
+                     ],
+                     [
+                        "49.167122",
+                        "-122.574524"
+                     ],
+                     [
+                        "49.168152",
+                        "-122.573395"
+                     ],
+                     [
+                        "49.169300",
+                        "-122.575081"
+                     ],
+                     [
+                        "49.169655",
+                        "-122.575111"
+                     ],
+                     [
+                        "49.170479",
+                        "-122.574219"
+                     ],
+                     [
+                        "49.171486",
+                        "-122.576874"
+                     ],
+                     [
+                        "49.174358",
+                        "-122.582382"
+                     ],
+                     [
+                        "49.176807",
+                        "-122.585808"
+                     ]
+                  ]
+               ]
+            ],
+            "type" : "MultiPolygon"
+         }
+      },
+      {
+         "color" : "FFFF33",
+         "name" : "langley-light-yellow",
+         "title" : "Langley Light Yellow",
+         "geometry" : {
+            "coordinates" : [
+               [
+                  [
+                     "49.005741",
+                     "-122.658173"
+                  ],
+                  [
+                     "49.002350",
+                     "-122.658211"
+                  ],
+                  [
+                     "49.002323",
+                     "-122.675934"
+                  ],
+                  [
+                     "49.005772",
+                     "-122.675934"
+                  ],
+                  [
+                     "49.005856",
+                     "-122.680077"
+                  ],
+                  [
+                     "49.002239",
+                     "-122.680161"
+                  ],
+                  [
+                     "49.002251",
+                     "-122.655510"
+                  ],
+                  [
+                     "49.002308",
+                     "-122.558929"
+                  ],
+                  [
+                     "49.009163",
+                     "-122.559784"
+                  ],
+                  [
+                     "49.016258",
+                     "-122.559723"
+                  ],
+                  [
+                     "49.026951",
+                     "-122.559700"
+                  ],
+                  [
+                     "49.049458",
+                     "-122.559509"
+                  ],
+                  [
+                     "49.059921",
+                     "-122.559441"
+                  ],
+                  [
+                     "49.068550",
+                     "-122.559311"
+                  ],
+                  [
+                     "49.074188",
+                     "-122.559204"
+                  ],
+                  [
+                     "49.074486",
+                     "-122.559486"
+                  ],
+                  [
+                     "49.080894",
+                     "-122.577614"
+                  ],
+                  [
+                     "49.087498",
+                     "-122.596199"
+                  ],
+                  [
+                     "49.089397",
+                     "-122.601433"
+                  ],
+                  [
+                     "49.089382",
+                     "-122.603432"
+                  ],
+                  [
+                     "49.082638",
+                     "-122.603584"
+                  ],
+                  [
+                     "49.082088",
+                     "-122.604179"
+                  ],
+                  [
+                     "49.082157",
+                     "-122.614395"
+                  ],
+                  [
+                     "49.082874",
+                     "-122.614464"
+                  ],
+                  [
+                     "49.082932",
+                     "-122.615059"
+                  ],
+                  [
+                     "49.082172",
+                     "-122.615150"
+                  ],
+                  [
+                     "49.082146",
+                     "-122.633667"
+                  ],
+                  [
+                     "49.079433",
+                     "-122.631905"
+                  ],
+                  [
+                     "49.074905",
+                     "-122.626694"
+                  ],
+                  [
+                     "49.074905",
+                     "-122.629822"
+                  ],
+                  [
+                     "49.074638",
+                     "-122.632530"
+                  ],
+                  [
+                     "49.074711",
+                     "-122.641815"
+                  ],
+                  [
+                     "49.067554",
+                     "-122.641884"
+                  ],
+                  [
+                     "49.067554",
+                     "-122.641563"
+                  ],
+                  [
+                     "49.063168",
+                     "-122.641495"
+                  ],
+                  [
+                     "49.061592",
+                     "-122.641907"
+                  ],
+                  [
+                     "49.061424",
+                     "-122.641800"
+                  ],
+                  [
+                     "49.053871",
+                     "-122.641708"
+                  ],
+                  [
+                     "49.045715",
+                     "-122.641602"
+                  ],
+                  [
+                     "49.045689",
+                     "-122.647308"
+                  ],
+                  [
+                     "49.040176",
+                     "-122.647224"
+                  ],
+                  [
+                     "49.038460",
+                     "-122.647202"
+                  ],
+                  [
+                     "49.038429",
+                     "-122.672096"
+                  ],
+                  [
+                     "49.034870",
+                     "-122.672226"
+                  ],
+                  [
+                     "49.034702",
+                     "-122.674797"
+                  ],
+                  [
+                     "49.031143",
+                     "-122.674759"
+                  ],
+                  [
+                     "49.031116",
+                     "-122.679886"
+                  ],
+                  [
+                     "49.031017",
+                     "-122.680183"
+                  ],
+                  [
+                     "49.030903",
+                     "-122.680252"
+                  ],
+                  [
+                     "49.016624",
+                     "-122.679863"
+                  ],
+                  [
+                     "49.009277",
+                     "-122.680016"
+                  ],
+                  [
+                     "49.009361",
+                     "-122.668724"
+                  ],
+                  [
+                     "49.009346",
+                     "-122.663574"
+                  ],
+                  [
+                     "49.005730",
+                     "-122.663513"
+                  ],
+                  [
+                     "49.005741",
+                     "-122.658173"
+                  ]
+               ]
+            ],
+            "type" : "Polygon"
+         }
+      }
+   ]
+}
