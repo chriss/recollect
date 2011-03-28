@@ -268,9 +268,9 @@ sub set_geom_from_tron {
             for my $coord (@$polygon) {
                 push @points, "$coord->[0] $coord->[1]";
             }
-            push @polygons, "(" . join(',', @points) . ")";
+            push @polygons, "((" . join(',', @points) . "))";
         }
-        $geom = "MULTIPOLYGON((" . join(',', @polygons) . "))";
+        $geom = "MULTIPOLYGON(" . join(',', @polygons) . ")";
     }
 
     $self->run_sql(
