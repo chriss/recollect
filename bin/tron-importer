@@ -11,6 +11,8 @@ use Recollect::Zone;
 my %opts;
 GetOptions( \%opts,
     'area=s',
+    'zones-only',
+    'pickups-only',
 ) or usage();
 
 my $area_name = $opts{area} || usage();
@@ -26,7 +28,7 @@ unless ($area) {
     ) || die "Can't create area $area_name";
 }
 
-if (my $zones = $tron->{zones}) {
+if (my $zones = $tron->{zones} and !$opts{'pickups-only'}) {
     for my $zone (@$zones) {
         print "Importing zone $zone->{name}\n";
         (my $bgr = $zone->{color}) =~ s/^(..)(..)(..)$/$3$2$1/;
@@ -40,10 +42,14 @@ if (my $zones = $tron->{zones}) {
         $z->set_geom_from_tron($zone->{geometry});
     }
 }
-if (my $pickups = $tron->{pickups}) {
+if (my $pickups = $tron->{pickups} and !$opts{'zones-only'}) {
+    my %seen;
     for my $pu (@$pickups) {
         my $zone = Recollect::Zone->By_name($pu->{zone});
         die "Can't find zone $pu->{zone}!" unless $zone;
+        if (!$seen{$pu->{zone}}++) {
+            $zone->delete_all_pickups;
+        }
         print "Adding $pu->{date} ($pu->{flags}) to $pu->{zone}\n";
         $zone->add_pickups( [ { day => $pu->{date}, flags => $pu->{flags} } ] );
     }
