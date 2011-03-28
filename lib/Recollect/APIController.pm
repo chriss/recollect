@@ -471,6 +471,13 @@ sub zone {
 
 sub zone_json {
     my ($self, $area, $zone) = @_;
+    try {
+        $self->run_sql(
+            'INSERT INTO zone_views (zone_id) VALUES (?)',
+            [ $zone->id ],
+        );
+    }
+    catch { warn "Error recording zone json view: $_" };
     return $self->process_json($zone->to_hash);
 }
 
