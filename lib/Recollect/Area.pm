@@ -35,7 +35,8 @@ sub to_hash {
     my $self = shift;
     return {
         map { $_ => $self->$_() }
-            qw/id name ad_img ad_url licence_name licence_url/
+            qw/id name ad_img ad_url licence_name licence_url
+               success_web_snippet logo_img logo_url background_img/
     };
 }
 
