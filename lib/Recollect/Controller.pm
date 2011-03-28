@@ -118,9 +118,8 @@ sub payment_ui {
 
     given ($type) {
         when ('success') {
-            return $self->process_template("payment_success.html", {
-                subscription => $sub,
-            })->finalize;
+            my $area = $sub->areas->[0];
+            return $self->redirect("/r/success/" . $area->name);
         }
         when ('cancel') {
             $self->log("PAYMENT_CANCEL - $id - " . $sub->user->email);
