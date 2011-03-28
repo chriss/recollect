@@ -108,6 +108,7 @@ sub send_confirmation_email {
         template_args => {
             subscription => $self,
             twitter => $self->config->{twitter_username},
+            area => $self->areas->[0],
         },
         from => 'Recollect <feedback@recollect.net>',
         to => $self->user->email,

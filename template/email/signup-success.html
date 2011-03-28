@@ -17,6 +17,10 @@ Every week we will make a HTTP POST to your URL to let you know it's pickup time
 [% END -%]
 </p>
 
+[% IF area.success_email_snippet %]
+<p>[% area.success_email_snippet %]</p>
+[% END %]
+
 <p>If you think this service would be useful for your friends or family, please let them know! <a href="[% base %]/tell-a-friend">Click here</a> to send them an email.</p>
 
 <p>If you have any problems, ideas or questions, please feel free to contact us at <a href="mailto:feedback@recollect.net">feedback@recollect.net</a>.</p>
