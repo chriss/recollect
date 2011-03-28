@@ -1,0 +1,60 @@
+#!/usr/bin/perl
+use strict;
+use warnings;
+use JSON qw/decode_json/;
+use Getopt::Long;
+use LWP::Simple qw/get/;
+use lib 'lib';
+use Recollect::Area;
+use Recollect::Zone;
+
+my %opts;
+GetOptions( \%opts,
+    'area=s',
+) or usage();
+
+my $area_name = $opts{area} || usage();
+my $file = shift || usage();
+
+my $tron = decode_json get("file:$file");
+
+my $area = Recollect::Area->By_name($area_name);
+unless ($area) {
+    print "Creating Area for $area_name\n";
+    $area = Recollect::Area->Create(
+        name => $area_name,
+    ) || die "Can't create area $area_name";
+}
+
+if (my $zones = $tron->{zones}) {
+    for my $zone (@$zones) {
+        print "Importing zone $zone->{name}\n";
+        (my $bgr = $zone->{color}) =~ s/^(..)(..)(..)$/$3$2$1/;
+        my $z = Recollect::Zone->By_name($zone->{name}) || $area->add_zone(
+            name => $zone->{name},
+            title => $zone->{title},
+            colour_name => $zone->{name},
+            line_colour => "FF$bgr",
+            poly_colour => "99$bgr",
+        );
+        $z->set_geom_from_tron($zone->{geometry});
+    }
+}
+if (my $pickups = $tron->{pickups}) {
+    for my $pu (@$pickups) {
+        my $zone = Recollect::Zone->By_name($pu->{zone});
+        die "Can't find zone $pu->{zone}!" unless $zone;
+        print "Adding $pu->{date} ($pu->{flags}) to $pu->{zone}\n";
+        $zone->add_pickups( [ { day => $pu->{date}, flags => $pu->{flags} } ] );
+    }
+}
+
+exit;
+
+sub usage {
+    die <<EOT;
+USAGE: $0 --area AreaName <area.tron>
+
+Import the given tron file to the specified area.
+EOT
+}
