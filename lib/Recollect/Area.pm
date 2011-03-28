@@ -8,10 +8,17 @@ with 'Recollect::Roles::Cacheable';
 
 has 'id'     => (is => 'ro', isa => 'Int',              required   => 1);
 has 'name'   => (is => 'ro', isa => 'Str',              required   => 1);
-has 'ad_img'      => (is => 'ro', isa => 'Maybe[Str]');
-has 'ad_url'      => (is => 'ro', isa => 'Maybe[Str]');
-has 'licence_url' => (is => 'ro', isa => 'Maybe[Str]');
 *title = \&name;
+
+has 'ad_img'                => (is => 'ro', isa => 'Maybe[Str]');
+has 'ad_url'                => (is => 'ro', isa => 'Maybe[Str]');
+has 'licence_name'          => (is => 'ro', isa => 'Maybe[Str]');
+has 'licence_url'           => (is => 'ro', isa => 'Maybe[Str]');
+has 'success_web_snippet'   => (is => 'ro', isa => 'Maybe[Str]');
+has 'success_email_snippet' => (is => 'ro', isa => 'Maybe[Str]');
+has 'logo_img'              => (is => 'ro', isa => 'Maybe[Str]');
+has 'logo_url'              => (is => 'ro', isa => 'Maybe[Str]');
+has 'background_img'        => (is => 'ro', isa => 'Maybe[Str]');
 
 has 'uri'   => (is => 'ro', isa => 'Str',              lazy_build => 1);
 has 'zones' => (is => 'ro', isa => 'ArrayRef[Object]', lazy_build => 1);
@@ -27,7 +34,8 @@ around 'All' => sub {
 sub to_hash {
     my $self = shift;
     return {
-        map { $_ => $self->$_() } qw/id name ad_img ad_url licence_url/
+        map { $_ => $self->$_() }
+            qw/id name ad_img ad_url licence_name licence_url/
     };
 }
 
