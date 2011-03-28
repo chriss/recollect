@@ -143,6 +143,11 @@ sub add_pickups {
     delete $self->{pickups};
 }
 
+sub delete_all_pickups {
+    my $self = shift;
+    $self->run_sql('DELETE FROM pickups WHERE zone_id = ?', [$self->id]);
+}
+
 sub _build_area {
     my $self = shift;
     return Recollect::Area->By_id($self->area_id);
