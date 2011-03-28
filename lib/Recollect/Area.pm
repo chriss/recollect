@@ -55,6 +55,7 @@ sub add_zone {
     my $zone = Recollect::Zone->Create(%opts)
         or die "Could not create zone $opts{name}";
     delete $self->{zones};
+    return $zone;
 }
 
 sub _build_zones {
