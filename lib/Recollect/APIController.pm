@@ -244,7 +244,16 @@ sub subscriptions {
     return $self->bad_request_json($@) if $@;
 
     my $response = $subscr->to_hash;
-    $response->{payment_url} = $subscr->payment_url if $payment_required;
+    if ($payment_required) {
+        $response->{payment_url} = $subscr->payment_url;
+    }
+    else {
+        for my $area (@{ $subscr->areas }) {
+            my $msg = $area->success_web_snippet;
+            $response->{success_message} = $msg;
+            last if $msg;
+        }
+    }
     return $self->process_json($response, 201);
 }
 

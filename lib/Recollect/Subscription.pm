@@ -30,6 +30,7 @@ has 'payment_url' => (is => 'ro', isa => 'Maybe[Str]',       lazy_build => 1);
 has 'reminders'   => (is => 'ro', isa => 'ArrayRef[Object]', lazy_build => 1);
 has 'created_date' => (is => 'ro', isa => 'Object', lazy_build => 1);
 has 'delete_url'   => (is => 'ro', isa => 'Str', lazy_build => 1);
+has 'areas'        => (is => 'ro', isa => 'ArrayRef[Object]', lazy_build => 1);
 
 # Don't fetch the location geometry by default
 sub Columns { 'id, user_id, created_at, free, active, payment_period' }
@@ -209,6 +210,17 @@ around 'delete' => sub {
     warn "Error when deleting account " . $self->id . ": $@\n" if $@;
     $orig->($self, @_);
 };
+
+sub _build_areas {
+    my $self = shift;
+
+    my %areas;
+    for my $r (@{ $self->reminders }) {
+        my $area_id = $r->zone->area->id;
+        $areas{$area_id} ||= Recollect::Area->By_id($area_id);
+    }
+    return [values %areas];
+}
 
 __PACKAGE__->meta->make_immutable;
 1;
