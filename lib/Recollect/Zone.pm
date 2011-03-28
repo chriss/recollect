@@ -5,6 +5,7 @@ use Recollect::Pickup;
 use Recollect::PlaceInterest;
 use Scalar::Util qw/weaken/;
 use namespace::clean -except => 'meta';
+use feature qw/switch/;
 
 extends 'Recollect::Collection';
 with 'Recollect::Roles::Cacheable';
@@ -48,14 +49,22 @@ sub By_latlng {
     return unless $lat =~ $valid_point and $lng =~ $valid_point;
     
     my $sth = $class->run_sql(
-        'SELECT id FROM zones WHERE ST_Contains(geom, ?) LIMIT 1',
+        'SELECT id FROM zones WHERE ST_Contains(geom, ?)',
         [ "POINT($lat $lng)" ],
     );
-    if ($sth->rows == 0) {
-        Recollect::PlaceInterest->Increment("$lat $lng");
-        return;
+    given ($sth->rows) {
+        when (0) {
+            Recollect::PlaceInterest->Increment("$lat $lng");
+            return;
+        }
+        when (1) {
+            return $class->By_id($sth->fetchrow_arrayref->[0]);
+        }
+        default {
+            $class->log("Error? Multiple zones found for point ($lat,$lng)");
+            return $class->By_id($sth->fetchrow_arrayref->[0]);
+        }
     }
-    return $class->By_id($sth->fetchrow_arrayref->[0]);
 }
 
 sub next_pickup {
@@ -232,6 +241,37 @@ sub as_tron {
             } @{ $self->pickups }
         ],
     };
+}
+
+sub set_geom_from_tron {
+    my $self = shift;
+    my $spec = shift;
+
+    my $geom;
+    my $coords = $spec->{coordinates};
+    if ($spec->{type} eq 'Polygon') {
+        my @points;
+        for my $coord (@{ $coords->[0] }) {
+            push @points, "$coord->[0] $coord->[1]";
+        }
+        $geom = "MULTIPOLYGON(((" . join(',', @points) . ")))";
+    }
+    else {
+        my @polygons;
+        for my $polygon (@{ $coords->[0] }) {
+            my @points;
+            for my $coord (@$polygon) {
+                push @points, "$coord->[0] $coord->[1]";
+            }
+            push @polygons, "(" . join(',', @points) . ")";
+        }
+        $geom = "MULTIPOLYGON((" . join(',', @polygons) . "))";
+    }
+
+    $self->run_sql(
+        'UPDATE zones SET geom = ST_GeomFromText(?) WHERE id = ?',
+        [ $geom, $self->id ],
+    );
 }
 
 __PACKAGE__->meta->make_immutable;
