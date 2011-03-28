@@ -243,10 +243,6 @@ sub subscriptions {
     my $subscr = eval { Recollect::Subscription->Create(%new_sub) };
     return $self->bad_request_json($@) if $@;
 
-    my @headers;
-    push @headers, Location => $subscr->url;
-    push @headers, 'Content-Type' => 'application/json';
-
     my $response = $subscr->to_hash;
     $response->{payment_url} = $subscr->payment_url if $payment_required;
     return $self->process_json($response, 201);
