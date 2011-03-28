@@ -49,13 +49,12 @@ Zone Objects have the following structure:
     "name": "cityname-zonename",
     "title": "Cityname Zonename",
     "color": "RRGGBB",
-    "geometry": [
-        [
-            [ lat, lng ],
-            ...
-        ],
-        ...
-    ]
+    "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+            [ [ lat, lng ], [ lat, lng ], [ ... ] ]
+        ]
+    }
 }
 
 * `name` is an identifier for this zone.  It should not contain spaces or any
