@@ -58,13 +58,13 @@ sub By_latlng {
             return;
         }
         when (1) {
-            return $class->By_id($sth->fetchrow_arrayref->[0]);
+            $class->log("Lookup - ($lat,$lng)");
         }
         default {
             $class->log("Error? Multiple zones found for point ($lat,$lng)");
-            return $class->By_id($sth->fetchrow_arrayref->[0]);
         }
     }
+    return $class->By_id($sth->fetchrow_arrayref->[0]);
 }
 
 sub next_pickup {
