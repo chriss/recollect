@@ -116,8 +116,7 @@
                 <div class="cityImageTitle">A word from our sponsors:</div>
                 <div class="cityImage">
                     [% IF name.match('^vancouver-') %]
-                    <a href="http://vancouver.ca/projects/foodWaste/noplastic.htm"
-                        target="_new" alt="Don't trash your food!">
+                    <a href="/adclick/Vancouver" target="_new" alt="Don't trash your food!">
                         <img src="/[% version %]/images/recollect-ad-no-plastic-borderless.jpg"/>
                     </a>
                     [% ELSE %]

@@ -12,10 +12,12 @@ use Plack::Request;
 use Plack::Response;
 use Data::Dumper;
 use HTML::Calendar::Simple;
+use Try::Tiny;
 use namespace::clean -except => 'meta';
 
 with 'Recollect::ControllerBase';
 with 'Recollect::Roles::Email';
+with 'Recollect::Roles::SQL';
 
 sub run {
     my $self = shift;
@@ -39,6 +41,8 @@ sub run {
             [ qr{^/payment/([^/]+)/(.+)$} => \&payment_ui ],
             # Full-page schedule view
             [ qr{^/schedule/(.+)$} => \&schedule ],
+            # Area Ad redirect
+            [ qr{^/adclick/([\w\s]+)$} => \&ad_click ],
         ],
 
         POST => [
@@ -210,6 +214,24 @@ sub tell_friends {
     }
     
     return $self->process_template('tell-a-friend.tt2', $tmpl_params)->finalize;
+}
+
+sub ad_click {
+    my $self = shift;
+    my $req  = shift;
+    my $area_name = shift;
+
+    my $area = Recollect::Area->By_name($area_name);
+    return $self->redirect('/') unless $area;
+
+    try {
+        $self->run_sql(
+            'INSERT INTO ad_clicks (area_id) VALUES (?)',
+            [ $area->id ],
+        );
+    }
+    catch { warn "Error recording ad_click: $_\n" };
+    return $self->redirect( $area->ad_url );
 }
 
 __PACKAGE__->meta->make_immutable;
