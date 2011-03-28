@@ -1,4 +1,4 @@
-<p><img src="http://recollect.net/0.0.0/images/recollect_logo_small.png" alt="Recollect Logo" /></p>
+[% WRAPPER email/wrapper.html subject="Waste Collection Reminder" delete_url=reminder.delete_url %]
 
 <p>Just a friendly reminder that garbage in the <a href="[% base %]/r/[% garbage_day.zone.area.name %]/[% garbage_day.zone.name %]">[% garbage_day.zone.title %] zone</a> will be picked up on: [% garbage_day.pretty_day %]</p>
 
@@ -14,12 +14,4 @@
 [% END -%]
 
 <p>Would a text message or phone call be more effective? <a href="[% base %]/r/[% garbage_day.zone.name %]/subscribe">Click here to upgrade!</a></p>
-
-<p>Spread the word about Recollect! Email your friends: <a href="[% base %]/tell-a-friend">click here</a></p>
-
-<p>
-Cheers,<br />
-The Recollect Team
-</p>
-
-<p>Unsubscribe to this reminder service by <a href="[% reminder.delete_url %]">clicking here</a></p>
+[% END %]

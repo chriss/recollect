@@ -190,7 +190,7 @@ sub tell_friends {
             $self->send_email(
                 to => $email,
                 from => $sender_email,
-                subject => "Meet the Vancouver Garbage Reminder system",
+                subject => "Meet Recollect - the Garbage and Recycling Reminder Service",
                 template => 'tell-a-friend.html',
                 content_type => 'text/html',
                 template_args => {

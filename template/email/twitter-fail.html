@@ -1,11 +1,8 @@
+[% WRAPPER email/wrapper.html subject="Failed to send Twitter DM" %]
 Recollect tried to send a Twitter Direct Message to @[% target %], but failed because you are not following @[% twitter %].
 
 Please follow the @[% twitter %] user here: 
 
   http://twitter.com/[% twitter %]
 
-Cheers,
-The Recollect Team
-
-Unsubscribe to this reminder service by clicking the following link: 
-  [% reminder.delete_url %]
+[% END %]

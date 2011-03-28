@@ -1,7 +1,7 @@
-<p><img src="http://recollect.net/0.0.0/images/recollect_logo_small.png" alt="Recollect Logo" width="294" height="71" /></p>
-<p>Welcome to the Recollect Family!</p>
+[% WRAPPER email/wrapper.html subject="Welcome to Recollect!" delete_url=subscription.delete_url%]
+<h1>Welcome to the Recollect Family!</h1>
 
-<p>You're all signed up!</p>
+<h2>You're all signed up!</h2>
 
 <p>
 [% IF subscription.phone_target -%]
@@ -21,13 +21,5 @@ Every week we will make a HTTP POST to your URL to let you know it's pickup time
 <p>[% area.success_email_snippet %]</p>
 [% END %]
 
-<p>If you think this service would be useful for your friends or family, please let them know! <a href="[% base %]/tell-a-friend">Click here</a> to send them an email.</p>
-
 <p>If you have any problems, ideas or questions, please feel free to contact us at <a href="mailto:feedback@recollect.net">feedback@recollect.net</a>.</p>
-
-<p>
-Cheers,<br />
-The Recollect Team
-</p>
-
-<p>To delete this reminder <a href="[% subscription.delete_url %]">click here</a>.</p>
+[% END %]
