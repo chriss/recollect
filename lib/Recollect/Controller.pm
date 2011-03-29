@@ -78,12 +78,18 @@ sub default_page {
 
 sub ui_html {
     my ($self, $req, $tmpl) = @_;
-    return $self->redirect('/m/index') if $self->is_mobile($req) and !$tmpl;
-    $tmpl ||= $self->default_page($req);
     my $params = $req->parameters;
     $params->{host_port} = $req->uri->host_port;
     $params->{twitter} = $self->config->{twitter_username};
     $params->{analytics_id} = $self->config->{analytics_id};
+
+    if (my $ah = $self->area_hostname) {
+        $params->{area} = Recollect::Area->By_name($ah);
+    }
+
+    return $self->redirect('/m/index') if $self->is_mobile($req) and !$tmpl;
+
+    $tmpl ||= $self->default_page($req);
     return $self->process_template("$tmpl.tt2", $params)->finalize;
 }
 
