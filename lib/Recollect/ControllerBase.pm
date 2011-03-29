@@ -23,6 +23,13 @@ sub _build_version {
     return "0.11.$make_time";
 }
 
+has 'area_hostname' => (is => 'ro', isa => 'Str', lazy_build => 1);
+sub _build_area_hostname {
+    my $self = shift;
+    (my $hostname = $self->request->base->host) =~ m/^([\w ]+)\.recollect\.net/;
+    return $1 || '';
+}
+
 around 'run' => sub {
     my $orig = shift;
     my $self = shift;
