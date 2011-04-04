@@ -63,9 +63,8 @@ sub _build_base_path {
     symlink "$FindBin::Bin/../template", "$tmp_dir/template";
     symlink "$FindBin::Bin/../root", "$tmp_dir/root";
     mkdir "$tmp_dir/etc";
-    my $user = $ENV{USER} eq 'ubuntu' ? '' : $ENV{USER};
-    $config->{db_name} = "recollect_${user}_test";
-    $config->{db_user} = $ENV{USER};
+    $config->{db_name} = "recollect_test";
+    $config->{db_user} = "recollect";
     my $test_config = "$tmp_dir/etc/recollect.yaml";
     $ENV{RECOLLECT_TEST_CONFIG_FILE} = $test_config;
 
@@ -73,6 +72,7 @@ sub _build_base_path {
     
     # Create the SQL db
     my $db_name = $config->{db_name};
+    my $db_user = $config->{db_user};
     my $sql_file = "$FindBin::Bin/../etc/sql/recollect.sql";
     if ($ENV{RECOLLECT_EMPTY_DB_PLS}) {
         $db_name .= "-$$";
@@ -80,18 +80,26 @@ sub _build_base_path {
     }
     $Recollect::Roles::SQL::DBH = undef; # force it to reload
     DumpFile($test_config, $config);
-    my $psql = "psql $db_name";
+    my $psql = "psql -U $db_user $db_name";
 
+    diag "Connecting to PostgreSQL as $db_user to database $db_name";
     warn "Testing with db $db_name" if $DEBUG;
-    if (system("createdb $db_name 2> /dev/null") == 0) {
+    if (system("createdb -U $db_user $db_name 2> /dev/null") == 0) {
         diag "created database $db_name, loading $sql_file" if $DEBUG;
-        _setup_postgis($db_name);
+        _setup_postgis($db_user, $db_name);
 
         system("$psql -f $sql_file > /dev/null")
             and die "Couldn't psql $db_name -f $sql_file";
-        if (!$ENV{RECOLLECT_EMPTY_DB_PLS}) {
-            for my $sql (qw/vancouver-area vancouver/) {
+        system("$FindBin::Bin/../bin/recollect-db", 'update', $db_name)
+            and die "Couldn't DB update $db_name";
+        if ($ENV{RECOLLECT_EMPTY_DB_PLS}) {
+            system(qq{$psql -c 'DELETE FROM areas' > /dev/null});
+        }
+        else {
+            for my $sql (qw/areas vancouver/) {
                 $sql_file = "$FindBin::Bin/../etc/sql/$sql.sql";
+                die "SQL file doesn't exist! ($sql_file)" unless -e $sql_file;
+                diag "Running $psql -f $sql_file";
                 system("$psql -f $sql_file > /dev/null")
                     and die "Couldn't psql $db_name -f $sql_file";
             }
@@ -103,7 +111,6 @@ sub _build_base_path {
         schema_dir => "etc/sql",
         debug => $DEBUG,
     )->update;
-    system(qq{$psql -c "DELETE FROM areas WHERE name != 'Vancouver' " });
     system(qq{$psql -c 'DELETE FROM reminders' > /dev/null});
     system(qq{$psql -c 'DELETE FROM subscriptions' > /dev/null});
     system(qq{$psql -c 'DELETE FROM users' > /dev/null});
@@ -111,19 +118,21 @@ sub _build_base_path {
 }
 
 sub _setup_postgis {
+    my $db_user = shift;
     my $db_name = shift;
 
+    my $psql = qq{psql -U $db_user $db_name};
     my $redirect = $DEBUG ? '' : '>/dev/null 2>&1';
     $redirect = '';
-    system(qq{sudo -u postgres psql $db_name -c "CREATE LANGUAGE 'plpgsql'" $redirect})
-        and die "Couldn't psql $db_name -c create language plpgsql";
+    system(qq{$psql -c "CREATE LANGUAGE 'plpgsql'" $redirect})
+        and die "Couldn't $psql -c 'create language plpgsql'";
     my @postgises = (
         '/usr/share/postgresql/8.4/contrib/postgis-1.5/postgis.sql',
         '/usr/share/postgresql/8.4/contrib/postgis.sql',
     );
     for my $p (@postgises) {
         next unless -e $p;
-        my $cmd = "sudo -u postgres psql $db_name -f $p $redirect";
+        my $cmd = "$psql -f $p $redirect";
         system($cmd) and die "Couldn't $cmd";
     }
 }

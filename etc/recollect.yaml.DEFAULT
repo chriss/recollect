@@ -14,3 +14,5 @@
   recurly_password: 'password'
   recurly_subdomain: 'recollect-test'
   payment_host: 'https://recollect-test.recurly.com'
+  db_user: recollect
+  db_name: recollect_test
