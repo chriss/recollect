@@ -70,6 +70,10 @@ sub login_ui {
 
 sub ad_clicks {
     my $self = shift;
+
+    die "not done";
+#     my $sth = $self->run_sql(
+#         'select area_id, count(at) from ad_clicks group by area_id order by count(at) desc',
 }
 
 sub area_ad_data {
