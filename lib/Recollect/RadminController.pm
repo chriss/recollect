@@ -27,6 +27,8 @@ sub run {
             [ qr{^/subscribers/(\d+)$}  => \&show_subscriber ],
             [ qr{^/twitter_verified$}   => \&twitter_verified ],
             [ qr{^/$}                   => \&home_screen ],
+            [ qr{^/data/ads/(.+)$}      => \&area_ad_data ],
+            [ qr{^/data/recent_subscriptions$} => \&recent_subs ],
         ],
 
         POST => [
@@ -53,6 +55,20 @@ sub login_ui {
     return $self->process_template("radmin/login.tt2", $params)->finalize;
 }
 
+sub area_ad_data {
+    my $self = shift;
+    my $aname = shift;
+
+    my $area = Recollect::Area->By_name($aname);
+    return $self->not_found unless $area;
+
+    if (my $aadmin = $self->user->area_admin) {
+        return $self->not_found unless $area->id == $aadmin->id;
+    }
+
+    return $self->process_json({ ohai => 'there' });
+}
+
 sub home_screen {
     my $self = shift;
 
@@ -67,7 +83,6 @@ sub home_screen {
     my $params = {
         doorman => $self->doorman,
         stats => $self->_gather_stats,
-        new_reminders => $self->_new_reminders,
     };
     return $self->process_template("radmin/home.tt2", $params)->finalize;
 }
@@ -105,16 +120,26 @@ sub _gather_stats {
 
 sub _new_reminders {
     my $self = shift;
+    my $days = shift || 2;
 
-    my $sth = $self->run_sql(<<EOSQL);
+    $days .= "days";
+    my $sth = $self->run_sql(<<EOSQL, [$days]);
 SELECT * from reminders
- WHERE created_at > 'now'::timestamptz - '2days'::interval
+ WHERE created_at > 'now'::timestamptz - ?::interval
  ORDER BY created_at DESC
 EOSQL
     return [
-        map { Recollect::Reminder->new($_)->to_hash }
+        map { Recollect::Reminder->new($_)->to_hash(minimal => 1) }
         @{ $sth->fetchall_arrayref({}) }
     ];
+}
+
+sub recent_subs {
+    my $self = shift;
+    my $days = $self->request->parameters->{days};
+    return $self->bad_request("Bad days parameter")
+        unless !$days || $days =~ m/^\d+$/;
+    return $self->process_json($self->_new_reminders($days));
 }
 
 __PACKAGE__->meta->make_immutable;
