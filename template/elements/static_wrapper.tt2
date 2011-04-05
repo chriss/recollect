@@ -1,18 +1,12 @@
 [% WRAPPER elements/outer_wrapper.tt2 %]
-    <div id="staticLayout">
-        <div class="white main"></div>
+    <div id="staticLayout" class="white">
         <a href="/"><img class="logo" src="/[% version %]/images/recollect_logo_small.png"/></a>
-        <div class="staticContentWrapper">
-            <div class="white text"></div>
-            <div class="staticContent">
-            [% content %]
-            </div>
-        </div>
+        <div class="staticContent white">[% content %]</div>
     </div>
     <script>
         $('.staticContent a').click(function() {
             if ($(this).attr('href').match(/^#(.+)/)) {
-                $('.staticContentWrapper').scrollTo(
+                $(window).scrollTo(
                     'a[name='+RegExp.$1+']', 800, {}
                 );
                 return false;

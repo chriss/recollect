@@ -1,6 +1,5 @@
 [% BLOCK wizard %]
-    <div id="smallLayout">
-        <div class="white"></div>
+    <div id="smallLayout" class="white">
     </div>
 [% END %]
 

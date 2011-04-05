@@ -32,13 +32,14 @@
 
 <body[% IF class %] class="[% class %]"[% END %]>
     [% UNLESS nobg %]
-        <img id="background" src="/[% version %]/images/background.jpg"/>
+        <div id="background">
+            <img src="/[% version %]/images/background.jpg"/>
+        </div>
     [% END %]
 
     <div id="container">
         <header>
-            <div id="links">
-                <div class="white"></div>
+            <div id="links" class="black">
                 [% INCLUDE elements/links.tt2 %]
                 [% INCLUDE elements/social.tt2 %]
             </div>
@@ -52,19 +53,19 @@
 
     <script>
         $(window).resize(function() {
-            // Keep the whitebar and content in the center
-            $('#container').height( $(window).height() - 30 );
+            var $bg = $('#background');
+            var $img = $bg.find('img');
+            $bg.height($(this).height());
 
             // Keep the background fullscreen
-            if ($(window).height() > $('#background').height()) {
-                $('#background').css({height:'100%', width:'auto'});
+            if ($(window).height() > $img.height()) {
+                $img.css({height:'100%', width:'auto'});
             }
-            if ($(window).width() > $('#background').width()) {
-                $('#background').css({height:'auto', width:'100%'});
+            if ($(window).width() > $img.width()) {
+                $img.css({height:'auto', width:'100%'});
             }
         }).resize();
-        $('#background').load(function() { $(window).resize() });
-
+        $('#background img').load(function() { $(window).resize() });
     </script>
 
     <!--[if lt IE 7 ]>
