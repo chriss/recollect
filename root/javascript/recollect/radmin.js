@@ -28,7 +28,7 @@ $.extend(Recollect.RADmin.prototype, {
             this.setNav();
             this.render('#radmin .content', 'radmin_home')
             this.showRecentReminders();
-            //this.plotRemindersByArea();
+            this.plotRemindersByArea();
         },
 
         '/radmin/:area': function(args) {
@@ -106,7 +106,7 @@ $.extend(Recollect.RADmin.prototype, {
             ? '/api/report/reminders_in_area/' + area
             : '/api/report/reminders_by_area';
 
-        this.plot($('#subscriptions_by_area'), url, {
+        this.plot($('#subscriptionsByArea'), url, {
             series: {
                 pie: { 
                     show: true,

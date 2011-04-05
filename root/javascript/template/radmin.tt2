@@ -1,6 +1,7 @@
 [% BLOCK radmin_home %]
     <div id="recentSubscriptions"></div>
-    <div id="needsPickups"></div>
+    <div class="floatleft" id="needsPickups"></div>
+    <div class="floatleft" id="subscriptionsByArea"></div>
 [% END %]
 
 [% BLOCK radmin_leftnav %]

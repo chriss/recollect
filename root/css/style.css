@@ -309,10 +309,9 @@ header {
     border-top: 1px solid #666;
 }
 
-#radmin #subscriptions_by_area {
-    position: absolute;
-    left: 230px;
-    top: 50px;
+#radmin #subscriptionsByArea {
+    width: 300px;
+    height: 500px;
 }
 
 .dataTable {
