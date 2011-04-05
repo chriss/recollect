@@ -20,30 +20,41 @@ sub run {
     }
 
     my $path = $req->path;
-    my %func_map = (
+    my %badmin_map = (
         GET => [
+            [ qr{^/$}                   => \&home_screen ],
             [ qr{^/sign_out$}           => sub { shift->redirect('/radmin') } ],
+            [ qr{^/twitter_verified$}   => \&twitter_verified ],
+            [ qr{^/data/ads/(.+)$}      => \&area_ad_data ],
+        ],
+    );
+    my %radmin_map = (
+        GET => [
             [ qr{^/subscribers$}        => \&subscribers ],
             [ qr{^/subscribers/(\d+)$}  => \&show_subscriber ],
-            [ qr{^/twitter_verified$}   => \&twitter_verified ],
-            [ qr{^/$}                   => \&home_screen ],
-            [ qr{^/data/ads/(.+)$}      => \&area_ad_data ],
+            [ qr{^/data/ad_clicks$}     => \&ad_clicks ],
             [ qr{^/data/recent_subscriptions$} => \&recent_subs ],
             [ qr{^/data/object_stats$} => \&object_stats ],
             [ qr{^/data/needs_pickups$} => \&needs_pickups ],
         ],
-
-        POST => [
-        ],
     );
     
     my $method = $req->method;
-    for my $match (@{ $func_map{$method}}) {
-        my ($regex, $todo) = @$match;
-        if ($path =~ $regex) {
-            return $todo->($self, $1, $2, $3, $4);
+
+    my $resp;
+    my $matcher = sub {
+        for my $match (@_) {
+            my ($regex, $todo) = @$match;
+            if ($path =~ $regex) {
+                $resp ||= $todo->($self, $1, $2, $3, $4);
+                last;
+            }
         }
-    }
+    };
+    $matcher->( @{ $badmin_map{$method} } );
+    $matcher->( @{ $radmin_map{$method} } )
+        unless $self->user->area_admin;
+    return $resp if $resp;
 
     $self->message("Unknown path - $path");
     return $self->home_screen;
@@ -55,6 +66,10 @@ sub login_ui {
         doorman => $self->doorman,
     };
     return $self->process_template("radmin/login.tt2", $params)->finalize;
+}
+
+sub ad_clicks {
+    my $self = shift;
 }
 
 sub area_ad_data {
