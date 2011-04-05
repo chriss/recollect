@@ -35,6 +35,7 @@ RECOLLECT_WIZARD_FILES=\
 	 $(JS_DIR)/libs/history.adapter.jquery.js \
 	 $(JS_DIR)/libs/history.js \
 	 $(JS_DIR)/libs/history.html4.js \
+	 $(JS_DIR)/recollect/base.js \
 	 $(JS_DIR)/recollect/wizard.js \
 	 $(JEMPLATE) \
 
