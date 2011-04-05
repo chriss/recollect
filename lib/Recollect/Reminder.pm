@@ -68,8 +68,9 @@ EOSQL
 
 sub to_hash {
     my $self = shift;
+    my %opts = @_;
     return {
-        zone => $self->zone->to_hash,
+        zone => $self->zone->to_hash(%opts),
         map { $_ => $self->$_() }
             qw/id subscription_id created_at last_notified delivery_offset
             target/

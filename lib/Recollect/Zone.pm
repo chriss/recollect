@@ -122,14 +122,14 @@ sub to_hash {
     my %opts = @_;
 
     my $hash = {
-        area => $self->area->to_hash,
+        area => $self->area->to_hash(%opts),
         map { $_ => $self->$_() }
             qw/id name title colour_name line_colour poly_colour/
     };
+    $hash->{nextpickup} = $self->next_pickup->[0]->to_hash;
+    return $hash if $opts{minimal};
 
     $hash->{pickupdays} = [ map { $_->to_hash } @{ $self->pickups } ];
-    $hash->{nextpickup} = $self->next_pickup->[0]->to_hash;
-
     return $hash;
 }
 

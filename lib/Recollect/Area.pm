@@ -33,10 +33,16 @@ around 'All' => sub {
 
 sub to_hash {
     my $self = shift;
+    my %opts = @_;
+
+    my @minimal_fields
+        = qw/id name ad_img ad_url logo_img logo_url background_img/;
+    my @all_fields
+        = (@minimal_fields, qw/licence_name licence_url success_web_snippet/);
+
     return {
         map { $_ => $self->$_() }
-            qw/id name ad_img ad_url licence_name licence_url
-               success_web_snippet logo_img logo_url background_img/
+            $opts{minimal} ? @minimal_fields : @all_fields
     };
 }
 
