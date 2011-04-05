@@ -129,9 +129,7 @@ sub run {
                     return $wrapper->('zone_by_name', undef, $1, $2);
                 }
 
-                when (m{^/reports/subscriptions_by_area\.json$}) {
-                    return $wrapper->('report_subs_by_area', undef, $1)
-                }
+                # Publicly readable reports
                 when (m{^/report/(\w+)(?:/(.+))?$}) {
                     return $wrapper->('report_json', undef, $1, $2);
                 }
@@ -678,34 +676,11 @@ sub request_place_notification {
     return $self->no_content;
 }
 
-sub report_subs_by_area {
-    my $self = shift;
-    my $args = shift;
-
-    my $response = {
-        item => [
-            {
-                value => 10,
-                label => 'Toronto',
-            },
-            {
-                value => 20,
-                label => 'Edmonton',
-            },
-            {
-                value => 30,
-                label => 'Vancouver',
-            },
-
-        ],
-    };
-    return $self->process_json($response, 201);
-}
-
 sub report_json {
     my $self = shift;
     my $report_name = shift;
     my $method = "load_$report_name";
+    return $self->not_found unless $self->can($method);
     return $self->process_json($self->$method(@_), 200);
 }
 
