@@ -29,6 +29,8 @@ sub run {
             [ qr{^/$}                   => \&home_screen ],
             [ qr{^/data/ads/(.+)$}      => \&area_ad_data ],
             [ qr{^/data/recent_subscriptions$} => \&recent_subs ],
+            [ qr{^/data/object_stats$} => \&object_stats ],
+            [ qr{^/data/needs_pickups$} => \&needs_pickups ],
         ],
 
         POST => [
@@ -82,7 +84,6 @@ sub home_screen {
 
     my $params = {
         doorman => $self->doorman,
-        stats => $self->_gather_stats,
     };
     return $self->process_template("radmin/home.tt2", $params)->finalize;
 }
@@ -106,18 +107,6 @@ sub show_subscriber {
 
 sub twitter_verified { shift->redirect("/radmin") }
 
-sub _gather_stats {
-    my $self = shift;
-
-    return {
-        table_size => {
-            map { $_ => $self->sql_singlevalue("SELECT COUNT(*) FROM $_") }
-                qw/users areas zones pickups subscriptions reminders
-                   place_interest place_notify/
-        },
-    };
-}
-
 sub _new_reminders {
     my $self = shift;
     my $days = shift || 2;
@@ -140,6 +129,39 @@ sub recent_subs {
     return $self->bad_request("Bad days parameter")
         unless !$days || $days =~ m/^\d+$/;
     return $self->process_json($self->_new_reminders($days));
+}
+
+sub object_stats {
+    my $self = shift;
+
+    return $self->process_json({
+        table_size => {
+            map { $_ => $self->sql_singlevalue("SELECT COUNT(*) FROM $_") }
+                qw/users areas zones pickups subscriptions reminders
+                   place_interest place_notify ical_users ad_clicks/
+        },
+    });
+}
+
+sub needs_pickups {
+    my $self = shift;
+    my $months = $self->request->parameters->{months} || 3;
+    return $self->bad_request("Bad months parameter")
+        unless !$months || $months =~ m/^\d+$/;
+
+    $months .= "months";
+    my $sth = $self->run_sql(<<EOT, [$months]);
+SELECT id FROM (
+    SELECT z.id, MAX(day) AS last
+      FROM pickups p JOIN zones z ON (p.zone_id = z.id)
+     GROUP BY z.id
+     ORDER BY MAX(day) ASC) AS X
+ WHERE last < 'now'::timestamptz + ?::interval
+EOT
+    return $self->process_json([
+        map { Recollect::Zone->By_id($_->{id})->to_hash(minimal => 1) }
+        @{ $sth->fetchall_arrayref({}) }
+    ]);
 }
 
 __PACKAGE__->meta->make_immutable;
