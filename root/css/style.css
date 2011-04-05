@@ -246,13 +246,89 @@ header {
     margin: 0;
 }
 
-#staticLayout .staticContent h2,
-#staticLayout .staticContent h3,
-#staticLayout .staticContent h4,
-#staticLayout .staticContent h5 {
+/* done static pages */
+
+/* radmin */
+#radmin {
+    margin-top: 35px;
+}
+#radmin .nav {
+    width: 100%;
+}
+#radmin .content {
+    width: 100%;
+    padding: 10px;
+    margin-left: 150px;
 }
 
-/* done static pages */
+#radmin .nav {
+    border-top: 1px solid #666;
+    border-bottom: 1px solid #666;
+    width: 100%;
+    color: #7cb74e;
+}
+#radmin .nav a,
+#radmin .nav a:visited {
+    color: #7cb74e;
+}
+#radmin .nav .customNav {
+    float: left;
+}
+#radmin .nav .navSection {
+    height: 40px;
+    border-right: 1px solid #666;
+    padding: 0 10px;
+    float: left;
+}
+#radmin .nav .navHomeLink {
+    width: 130px;
+}
+#radmin .nav .navHomeLink img {
+    margin-left: 15px;
+}
+#radmin .nav .right {
+    float: right;
+    border-left: 1px solid #666;
+    border-right: none;
+}
+#radmin .nav .navText {
+    margin-top: 12px;
+}
+#radmin .nav .logo {
+    width: 40px;
+    height: 40px;
+    vertical-align: middle;
+}
+#radmin .leftNav {
+    color: #7cb74e;
+    position: absolute;
+    top: 75px;
+    left: 0;
+    width: 130px;
+    padding: 10px;
+    border-top: 1px solid #666;
+}
+
+#radmin #subscriptions_by_area {
+    position: absolute;
+    left: 230px;
+    top: 50px;
+}
+
+.dataTable {
+    margin: 10px;
+    background: #fff;
+    color: #222;
+}
+.dataTable .title {
+    font-size: 14pt;
+}
+.dataTable td, .dataTable th {
+    border: 1px solid #666;
+    padding: 4px;
+}
+
+/* done radmin */
 
 input.hiddenButton {
     height: 0;
@@ -996,18 +1072,22 @@ a#fdbk_tab {
 /* done icons */
 
 /* Other page styles */
+#radmin h1,
 #staticLayout h1 {
     font-size: 18pt;
     margin: 15px 0 5px 0;
 }
+#radmin h2,
 #staticLayout h2 {
     font-size: 15pt;
     margin: 15px 0 5px 0;
 }
+#radmin h3,
 #staticLayout h3 {
     font-size: 13pt;
     margin: 15px 0 5px 0;
 }
+#radmin h4,
 #staticLayout h4 {
     font-size: 10pt;
     margin: 15px 0 5px 0;

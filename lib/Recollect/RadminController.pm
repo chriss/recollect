@@ -93,15 +93,11 @@ sub area_ad_data {
 sub home_screen {
     my $self = shift;
 
-    if (my $area = $self->user->area_admin) {
-        my $params = {
-            doorman => $self->doorman,
-            area => $area,
-        };
-        return $self->process_template('radmin/area.tt2', $params)->finalize;
-    }
-
     my $params = {
+        area => $self->user->area_admin,
+        areas => encode_json([
+            map { $_->name } @{Recollect::Area->All}
+        ]),
         doorman => $self->doorman,
     };
     return $self->process_template("radmin/home.tt2", $params)->finalize;

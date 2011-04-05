@@ -1,0 +1,38 @@
+[% WRAPPER elements/outer_wrapper.tt2 %]
+    <div id="radmin">
+        <div class="nav black">
+            <div class="black"></div>
+            <div class="navSection navHomeLink">
+                <a href="/radmin" class="radminHome">
+                    <img class="logo" src="/[% version %]/images/favicon.png"/>
+                </a>
+                <a href="/radmin" class="radminHome">
+                    <span class="navText">R-ADmin</span>
+                </a>
+            </div>
+
+            <div class="customNav"></div>
+
+            <div class="navSection right">
+                <div class="navText">
+                    <a href="[% doorman.sign_out_path %]">Sign Out</a>
+                </div>
+            </div>
+            <div class="navSection right">
+                <div class="navText">
+                    Signed in as [% doorman.twitter_screen_name %]
+                </div>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="leftNav black"></div>
+        <div class="content white">[% content %]</div>
+    </div>
+    <script>
+        $(window).resize(function() {
+            $('#radmin .leftNav, #radmin .content').css(
+                'min-height', ($(window).height()-97) + 'px'
+            );
+        }).resize();
+    </script>
+[% END %]

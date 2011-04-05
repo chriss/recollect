@@ -1,74 +1,15 @@
-[% WRAPPER elements/static_wrapper.tt2 %]
-  <script type="text/javascript" src="/[% version %]/javascript/libs/jquery.flot.min.js"></script>
-  <script type="text/javascript" src="/[% version %]/javascript/libs/jquery.flot.pie.js"></script>
-
-  <h1>Welcome, [% doorman.twitter_screen_name %].</h1>
-  <strong>Actions:</strong>
-  <ul>
-    <li><a href="[% doorman.sign_out_path %]">Sign Out</a></li>
-    <li><a href="/radmin/subscribers">Subscriber list</a></li>
-  </ul>
-
-  <h2>Reminders by City</h2>
-  (Vancouver is removed b/c it dwarfs the others.)
-  <div id="remindersbycity" style="width:600px;height:300px"></div>
-  <h2>Reminders over time</h2>
-  (Vancouver is removed b/c it dwarfs the others.)
-  <div id="remindersovertime" style="width:600px;height:300px"></div>
-
-  <script>
-      $(document).ready(function() {
-        var rbc_data = [% reminders_by_area_json %];
-        $.plot($("#remindersbycity"), rbc_data, 
-        {
-            series: {
-                    pie: { 
-                        show: true,
-                        radius: 1,
-                        label: {
-                            show: true,
-                            radius: 3/4,
-                            formatter: function(label, series){
-                                return '<div style="font-size:8pt;text-align:center;padding:2px;color:white;">'+label+'<br/>'+Math.round(series.percent)+'%</div>';
-                            },
-                            background: { 
-                                opacity: 0.5,
-                                color: '#000'
-                            }
-                        }
-                    },
-            },
-      });
-
-        var rot_data = [% reminders_over_time_json %];
-        $.plot($("#remindersovertime"), rot_data, {
-                yaxis: { min: 0 },
-                xaxis: {
-                    mode: "time",
-                    timeformat: "%m/%d"
-                },
-                legend: {
-                    position: 'nw'
-                }
-            });
-        });
-  </script>
-
-  <h2>New Reminders</h2>
-  [% IF new_reminders.size %]
-    <ul>
-      [% FOREACH r IN new_reminders %]
-        <li>[% r.zone.name %] - [% r.user.email_address %] to [% r.target %] at offset [% r.delivery_offset %]</li>
-      [% END %]
-    </ul>
-  [% ELSE %]
-    <p>No reminders were created recently.</p>
-  [% END %]
-  <h2>Stats</h2>
-  <h3>Database table sizes</h3>
-  <ul>
-    [% FOR table IN stats.table_size.keys.sort %]
-    <li><strong>Number of unique [% table %]:</strong> [% stats.table_size.$table %]</li>
-    [% END %]
-  </ul>
+[% WRAPPER elements/radmin_wrapper.tt2 
+    javascript=[
+        "/$version/javascript/libs/jquery.flot.min.js",
+        "/$version/javascript/libs/jquery.flot.pie.js",
+        "/$version/javascript/compiled-recollect-radmin.jgz"
+    ]
+%]
+<script>
+    var radmin = new Recollect.RADmin({
+        area: "[% area %]",
+        areas: [% areas %]
+    });
+    radmin.start();
+</script>
 [% END %]

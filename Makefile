@@ -39,6 +39,22 @@ RECOLLECT_WIZARD_FILES=\
 	 $(JS_DIR)/recollect/wizard.js \
 	 $(JEMPLATE) \
 
+RECOLLECT_RADMIN=$(JS_DIR)/compiled-recollect-radmin.js
+RECOLLECT_RADMIN_GZ=$(JS_DIR)/compiled-recollect-radmin.jgz
+RECOLLECT_RADMIN_MINIFIED=$(JS_DIR)/compiled-recollect-radmin-mini.js
+RECOLLECT_RADMIN_FILES=\
+	 $(JS_DIR)/libs/jquery.timePicker.min.js \
+	 $(JS_DIR)/libs/jquery-maskedinput-1.2.2.min.js \
+	 $(JS_DIR)/libs/jquery.validate.js \
+	 $(JS_DIR)/libs/geoxml3.js \
+	 $(JS_DIR)/libs/google.polygon.js \
+	 $(JS_DIR)/libs/history.adapter.jquery.js \
+	 $(JS_DIR)/libs/history.js \
+	 $(JS_DIR)/libs/history.html4.js \
+	 $(JS_DIR)/recollect/base.js \
+	 $(JS_DIR)/recollect/radmin.js \
+	 $(JEMPLATE) \
+
 CRONJOB=$(PRIVATE)/etc/cron.d/recollect
 PSGI=etc/production.psgi
 
@@ -49,6 +65,7 @@ MAKE_TIME_FILES=$(BUILT_JS) $(shell find root/images root/css)
 BUILT_JS=\
     $(RECOLLECT) $(RECOLLECT_GZ) $(RECOLLECT_MINIFIED) \
     $(RECOLLECT_WIZARD) $(RECOLLECT_WIZARD_GZ) $(RECOLLECT_WIZARD_MINIFIED) \
+    $(RECOLLECT_RADMIN) $(RECOLLECT_RADMIN_GZ) $(RECOLLECT_RADMIN_MINIFIED) \
 
 all: javascript root/make-time
 
@@ -80,6 +97,12 @@ $(RECOLLECT): $(RECOLLECT_FILES) Makefile
 $(RECOLLECT_WIZARD): $(RECOLLECT_WIZARD_FILES) Makefile
 	rm -f $@;
 	for js in $(RECOLLECT_WIZARD_FILES); do \
+	    (echo "// BEGIN $$js"; cat $$js; echo ';' | perl -pe 's/\r//g') >> $@; \
+	done
+
+$(RECOLLECT_RADMIN): $(RECOLLECT_RADMIN_FILES) Makefile
+	rm -f $@;
+	for js in $(RECOLLECT_RADMIN_FILES); do \
 	    (echo "// BEGIN $$js"; cat $$js; echo ';' | perl -pe 's/\r//g') >> $@; \
 	done
 
