@@ -31,7 +31,7 @@
     [% IF zone.area.ad_img %]
     <div class="ad">
       [% IF zone.area.ad_url %]<a href="[% zone.area.ad_url %]">[% END %]
-      <img src="/[% version %]/images/[% zone.area.ad_img %]" />
+      <img alt="City Ad" src="/[% version %]/images/[% zone.area.ad_img %]" />
       [% IF zone.area.ad_url %]</a>[% END %]
     </div>
     [% END %]

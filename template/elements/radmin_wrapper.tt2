@@ -4,7 +4,7 @@
             <div class="black"></div>
             <div class="navSection navHomeLink">
                 <a href="/radmin" class="radminHome">
-                    <img class="logo" src="/[% version %]/images/favicon.png"/>
+                    <img alt="Recollect" class="logo" src="/[% version %]/images/favicon.png"/>
                 </a>
                 <a href="/radmin" class="radminHome">
                     <span class="navText">R-ADmin</span>

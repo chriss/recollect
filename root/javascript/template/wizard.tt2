@@ -4,7 +4,7 @@
 [% END %]
 
 [% BLOCK logo %]
-    <a class="homeLink" href="/"><img alt="Recollect Logo" class="logo" src="/[% version %]/images/recollect_logo_small.png"/></a>
+    <a class="homeLink" href="/"><img alt="Recollect" class="logo" src="/[% version %]/images/recollect_logo_small.png"/></a>
 [% END %]
 
 [% BLOCK error %]
@@ -116,7 +116,7 @@
                 <div class="cityImage">
                     [% IF name.match('^vancouver-') %]
                     <a href="/adclick/Vancouver" target="_new" alt="Don't trash your food!">
-                        <img src="/[% version %]/images/recollect-ad-no-plastic-borderless.jpg"/>
+                        <img alt="City Ad" src="/[% version %]/images/recollect-ad-no-plastic-borderless.jpg"/>
                     </a>
                     [% ELSE %]
                     <a href="/partner" class="yourAd">Place your ad here!</a>
