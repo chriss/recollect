@@ -4,7 +4,7 @@
 [% END %]
 
 [% BLOCK logo %]
-    <a class="homeLink" href="/"><img class="logo" src="/[% version %]/images/recollect_logo_small.png"/></a>
+    <a class="homeLink" href="/"><img alt="Recollect Logo" class="logo" src="/[% version %]/images/recollect_logo_small.png"/></a>
 [% END %]
 
 [% BLOCK error %]
@@ -252,7 +252,7 @@
         <div class="twitter boxOption">
             <div class="inside">
                 <div class="boxTitle">
-                    <img src="/[% version %]/images/twitter_logo.png"/>
+                    <img alt="Twitter" src="/[% version %]/images/twitter_logo.png"/>
                 </div>
                 <div class="description">
                     Send a weekly direct message to your twitter account. Please note that you will need to start following @<a target="_new" href="http://twitter.com/recollectnet">recollectnet</a>.
@@ -269,7 +269,7 @@
                     <div class="feeds">
                     [% FOR feed = feeds %]
                         <div class="feed">
-                            <img src="/[% version %]/images/feeds/[% feed.icon %]">
+                            <img  alt="[% feed.name %]" src="/[% version %]/images/feeds/[% feed.icon %]">
                             <a id="[% feed.id %]" href="[% feed.url %]" target="_blank">
                                 [% feed.name %]
                             </a>
@@ -410,7 +410,7 @@
 
 [% BLOCK loading %]
     <div class="page loading">
-        <img src="/[% version %]/images/loading.gif"/>
+        <img alt="Loading..." src="/[% version %]/images/loading.gif"/>
     </div>
 [% END %]
 
