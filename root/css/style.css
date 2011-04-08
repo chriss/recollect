@@ -123,6 +123,11 @@ body, .middle, #links {
     z-index: -2;
 }
 
+#container {
+    /* Weird, but IE needs this to be 100% width */
+    width: 100%;
+}
+
 header {
 }
 
