@@ -33,7 +33,7 @@
 <body[% IF class %] class="[% class %]"[% END %]>
     [% UNLESS nobg %]
         <div id="background">
-            <img alt=" " src="/[% version %]/images/background.jpg"/>
+            <img src="/[% version %]/images/background.jpg"/>
         </div>
     [% END %]
 

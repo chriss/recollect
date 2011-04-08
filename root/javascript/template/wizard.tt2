@@ -47,7 +47,7 @@
             <div class="title">Find out your collection zone.</div>
             <div class="message">
                 <p>Please type your home address or postal code.<br />
-                <i>e.g. 454 W 12 Ave, Vancouver, BC</i></p>
+                <em>e.g. 454 W 12 Ave, Vancouver, BC</em></p>
             </div>
             <div class="addressForm">
                 <form>
@@ -136,7 +136,7 @@
             <div class="signup">
                 <div class="map"></div>
                 <p>
-                    <b>If this is your zone …</b>
+                    <strong>If this is your zone …</strong>
                 </p>
                 <a id="subscribe" class="confirm bigButtonOrange" href="#">Create a reminder!</a>
                 <div class="clear"></div>
