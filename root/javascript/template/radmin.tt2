@@ -12,6 +12,10 @@
 
 [% BLOCK radmin_home %]
     [% INCLUDE widget
+        id="stats"
+        title="Stats"
+    %]
+    [% INCLUDE widget
         id="recentSubscriptions"
         title="Recent Subscriptions"
     %]
@@ -19,6 +23,7 @@
         id="needsPickups"
         title="Soon to run out of data"
     %]
+    <div class="clear"></div>
     [% INCLUDE widget
         id="subscriptionsByArea"
         title="Subscriptions by Area"
@@ -43,6 +48,17 @@
 [% END %]
 
 [% BLOCK dataTable %]
+    <table class="dataTable">
+        [% FOR item = data %]
+            <tr>
+                <th style="text-align:right">[% item %]</th>
+                <td style="text-align:right">[% data.$item %]</td>
+            </tr>
+        [% END %]
+    </table>
+[% END %]
+
+[% BLOCK listTable %]
     <table class="dataTable">
         <tr>
             [% FOR col = columns %]

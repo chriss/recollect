@@ -63,9 +63,16 @@ $.extend(Recollect.RADmin.prototype, {
     },
 
     showRecentReminders: function() {
+        // XXX  come up with bette names than datatable and listtable
+        $.getJSON('/radmin/data/object_stats', function(data) {
+            $('#stats').html(
+                Jemplate.process('dataTable', { data: data.table_size })
+            );
+        });
+
         $.getJSON('/radmin/data/recent_subscriptions', function(rows) {
             $('#recentSubscriptions').html(
-                Jemplate.process('dataTable', {
+                Jemplate.process('listTable', {
                     rows: rows,
                     columns: [
                         { field: 'target', display: 'Target' },
@@ -78,9 +85,8 @@ $.extend(Recollect.RADmin.prototype, {
         });
 
         $.getJSON('/radmin/data/needs_pickups', function(rows) {
-            console.log(rows);
             $('#needsPickups').html(
-                Jemplate.process('dataTable', {
+                Jemplate.process('listTable', {
                     rows: rows,
                     columns: [
                         {
