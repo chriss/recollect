@@ -1,5 +1,4 @@
 <!doctype html>    
-
 <!--[if lt IE 7 ]> <html lang="en" class="no-js ie6"> <![endif]-->
 <!--[if IE 7 ]>        <html lang="en" class="no-js ie7"> <![endif]-->
 <!--[if IE 8 ]>        <html lang="en" class="no-js ie8"> <![endif]-->
@@ -28,6 +27,8 @@
     [% FOR js = javascript %]
     <script type="text/javascript" src="[% js %]"></script>
     [% END %]
+
+    <!--[if lte IE 6]><script src="/[% version %]/javascript/libs/ie6/warning.js"></script><script>window.onload=function(){e("/[% version %]/javascript/libs/ie6/")}</script><![endif]-->
 </head>
 
 <body[% IF class %] class="[% class %]"[% END %]>
