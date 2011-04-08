@@ -131,21 +131,8 @@ body, .middle, #links {
 header {
 }
 
-.white {
-    background-image:url(../images/transparent_white.png);
-}
-.ie6 .white {
-    background-image: none;
-    filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true, sizingMethod=scale, src='/0.0.0/images/transparent_white.png');
-}
-
-.black {
-    background-image: url(../images/transparent_black.png);
-}
-.ie6 .black {
-    background-image: none;
-    filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true, sizingMethod=scale, src='/0.0.0/images/transparent_black.png');
-}
+.white { background-image:url(../images/transparent_white.png) }
+.black { background-image: url(../images/transparent_black.png) }
 
 .tiny {
     font-size: 9pt;
