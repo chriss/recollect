@@ -1,9 +1,3 @@
-[% BLOCK radmin_home %]
-    <div id="recentSubscriptions"></div>
-    <div class="floatleft" id="needsPickups"></div>
-    <div class="floatleft" id="subscriptionsByArea"></div>
-[% END %]
-
 [% BLOCK radmin_leftnav %]
     <ul>
         <li><a class="historyLink" href="/radmin">Home</a></li>
@@ -16,6 +10,30 @@
     </ul>
 [% END %]
 
+[% BLOCK radmin_home %]
+    [% INCLUDE widget
+        id="recentSubscriptions"
+        title="Recent Subscriptions"
+    %]
+    [% INCLUDE widget
+        id="needsPickups"
+        title="Soon to run out of data"
+    %]
+    [% INCLUDE widget
+        id="subscriptionsByArea"
+        title="Subscriptions by Area"
+        width="300px"
+        height="300px"
+    %]
+[% END %]
+
+[% BLOCK widget %]
+    <div class="widget white">
+        <div class="widgetTitle">[% title %]</div>
+        <div class="widgetContent" style="[% IF width %]width:[% width %];[% END %][% IF height %]height:[% height %];[% END %]" id="[% id %]"></div>
+    </div>
+[% END %]
+
 [% BLOCK radmin_nav %]
     [% FOR el = elements %]
         <div class="navSection">
@@ -26,11 +44,6 @@
 
 [% BLOCK dataTable %]
     <table class="dataTable">
-    [% IF title %]
-        <tr>
-            <th class="title" colspan="[% columns.size %]">[% title %]</th>
-        </tr>
-    [% END %]
         <tr>
             [% FOR col = columns %]
                 <th>[% col.display %]</th>

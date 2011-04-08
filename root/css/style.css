@@ -314,11 +314,6 @@ header {
     border-top: 1px solid #666;
 }
 
-#radmin #subscriptionsByArea {
-    width: 300px;
-    height: 500px;
-}
-
 .dataTable {
     margin: 10px;
     background: #fff;
@@ -330,6 +325,19 @@ header {
 .dataTable td, .dataTable th {
     border: 1px solid #666;
     padding: 4px;
+}
+
+.widget {
+    border: 1px solid #666;
+    float: left;
+    margin: 10px;
+    padding: 10px;
+}
+
+.widget .widgetTitle {
+    border-bottom: 1px solid #666;
+    font-size: 110%;
+    text-align: center;
 }
 
 /* done radmin */

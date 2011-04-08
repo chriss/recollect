@@ -66,7 +66,6 @@ $.extend(Recollect.RADmin.prototype, {
         $.getJSON('/radmin/data/recent_subscriptions', function(rows) {
             $('#recentSubscriptions').html(
                 Jemplate.process('dataTable', {
-                    title: 'Recent Subscriptions',
                     rows: rows,
                     columns: [
                         { field: 'target', display: 'Target' },
@@ -82,7 +81,6 @@ $.extend(Recollect.RADmin.prototype, {
             console.log(rows);
             $('#needsPickups').html(
                 Jemplate.process('dataTable', {
-                    title: 'Soon to run out of data',
                     rows: rows,
                     columns: [
                         {
