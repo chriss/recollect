@@ -1,0 +1,55 @@
+#!/usr/bin/perl
+use strict;
+use warnings;
+use FindBin;
+use autodie;
+use JSON qw/encode_json/;
+
+my $en = "l10n/en.po";
+my $lexicon = load_lexicon(en => $en);
+my $English_lexicon = $lexicon;
+gen_js(en => $lexicon);
+
+exit;
+
+sub load_lexicon {
+    my ($lang, $file) = @_;
+
+    open my $fh, '<:utf8', $file;
+    local $/ = "\n\n";
+    
+    # Ignore the header
+    scalar(<$fh>);
+    my %lex;
+    while(<$fh>) {
+        my ($comments, $id, $str) = split(/\n/, $_);
+        # Map newlines to high-character bits, we'll restore them later
+        $id =~ s/^msgid "(.+)"$/$1/;
+        $id =~ s/\\n/\x{FFFC}/g;
+        $str =~ s/^msgstr "(.*)"$/$1/;
+        $str =~ s/\\n/\x{FFFC}/g;
+        $lex{$id} = $str;
+    }
+    return \%lex;
+}
+
+sub gen_js {
+    my ($lang, $lexicon) = @_;
+    
+    my $js_file = "$FindBin::Bin/../root/javascript/l10n/$lang.js";
+    print "Writing $js_file ...\n";
+    open my $fh, ">:utf8", $js_file;
+    print $fh qq(;var Recollect = Recollect || {}; Recollect.loc_lang = '$lang'; var LocalizedStrings = {"$lang":{\n);
+    my $json = encode_json($lexicon);
+    utf8::decode($json);
+    $json =~ s/\x{FFFC}/\\n/g; # Restore newlines
+    $json =~ s/([^\x00-\x7f])/sprintf('\\u%04X', ord $1)/eg; # Re-encode high bit characters
+    $json =~ s/^\{//;
+    $json =~ s/","/"\n"/g; # Break it up nice for printing
+    $json =~ s/\}$//;
+    print $fh join(",\n", sort split /\n/, $json);
+    print $fh "\n}};\n";
+    close $fh;
+}
+
+

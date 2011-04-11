@@ -1,0 +1,44 @@
+#!/usr/bin/perl
+use strict;
+use warnings;
+use Getopt::Long;
+use FindBin;
+use autodie;
+
+my ($rfh, $wfh);
+for my $po (@ARGV) {
+    open $rfh, '<:utf8', $po;
+
+    if ($inplace) {
+        open $wfh, '>:utf8', "$po.new";
+    }
+
+    local $/ = "\n\n";
+    while (<$rfh>) {
+        if (/^msgid ""\nmsgstr ""/m) {
+            print $wfh $_;
+            next;
+        }
+
+        my ($comments, $id, $str) = split(/\n(?=msg)/, "\n$_");
+        if (($msgid and is_key($str)) or ($msgstr and is_key($id)) or (!$msgid and !$msgstr)) {
+            $id =~ s/^msgid/msgstr/m;
+            $str =~ s/^msgstr/msgid/m;
+        }
+        else {
+            ($str, $id) = ($id, $str);
+        }
+        outs $comments;
+        outs $str;
+        outs $id;
+    }
+
+    close $rfh;
+    if ($inplace) {
+        close $wfh;
+        unlink $po;
+        rename "$po.new" => $po;
+        warn "*** Changed file rfh-place: $po\n";
+    }
+}
+

@@ -1,0 +1,48 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: root/javascript/recollect/wizard.js:904
+msgid "Compost"
+msgstr ""
+
+#: root/javascript/recollect/wizard.js:228
+msgid "Error"
+msgstr ""
+
+#: root/javascript/recollect/wizard.js:701
+msgid "Error Loading Result!"
+msgstr ""
+
+#: root/javascript/recollect/wizard.js:901
+msgid "Garbage"
+msgstr ""
+
+#: root/javascript/recollect/wizard.js:902
+msgid "Recycling"
+msgstr ""
+
+#: root/javascript/recollect/wizard.js:668
+msgid "Sorry, we couldn't find your address."
+msgstr ""
+
+#: root/javascript/template/wizard.tt2:26
+msgid "Welcome to Recollect"
+msgstr ""
+
+#: root/javascript/recollect/wizard.js:903
+msgid "Yard"
+msgstr ""

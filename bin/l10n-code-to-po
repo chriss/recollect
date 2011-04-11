@@ -1,0 +1,48 @@
+#!/usr/bin/perl
+use warnings;
+use strict;
+use Locale::Maketext::Lexicon;
+use File::Path qw/make_path remove_tree/;
+use FindBin;
+use IPC::Run3;
+use Getopt::Long;
+
+chdir "$FindBin::Bin/..";
+
+my ($new, $lang);
+GetOptions(
+    'new|n' => \$new,
+) or die "USAGE: $0 [--new]";
+
+if ($new) {
+    $lang = 'new';
+    remove_tree "$FindBin::Bin/l10n/$lang";
+    make_path "$FindBin::Bin/l10n/$lang";
+}
+else {
+    $lang ||= 'en';
+}
+
+run3(["make", "clean"]);
+
+mkdir 'l10n' unless -d 'l10n';
+my $output = "l10n/$lang/recollect.po";
+warn "Extracting strings from codes.";
+my $cmd =[qw/xgettext.pl -now -v -v/,
+        -P => 'perl=*',
+        -P => 'tt2=*',
+        -o => $output, 
+        -D => "lib",
+        -D => "root/javascript",
+        -D => "template",
+    ];
+warn "Running " . join(' ', @$cmd) . "\n";
+run3($cmd);
+
+if ($new and -e $output) {
+    run3([qw[perl -ni -e ], 'print unless /^# SOME DESCRIPTIVE TITLE./ .. /^#:/ and not /^#:/', $output]);
+    run3([qw[msggrep -w 99999 --sort-output --msgid -v -e ], '^<!\\|^[a-z][a-z0-9][a-z0-9]*\\.', $output], "$output.new");
+    # run3([qw[bin/l10n-reverse-po ], "$output.new"]);
+    rename "$output.new" => $output;
+    unlink $output unless -s $output;
+}
