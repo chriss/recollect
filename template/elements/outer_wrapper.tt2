@@ -22,6 +22,7 @@
     <script type="text/javascript" src="/[% version %]/javascript/libs/modernizr-1.6.min.js"></script>
 
     <!-- recollect stuff -->
+    <script type="text/javascript" src="/[% version %]/javascript/l10n/en.js"></script>
     <script type="text/javascript" src="/[% version %]/javascript/compiled-recollect.jgz"></script>
 
     [% FOR js = javascript %]
