@@ -2,6 +2,7 @@ package Recollect::ControllerBase;
 use feature 'switch';
 use Moose::Role;
 use Recollect::Util qw/base_path is_dev_env/;
+use Recollect::l10n;
 use JSON qw/encode_json decode_json/;
 use File::Slurp qw(slurp);
 
@@ -99,6 +100,8 @@ sub process_template {
     my $param = shift;
     my $code = shift || 200;
     my $body;
+
+    $param->{loc} ||= \&Recollect::l10n::loc;
     $self->render_template($template, $param, \$body);
     if (!defined $body) {
         my $err = $self->tt2->error;
