@@ -22,7 +22,7 @@
         </div>
         <div class="right" height="200">
             <div class="message">
-                <p class="big">Welcome to Recollect</p>
+                <p class="big">[% loc("Welcome to Recollect") %]</p>
                 <p>The Garbage and Recycling collection reminder service.</p>
             </div>
             <div class="message">

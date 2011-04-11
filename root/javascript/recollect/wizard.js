@@ -1,5 +1,52 @@
 (function($) {
 
+function loc() {
+    // Heavily inspired by Socialtext loc.js
+    if (typeof LocalizedStrings == 'undefined')
+        LocalizedStrings = {};
+
+    var locale = Recollect.loc_lang || 'en';
+    var dict = LocalizedStrings[locale] || {};
+    var str = arguments[0] || "";
+    var l10n = dict[str];
+    var nstr = "";
+
+    if (!l10n) {
+        /* If the hash-lookup failed, convert " into \\\" and try again. */
+        nstr = str.replace(/\"/g, "\\\"");
+        l10n = dict[nstr];
+        if (!l10n) {
+            /* If the hash-lookup failed, convert [_1] into %1 and try again. */
+            nstr = nstr.replace(/\[_(\d+)\]/g, "%$1");
+            l10n = dict[nstr] || str;
+        }
+    }
+    l10n = l10n.replace(/\\\"/g, "\"");
+
+    /* Convert both %1 and [_1] style vars into the given arguments */
+    for (var i = 1; i < arguments.length; i++) {
+        var rx = new RegExp("\\[_" + i + "\\]", "g");
+        var rx2 = new RegExp("%" + i + "", "g");
+        l10n = l10n.replace(rx, arguments[i]);
+        l10n = l10n.replace(rx2, arguments[i]);
+
+        var quant = new RegExp("\\[(?:quant|\\*),_" + i + ",([^\\],]+)(?:,([^\\]]+))?\\]");
+        while (quant.exec(l10n)) {
+            var num = arguments[i] || 0;
+            if (num == 1) {
+                l10n = l10n.replace(quant, num + ' ' + RegExp.$1);
+            }
+            else {
+                l10n = l10n.replace(quant, num + ' ' + (RegExp.$2 || (RegExp.$1 + 's')));
+            }
+        }
+    }
+
+    return l10n;
+};
+
+if (typeof(Recollect) == 'undefined') Recollect = {};
+
 Recollect.Wizard  = function(opts) {
     $.extend(this, this._defaults, opts);
 }
@@ -28,7 +75,7 @@ $.extend(Recollect.Wizard.prototype, {
     start: function() {
         var self = this;
 
-        $('#wizard').html(Jemplate.process('wizard'));
+        $('#wizard').html(Jemplate.process('wizard', { loc: Recollect.loc }));
 
         $('.homeLink').click(function() {
             self.setLocation('/');
@@ -131,7 +178,7 @@ $.extend(Recollect.Wizard.prototype, {
                             $('.interest form').show();
                             $('.interest .loading').hide();
                             $('#wizard .status').html(
-                                Jemplate.process('error', { msg: "Error" })
+                                Jemplate.process('error', { msg: Recollect.loc("Error"), loc: Recollect.loc })
                             );
                         },
                         success: function() {
@@ -526,7 +573,8 @@ $.extend(Recollect.Wizard.prototype, {
     showAddressSelection: function(results, callback) {
         $('#wizard .status').html(
             Jemplate.process('addresses', {
-                results: results
+                results: results,
+                loc: loc,
             })
         );
         $.each(results, function(i, result) {
@@ -561,7 +609,8 @@ $.extend(Recollect.Wizard.prototype, {
                     // Error: zero results
                     $('#wizard .status').html(
                         Jemplate.process('error', {
-                            msg: "Sorry, we couldn't find your address."
+                            msg: loc("Sorry, we couldn't find your address."),
+                            loc: loc,
                         })
                     );
                 }
@@ -593,7 +642,8 @@ $.extend(Recollect.Wizard.prototype, {
                     // Error: zero results
                     $('#wizard .status').html(
                         Jemplate.process('error', {
-                            msg: "Error Loading Result!"
+                            msg: loc("Error Loading Result!"),
+                            loc: loc,
                         })
                     );
                 }
@@ -648,6 +698,7 @@ $.extend(Recollect.Wizard.prototype, {
 
         // Create the new page
         opts.version = self.version;
+        opts.loc = loc;
         var html = Jemplate.process(opts.page, opts);
         var $newPage = $(html);
 
@@ -789,11 +840,12 @@ $.extend(Recollect.Wizard.prototype, {
         $('#wizard .calendar').append(
             Jemplate.process('legend', {
                 keys: legend,
+                loc: loc,
                 names: {
-                    G: 'Garbage',
-                    R: 'Recycling',
-                    Y: 'Yard',
-                    C: 'Compost'
+                    G: loc('Garbage'),
+                    R: loc('Recycling'),
+                    Y: loc('Yard'),
+                    C: loc('Compost')
                 }
             })
         );
@@ -949,6 +1001,8 @@ $.extend(Recollect.Wizard.prototype, {
             .insertAfter(node);
     },
 
+    loc_lang: 'en',
+
     addReminder: function (opts) {
         var self = this;
 
@@ -990,7 +1044,7 @@ $.extend(Recollect.Wizard.prototype, {
                 $('#wizard .subscription form').show();
 
                 $('#subscriptionError').html(
-                    Jemplate.process('error', { msg: error.msg })
+                    Jemplate.process('error', { msg: error.msg, loc: Recollect.loc })
                 );
             },
             success: function(data) {
