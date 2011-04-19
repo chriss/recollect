@@ -13,6 +13,7 @@ GetOptions( \%opts,
     'area=s',
     'zones-only',
     'pickups-only',
+    'delete-pickups',
 ) or usage();
 
 my $area_name = $opts{area} || usage();
@@ -47,7 +48,8 @@ if (my $pickups = $tron->{pickups} and !$opts{'zones-only'}) {
     for my $pu (@$pickups) {
         my $zone = Recollect::Zone->By_name($pu->{zone});
         die "Can't find zone $pu->{zone}!" unless $zone;
-        if (!$seen{$pu->{zone}}++) {
+        if (!$seen{$pu->{zone}}++ and $opts{'delete-pickups'}) {
+            print "Deleting all pickups for $pu->{zone}\n";
             $zone->delete_all_pickups;
         }
         print "Adding $pu->{date} ($pu->{flags}) to $pu->{zone}\n";
