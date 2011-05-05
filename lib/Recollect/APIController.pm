@@ -158,6 +158,16 @@ sub run {
                 }
             }
         }
+        when ('HEAD') {
+            given ($path) {
+                when (m{^/areas/$area_rx\.kml}) {
+                    return $area_wrapper->($1, 'kml', 'area')
+                }
+                when (m{^/areas/$area_rx/zones/$zone_rx\.kml}) {
+                    return $zone_wrapper->($1, $2, 'kml', 'zone')
+                }
+            }
+        }
         default {
         }
     }
@@ -433,8 +443,16 @@ sub area_txt {
     return $self->process_template('area.txt', { area => $area });
 }
 
+sub kml_head {
+    my $self = shift;
+    my $resp = Plack::Response->new(200);
+    $resp->header('Content-Type' => 'application/xml; encoding=utf-8');
+    return $resp->finalize;
+}
+
 sub area_kml {
     my ($self, $area, $zone) = @_;
+    return $self->kml_head if $self->request->method eq 'HEAD';
     return $self->process_template( 'kml.xml', {
             name     => "Recollect Collection Area - " . $area->title,
             styles   => $area->styles,
@@ -492,6 +510,7 @@ sub zone_txt {
 
 sub zone_kml {
     my ($self, $area, $zone) = @_;
+    return $self->kml_head if $self->request->method eq 'HEAD';
     return $self->process_template( 'kml.xml', {
             name     => "Recollect Collection Zone - " . $zone->title,
             styles   => [ $zone->style ],
