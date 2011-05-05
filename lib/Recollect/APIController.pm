@@ -446,7 +446,7 @@ sub area_txt {
 sub kml_head {
     my $self = shift;
     my $resp = Plack::Response->new(200);
-    $resp->header('Content-Type' => 'application/xml; encoding=utf-8');
+    $resp->header('Content-Type' => $self->kml_content_type);
     return $resp->finalize;
 }
 

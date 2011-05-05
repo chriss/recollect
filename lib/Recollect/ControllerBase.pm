@@ -30,6 +30,8 @@ sub _build_area_hostname {
     return $1 || '';
 }
 
+sub kml_content_type { 'application/vnd.google-earth.kml+xml' }
+
 around 'run' => sub {
     my $orig = shift;
     my $self = shift;
@@ -114,6 +116,9 @@ sub process_template {
     given ($template) {
         when (m/\.txt$/) {
             $resp->header('Content-Type' => 'text/plain');
+        }
+        when (m/kml\.xml/) {
+            $resp->header('Content-Type' => $self->kml_content_type);
         }
         when (m/\.xml$/) {
             $resp->header('Content-Type' => 'application/xml; encoding=utf-8');
