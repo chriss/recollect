@@ -28,6 +28,7 @@ my $xml = XMLin(\$kml);
 my $xml_zones = $xml->{Document}{Placemark};
 my $styles    = $xml->{Document}{Style};
 print $OUT "Found " . scalar(keys %$xml_zones) . " zones\n";
+(my $area = $url) =~ s#.+[:/]+(.+).kml$#ucfirst($1)#eg;
 
 my %zones;
 for my $name (sort keys %$xml_zones) {
@@ -35,8 +36,8 @@ for my $name (sort keys %$xml_zones) {
     $name =~ s/\s+\d+$//;
 
     # First look in the Polygon description for encoded title and color
-    my $desc = $hash->{description};
     my ($title, $color, $polygon);
+    my $desc = $hash->{description} || "Name: $name";
     $title = $1 if $desc =~ m/title: (.+?)</;
     $color = $1 if $desc =~ m/color: (\w{6})</;
 
@@ -44,6 +45,7 @@ for my $name (sort keys %$xml_zones) {
     unless ($title) {
         (my $default = $name) =~ s/\b(\w)/uc($1)/eg;
         $default =~ s/-/ /g;
+        $default = "$area $default";
         $title = $Term->readline("Enter the title for '$name' (Default: $default): ");
         $title ||= $default;
         $Term->addhistory($title);
