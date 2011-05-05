@@ -63,6 +63,9 @@ Zone Objects have the following structure:
 * `color` is the RGB color for this zone, to be used when drawing the zone.
 * `geometry` is a GeoJSON object, typically a Polygon or a MultiPolygon.
   See http://geojson.org/geojson-spec.html
+** Note: The TRON spec currently expects lat,long points, but GeoJSON
+  specifies long,lat.  This will be corrected in a future version of this spec
+  to use long,lat as recommended by GeoJSON.
 
 Pickup Objects have the following structure:
 
@@ -74,6 +77,7 @@ Pickup Objects have the following structure:
 
 * `date` is an ISO8601 timestamp describing the date and time the pickup will
   occur. It should explictly specify the timezone of the pickup.
+  Example: 2011-03-14T07:00-08 - pickup is on March 14th at 7am, timezone -08.
 * `zone` refers to which Collection Zone this pickup is for.
 * `flags` describes the items that are being collected on this pickup. Each
   character in the flags string represents a different type of collection item.
