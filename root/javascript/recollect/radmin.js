@@ -95,9 +95,9 @@ $.extend(Recollect.RADmin.prototype, {
                         },
                         {
                             format: function(r) {
-                                return r.nextpickup.day;
+                                return r.lastpickup.day;
                             },
-                            display: 'Next Pickup'
+                            display: 'Last Pickup'
                         }
                     ]
                 })
