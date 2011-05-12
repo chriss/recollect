@@ -408,7 +408,7 @@ sub area {
     my $self = shift;
     my $area = shift;
     return $self->process_template('area.html',
-        { has_kml => 1, area => $area });
+        { has_kml => 1, has_tron => 1, area => $area });
 }
 
 sub area_json {

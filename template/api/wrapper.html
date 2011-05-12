@@ -2,12 +2,15 @@
   <div class="api">
     [% content %]
     <hr />
-    This resource is available in other content types:
+    This resource is available in other content types:<br />
     [% IF has_ical %]
     <a href="[% uri %].ics">text/calendar (iCal)</a> | 
     [% END %]
     [% IF has_kml %]
     <a href="[% uri %].kml">application/kml (KML)</a> | 
+    [% END %]
+    [% IF has_tron %]
+    <a href="[% uri %].tron">TRON - Trash and Recycling Object Notation</a> | 
     [% END %]
     <a href="[% uri %].txt">text/plain</a> | 
     <a href="[% uri %].json">application/json</a>
