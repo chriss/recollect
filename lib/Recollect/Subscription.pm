@@ -58,11 +58,11 @@ around 'Create' => sub {
     }
     my $subscription = $orig->($class, %args);
     if ($args{free}) {
-        $subscription->recurly->create_account(
+        $subscription->recurly->create_account( {
             account_code => $args{id},
             email => $email,
             username => $email,
-        );
+        } );
     }
 
     $subscription->add_reminders($reminders);
