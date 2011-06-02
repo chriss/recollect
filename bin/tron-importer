@@ -31,19 +31,25 @@ unless ($area) {
 
 if (my $zones = $tron->{zones} and !$opts{'pickups-only'}) {
     for my $zone (@$zones) {
-        print "Importing zone $zone->{name}\n";
+        print "Processing zone $zone->{name}\n";
         (my $bgr = $zone->{color}) =~ s/^(..)(..)(..)$/$3$2$1/;
-        my $z = Recollect::Zone->By_name($zone->{name}) || $area->add_zone(
-            name => $zone->{name},
-            title => $zone->{title},
-            colour_name => $zone->{name},
-            line_colour => "FF$bgr",
-            poly_colour => "99$bgr",
-        );
+        my $z = Recollect::Zone->By_name($zone->{name});
+        unless ($z) {
+            print "  Adding zone ...\n";
+            $z = $area->add_zone(
+                name => $zone->{name},
+                title => $zone->{title},
+                colour_name => $zone->{name},
+                line_colour => "FF$bgr",
+                poly_colour => "99$bgr",
+            );
+        }
+        print "  Updating geometry ...\n";
         $z->set_geom_from_tron($zone->{geometry});
     }
+    exit if $opts{'zones-only'};
 }
-if (my $pickups = $tron->{pickups} and !$opts{'zones-only'}) {
+if (my $pickups = $tron->{pickups}) {
     my %seen;
     for my $pu (@$pickups) {
         my $zone = Recollect::Zone->By_name($pu->{zone});
