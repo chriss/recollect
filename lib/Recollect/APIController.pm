@@ -41,12 +41,14 @@ sub run {
 
     my $json_wrapper = sub {
         my $sub_name = shift;
-        $self->log("API: POST $path");
-        return $self->bad_request_text(
-            'Only application/json content type is supported', 415)
-            unless $req->content_type =~ m/json/;
+        my $ctype = $req->content_type;
+        $self->log("API: POST $path ($ctype)");
 
         my $args = eval { decode_json $req->raw_body };
+        if ($@) {
+            return $self->bad_request_text(
+                'Only application/json content type is supported', 415)
+        }
         return $self->bad_request_json("Could not decode json: $@") if $@;
 
         return $self->$sub_name($args, @_);
