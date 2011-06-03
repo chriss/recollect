@@ -312,6 +312,9 @@ sub billing {
         when ('new_account_notification') {
             # No action needed
         }
+        when ('canceled_account_notification') {
+            # Kill the subscription?
+        }
         default {
             $self->log("Unknown billing notification: $type");
         }
