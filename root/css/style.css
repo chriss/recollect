@@ -131,8 +131,27 @@ body, .middle, #links {
 header {
 }
 
-.white { background-image:url(../images/transparent_white.png) }
-.black { background-image: url(../images/transparent_black.png) }
+.white {
+    background-image:url(../images/transparent_white.png);
+    /* rounded corners */
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+.black {
+    background-image:url(../images/transparent_white.png);
+
+    /* rounded corners */
+    -webkit-border-bottom-right-radius: 5px;
+    -moz-border-bottom-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    -webkit-border-bottom-left-radius: 5px;
+    -moz-border-bottom-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+.black a {
+    color: black;
+}
 
 .tiny {
     font-size: 9pt;
