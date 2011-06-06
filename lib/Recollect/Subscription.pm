@@ -21,6 +21,7 @@ has 'user_id'    => (is => 'ro', isa => 'Int',  required => 1);
 has 'created_at' => (is => 'ro', isa => 'Str',  required => 1);
 has 'free'       => (is => 'ro', isa => 'Str',  required => 1);
 has 'active'     => (is => 'ro', isa => 'Bool', required => 1);
+has 'welcomed'   => (is => 'ro', isa => 'Bool', required => 1);
 has 'payment_period' => (is => 'ro', isa => 'Maybe[Str]');
 has 'location'       => (is => 'ro', isa => 'Maybe[Str]', lazy_build => 1);
 
@@ -32,8 +33,7 @@ has 'created_date' => (is => 'ro', isa => 'Object', lazy_build => 1);
 has 'delete_url'   => (is => 'ro', isa => 'Str', lazy_build => 1);
 has 'areas'        => (is => 'ro', isa => 'ArrayRef[Object]', lazy_build => 1);
 
-# Don't fetch the location geometry by default
-sub Columns { 'id, user_id, created_at, free, active, payment_period' }
+sub Columns { 'id, user_id, created_at, free, active, payment_period, welcomed' }
 
 around 'Create' => sub {
     my $orig = shift;
@@ -68,7 +68,7 @@ around 'Create' => sub {
     $subscription->add_reminders($reminders);
     $subscription->log("New subscription created for user $email");
 
-    $subscription->send_confirmation_email if $args{free};
+    $subscription->send_welcome_email if $args{free};
     return $subscription;
 };
 
@@ -97,11 +97,13 @@ sub _set_active_flag {
     $self->{active} = $value;
     $self->log("Subscription " . $self->id . " is now "
         . ($value ? '' : 'in') . 'active');
-    $self->send_confirmation_email if $value;
+
+    $self->send_welcome_email if $value;
 }
 
-sub send_confirmation_email {
+sub send_welcome_email {
     my $self = shift;
+    return if $self->welcomed;
 
     $self->send_email(
         template => 'signup-success.html',
@@ -115,6 +117,10 @@ sub send_confirmation_email {
         subject => 'Welcome to the Recollect Reminder Service',
         content_type => 'text/html',
     );
+    my $sth = $self->dbh->prepare(
+        "UPDATE subscriptions SET welcomed = ?  WHERE id = ?"
+    );
+    $sth->execute(1, $self->id);
 }
 
 sub add_reminders {
