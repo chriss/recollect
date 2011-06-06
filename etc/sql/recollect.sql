@@ -78,7 +78,7 @@ CREATE TABLE reminders (
     subscription_id text    references subscriptions(id) NOT NULL,
     zone_id         integer references zones(id) NOT NULL,
     created_at      timestamptz DEFAULT LOCALTIMESTAMP NOT NULL,
-    last_notified   timestamptz DEFAULT '-infinity'::timestamptz NOT NULL,
+    last_notified   timestamptz DEFAULT LOCALTIMESTAMP NOT NULL,
     delivery_offset interval DAY TO MINUTE DEFAULT '-6hours'::interval NOT NULL,
     target          text NOT NULL
 );
