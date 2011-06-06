@@ -126,8 +126,8 @@ sub to_hash {
         map { $_ => $self->$_() }
             qw/id name title colour_name line_colour poly_colour/
     };
-    $hash->{nextpickup} = $self->next_pickup->[0]->to_hash;
-    $hash->{lastpickup} = $self->last_pickup->to_hash;
+    $hash->{nextpickup} = eval { $self->next_pickup->[0]->to_hash } || [];
+    $hash->{lastpickup} = eval { $self->last_pickup->to_hash } || [];
     return $hash if $opts{minimal};
 
     $hash->{pickupdays} = [ map { $_->to_hash } @{ $self->pickups } ];
