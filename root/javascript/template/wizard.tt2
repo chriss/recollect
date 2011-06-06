@@ -305,9 +305,7 @@
                 <div class="price">
                     <div class="dollarsign">$</div>
                     <div class="dollars">2</div>
-                    <div class="cents">00</div>
-                    <div class="cycle">per month</div>
-                    <div class="billingCycle">billed $6 every 3 months</div>
+                    <div class="cents">50</div>
                 </div>
                 <a class="bigButtonBlack choose chooseQuarterly" href="#">choose</a>
             </div>
@@ -318,10 +316,8 @@
                 <div class="boxTitle">Annually</div>
                 <div class="price">
                     <div class="dollarsign">$</div>
-                    <div class="dollars">1</div>
-                    <div class="cents">50</div>
-                    <div class="cycle">per month</div>
-                    <div class="billingCycle">billed $18 annually</div>
+                    <div class="dollars">6</div>
+                    <div class="cents">00</div>
                 </div>
                 <a class="bigButtonBlack choose chooseAnnual" href="#">choose</a>
             </div>
