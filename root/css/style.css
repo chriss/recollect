@@ -684,7 +684,7 @@ input.initial {
 .boxes .boxOption .price {
     position: relative;
     top: 28px;
-    left: 50px;
+    left: 65px;
 }
 .boxes .boxOption .price .dollarsign {
     font-size: 27pt;
@@ -695,7 +695,7 @@ input.initial {
 }
 .boxes .boxOption .price .dollars {
     position: absolute;
-    left: 17px;
+    left: 20px;
     top: 10px;
     font-size: 60pt;
     line-height: 62px;
@@ -704,7 +704,7 @@ input.initial {
     font-size: 15pt;
     position: absolute;
     top: 14px;
-    left: 62px;
+    left: 65px;
     line-height: 15px;
 }
 .boxes .price .cycle {
@@ -727,7 +727,7 @@ input.initial {
 }
 .boxes .quarterly .price .cents,
 .boxes .quarterly .price .cycle {
-    margin-left: 10px;
+    margin-left: 0;
 }
 
 .boxes .boxOption .service {
