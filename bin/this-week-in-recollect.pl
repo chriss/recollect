@@ -9,7 +9,7 @@ use FindBin;
 $ENV{RECOLLECT_BASE_PATH} = "$FindBin::Bin/..";
 my $n = Recollect::Notifier->new;
 $n->send_email(
-    to => 'luke@recollect.net',
+    to => 'team@recollect.net',
     subject => "This Week in Recollect",
     content_type => 'text/html',
     template => 'twir.html',
