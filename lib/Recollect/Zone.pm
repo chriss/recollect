@@ -280,5 +280,28 @@ sub set_geom_from_tron {
     );
 }
 
+sub subscriber_count {
+    my $self = shift;
+
+    return $self->sql_singlevalue(
+        'SELECT COUNT(DISTINCT(subscription_id)) FROM reminders
+          WHERE zone_id = ?',
+          [$self->id],
+      );
+}
+
+sub paid_subscriber_count {
+    my $self = shift;
+
+    return $self->sql_singlevalue(
+        'SELECT COUNT(DISTINCT(subscription_id))
+           FROM reminders r JOIN subscriptions s ON (r.subscription_id = s.id)
+          WHERE zone_id = ?
+            AND NOT s.free
+          ',
+          [$self->id],
+      );
+}
+
 __PACKAGE__->meta->make_immutable;
 1;

@@ -1,0 +1,34 @@
+[% WRAPPER email/wrapper.html subject="This Week in Recollect" %]
+
+In the past week: <strong>[% subs.size %] new subscriptions, [% sent %] reminders notified, [% icals %] icals served, [% place_interest %] interest from unsupported areas.</strong>
+
+<h1>New Subscriptions</h1>
+[% IF subs.size == 0 %]
+  <i>Sadly, no new subscriptions. :(</i>
+[% ELSE %]
+  <ol>
+    [% FOREACH sub IN subs %]
+      <li>
+        [% IF !sub.free %] (PAID!) [% END %]
+        <strong><a href="mailto:[% sub.user.email %]">[% sub.user.twittername || sub.user.email %]</a></strong> - 
+      [% FOREACH rem IN sub.reminders %]
+        <a href="http://recollect.net/radmin/zone/[% rem.zone.name %]">[% rem.zone.name %]</a> to <code>[% rem.target %]</code>. 
+      [% END %]
+      </li>
+    [% END %]
+  </ol>
+[% END %]
+
+[% IF need_data.size %]
+<h1>Zones Running out of Data Soon</h1>
+<ul>
+[% FOREACH zone IN need_data %]
+  <li>
+    <a href="http://recollect.net/radmin/zone/[% zone.name %]">[% zone.name %]</a>
+    ([% zone.subscriber_count %] subscribers, [% zone.paid_subscriber_count %] paid)
+  </li>
+[% END %]
+</ul>
+[% END %]
+
+[% END %]
