@@ -1,10 +1,10 @@
 #!/usr/bin/env perl
 use strict;
 use warnings;
-use lib 'lib';
+use FindBin;
+use lib "$FindBin::Bin/../lib";
 use Recollect::Subscription;
 use Recollect::Notifier;
-use FindBin;
 
 $ENV{RECOLLECT_BASE_PATH} = "$FindBin::Bin/..";
 my $n = Recollect::Notifier->new;
