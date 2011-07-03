@@ -171,17 +171,26 @@ header {
     left: 0px;
     top: 6px;
 }
-.smallSocialButtons .google-buzz-button {
-    position: absolute;
-    left: 83px;
-    top: 4px;
-    line-height: 22px;
-}
-/*.smallSocialButtons .google-buzz-button span { : 15px }*/
 .smallSocialButtons .twitter-share-button {
     position: absolute;
-    left: 145px;
+    left: 88px;
     top: 6px;
+}
+.smallSocialButtons .plusone {
+    position: absolute;
+    left: 195px;
+    top: 6px;
+    line-height: 22px;
+}
+.bigSocialButtons {
+    padding: 10px 0;
+}
+.bigSocialButtons .twitter-share-button {
+    margin-left: 10px;
+}
+.bigSocialButtons .plusone {
+    margin-left: 15px;
+    vertical-align: top;
 }
 
 #links {
