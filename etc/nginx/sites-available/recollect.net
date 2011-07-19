@@ -11,8 +11,14 @@ server {
 }
 
 server {
+    listen 80;
+    server_name vantrash.ca;
+    rewrite ^.+ http://recollect.net permanent;
+}
+
+server {
     listen   80;
-    server_name  recollect.net *.recollect.net vantrash.ca;
+    server_name  recollect.net *.recollect.net;
 
     access_log /var/log/nginx/recollect-access.log;
     error_log  /var/log/nginx/recollect-error.log;
