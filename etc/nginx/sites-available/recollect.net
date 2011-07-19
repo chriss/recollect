@@ -12,7 +12,7 @@ server {
 
 server {
     listen   80;
-    server_name  recollect.net *.recollect.net;
+    server_name  recollect.net *.recollect.net vantrash.ca;
 
     access_log /var/log/nginx/recollect-access.log;
     error_log  /var/log/nginx/recollect-error.log;
