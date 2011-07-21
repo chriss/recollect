@@ -1,0 +1,16 @@
+[% WRAPPER email/wrapper.html subject="Waste Collection Reminder" delete_url=reminder.delete_url %]
+
+<div><b>Support request from: [% email %]</div><br />
+
+[% FOR field = fields %]
+    <div><b>[% field.key %]:</b> [% field.value %]</div>
+[% END %]
+
+<br />
+
+<b>Question:</b><br/><br/>
+[% question %]
+
+<hr/>
+
+[% END %]

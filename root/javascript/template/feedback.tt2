@@ -1,0 +1,27 @@
+[% BLOCK feedback_tab %]
+    <a href="#" id="feedbackTab" class="bigButtonGreen">Technical Support</a>
+[% END %]
+
+[% BLOCK feedback_dialog %]
+    <form id="feedbackForm">
+        <label class="error" id="feedbackError"></label>
+
+        <label for="feedbackEmail">Your Email:</label>
+        <input id="feedbackEmail" type="text" name="email"/>
+
+        <label for="feedbackQuestion">Your Question:</label>
+        <textarea id="feedbackQuestion" name="question"></textarea>
+
+        <div id="feedbackCaptcha"></div>
+        <label class="error" id="captchaError"></label>
+
+        <input type="submit" class="hiddenButton"/>
+        <a href="#" class="submit bigButtonGreen">Email us</a>
+    </form>
+[% END %]
+
+[% BLOCK feedback_success %]
+    Thanks for your request. We will respond by email as quickly as possible.
+    <div class="clear"></div>
+    <a href="#" class="close bigButtonGreen">Close</a>
+[% END %]

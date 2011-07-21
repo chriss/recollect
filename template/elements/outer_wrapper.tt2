@@ -18,8 +18,10 @@
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
     <link rel="stylesheet" href="/[% version %]/css/style.css"/>
+    <link rel="stylesheet" href="/[% version %]/css/jquery-ui-1.8.7.custom.css"/>
 
     <script type="text/javascript" src="/[% version %]/javascript/libs/modernizr-1.6.min.js"></script>
+    <script type="text/javascript" src="http://www.google.com/recaptcha/api/js/recaptcha_ajax.js"></script>
 
     <!-- recollect stuff -->
     <script type="text/javascript" src="/[% version %]/javascript/compiled-recollect.jgz"></script>
@@ -80,13 +82,5 @@
          end profiling code -->
 
     [% INCLUDE elements/analytics %]
-
-    [% UNLESS nofeedback %]
-    <script type="text/javascript">
-        document.write(unescape("%3Cscript src='" + ((document.location.protocol=="https:")?"https://snapabug.appspot.com":"http://www.snapengage.com") + "/snapabug.js' type='text/javascript'%3E%3C/script%3E"));</script><script type="text/javascript">
-        SnapABug.addButton("66aa9a83-48b2-4cd8-950f-4e844f4ef223","1","20%", true);
-    </script>
-    [% END %]
-    
 </body>
 </html>

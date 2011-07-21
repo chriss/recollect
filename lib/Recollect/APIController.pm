@@ -8,6 +8,8 @@ use Recollect::Area;
 use Recollect::PlaceInterest;
 use Recollect::Trial;
 use Recollect::ICalUsage;
+use Recollect::Captcha;
+use Recollect::Feedback;
 use Plack::Request;
 use Plack::Response;
 use Data::ICal::Entry::Event;
@@ -150,7 +152,9 @@ sub run {
                 when (m{^/areas/$area_rx/zones/$zone_rx/trial}) {
                     return $zone_wrapper->($1, $2, $3, 'trial')
                 }
-
+                when (m{^/feedback$}) {
+                    return $wrapper->('feedback', undef);
+                }
             }
         }
         when ('DELETE') {
@@ -683,6 +687,37 @@ sub zone_by_name {
 }
 
 sub _place_is_ok { defined $_[0] and length $_[0] and length $_[0] < 30 }
+
+sub feedback {
+    my $self = shift;
+    my $resp = Plack::Response->new;
+
+    my $params = eval { decode_json $self->request->raw_body };
+
+    # Verify Captcha
+    my $captcha = Recollect::Captcha->new(
+        challenge => $params->{challenge},
+        response => $params->{response},
+        remoteip => $self->request->env->{"REMOTE_ADDR"},
+    );
+
+    if ($captcha->verify) {
+        my $email = Recollect::Feedback->new(
+            email => $params->{email},
+            question => $params->{question},
+            fields => $params->{fields},
+        );
+        $email->send;
+        $resp->status(200);
+        $resp->body('Success');
+    }
+    else {
+        $resp->status(400);
+        $resp->body('captcha-error');
+    }
+
+    return $resp->finalize;
+}
 
 sub request_place_notification {
     my $self = shift;

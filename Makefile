@@ -30,6 +30,7 @@ RECOLLECT_WIZARD_FILES=\
 	 $(JS_DIR)/libs/jquery.timePicker.min.js \
 	 $(JS_DIR)/libs/jquery-maskedinput-1.2.2.min.js \
 	 $(JS_DIR)/libs/jquery.validate.js \
+	 $(JS_DIR)/libs/jquery.client.js \
 	 $(JS_DIR)/libs/geoxml3.js \
 	 $(JS_DIR)/libs/google.polygon.js \
 	 $(JS_DIR)/libs/history.adapter.jquery.js \
@@ -37,6 +38,7 @@ RECOLLECT_WIZARD_FILES=\
 	 $(JS_DIR)/libs/history.html4.js \
 	 $(JS_DIR)/recollect/base.js \
 	 $(JS_DIR)/recollect/wizard.js \
+	 $(JS_DIR)/recollect/feedback.js \
 	 $(JEMPLATE) \
 
 RECOLLECT_RADMIN=$(JS_DIR)/compiled-recollect-radmin.js

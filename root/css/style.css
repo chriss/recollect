@@ -400,9 +400,6 @@ input.hiddenButton {
     background-color: #f9d7d7;
     border: 1px solid #cd0a0a;
 }
-#wizard label.error {
-    color: #cd0a0a;
-}
 
 .huge {
     border: 1px solid #666;
@@ -919,6 +916,7 @@ a#fdbk_tab {
 }
 
 #wizard label.error {
+    color: #cd0a0a;
     font-size: 90%;
     margin-left: 130px;
     white-space: nowrap;
@@ -988,7 +986,59 @@ a#fdbk_tab {
         progid:DXImageTransform.Microsoft.gradient(startColorstr='#fefeef', endColorstr='#adcaad'); /* gradient */
 }
 
+/* Resets for calendar */
+.calendar .ui-widget-content {
+    background: transparent;
+    border: none;
+}
+.calendar .ui-datepicker {
+    display: block;
+    width: auto;
+}
+.calendar .ui-datepicker th {
+    padding: 0;
+}
+.calendar .ui-corner-all {
+    -moz-border-radius: 0;
+    -webkit-border-radius: 0;
+    border-radius: 0;
+}
+.calendar .ui-widget {
+    font-family: inherit;
+}
+.calendar .ui-widget-header {
+    border: none;
+}
+.calendar .ui-datepicker-year {
+    display: block;
+}
+.calendar .ui-datepicker .ui-datepicker-header {
+    padding: 0;
+    font-weight: normal;
+    background: transparent;
+}
+.calendar .ui-datepicker .ui-datepicker-title {
+    margin: 0;
+    line-height: 10px;
+}
+.calendar .ui-state-disabled,
+.calendar .ui-widget-content .ui-state-disabled {
+    opacity: 1;
+    filter: none;
+}
+.calendar .ui-widget-content .ui-state-default {
+    border: none;
+    background: none;
+    text-align: center;
+}
+.calendar .ui-datepicker-month,
+.calendar .ui-datepicker-year {
+    font-size: 14px;
+}
+/* Done calendar resets */
+
 .calendar .ui-datepicker-title {
+    margin: 0;
     display: block;
     width: 100%;
     text-align: center;
@@ -1016,18 +1066,22 @@ a#fdbk_tab {
     display: block;
 }
 
+.calendar .ui-widget-content .legend1,
 .calendar .legend1 {
     background-color: #f6f9e8;
     color: #5e9f42;
 }
+.calendar .ui-widget-content .legend2,
 .calendar .legend2 {
     background: #f6f9e8 url(../images/legend2.png) repeat;
     color: #5e9f42;
 }
+.calendar .ui-widget-content .legend3,
 .calendar .legend3 {
     background: #f6f9e8 url(../images/legend3.png) repeat;
     color: #5e9f42;
 }
+.calendar .ui-widget-content .legend4,
 .calendar .legend4 {
     background: #f6f9e8 url(../images/legend4.png) repeat;
     color: #5e9f42;
@@ -1313,3 +1367,41 @@ div.time-picker li.selected {
   color: #fff;
 }
 /* end timePicker */
+
+/* Feedback tab */
+#feedbackTab {
+    display: block;
+    position: absolute;
+    right: 0;
+    top: 150px;
+    text-decoration: none;
+
+    font-size: 13pt;
+    color: #fff;
+
+    padding: 4px;
+}
+#feedbackForm textarea,
+#feedbackForm input {
+    width: 310px;
+}
+#feedbackForm textarea {
+    height: 100px;
+    margin-bottom: 10px;
+}
+#feedbackForm label {
+    display: block;
+    margin: 10px 0;
+}
+#feedbackCaptcha {
+    height: 129px
+}
+#feedbackForm label.error {
+    color: #cd0a0a;
+    font-size: 90%;
+}
+#feedbackForm .bigButtonGreen {
+    float: right;
+}
+/* end Feedback tab */
+
