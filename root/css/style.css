@@ -808,6 +808,7 @@ input.initial {
  * Buttons
  */
 
+.buttons .bigButtonActivated,
 .buttons .bigButtonGreen,
 .buttons .bigButtonBlack,
 .buttons .bigButtonGrey,
@@ -815,6 +816,7 @@ input.initial {
     margin-left: 10px;
 }
 
+.bigButtonActivated,
 .bigButtonGreen,
 .bigButtonBlack,
 .bigButtonGrey,
@@ -843,12 +845,14 @@ input.initial {
     background: -webkit-gradient(linear, left top, left bottom, from(#86c655), to(#70a547)); /* for webkit browsers */
     background: -moz-linear-gradient(top,  #86c655,  #70a547); /* for firefox 3.6+ */
 }
+.bigButtonActivated:hover,
 .bigButtonGreen:hover {
     background-color: #7cb74e;  /* for non-css3 browsers */
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#7cb74e', endColorstr='#70a547'); /* for IE */
     background: -webkit-gradient(linear, left top, left bottom, from(#7cb74e), to(#70a547)); /* for webkit browsers */
     background: -moz-linear-gradient(top,  #7cb74e,  #70a547); /* for firefox 3.6+ */
 }
+.bigButtonActivated:active,
 .bigButtonGreen:active {
     background: #70a547;
 }
@@ -889,6 +893,7 @@ input.initial {
     background: #000;
 }
 
+.bigButtonActivated,
 .bigButtonGrey {
     border: 1px solid #aaa;
     /* Gradient */
@@ -1380,6 +1385,14 @@ div.time-picker li.selected {
     color: #fff;
 
     padding: 4px;
+
+    /* Tab look */
+    -webkit-border-top-right-radius: 0;
+    -webkit-border-bottom-right-radius: 0;
+    -moz-border-radius-topright: 0;
+    -moz-border-radius-bottomright: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
 }
 #feedbackForm textarea,
 #feedbackForm input {
@@ -1400,7 +1413,8 @@ div.time-picker li.selected {
     color: #cd0a0a;
     font-size: 90%;
 }
-#feedbackForm .bigButtonGreen {
+#feedbackForm .close,
+#feedbackForm .submit {
     float: right;
 }
 /* end Feedback tab */

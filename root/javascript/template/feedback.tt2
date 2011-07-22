@@ -1,5 +1,5 @@
 [% BLOCK feedback_tab %]
-    <a href="#" id="feedbackTab" class="bigButtonGreen">Technical Support</a>
+    <a href="#" id="feedbackTab" class="bigButtonGreen">Need Help?</a>
 [% END %]
 
 [% BLOCK feedback_dialog %]
