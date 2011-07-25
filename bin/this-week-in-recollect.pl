@@ -21,7 +21,6 @@ $n->send_email(
         place_interest => place_interest(),
     },
 );
-print "Sent\n";
 
 exit;
 
