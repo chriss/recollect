@@ -42,6 +42,10 @@ while (my $row = $csv->getline ($csv_fh)) {
     $utc ||= $UTC;
     $flags = uc $flags;
     $day =~ s{/}{-}g;
+    if ($day =~ m/^(\d{1,2})-(\d{1,2})-(\d{4})$/) {
+        # Ass-u-me it is MM-DD-YYYY
+        $day = sprintf '%4d-%02d-%02d', $3, $1, $2;
+    }
     die "Unknown date format: '$day'" unless $day =~ m/^\d{4}-\d{2}-\d{2}$/;
 
     die "Found zones in $output_file, but could not find $zone_name there"
