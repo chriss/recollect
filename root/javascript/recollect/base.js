@@ -48,9 +48,11 @@ Recollect.prototype = {
         });
 
         // Grab initial state
-        if (!History.getState()) {
-            self.setLocation(location.pathname);
-        }
+        setTimeout(function() {
+            if (!History.getState()) {
+                self.setLocation(location.pathname);
+            }
+        }, 50);
     },
 
     setLocation: function() {
