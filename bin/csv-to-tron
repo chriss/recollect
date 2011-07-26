@@ -11,11 +11,12 @@ use Text::CSV_XS;
 my $Term = Term::ReadLine->new('Tron Creator');
 my $OUT = $Term->OUT || \*STDOUT;
 my $Json = JSON->new->pretty;
-my $UTC = '-0800';
+my $UTC = '0800';
 
 my $output_file = "output.json";
 GetOptions(
     'output=s' => \$output_file,
+    'timezone=s' => \$UTC,
 ) or usage();
 
 my $csv_file = shift || usage();
@@ -48,7 +49,7 @@ while (my $row = $csv->getline ($csv_fh)) {
 
     push @{ $tron->{pickups} }, {
         zone => $zone_name,
-        date => "$day 07:00:00$utc",
+        date => "$day 07:00:00-$utc",
         flags => $flags,
     },
 }
