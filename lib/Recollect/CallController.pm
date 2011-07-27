@@ -159,6 +159,9 @@ EOT
     }
 
     my $extra = $pickup->flags_desc . ' will be picked up.';
+    if (my $message = $req->parameters->{message}) {
+        $extra .= " $message.";
+    }
     return <<EOT;
 <Say voice="woman">
 Hello, this is Recollect, your garbage reminder service.

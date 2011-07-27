@@ -19,11 +19,13 @@ use JSON qw/decode_json/;
 use XML::Simple;
 use Try::Tiny;
 use namespace::clean -except => 'meta';
+use URI::Encode qw/uri_encode/;
 
 with 'Recollect::ControllerBase';
 with 'Recollect::Roles::Recurly';
 with 'Recollect::Roles::SQL';
 with 'Recollect::Roles::Reporter';
+with 'Recollect::Roles::Twilio';
 
 our $API_Version = 1.0;
 
@@ -154,6 +156,9 @@ sub run {
                 }
                 when (m{^/feedback$}) {
                     return $wrapper->('feedback', undef);
+                }
+                when (m{^/test/voice$}) {
+                    return $wrapper->('test_voice', undef);
                 }
             }
         }
@@ -716,6 +721,27 @@ sub feedback {
         $resp->body('captcha-error');
     }
 
+    return $resp->finalize;
+}
+
+sub test_voice {
+    my $self = shift;
+    my $resp = Plack::Response->new;
+
+    my $params = eval { decode_json $self->request->raw_body };
+
+    my $number = $params->{recipient_number};
+    my $message = $params->{message};
+
+    if ($number and $message) {
+        # Which zone?
+        my $url = '/call/notify/test-zone?message='
+                . uri_encode($message, 1);
+        $self->voice_call( $number, $url );
+    }
+
+    $resp->status(200);
+    $resp->body('KTHXBYE');
     return $resp->finalize;
 }
 
