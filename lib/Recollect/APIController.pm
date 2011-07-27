@@ -734,8 +734,8 @@ sub test_voice {
     my $message = $params->{message};
 
     if ($number and $message) {
-        # Which zone?
-        my $url = '/call/notify/test-zone?message='
+        # Hardcoded to Vancouver North Blue; could use a test zone
+        my $url = '/call/notify/vancouver-north-blue?message='
                 . uri_encode($message, 1);
         $self->voice_call( $number, $url );
     }
