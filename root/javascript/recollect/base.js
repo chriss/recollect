@@ -7,52 +7,51 @@ Recollect.prototype = {
     start: function() {
         var self = this;
         History.Adapter.bind(window, 'statechange', function() {
-            var state = History.getState();
-
-            var parts = state.url.replace(
-                new RegExp('.+' + location.host), ''
-            ).split('/');
-
-            var found_url = false;
-
-            $.each(self.pages, function(test, callback) {
-                var test_parts = test.split('/');
-
-                var match = true;
-
-                if (test_parts.length == parts.length) {
-                    var args = {};
-                    for (var i=0; i < parts.length; i++) {
-                        if (test_parts[i].match(/^:(.+)/)) {
-                            args[RegExp.$1] = parts[i];
-                        }
-                        else if (test_parts[i] != parts[i]) {
-                            // Not a match
-                            match = false;
-                            break;
-                        }
-                    }
-
-                    if (match) {
-                        found_url = true;
-                        self.trackPageview(test);
-                        callback.call(self, args);
-                        return false; // early out
-                    }
-                }
-            });
-
-            if (!found_url) {
-                self.setLocation('/');
-            }
+            self.showState(History.getState());
         });
 
         // Grab initial state
-        setTimeout(function() {
-            if (!History.getState()) {
-                self.setLocation(location.pathname);
+        var state = History.getState();
+        self.showState(state);
+    },
+
+    showState: function(state) {
+        var self = this;
+
+        var parts = state.url.replace(/^https?:\/\/[^\/]+/, '').split('/');
+
+        var found_url = false;
+
+        $.each(self.pages, function(test, callback) {
+            var test_parts = test.split('/');
+
+            var match = true;
+
+            if (test_parts.length == parts.length) {
+                var args = {};
+                for (var i=0; i < parts.length; i++) {
+                    if (test_parts[i].match(/^:(.+)/)) {
+                        args[RegExp.$1] = parts[i];
+                    }
+                    else if (test_parts[i] != parts[i]) {
+                        // Not a match
+                        match = false;
+                        break;
+                    }
+                }
+
+                if (match) {
+                    found_url = true;
+                    self.trackPageview(test);
+                    callback.call(self, args);
+                    return false; // early out
+                }
             }
-        }, 50);
+        });
+
+        if (!found_url) {
+            self.setLocation('/');
+        }
     },
 
     setLocation: function() {
