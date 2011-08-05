@@ -13,11 +13,10 @@
     <div id="wizard">
         <noscript>
             <div id="staticLayout" class="white">
-                <a href="/"><img alt="Recollect" class="logo" src="/[% version %]/images/recollect_logo.png"/></a>
-                <div class="staticContentWrapper">
-                    <div class="staticContent">
-                        [% INCLUDE noscript.tt2 %]
-                    </div>
+                <a href="/"><img alt="Recollect" class="logo" src="/[% version %]/images/recollect_logo_small.png"/></a>
+                <div class="staticContent white">
+                <p>
+                    [% INCLUDE noscript.tt2 %]
                 </div>
             </div>
         </noscript>

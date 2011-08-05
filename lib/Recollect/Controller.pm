@@ -6,6 +6,7 @@ use Template;
 use Recollect::CallController;
 use Recollect::Subscription;
 use Recollect::Zone;
+use Recollect::Area;
 use JSON qw/encode_json decode_json/;
 use Email::Valid;
 use Plack::Request;
@@ -82,6 +83,12 @@ sub ui_html {
     $params->{host_port} = $req->uri->host_port;
     $params->{twitter} = $self->config->{twitter_username};
     $params->{analytics_id} = $self->config->{analytics_id};
+
+    my $areas = Recollect::Area->All;
+    $params->{keywords} = [
+        'garbage day', 'garbage reminder', 'recycling day',
+        map { lc($_->name) } @$areas,
+    ];
 
     if (my $ah = $self->area_hostname) {
         $params->{area} = Recollect::Area->By_name($ah);
