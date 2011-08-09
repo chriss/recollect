@@ -387,7 +387,7 @@ $.extend(Recollect.Wizard.prototype, {
         var opts = {
             height: 500,
             opacity: 1,
-            location: self._location,
+            location: self.getLocation(),
             page: 'wizardForm'
         };
         $.extend(opts, args);
@@ -569,6 +569,19 @@ $.extend(Recollect.Wizard.prototype, {
         });
     },
 
+    storeLocation: function(loc) {
+        if (loc) {
+            $.cookie('lat', loc.lat());
+            $.cookie('lng', loc.lng());
+        }
+    },
+
+    getLocation: function() {
+        var lat = $.cookie('lat');
+        var lng = $.cookie('lng');
+        if (lat || lng) return new google.maps.LatLng(lat, lng);
+    },
+
     showZoneAt: function(result) {
         var self = this;
 
@@ -577,7 +590,7 @@ $.extend(Recollect.Wizard.prototype, {
         var locality = self.addressComponent('locality', result);
 
         // Store user's lat, lng
-        self._location = new google.maps.LatLng(loc.lat(), loc.lng());
+        self.storeLocation(loc);
 
         var zone = [ loc.lat(), loc.lng() ].join(',');
         $.ajax({
@@ -703,6 +716,11 @@ $.extend(Recollect.Wizard.prototype, {
                 if (height) {
                     var sideHeight = (rowHeight - height) / 2;
                     $(side).css('margin-top', sideHeight + 'px');
+
+                    // Prevent the margin-top from overlapping 
+                    $(window).resize(function() {
+                        console.log($(window).height(), sideHeight);
+                    });
                 }
             });
         });
@@ -817,11 +835,11 @@ $.extend(Recollect.Wizard.prototype, {
             map: map,
             processStyles: true,
             afterParse: function(docs) {
-                if (!self._location) return;
+                if (!self.getLocation()) return;
                 var placemarks = docs[0].placemarks;
                 $.each(placemarks, function(i, pmark) {
-                    if (polygonContains(pmark.polygon, self._location)) {
-                        self.showPointOnMap(map, self._location);
+                    if (polygonContains(pmark.polygon, self.getLocation())) {
+                        self.showPointOnMap(map, self.getLocation());
                     }
                 });
             }
@@ -834,7 +852,7 @@ $.extend(Recollect.Wizard.prototype, {
         var node = $('#wizard .map').get(0);
         var map = new google.maps.Map(node, {
             zoom: 13,
-            center: self._location,
+            center: self.getLocation(),
             mapTypeId: google.maps.MapTypeId.ROADMAP,
             disableDefaultUI: true
         });
@@ -919,7 +937,7 @@ $.extend(Recollect.Wizard.prototype, {
                 biasViewport: true,
                 callback: function(results) {
                     if (results.length == 1) {
-                        self._location = results[0].geometry.location;
+                        self.storeLocation(results[0].geometry.location);
                         self.addReminder(reminder);
                     }
                     else if (results.length > 1) {
@@ -957,7 +975,7 @@ $.extend(Recollect.Wizard.prototype, {
 
         var data = {
             email: opts.email,
-            location: wizard._location.toUrlValue(),
+            location: wizard.getLocation().toUrlValue(),
             reminders: []
         };
 

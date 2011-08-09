@@ -6,19 +6,18 @@ Recollect  = function() {
 Recollect.prototype = {
     start: function() {
         var self = this;
-        History.Adapter.bind(window, 'statechange', function() {
-            self.showState(History.getState());
-        });
 
         // Grab initial state
-        var state = History.getState();
-        self.showState(state);
+        self.showState();
+        $(window).bind('popstate', function() {
+            self.showState();
+        });
     },
 
-    showState: function(state) {
+    showState: function() {
         var self = this;
 
-        var parts = state.url.replace(/^https?:\/\/[^\/]+/, '').split('/');
+        var parts = location.pathname.split('/');
 
         var found_url = false;
 
@@ -56,7 +55,13 @@ Recollect.prototype = {
 
     setLocation: function() {
         var state = $.makeArray(arguments).join('/');
-        History.pushState(null, null, state);
+        if ($.isFunction(history.pushState)) {
+            history.pushState(null, null, state);
+            this.showState();
+        }
+        else {
+            location = state;
+        }
     },
 
     pages: {},

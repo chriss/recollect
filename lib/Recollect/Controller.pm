@@ -88,12 +88,12 @@ sub ui_html {
 
     # NoScript functionality
     if ($tmpl =~ m{^r/(.+)$}) {
+        undef $tmpl; # Use the default template
         $params->{zone} = Recollect::Zone->By_name($1);
         if ($params->{zone}) {
             $params->{pickups} = eval {
                 $params->{zone}->next_pickup(4);
             } || [];
-            undef $tmpl; # Use the default template
         }
     }
     else {
