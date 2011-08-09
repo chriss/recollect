@@ -25,30 +25,20 @@
             <h1 class="big">Welcome to Recollect</h1>
             <p>The Garbage and Recycling collection reminder service.</p>
             [% IF area %]
-            <p>Please select your zone from the list and click "Go".</p>
-            <p>
-                <form>
-                    <select name="zone">
-                    [% FOR zone = zones %]
-                        <option value="[% zone.name %]">[% zone.title %]</option>
-                    [% END %]
-                    </select>
-                    <input type="submit" value="Go"/>
-                </form>
-            </p>
+            <p>Please select your zone from the list below:</p>
+            <ul class="glinks">
+                [% FOR zone = zones %]
+                    <li><a href="/r/[% zone.name %]">[% zone.title %]</a></li>
+                [% END %]
+            </ul>
             <p>For a better experience, and to create pickup reminders, please <b>enable JavaScript for this site!</b></p>
             [% ELSE %]
-            <p>This site is best viewed with <b>JavaScript enabled.</b> However, if you wish to continue with JavaScript disabled, please select your area from the list and click "Go".</p>
-            <p>
-                <form>
-                    <select name="area">
-                    [% FOR area = areas %]
-                        <option value="[% area.name %]">[% area.name %]</option>
-                    [% END %]
-                    </select>
-                    <input type="submit" value="Go"/>
-                </form>
-            </p>
+            <p>This site is best viewed with <b>JavaScript enabled.</b> However, if you wish to continue with JavaScript disabled, please select your area from the list below:</p>
+            <ul class="glinks">
+                [% FOR area = areas %]
+                    <li><a href="/?area=[% area.name %]">[% area.title %]</a></li>
+                [% END %]
+            </ul>
             [% END %]
         [% END %]
     </div>
