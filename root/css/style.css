@@ -492,16 +492,16 @@ noscript.middle .row .right { top: 85px; left: 380px }
     height: 60px;
 }
 
-#wizard .message {
+.message {
     font-size: 12pt;
     padding: 3px 3px 3px 3px;
 }
 
-#wizard .message p {
+.message p {
     margin: 5px 0;
 }
 
-#wizard .message p.big {
+.message .big {
     font-size: 18pt;
 }
 
@@ -1418,4 +1418,34 @@ div.time-picker li.selected {
     float: right;
 }
 /* end Feedback tab */
+
+/**
+ * noscript
+ */
+
+#noscript {
+    position: absolute;
+    height: 400px;
+    top: 100px;
+    width: 100%;
+    padding: 0;
+    font-size: 14px;
+}
+
+#noscript .logo {
+    position: absolute;
+    left: 100px;
+    top: 50px;
+}
+
+#noscript .content {
+    position: absolute;
+    left: 450px;
+    top: 40px;
+    padding-right: 20px;
+}
+
+#noscript form {
+    margin: 10px 0;
+}
 

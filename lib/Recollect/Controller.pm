@@ -31,7 +31,7 @@ sub run {
     my %func_map = (
         GET => [
             [ qr{^/$}           => \&ui_html ], # Landing page
-            [ qr{^/r(?:/.*)?$}  => \&ui_html ], # HTML5 wizard
+            [ qr{^/(r/.*)?$}    => \&ui_html ], # HTML5 wizard
             [ qr{^/(m/.+)}      => \&ui_html ], # Mobile wizard
             [ qr{^/(.+)\.html$} => \&ui_html ], # Rendered pages
             [ qr{^/([\w-]+)$}   => \&ui_html ], # Same, but make the .html optional
@@ -85,6 +85,29 @@ sub ui_html {
     $params->{analytics_id} = $self->config->{analytics_id};
 
     my $areas = Recollect::Area->All;
+
+    # NoScript functionality
+    if ($tmpl =~ m{^r/(.+)$}) {
+        $params->{zone} = Recollect::Zone->By_name($1);
+        if ($params->{zone}) {
+            $params->{pickups} = eval {
+                $params->{zone}->next_pickup(4);
+            } || [];
+            undef $tmpl; # Use the default template
+        }
+    }
+    else {
+        # Load areas and zones for NoScript
+        $params->{areas} = $areas;
+        if (my $zone_name = $params->{zone}) {
+            return $self->redirect("/r/$zone_name");
+        }
+        elsif (my $area_name = $params->{area}) {
+            my $area = Recollect::Area->By_name($area_name);
+            $params->{zones} = Recollect::Zone->By_area_id($area->id);
+        }
+    }
+
     $params->{keywords} = [
         'garbage day', 'garbage reminder', 'recycling day',
         map { lc($_->name) } @$areas,

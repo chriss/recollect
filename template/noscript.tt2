@@ -1,16 +1,55 @@
-<h1>We're sorry, but JavaScript is required in order to use ReCollect.</h1>
+<style>
+    #background img { width: 100% }
+</style>
 
-<p><strong><em>Please enable in your web browser's settings and then refresh this page.</em></strong></p>
- 
-<p>More information about the services offered by ReCollect can be found in our <a href="/faq">Recently Asked Questions</a>
-
-<h2>About Recollect</h2>
-
-<p>Recollect - a reminder service for citizens - has <strong>a single goal</strong>:</p>
-
-    <p>To help make citizens lives just a little bit easier by providing them customized reminders for services they use to the device of their choice, at the time of their choice.</p>
-<p>
-Let's face it, we are all too busy being parents, holding down jobs or enjoying the limited free time we have to remember things like garbage day or little league schedules. Our job is to make your life easier by finding ways to get that reminder  neurons you'd waste trying to remember these small details. If you aren't trying to remember to take out the garbage, hopefully it means you can spend a little more time thinking about your family, your work or whatever your passion may be. Ultimately, we believe that city services should be built around your life and we are trying to take a small step to bring that a little closer to reality. 
-</p>
-
-<a href="/about">Read more about Recollect.</a>
+<div id="noscript" class="white">
+    <a href="/"><img alt="Recollect" class="logo" src="/[% version %]/images/recollect_logo_small.png"/></a>
+    <div class="content message">
+        [% IF zone %]
+            <h1 class="big">Garbage Day for [% zone.title %]</h1>
+            [% IF pickups.size %]
+                <p>Your next pickup day is [% pickups.0.pretty_day %] - [% pickups.0.flags_desc %] will be picked up.</p><br/>
+                [% IF pickups.size > 1 %]
+                    <p>After that, your pickup days are:</p>
+                    [% last_pickup = pickups.size - 1 %]
+                    [% FOR i = [ 1 .. last_pickup ] %]
+                        <p>[% pickups.$i.pretty_day %] ([% pickups.$i.flags_desc %]).</p>
+                    [% END %]
+                [% END %]
+            [% ELSE %]
+                <p>Sorry, this zone has no data</p>
+            [% END %]
+            <br/>
+            <p>For a better experience, and to create pickup reminders, please <b>enable JavaScript for this site!</b></p>
+        [% ELSE %]
+            <h1 class="big">Welcome to Recollect</h1>
+            <p>The Garbage and Recycling collection reminder service.</p>
+            [% IF area %]
+            <p>Please select your zone from the list and click "Go".</p>
+            <p>
+                <form>
+                    <select name="zone">
+                    [% FOR zone = zones %]
+                        <option value="[% zone.name %]">[% zone.title %]</option>
+                    [% END %]
+                    </select>
+                    <input type="submit" value="Go"/>
+                </form>
+            </p>
+            <p>For a better experience, and to create pickup reminders, please <b>enable JavaScript for this site!</b></p>
+            [% ELSE %]
+            <p>This site is best viewed with <b>JavaScript enabled.</b> However, if you wish to continue with JavaScript disabled, please select your area from the list and click "Go".</p>
+            <p>
+                <form>
+                    <select name="area">
+                    [% FOR area = areas %]
+                        <option value="[% area.name %]">[% area.name %]</option>
+                    [% END %]
+                    </select>
+                    <input type="submit" value="Go"/>
+                </form>
+            </p>
+            [% END %]
+        [% END %]
+    </div>
+</div>

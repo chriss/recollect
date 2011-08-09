@@ -10,17 +10,9 @@
     [% END %]
 
 
-    <div id="wizard">
-        <noscript>
-            <div id="staticLayout" class="white">
-                <a href="/"><img alt="Recollect" class="logo" src="/[% version %]/images/recollect_logo_small.png"/></a>
-                <div class="staticContent white">
-                <p>
-                    [% INCLUDE noscript.tt2 %]
-                </div>
-            </div>
-        </noscript>
-    </div>
+    <div id="wizard"></div>
+
+    <noscript>[% INCLUDE noscript.tt2 %]</noscript>
 
     <script>
         var wizard = new Recollect.Wizard({ version: "[% version %]" });
