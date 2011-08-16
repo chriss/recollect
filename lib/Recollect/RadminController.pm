@@ -36,6 +36,7 @@ sub run {
             [ qr{^/data/recent_subscriptions$} => \&recent_subs ],
             [ qr{^/data/object_stats$} => \&object_stats ],
             [ qr{^/data/needs_pickups$} => \&needs_pickups ],
+            [ qr{^/data/place_interest$} => \&place_interest ],
         ],
     );
     
@@ -177,6 +178,28 @@ EOT
         map { Recollect::Zone->By_id($_->{id})->to_hash(minimal => 1) }
         @{ $sth->fetchall_arrayref({}) }
     ]);
+}
+
+sub place_interest {
+    my $self = shift;
+    my $since = $self->request->parameters->{since} || '2011-01-01';
+    unless ($since =~ m/^\d{4}-\d\d-\d\d$/) {
+        return $self->bad_request("Parameter since should be in format YYYY-MM-DD");
+    }
+
+    my $sth = $self->run_sql(<<EOT, [$since]);
+SELECT at, ST_AsText(point) AS point FROM place_interest pi
+    WHERE at > ?::timestamptz
+      AND NOT EXISTS (
+          SELECT 1 from zones where ST_Contains(geom, pi.point)
+      )
+EOT
+    my @points;
+    for my $p (@{ $sth->fetchall_arrayref({}) }) {
+        next unless $p->{point} =~ m/^POINT\(([-\d.]+) ([-\d.]+)\)$/;
+        push @points, { lat => $1, lon => $2, at => $p->{at} };
+    }
+    return $self->process_json( \@points );
 }
 
 __PACKAGE__->meta->make_immutable;
