@@ -30,6 +30,12 @@
         width="300px"
         height="300px"
     %]
+    [% INCLUDE widget
+        id="interestMap"
+        title="Interest Map"
+        width="500px"
+        height="300px"
+    %]
 [% END %]
 
 [% BLOCK widget %]
@@ -56,6 +62,10 @@
             </tr>
         [% END %]
     </table>
+[% END %]
+
+[% BLOCK interest_map %]
+    <div class="map" style="height:300px"></div>
 [% END %]
 
 [% BLOCK listTable %]
