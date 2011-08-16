@@ -54,6 +54,9 @@ RECOLLECT_RADMIN_FILES=\
 	 $(JS_DIR)/recollect/radmin.js \
 	 $(JEMPLATE) \
 
+RECOLLECT_CSS=root/css/recollect-compiled.css
+RECOLLECT_SASS=root/css/style.sass
+
 CRONJOB=$(PRIVATE)/etc/cron.d/recollect
 PSGI=etc/production.psgi
 
@@ -65,6 +68,7 @@ BUILT_JS=\
     $(RECOLLECT) $(RECOLLECT_GZ) $(RECOLLECT_MINIFIED) \
     $(RECOLLECT_WIZARD) $(RECOLLECT_WIZARD_GZ) $(RECOLLECT_WIZARD_MINIFIED) \
     $(RECOLLECT_RADMIN) $(RECOLLECT_RADMIN_GZ) $(RECOLLECT_RADMIN_MINIFIED) \
+    $(RECOLLECT_CSS) \
 
 all: javascript root/make-time
 
@@ -104,6 +108,9 @@ $(RECOLLECT_RADMIN): $(RECOLLECT_RADMIN_FILES) Makefile
 	for js in $(RECOLLECT_RADMIN_FILES); do \
 	    (echo "// BEGIN $$js"; cat $$js; echo ';' | perl -pe 's/\r//g') >> $@; \
 	done
+
+$(RECOLLECT_CSS): $(RECOLLECT_SASS) Makefile root/css/*.sass
+	/var/lib/gems/1.8/bin/sass -t compressed $< $@
 
 -mini.js.jgz:
 	gzip -c $< > $@

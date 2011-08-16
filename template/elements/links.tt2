@@ -1,9 +1,0 @@
-<div class="links">
-    <a title="Recollect Home" href="/" class="homeLink">Home</a>&middot;
-    <a title="Frequently Asked Questions" href="/faq">Frequently Asked Questions</a>&middot;
-    <a title="About Us" href="/about">About Us</a>&middot;
-    <a title="Parner" href="/partner">Partner</a>&middot;
-    <a title="Tell a friend" href="/r/tell-a-friend" class="tell-a-friend">Tell a Friend</a>&middot;
-    <a title="Copyright" href="/copyright">&copy;2011</a>
-    [% IF is_admin %]<a href="/radmin">RADmin</a>[% END %]
-</div>

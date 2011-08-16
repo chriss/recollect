@@ -1,5 +1,5 @@
 [% BLOCK feedback_tab %]
-    <a href="#" id="feedbackTab" class="bigButtonGreen">Need Help?</a>
+    <a href="#" id="feedbackTab" class="button green">Need Help?</a>
 [% END %]
 
 [% BLOCK feedback_dialog %]
@@ -16,12 +16,12 @@
         <label class="error" id="captchaError"></label>
 
         <input type="submit" class="hiddenButton"/>
-        <a href="#" class="submit bigButtonGreen">Email us</a>
+        <a href="#" class="submit button green">Email us</a>
     </form>
 [% END %]
 
 [% BLOCK feedback_success %]
     Thanks for your request. We will respond by email as quickly as possible.
     <div class="clear"></div>
-    <a href="#" class="close bigButtonGreen">Close</a>
+    <a href="#" class="close button green">Close</a>
 [% END %]

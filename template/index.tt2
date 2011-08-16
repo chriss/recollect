@@ -1,4 +1,4 @@
-[% WRAPPER elements/outer_wrapper.tt2
+[% WRAPPER wrapper.tt2
     no_track_pageview=1
     javascript=[
         "http://maps.google.com/maps/api/js?sensor=true",
@@ -10,7 +10,7 @@
     [% END %]
 
 
-    <div id="wizard"></div>
+    <div class="white" id="wizard"></div>
 
     <noscript>[% INCLUDE noscript.tt2 %]</noscript>
 

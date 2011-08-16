@@ -9,8 +9,12 @@ Recollect.prototype = {
 
         // Grab initial state
         self.showState();
+        var current = location.pathname;
         $(window).bind('popstate', function() {
-            self.showState();
+            if (current != location.pathname) {
+                self.showState();
+                current = location.pathname;
+            }
         });
     },
 

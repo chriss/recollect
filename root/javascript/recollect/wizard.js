@@ -28,8 +28,6 @@ $.extend(Recollect.Wizard.prototype, {
     start: function() {
         var self = this;
 
-        $('#wizard').html(Jemplate.process('wizard'));
-
         $('.homeLink').click(function() {
             self.setLocation('/');
             return false;
@@ -44,21 +42,6 @@ $.extend(Recollect.Wizard.prototype, {
 
     pages: {
         '/': function() {
-            var self = this;
-
-            var opts = {
-                opacity: 0.8,
-                page: 'wizardWelcome'
-            };
-            self.show(opts, function() {
-                $('#start').click(function(){
-                    self.setLocation('/r/start');
-                    return false;
-                });
-            });
-        },
-
-        '/r/start': function() {
             var self = this;
 
             var opts = {
@@ -614,39 +597,48 @@ $.extend(Recollect.Wizard.prototype, {
         });
     },
 
-    changeHeight: function(height, callback) {
+    wizardTop: function(height) {
+        var header = $('header').height();
+        var topOffset = $(window).height() / 2 - height / 2 + header / 2;
+        if (topOffset < header) topOffset = header;
+        return topOffset + 'px';
+    },
+
+    changeHeight: function(height, callback, immediate) {
+        var self = this;
         var props = {
             height: height + 'px',
-            marginTop: (-height/2 + 15) + 'px'
+            top: self.wizardTop(height)
         };
-        var once = false;
-        $('#smallLayout').animate(props, 'slow', 'swing', function() {
-            if (once) return;
-            once = true;
-            callback();
+
+        if (immediate) {
+            $('#wizard').css(props);
+        }
+        else {
+            var once = false;
+            $('#wizard').animate(props, 'slow', 'swing', function() {
+                if (once) return;
+                once = true;
+                callback();
+            });
+        }
+
+        $(window).unbind('resize').resize(function() {
+            $('#wizard').css('top', self.wizardTop(height));
         });
     },
 
     changePage: function($newPage, callback) {
         var self = this;
-        $newPage
-            .css('left', $(window).width()) // render offscreen
-            .appendTo('#smallLayout');
-
-        self.adjustHeight();
-
-        var opts = {};
 
         // animate out
         var $old = self.$currentPage;
-        $old.animate({ left: - $(window).width() }, 'slow', function(){
+        $old.fadeOut(function() {
             $old.remove();
-        });
-
-        // animate in
-        $newPage.animate({ left: 0 }, 'slow', function() {
-            self.$currentPage = $newPage;
-            callback();
+            $newPage.appendTo('#wizard').fadeIn(function() {
+                self.$currentPage = $newPage;
+                callback();
+            });
         });
     },
 
@@ -676,65 +668,19 @@ $.extend(Recollect.Wizard.prototype, {
             if (next) self.show(next[0], next[1]);
         }
 
-        var new_height = self.determineHeights($newPage);
+        var new_height = $newPage.css('height');
+        if (new_height) new_height = new_height.replace(/px/,'');
 
         if (self.$currentPage) {
-            if (new_height > self.$currentPage.height()) {
-                // if the new page is taller, adjust height first
-                self.changeHeight(new_height, function() {
-                    self.changePage($newPage, doneShow);
-                });
-            }
-            else {
-                // Otherwise, change the height after the current page is gone
-                self.changePage($newPage, function() {
-                    self.changeHeight(new_height, doneShow);
-                });
-            }
+            self.changePage($newPage, function() {
+                self.changeHeight(new_height, doneShow);
+            });
         }
         else {
-            self.changeHeight(new_height, function() {
-                // first time
-                self.$currentPage = $newPage.appendTo('#smallLayout');
-                self.adjustHeight();
-                doneShow();
-            });
+            self.changeHeight(new_height, doneShow, true);
+            self.$currentPage = $newPage.appendTo('#wizard');
+            doneShow();
         }
-    },
-
-    determineHeights: function($newPage) {
-        // Figure out heights
-        var new_height = 0;
-        $.each($newPage.find('.row'), function(_, row) {
-            var rowHeight = Number($(row).attr('height')) || 200;
-            $(row).css('height', rowHeight + 'px');
-            new_height += rowHeight;
-
-            // Now offset left/right based on their heights
-            $(row).find('.left, .right, .center').each(function(_, side) {
-                var height = Number($(side).attr('height'));
-                if (height) {
-                    var sideHeight = (rowHeight - height) / 2;
-                    $(side).css('margin-top', sideHeight + 'px');
-
-                    // Prevent the margin-top from overlapping 
-                    $(window).resize(function() {
-                        console.log($(window).height(), sideHeight);
-                    });
-                }
-            });
-        });
-        $newPage.css('height', new_height + 'px');
-        return new_height;
-    },
-
-    adjustHeight: function() {
-        var self = this;
-
-        // position middle:
-        $('#wizard .middle').each(function(i, node) {
-            $(node).css({ marginTop: (0 - $(node).height() / 2) + 'px' });
-        });
     },
 
     getZone: function(name, callback) {

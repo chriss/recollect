@@ -1,0 +1,288 @@
+@import reset.sass
+@import text.sass
+@import 960.sass
+@import 960_24_col.sass
+@import jquery-ui-1.8.7.custom.sass
+
+/* Primary Styles
+ * Author: Kevin Jones
+
+ /**
+  * Mixins
+
+@mixin box-shadow($x, $y, $w, $color, $dir)
+  -moz-box-shadow: #{$x}px #{$y}px #{$w}px $color
+  -webkit-box-shadow: #{$x}px #{$y}px #{$w}px $color
+  box-shadow: #{$x}px #{$y}px #{$w}px $color
+  -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=#{w}, Direction=#{dir}, Color='#{color}')"
+  filter: progid:DXImageTransform.Microsoft.Shadow(Strength=$w, Direction=$dir, Color=$color)
+
+@mixin gradient($from, $to)
+  background-color: $from
+  background: -webkit-gradient(linear, left top, left bottom, from($from), to($to))
+  background: -moz-linear-gradient(top,  $from,  $to)
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=$from, endColorstr=$to)
+
+@mixin box-shadow-and-gradient($x, $y, $w, $color, $dir, $from, $to)
+  @include box-shadow($x, $y, $w, $color, $dir)
+  @include gradient($from, $to)
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=$from, endColorstr=$to) progid:DXImageTransform.Microsoft.Shadow(Strength=$w, Direction=$dir, Color=$color)
+
+/**
+ * Styles
+
+body
+  color: #444
+
+a, a:visited
+  color: #508527
+  &:hover
+    color: #86C655
+
+h1, h2, h3, h4, h5, h6
+  margin-bottom: 0
+  font-weight: normal
+  
+h1
+  font-size: 36px
+
+h3
+  font-size: 32px
+
+h4
+  font-size: 28px
+
+h5
+  font-size: 24px
+
+h6
+  font-size: 20px
+
+@for $i from 1 through 50
+  .vpad#{$i}
+    padding-top: #{$i}px
+    padding-bottom: #{$i}px
+
+  .hpad#{$i}
+    padding-left: #{$i}px
+    padding-right: #{$i}px
+
+.centered
+  text-align: center
+
+.small
+  font-size: 12px
+
+.hiddenButton
+  height: 0
+  width: 0
+  opacity: 0
+  filter: alpha(opacity = 0)
+
+#background
+  width: 100%
+  overflow: hidden
+  position: fixed
+  top: 0
+  left: 0
+  z-index: -2
+
+.white
+  background-image: url(../images/transparent_white.png)
+  /* rounded corners
+  -webkit-border-radius: 5px
+  -moz-border-radius: 5px
+  border-radius: 5px
+
+/**
+ * Header
+
+header
+  font-size: 13px
+  height: 35px
+  a
+    color: #000
+    margin: 0 5px 0 0
+
+/**
+ * Buttons
+.button
+  white-space: nowrap
+  float: left
+  display: block
+  text-decoration: none
+  position: relative
+  color: #fff !important
+  margin: 3px 0
+  padding: 10px 30px
+  font-size: 18px
+  -webkit-border-radius: 8px
+  -moz-border-radius: 8px
+  border-radius: 8px
+
+  // Colors
+  &.green
+    border: 1px solid #70a547
+    @include gradient(#86c655, #70a547)
+  &.green:hover
+    @include gradient(#7cb74e, #70a547)
+  &.green:active
+    background: #70a547
+
+  &.orange
+    border: 1px solid #f65735
+    @include gradient(#f78964, #f65735)
+  &.orange:hover
+    @include gradient(#f66f4c, #f65735)
+  &.orange:active
+    background: #f65735
+    
+  &.black
+    border: 1px solid #000
+    @include gradient(#5b5b5b, #000)
+  &.black:hover
+    @include gradient(#2b2b2b, #000)
+  &.black:active
+    background: #000
+
+/**
+ * Wizard
+
+#wizard
+  width: 100%
+  position: absolute
+  font-size: 16px
+  input
+    border: 1px solid #666
+    font-size: 18pt
+    padding: 8px
+    width: 240px
+    margin: 3px
+  .calendar
+    @import calendar.sass
+  .map
+    height: 220px
+    width: 100%
+
+  // Sponsor message
+  .cityPromo
+    border: 1px solid #D3D3D3
+    background: #fff
+    width: 300px
+    height: 325px
+    opacity: .8
+    filter: alpha(opacity = 80)
+    .cityImageTitle
+      font-size: 8pt
+      font-weight: bold
+      padding: 3px 0 0 3px
+    .cityImage
+      padding: 3px
+    img
+      border: 1px solid #D3D3D3
+      width: 290px
+      height: 330px
+    .yourAd
+      display: block
+      padding: 50px 0
+      text-align: center
+  .confirm
+    margin-left: 50px
+
+
+// Social Buttons
+.social
+  position: relative
+  height: 25px
+  .facebook_like
+    position: absolute
+    left: 0px
+    top: 6px
+  .twitter-share-button
+    position: absolute
+    left: 88px
+    top: 6px
+  .plusone
+    position: absolute
+    left: 195px
+    top: 6px
+    line-height: 22px
+
+// Feedback
+
+#feedbackTab
+  display: block
+  position: absolute
+  right: 0
+  top: 150px
+  text-decoration: none
+  font-size: 13pt
+  color: #fff
+  padding: 4px
+  /* Tab look
+  -webkit-border-top-right-radius: 0
+  -webkit-border-bottom-right-radius: 0
+  -moz-border-radius-topright: 0
+  -moz-border-radius-bottomright: 0
+  border-top-right-radius: 0
+  border-bottom-right-radius: 0
+
+#feedbackForm
+  textarea, input
+    width: 310px
+  textarea
+    height: 100px
+    margin-bottom: 10px
+  label
+    display: block
+    margin: 10px 0
+
+#feedbackCaptcha
+  height: 129px
+
+#feedbackForm
+  label.error
+    color: #cd0a0a
+    font-size: 90%
+  .close, .submit
+    float: right
+
+.box
+  height: 225px
+  margin: 10px
+  padding: 10px
+  background-color: #fff
+  border: 1px solid #D3D3D3
+  border-radius: 10px
+  @include box-shadow-and-gradient(3, 3, 4, #8e9884, 135, #fefeef, #adcaad)
+  font-size: 14px
+  position: relative
+  .choose
+    position: absolute
+    left: 80px
+    bottom: 10px
+  &.half
+    margin-top: 70px
+    height: 165px
+  .price
+    position: relative
+    top: 28px
+    left: 65px
+    .dollarsign
+      font-size: 27pt
+      position: absolute
+      left: 0
+      top: 14px
+      line-height: 30px
+    .dollars
+      position: absolute
+      left: 20px
+      top: 10px
+      font-size: 60pt
+      line-height: 62px
+    .cents
+      font-size: 15pt
+      position: absolute
+      top: 14px
+      left: 65px
+      line-height: 15px

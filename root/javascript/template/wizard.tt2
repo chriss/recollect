@@ -1,8 +1,3 @@
-[% BLOCK wizard %]
-    <div id="smallLayout" class="white">
-    </div>
-[% END %]
-
 [% BLOCK logo %]
     <a class="homeLink" href="/"><img alt="Recollect" class="logo" src="/[% version %]/images/recollect_logo_small.png"/></a>
 [% END %]
@@ -14,52 +9,30 @@
 </div>
 [% END %]
 
-[% BLOCK wizardWelcome %]
-<div class="middle">
-    <div class="row landingPage" height="250">
-        <div class="left">
-            [% INCLUDE logo %]
-        </div>
-        <div class="right" height="200">
-            <div class="message">
-                <p class="big">Welcome to Recollect</p>
-                <p>The Garbage and Recycling collection reminder service.</p>
-            </div>
-            <div class="message">
-                <p>Ever forget to take out the garbage? Stuck with overflowing bins?</p>
-                <p>We have your city's garbage schedule on file and can send you a reminder email, text message, phone call or tweet at the time of your choosing. Never forget to take out the trash again!</p>
-            </div>
-            <a id="start" class="next bigButtonGreen" href="#">Click here to get started!</a>
-            <div class="clear"></div>
-            <div class="status"></div>
-        </div>
-    </div>
-</div>
-[% END %]
-
 [% BLOCK wizardAddress %]
-<div class="middle">
-    <div class="row centered" height="250">
-        <div class="left" height="100">
-            [% INCLUDE logo %]
-        </div>
-        <div class="right" height="150">
-            <div class="title">Find out your collection zone.</div>
-            <div class="message">
-                <p>Please type your home address or postal code.<br />
-                <em>e.g. 454 W 12 Ave, Vancouver, BC</em></p>
+<div class="container_24 vpad10" style="height: 250px">
+    <div class="push_2 grid_8 vpad50">
+        [% INCLUDE logo %]
+    </div>
+    <div class="push_2 grid_12 vpad30">
+        <h4>Find out your collection zone.</h4>
+
+        <p>Please type your home address or postal code.<br />
+        <em>e.g. 454 W 12 Ave, Vancouver, BC</em></p>
+
+        <form>
+            <div class="alpha grid_8">
+                <input class="address" value=""/>
             </div>
-            <div class="addressForm">
-                <form>
-                    <input class="address huge initial floatleft" value=""/>
-                    <a id="search" class="bigButtonGreen" href="#">Search</a>
-                    <input type="submit" class="hiddenButton"/>
-                </form>
+            <div class="omega grid_4">
+                <a id="search" class="button green" href="#">Search</a>
+                <input type="submit" class="hiddenButton"/>
             </div>
             <div class="clear"></div>
-            <div class="status"></div>
-        </div>
+        </form>
     </div>
+    <div class="clear"></div>
+    <div class="status"></div>
 </div>
 [% END %]
 
@@ -107,48 +80,43 @@
 [% END %]
 
 [% BLOCK wizardZone %]
-<div class="middle">
-    <div class="row zonePage" height="485">
-        <div class="left" height="450">
-            [% INCLUDE logo %]
-            <div class="cityPromo">
-                <div class="cityImageTitle">A word from our sponsors:</div>
-                <div class="cityImage">
-                    [% IF name.match('^vancouver-') %]
-                    <a href="/adclick/Vancouver" target="_new" alt="Don't trash your food!">
-                        <img alt="City Ad" src="/[% version %]/images/recollect-ad-no-plastic-borderless.jpg"/>
-                    </a>
-                    [% ELSE %]
-                    <a href="/partner" class="yourAd">Place your ad here!</a>
-                    [% END %]
-                </div>
-            </div>
+<div class="container_24 vpad10" style="height:485px">
+    <div class="grid_8 vpad10">[% INCLUDE logo %]</div>
+    <div class="grid_16">
+        <h1>[% title %]</h1>
+        <h2>Next pickup day: [% next %]</h2>
+    </div>
+
+    <div class="clear vpad10"></div>
+
+    <div class="grid_8 cityPromo">
+        <div class="cityImageTitle">A word from our sponsors:</div>
+        <div class="cityImage">
+            [% IF name.match('^vancouver-') %]
+            <a href="/adclick/Vancouver" target="_new" alt="Don't trash your food!">
+                <img alt="City Ad" src="/[% version %]/images/recollect-ad-no-plastic-borderless.jpg"/>
+            </a>
+            [% ELSE %]
+            <a href="/partner" class="yourAd">Place your ad here!</a>
+            [% END %]
         </div>
+    </div>
 
-        <div class="right" height="450">
-            <div class="zoneName">
-                [% title %]
-            </div>
-            <div class="nextPickup">
-                Next pickup day: [% next %]
-            </div>
+    <div class="grid_8">
+        <div class="hpad50">
+            <div class="calendar"></div>
+        </div>
+    </div>
 
-            <div class="signup">
-                <div class="map"></div>
-                <p>
-                    <strong>If this is your zone …</strong>
-                </p>
-                <a id="subscribe" class="confirm bigButtonOrange" href="#">Create a reminder!</a>
-                <div class="clear"></div>
-                <p class="tiny">
-                    (<a class="wrongZone" href="#">Not your zone?</a>)
-                </p>
+    <div class="grid_8 centered">
+        <div class="map"></div>
+        <div class="vpad10">
+            <strong>If this is your zone …</strong>
+            <a id="subscribe" class="confirm button orange" href="#">Create a reminder!</a>
+            <div class="clear"></div>
+            <div class="small">
+                (<a class="wrongZone" href="#">Not your zone?</a>)
             </div>
-
-            <div class="calendarSection">
-                <div class="calendar"></div>
-            </div>
-
         </div>
     </div>
 </div>
@@ -175,168 +143,157 @@
 [% END %]
 
 [% BLOCK wizardSubscribe %]
-<div class="middle">
-    <!-- first row -->
-    <div class="row centered top" height="135">
-        <div class="left" height="75">
-            [% INCLUDE logo %]
-        </div>
-        <div class="right" height="75">
-            <div class="title">How should we notify you?</div>
-            <div class="description">
-                What's the best way to reach you? You may sign for several reminders if you'd like!</div>
+<div class="container_24 vpad10" style="height:485px">
+    <div class="grid_8 vpad10">[% INCLUDE logo %]</div>
+    <div class="grid_16 vpad20">
+        <h5>How should we notify you?</h5>
+        <div>What's the best way to reach you? You may sign for several reminders if you'd like!</div>
+    </div>
+
+    <div class="clear"></div>
+
+    <div class="grid_8">
+        <div class="box">
+            <h5>Text Message</h5>
+            <div class="vpad10">
+                We'll send you a text message to your mobile phone!
+            </div>
+            <a class="button black choose chooseText" href="#">Choose</a>
         </div>
     </div>
 
-    <div class="boxes row" height="350">
-        <div class="text boxOption">
-            <div class="inside">
-                <div class="boxTitle">Text Message</div>
-                <div class="description">
-                    We'll send you a text message to your mobile phone!
-                </div>
-                <a class="bigButtonBlack choose chooseText" href="#">Choose</a>
+    <div class="grid_8">
+        <div class="box">
+            <h5>Phone Call</h5>
+            <div class="vpad10">
+                We'll call your mobile or home phone and give you a brief message!
             </div>
+            <a class="button black choose chooseVoice" href="#">Choose</a>
         </div>
-
-        <div class="twitter boxOption">
-            <div class="inside">
-                <div class="boxTitle">Phone Call</div>
-                <div class="description">
-                    We'll call your mobile or home phone and give you a brief message!
-                </div>
-                <a class="bigButtonBlack choose chooseVoice" href="#">Choose</a>
-            </div>
-        </div>
-
-        <div class="free boxOption">
-            <div class="inside">
-                <div class="boxTitle">Online Reminders</div>
-                <div class="description">
-                    We can send you an email or tweet, or you can subscribe to your zone's calendar feed.
-                </div>
-                <a class="bigButtonBlack choose chooseFree" href="#">Choose</a>
-            </div>
-        </div>
-
-        <div class="clear"></div>
-        <a href="#" class="back">Back</a>
     </div>
+
+    <div class="grid_8">
+        <div class="box">
+            <h5>Online Reminders</h5>
+            <div class="vpad10">
+                We can send you an email or tweet, or you can subscribe to your zone's calendar feed.
+            </div>
+            <a class="button black choose chooseFree" href="#">Choose</a>
+        </div>
+    </div>
+
+    <div class="clear"></div>
+
+    <a href="#" class="back">Back</a>
 </div>
 [% END %]
 
 [% BLOCK wizardFree %]
-<div class="middle">
-    <!-- first row -->
-    <div class="row centered top" height="135">
-        <div class="left" height="75">
-            [% INCLUDE logo %]
-        </div>
-        <div class="right" height="100">
-            <div class="title">Choose an Internet Reminder</div>
-            <div class="description">For zone [% title %].</div>
+<div class="container_24 vpad10" style="height:485px">
+    <div class="grid_8 vpad10">[% INCLUDE logo %]</div>
+    <div class="grid_16 vpad20">
+        <h5>Choose an Internet Reminder</h5>
+        <div>For zone [% title %].</div>
+    </div>
+
+    <div class="clear"></div>
+
+    <div class="grid_8">
+        <div class="text box">
+            <h5>E-Mail</h5>
+            <div class="vpad10">
+                Send a weekly E-Mail reminding me to take out my Garbage, Recycling or Yard trimmings and kitchen waste.
+            </div>
+            <a class="button black choose chooseEmail" href="#">Email me!</a>
         </div>
     </div>
 
-    <div class="boxes row" height="350">
-        <div class="email boxOption">
-            <div class="inside">
-                <div class="boxTitle">E-Mail</div>
-                <div class="description">
-                    Send a weekly E-Mail reminding me to take out my Garbage, Recycling or Yard trimmings and kitchen waste.
-                </div>
-                <a class="bigButtonBlack choose chooseEmail" href="#">Email me!</a>
+    <div class="grid_8">
+        <div class="twitter box">
+            <h5><img alt="Twitter" src="/[% version %]/images/twitter_logo.png"/></h5>
+            <div class="vpad10">
+                Send a weekly direct message to your twitter account. Please note that you will need to start following @<a target="_new" href="http://twitter.com/recollectnet">recollectnet</a>.
             </div>
+            <a class="button black choose chooseTwitter" href="#">Choose</a>
         </div>
+    </div>
 
-        <div class="twitter boxOption">
-            <div class="inside">
-                <div class="boxTitle">
-                    <img alt="Twitter" src="/[% version %]/images/twitter_logo.png"/>
-                </div>
-                <div class="description">
-                    Send a weekly direct message to your twitter account. Please note that you will need to start following @<a target="_new" href="http://twitter.com/recollectnet">recollectnet</a>.
-                </div>
-                <a class="bigButtonBlack choose chooseTwitter" href="#">Tweet me!</a>
-            </div>
-        </div>
-
-        <div class="boxOption">
-            <div class="inside">
-                <div class="boxTitle">Add to Calendar</div>
-                <div class="description">
-                    Click one of the following links to add your zone's schedule to Google Calendar, iCal, Microsoft Outlook or another calendar application.
-                    <div class="feeds">
-                    [% FOR feed = feeds %]
-                        <div class="feed">
-                            <img  alt="[% feed.name %]" src="/[% version %]/images/feeds/[% feed.icon %]">
-                            <a id="[% feed.id %]" href="[% feed.url %]" target="_blank">
-                                [% feed.name %]
-                            </a>
-                        </div>
-                    [% END %]
+    <div class="grid_8">
+        <div class="free box">
+            <h5>Add to Calendar</h5>
+            <div class="vpad10">
+                Click one of the following links to add your zone's schedule to Google Calendar, iCal, Microsoft Outlook or another calendar application.
+                <div class="feeds">
+                [% FOR feed = feeds %]
+                    <div class="vpad5">
+                        <img  alt="[% feed.name %]" src="/[% version %]/images/feeds/[% feed.icon %]">
+                        <a id="[% feed.id %]" href="[% feed.url %]" target="_blank">
+                            [% feed.name %]
+                        </a>
                     </div>
+                [% END %]
                 </div>
             </div>
         </div>
-        <div class="clear"></div>
-        <a href="#" class="back">Worried it'll get lost in your inbox?  Try a phone or text message reminder!</a>
     </div>
+
+    <div class="clear"></div>
+
+    <a href="#" class="back">Worried it'll get lost in your inbox?  Try a phone or text message reminder!</a>
 </div>
 [% END %]
 
 [% BLOCK wizardPremium %]
-<div class="middle">
-    <!-- first row -->
-    <div class="row centered top" height="135">
-        <div class="left" height="75">
-            [% INCLUDE logo %]
-        </div>
-        <div class="right" height="75">
-            <div class="title">Texts and Calls have a small cost…</div>
-            <div class="description">… support Recollect so we can make it great for all citizens!</div>
+<div class="container_24 vpad10" style="height:485px">
+    <div class="grid_8 vpad10">
+        [% INCLUDE logo %]
+    </div>
+    <div class="grid_16 vpad20">
+        <h5>Texts and Calls have a small cost…</h5>
+        <div class="description">… support Recollect so we can make it great for all citizens!</div>
+    </div>
+
+    <div class="clear"></div>
+
+    <div class="grid_8">
+        <div class="box">
+            <h5>Every 3 months</h5>
+            <div class="price">
+                <div class="dollarsign">$</div>
+                <div class="dollars">2</div>
+                <div class="cents">50</div>
+            </div>
+            <a class="button black choose chooseQuarterly" href="#">choose</a>
         </div>
     </div>
 
-    <div class="boxes row" height="350">
-        <div class="quarterly boxOption">
-            <div class="inside">
-                <div class="boxTitle">Every 3 months</div>
-                <div class="price">
-                    <div class="dollarsign">$</div>
-                    <div class="dollars">2</div>
-                    <div class="cents">50</div>
-                </div>
-                <a class="bigButtonBlack choose chooseQuarterly" href="#">choose</a>
+    <div class="grid_8">
+        <div class="box">
+            <h5>Annually</h5>
+            <div class="price">
+                <div class="dollarsign">$</div>
+                <div class="dollars">6</div>
+                <div class="cents">00</div>
             </div>
+            <a class="button black choose chooseAnnual" href="#">choose</a>
         </div>
-
-        <div class="annually boxOption">
-            <div class="inside">
-                <div class="boxTitle">Annually</div>
-                <div class="price">
-                    <div class="dollarsign">$</div>
-                    <div class="dollars">6</div>
-                    <div class="cents">00</div>
-                </div>
-                <a class="bigButtonBlack choose chooseAnnual" href="#">choose</a>
-            </div>
-        </div>
-
-        <div class="free boxOption halfBox">
-            <div class="inside">
-                <div class="boxTitle">E-mail</div>
-                <div class="description">
-                    Don't want to pay? We find e-mail reminders are less effective, but we do offer them for free. 
-                </div>
-                <a class="bigButtonBlack choose chooseOnline" href="#">choose</a>
-            </div>
-        </div>
-
-        <div class="clear"></div>
-        <a href="#" class="back">back</a>
     </div>
+
+    <div class="grid_8">
+        <div class="half box">
+            <h5>E-mail</h5>
+            <div class="vpad10">
+                Don't want to pay? We find e-mail reminders are less effective, but we do offer them for free. 
+            </div>
+            <a class="button black choose chooseOnline" href="#">choose</a>
+        </div>
+    </div>
+
+    <div class="clear"></div>
+
+    <a href="#" class="back">Worried it'll get lost in your inbox?  Try a phone or text message reminder!</a>
 </div>
+
 [% END %]
 
 [% BLOCK wizardForm %]

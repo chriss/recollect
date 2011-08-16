@@ -17,8 +17,7 @@
 
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
-    <link rel="stylesheet" href="/[% version %]/css/style.css"/>
-    <link rel="stylesheet" href="/[% version %]/css/jquery-ui-1.8.7.custom.css"/>
+    <link rel="stylesheet" href="/[% version %]/css/recollect-compiled.css"/>
 
     <script type="text/javascript" src="/[% version %]/javascript/libs/modernizr-1.6.min.js"></script>
     <script type="text/javascript" src="http://www.google.com/recaptcha/api/js/recaptcha_ajax.js"></script>
@@ -40,19 +39,30 @@
         </div>
     [% END %]
 
-    <div id="container">
-        <header>
-            <div id="links" class="black">
-                [% INCLUDE elements/links.tt2 %]
+    <header class="white">
+        <div class="container_24">
+            <div class="grid_7 social">
                 [% INCLUDE elements/social.tt2 %]
             </div>
-        </header>
+            <div class="grid_10 vpad5 centered">
+                <a title="Recollect Home" href="/" class="homeLink">Home</a>&middot;
+                <a title="Frequently Asked Questions" href="/faq">Questions</a>&middot;
+                <a title="About Us" href="/about">About Us</a>&middot;
+                <a title="Parner" href="/partner">Partner</a>&middot;
+                <a title="Tell a friend" href="/r/tell-a-friend" class="tell-a-friend">Tell a Friend</a>
+            </div>
+            <div class="grid_6 vpad5">
+                <a title="Copyright" href="/copyright">&copy;2011</a>
+                [% IF is_admin %]<a href="/radmin">RADmin</a>[% END %]
+            </div>
+            <div class="clear"></div>
+        </div>
+    </header>
 
-        [% content %]
+    [% content %]
 
-        <footer>
-        </footer>
-    </div> <!-- end of #container -->
+    <footer>
+    </footer>
 
     <script>
         $(window).resize(function() {

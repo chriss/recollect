@@ -1,9 +1,7 @@
-<div class="smallSocialButtons">
-    <!-- Tweet button -->
-    <a href="http://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-via="recollectnet" data-url="http://recollect.net" data-text="My garbage days have just become stress free thanks to Recollect pickup reminders! Get yours here:">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
-    <!-- facebook like -->
-    <iframe class="facebook_like" src="http://www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2Frecollect.net&amp;layout=button_count&amp;show_faces=false&amp;width=75&amp;action=like&amp;font=arial&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:75px; height:21px;" allowTransparency="true"></iframe>
-    <!-- plus -->
-    <script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
-    <div class="plusone"><g:plusone size="medium"></g:plusone></div>
-</div>
+<!-- Tweet button -->
+<a href="http://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-via="recollectnet" data-url="http://recollect.net" data-text="My garbage days have just become stress free thanks to Recollect pickup reminders! Get yours here:">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+<!-- facebook like -->
+<iframe class="facebook_like" src="http://www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2Frecollect.net&amp;layout=button_count&amp;show_faces=false&amp;width=75&amp;action=like&amp;font=arial&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:75px; height:21px;" allowTransparency="true"></iframe>
+<!-- plus -->
+<script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
+<div class="plusone"><g:plusone size="medium"></g:plusone></div>
