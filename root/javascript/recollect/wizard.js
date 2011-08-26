@@ -37,6 +37,8 @@ $.extend(Recollect.Wizard.prototype, {
             return false;
         });
 
+        self.setupResize();
+
         Recollect.prototype.start.call(self);
     },
 
@@ -604,6 +606,31 @@ $.extend(Recollect.Wizard.prototype, {
         return topOffset + 'px';
     },
 
+    setupResize: function() {
+        var self = this;
+        var $bg = $('<div id="background"></div>').prependTo('body');
+        var $img = $('<img/>')
+            .attr('src', "/" + self.version + "/images/background.jpg")
+            .load(function() { $(window).resize() })
+            .appendTo($bg);
+
+        $(window).resize(function() {
+            $bg.height($(window).height());
+
+            // Keep the background fullscreen
+            if ($(window).height() > $img.height()) {
+                $img.css({height:'100%', width:'auto'});
+            }
+            if ($(window).width() > $img.width()) {
+                $img.css({height:'auto', width:'100%'});
+            }
+
+            $('#wizard').css(
+                'top', self.wizardTop(self.$currentPage.height())
+            );
+        });
+    },
+
     changeHeight: function(height, callback, immediate) {
         var self = this;
         var props = {
@@ -622,10 +649,6 @@ $.extend(Recollect.Wizard.prototype, {
                 callback();
             });
         }
-
-        $(window).unbind('resize').resize(function() {
-            $('#wizard').css('top', self.wizardTop(height));
-        });
     },
 
     changePage: function($newPage, callback) {
