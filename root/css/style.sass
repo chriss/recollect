@@ -44,10 +44,10 @@ h1, h2, h3, h4, h5, h6
   font-weight: normal
   
 h1
-  font-size: 36px
+  font-size: 34px
 
 h3
-  font-size: 32px
+  font-size: 31px
 
 h4
   font-size: 28px
@@ -76,6 +76,8 @@ h6
 
 .small
   font-size: 12px
+.smallish
+  font-size: 14px
 
 .hiddenButton
   height: 0
@@ -194,16 +196,75 @@ header
       text-align: center
   .confirm
     margin-left: 50px
+  .box
+    height: 225px
+    margin: 10px
+    padding: 10px
+    background-color: #fff
+    border: 1px solid #D3D3D3
+    border-radius: 10px
+    @include box-shadow-and-gradient(3, 3, 4, #8e9884, 135, #fefeef, #adcaad)
+    font-size: 14px
+    position: relative
+    .choose
+      position: absolute
+      left: 80px
+      bottom: 10px
+    &.half
+      margin-top: 70px
+      height: 165px
+    .price
+      position: relative
+      top: 28px
+      left: 65px
+      .dollarsign
+        font-size: 27pt
+        position: absolute
+        left: 0
+        top: 14px
+        line-height: 30px
+      .dollars
+        position: absolute
+        left: 20px
+        top: 10px
+        font-size: 60pt
+        line-height: 62px
+      .cents
+        font-size: 15pt
+        position: absolute
+        top: 14px
+        left: 65px
+        line-height: 15px
   .loading
     display: none
     img
       position: absolute
       left: 200px
       top: 100px
-  .submitForm
+  label.error
+    color: #cd0a0a
+    font-size: 90%
+    white-space: nowrap
+  .reminderForm
     .help
       font-style: italic
-    
+      padding-top: 20px
+      padding-bottom: 20px
+      font-size: 90%
+    .next
+      float: right
+    .time
+      width: 71px
+    div.error
+      padding: 5px
+      background-color: #f9d7d7
+      border: 1px solid #cd0a0a
+      -webkit-border-radius: 5px
+      -moz-border-radius: 5px
+      border-radius: 5px
+    input.error
+      background-color: #f9d7d7
+      border: 1px solid #cd0a0a
 
 // Social Buttons
 .social
@@ -261,45 +322,6 @@ header
   .close, .submit
     float: right
 
-.box
-  height: 225px
-  margin: 10px
-  padding: 10px
-  background-color: #fff
-  border: 1px solid #D3D3D3
-  border-radius: 10px
-  @include box-shadow-and-gradient(3, 3, 4, #8e9884, 135, #fefeef, #adcaad)
-  font-size: 14px
-  position: relative
-  .choose
-    position: absolute
-    left: 80px
-    bottom: 10px
-  &.half
-    margin-top: 70px
-    height: 165px
-  .price
-    position: relative
-    top: 28px
-    left: 65px
-    .dollarsign
-      font-size: 27pt
-      position: absolute
-      left: 0
-      top: 14px
-      line-height: 30px
-    .dollars
-      position: absolute
-      left: 20px
-      top: 10px
-      font-size: 60pt
-      line-height: 62px
-    .cents
-      font-size: 15pt
-      position: absolute
-      top: 14px
-      left: 65px
-      line-height: 15px
 
 /* timePicker
 div
@@ -324,6 +346,7 @@ div
       height: 10px
       font: 12px / 1 Helvetica, Arial, sans-serif
       padding: 4px 3px
+      margin: 0
       &.selected
         background: #0063CE
         color: #fff

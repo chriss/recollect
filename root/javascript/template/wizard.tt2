@@ -80,7 +80,7 @@
 [% END %]
 
 [% BLOCK wizardZone %]
-<div class="container_24 vpad10" style="height:485px">
+<div class="container_24 vpad10" style="height:490px">
     <div class="grid_8 vpad10">[% INCLUDE logo %]</div>
     <div class="grid_16">
         <h1>[% title %]</h1>
@@ -143,7 +143,7 @@
 [% END %]
 
 [% BLOCK wizardSubscribe %]
-<div class="container_24 vpad10" style="height:485px">
+<div class="container_24 vpad10" style="height:440px">
     <div class="grid_8 vpad10">[% INCLUDE logo %]</div>
     <div class="grid_16 vpad20">
         <h5>How should we notify you?</h5>
@@ -189,7 +189,7 @@
 [% END %]
 
 [% BLOCK wizardFree %]
-<div class="container_24 vpad10" style="height:485px">
+<div class="container_24 vpad10" style="height:440px">
     <div class="grid_8 vpad10">[% INCLUDE logo %]</div>
     <div class="grid_16 vpad20">
         <h5>Choose an Internet Reminder</h5>
@@ -244,7 +244,7 @@
 [% END %]
 
 [% BLOCK wizardPremium %]
-<div class="container_24 vpad10" style="height:485px">
+<div class="container_24 vpad10" style="height:440px">
     <div class="grid_8 vpad10">
         [% INCLUDE logo %]
     </div>
@@ -297,7 +297,7 @@
 [% END %]
 
 [% BLOCK wizardForm %]
-<div class="container_24 vpad10" style="height:485px">
+<div class="container_24 vpad10" style="height:440px">
     <!-- first row -->
     <div class="grid_12 prefix_6 suffix_6">
     [% IF type == 'voice' %]
@@ -315,9 +315,9 @@
     <div class="clear"></div>
 
     [% INCLUDE loading %]
-    <form>
+    <form class="reminderForm">
         [% IF type == 'voice' %]
-            <div class="help">
+            <div class="help grid_12 prefix_6 suffix_6">
                 You can use a mobile phone or a land line.
             </div>
             [% INCLUDE field name='phone' title='Phone Number' %]
@@ -344,7 +344,7 @@
         [% END %]
         <div class="grid_12 prefix_6 suffix_6">
             <div class="status"></div>
-            <div class="privacyLink" style="margin: 25px">
+            <div class="privacyLink help">
                 Recollect will never share your information with a third party. See our privacy policy <a href="/privacy" target="_blank">here</a>
             </div>
             <div id="subscriptionError"></div>
@@ -373,7 +373,7 @@
     <div class="grid_8 suffix_6">
         <input class="[% name %]" name="[% name %]"/>
     </div>
-    <div clas="clear"></div>
+    <div class="clear vpad10"></div>
 [% END %]
 
 [% BLOCK time %]
@@ -390,21 +390,18 @@
 [% END %]
 
 [% BLOCK success %]
-<div class="middle">
-    <!-- first row -->
-    <div class="row" height="225">
-        <div class="left" height="100">
-            [% INCLUDE logo %]
-        </div>
-        <div class="right" height="200">
-            <div class="title">Thank you! You're all done!</div>                         
-            <div>We are really grateful for your business and thank you for helping make our little company become a bit more successful.</div>
+<div class="container_24 vpad10" style="height: 250px">
+    <div class="prefix_2 grid_8 vpad50">
+        [% INCLUDE logo %]
+    </div>
+    <div class="grid_14 vpad10">
+        <h2>Thank you! You're all done!</h2>
+        <div class="smallish vpad10">We are really grateful for your business and thank you for helping make our little company become a bit more successful.</div>
 <div class="socialButtons">
-            [% INCLUDE social_buttons %]
-            <div>       
-                We have sent you a welcome email and you should start receiving notifications each week!</a>
-            </div>  
-        </div>
+        [% INCLUDE social_buttons %]
+        <div class="smallish vpad5">
+            We have sent you a welcome email and you should start receiving notifications each week!</a>
+        </div>  
     </div>  
 </div>
 [% END %]
