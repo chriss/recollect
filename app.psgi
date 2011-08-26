@@ -36,6 +36,10 @@ builder {
     enable_if { $_[0]{PATH_INFO} =~ /\.jgz$/ }
         'Header', set => ['Content-encoding' => 'gzip'];
 
+    # Compile sass
+    $ENV{PATH} .= ':/var/lib/gems/1.8/bin';
+    enable "File::Sass", syntax => 'sass';
+
     enable "Plack::Middleware::Static",
            path => qr{^/(robots\.txt|kml/.+|favicon.ico)},
            root => './root/';

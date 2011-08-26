@@ -54,7 +54,7 @@ RECOLLECT_RADMIN_FILES=\
 	 $(JS_DIR)/recollect/radmin.js \
 	 $(JEMPLATE) \
 
-RECOLLECT_CSS=root/css/recollect-compiled.css
+RECOLLECT_CSS=root/css/style.css
 RECOLLECT_SASS=root/css/style.sass
 
 CRONJOB=$(PRIVATE)/etc/cron.d/recollect
