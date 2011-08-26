@@ -33,11 +33,6 @@
 </head>
 
 <body[% IF class %] class="[% class %]"[% END %]>
-    [% UNLESS nobg %]
-        <div id="background">
-            <img src="/[% version %]/images/background.jpg"/>
-        </div>
-    [% END %]
 
     <header class="white">
         <div class="container_24">
@@ -63,23 +58,6 @@
 
     <footer>
     </footer>
-
-    <script>
-        $(window).resize(function() {
-            var $bg = $('#background');
-            var $img = $bg.find('img');
-            $bg.height($(this).height());
-
-            // Keep the background fullscreen
-            if ($(window).height() > $img.height()) {
-                $img.css({height:'100%', width:'auto'});
-            }
-            if ($(window).width() > $img.width()) {
-                $img.css({height:'auto', width:'100%'});
-            }
-        }).resize();
-        $('#background img').load(function() { $(window).resize() });
-    </script>
 
     <!--[if lt IE 7 ]>
         <script src="/[% version %]/javascript/libs/dd_belatedpng.js"></script>

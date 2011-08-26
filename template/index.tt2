@@ -10,12 +10,29 @@
     [% END %]
 
 
-    <div class="white" id="wizard"></div>
-
-    <noscript>[% INCLUDE noscript.tt2 %]</noscript>
+    <div class="white" id="wizard">
+        <noscript>[% INCLUDE noscript.tt2 %]</noscript>
+    </div>
 
     <script>
         var wizard = new Recollect.Wizard({ version: "[% version %]" });
         wizard.start();
+
+        var $bg = $('<div id="background"></div>').prependTo('body');
+        $bg.append('<img src="/[% version %]/images/background.jpg"/>');
+
+        $(window).resize(function() {
+            var $img = $bg.find('img');
+            $bg.height($(this).height());
+
+            // Keep the background fullscreen
+            if ($(window).height() > $img.height()) {
+                $img.css({height:'100%', width:'auto'});
+            }
+            if ($(window).width() > $img.width()) {
+                $img.css({height:'auto', width:'100%'});
+            }
+        }).resize();
+        $('#background img').load(function() { $(window).resize() });
     </script>
 [% END %]
