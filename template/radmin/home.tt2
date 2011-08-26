@@ -2,7 +2,7 @@
     javascript=[
         "/$version/javascript/libs/jquery.flot.min.js",
         "/$version/javascript/libs/jquery.flot.pie.js",
-        "/$version/javascript/compiled-recollect-radmin.jgz"
+        "/$version/javascript/compiled/recollect-radmin.jgz"
     ]
 %]
 <script>

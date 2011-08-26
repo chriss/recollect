@@ -5,54 +5,6 @@ TEMPLATE_DIR=template
 PRIVATE=../private
 SQL=etc/sql/*
 EXEC=bin/* $(PRIVATE)/bin/recollect-*
-MINIFY=perl -MJavaScript::Minifier::XS -0777 -e 'print JavaScript::Minifier::XS::minify(scalar <>);'
-#MINIFY=cat
-
-JS_DIR=root/javascript
-
-JEMPLATE=$(JS_DIR)/Jemplate.js
-JEMPLATES=$(wildcard $(JS_DIR)/template/*.tt2)
-
-RECOLLECT=$(JS_DIR)/compiled-recollect.js
-RECOLLECT_GZ=$(JS_DIR)/compiled-recollect.jgz
-RECOLLECT_MINIFIED=$(JS_DIR)/compiled-recollect-mini.js
-RECOLLECT_FILES=\
-	 $(JS_DIR)/libs/jquery-1.4.2.min.js \
-	 $(JS_DIR)/libs/jquery-ui-1.8.6.custom.min.js \
-	 $(JS_DIR)/libs/jquery.scrollTo-1.4.2-min.js \
-	 $(JS_DIR)/libs/jquery.cookie.js \
-	 $(JS_DIR)/libs/json2.js \
-	 
-RECOLLECT_WIZARD=$(JS_DIR)/compiled-recollect-wizard.js
-RECOLLECT_WIZARD_GZ=$(JS_DIR)/compiled-recollect-wizard.jgz
-RECOLLECT_WIZARD_MINIFIED=$(JS_DIR)/compiled-recollect-wizard-mini.js
-RECOLLECT_WIZARD_FILES=\
-	 $(JS_DIR)/libs/jquery.timePicker.min.js \
-	 $(JS_DIR)/libs/jquery-maskedinput-1.2.2.min.js \
-	 $(JS_DIR)/libs/jquery.validate.js \
-	 $(JS_DIR)/libs/jquery.client.js \
-	 $(JS_DIR)/libs/geoxml3.js \
-	 $(JS_DIR)/libs/google.polygon.js \
-	 $(JS_DIR)/recollect/base.js \
-	 $(JS_DIR)/recollect/wizard.js \
-	 $(JS_DIR)/recollect/feedback.js \
-	 $(JEMPLATE) \
-
-RECOLLECT_RADMIN=$(JS_DIR)/compiled-recollect-radmin.js
-RECOLLECT_RADMIN_GZ=$(JS_DIR)/compiled-recollect-radmin.jgz
-RECOLLECT_RADMIN_MINIFIED=$(JS_DIR)/compiled-recollect-radmin-mini.js
-RECOLLECT_RADMIN_FILES=\
-	 $(JS_DIR)/libs/jquery.timePicker.min.js \
-	 $(JS_DIR)/libs/jquery-maskedinput-1.2.2.min.js \
-	 $(JS_DIR)/libs/jquery.validate.js \
-	 $(JS_DIR)/libs/geoxml3.js \
-	 $(JS_DIR)/libs/google.polygon.js \
-	 $(JS_DIR)/libs/history.adapter.jquery.js \
-	 $(JS_DIR)/libs/history.js \
-	 $(JS_DIR)/libs/history.html4.js \
-	 $(JS_DIR)/recollect/base.js \
-	 $(JS_DIR)/recollect/radmin.js \
-	 $(JEMPLATE) \
 
 RECOLLECT_CSS=root/css/style.css
 RECOLLECT_SASS=root/css/style.sass
@@ -64,56 +16,39 @@ TESTS=$(wildcard t/*.t)
 WIKITESTS=$(wildcard t/wikitests/*.t)
 MAKE_TIME_FILES=$(BUILT_JS) $(shell find root/images root/css)
 
-BUILT_JS=\
-    $(RECOLLECT) $(RECOLLECT_GZ) $(RECOLLECT_MINIFIED) \
-    $(RECOLLECT_WIZARD) $(RECOLLECT_WIZARD_GZ) $(RECOLLECT_WIZARD_MINIFIED) \
-    $(RECOLLECT_RADMIN) $(RECOLLECT_RADMIN_GZ) $(RECOLLECT_RADMIN_MINIFIED) \
-    $(RECOLLECT_CSS) \
+JAVASCRIPT=\
+	root/javascript/compiled/recollect.js \
+	root/javascript/compiled/recollect-wizard.js \
+	root/javascript/compiled/recollect-radmin.js \
 
-all: javascript root/make-time
+JAVASCRIPT_GZ=\
+	root/javascript/compiled/recollect.jgz \
+	root/javascript/compiled/recollect-wizard.jgz \
+	root/javascript/compiled/recollect-radmin.jgz \
 
-javascript: $(BUILT_JS)
+all: javascript $(RECOLLECT_CSS) root/make-time
+
+javascript: $(JAVASCRIPT)
 
 clean:
-	rm -f  $(JEMPLATE) $(BUILT_JS)
+	rm -f  $(JEMPLATE) $(JAVASCRIPT) $(JAVASCRIPT_GZ)
 
 .SUFFIXES: .js -mini.js .jgz
 
 root/make-time: $(MAKE_TIME_FILES)
 	date '+%s' > $@
 
-.js-mini.js:
-	$(MINIFY) $< > $@
+root/javascript/compiled/recollect.js: $(shell bin/jsmake --parts recollect)
+	bin/jsmake recollect
 
-$(JEMPLATE): $(JEMPLATES)
-	jemplate --runtime=jquery > $@
-	echo ';' >> $@
-	jemplate --compile $(JEMPLATES) >> $@
-	echo ';' >> $@
+root/javascript/compiled/recollect-wizard.js: $(shell bin/jsmake --parts recollect-wizard)
+	bin/jsmake recollect-wizard
 
-$(RECOLLECT): $(RECOLLECT_FILES) Makefile
-	rm -f $@;
-	for js in $(RECOLLECT_FILES); do \
-	    (echo "// BEGIN $$js"; cat $$js; echo ';' | perl -pe 's/\r//g') >> $@; \
-	done
-
-$(RECOLLECT_WIZARD): $(RECOLLECT_WIZARD_FILES) Makefile
-	rm -f $@;
-	for js in $(RECOLLECT_WIZARD_FILES); do \
-	    (echo "// BEGIN $$js"; cat $$js; echo ';' | perl -pe 's/\r//g') >> $@; \
-	done
-
-$(RECOLLECT_RADMIN): $(RECOLLECT_RADMIN_FILES) Makefile
-	rm -f $@;
-	for js in $(RECOLLECT_RADMIN_FILES); do \
-	    (echo "// BEGIN $$js"; cat $$js; echo ';' | perl -pe 's/\r//g') >> $@; \
-	done
+root/javascript/compiled/recollect-radmin.js: $(shell bin/jsmake --parts recollect-radmin)
+	bin/jsmake recollect-radmin
 
 $(RECOLLECT_CSS): $(RECOLLECT_SASS) Makefile root/css/*.sass
 	/var/lib/gems/1.8/bin/sass -t compressed $< $@
-
--mini.js.jgz:
-	gzip -c $< > $@
 
 $(INSTALL_DIR)/%:
 	mkdir $(INSTALL_DIR)

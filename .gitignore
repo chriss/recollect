@@ -10,3 +10,5 @@ data/*.dump
 !data/trash-zone-times.yaml
 !data/recollect.dump
 root/make-time
+root/javascript/compiled
+root/css/style.css

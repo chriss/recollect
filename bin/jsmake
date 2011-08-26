@@ -1,0 +1,17 @@
+#!/usr/bin/perl
+use lib 'lib';
+use Recollect::JavaScript;
+use Getopt::Long qw(GetOptions);
+
+my %opts;
+GetOptions(\%opts, 'parts') or die 'Invalid opts';
+
+my $target = shift || exit;
+my $js = Recollect::JavaScript->new(target => $target);
+
+if ($opts{parts}) {
+    print join(' ', $js->part_files);
+}
+else {
+    $js->build($target);
+}

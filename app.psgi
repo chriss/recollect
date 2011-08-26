@@ -40,6 +40,9 @@ builder {
     $ENV{PATH} .= ':/var/lib/gems/1.8/bin';
     enable "File::Sass", syntax => 'sass';
 
+    # Compile javascript
+    enable "Recollect::JavaScript", root => './root/';
+
     enable "Plack::Middleware::Static",
            path => qr{^/(robots\.txt|kml/.+|favicon.ico)},
            root => './root/';

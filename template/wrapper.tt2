@@ -17,13 +17,13 @@
 
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
-    <link rel="stylesheet" href="/[% version %]/css/recollect-compiled.css"/>
+    <link rel="stylesheet" href="/[% version %]/css/style.css"/>
 
     <script type="text/javascript" src="/[% version %]/javascript/libs/modernizr-1.6.min.js"></script>
     <script type="text/javascript" src="http://www.google.com/recaptcha/api/js/recaptcha_ajax.js"></script>
 
     <!-- recollect stuff -->
-    <script type="text/javascript" src="/[% version %]/javascript/compiled-recollect.jgz"></script>
+    <script type="text/javascript" src="/[% version %]/javascript/compiled/recollect.jgz"></script>
 
     [% FOR js = javascript %]
     <script type="text/javascript" src="[% js %]"></script>
