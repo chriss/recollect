@@ -407,19 +407,16 @@
 [% END %]
 
 [% BLOCK tell_a_friend %]
-<div class="middle">
-    <!-- first row -->
-    <div class="row" height="225">
-        <div class="left" height="100">
-            [% INCLUDE logo %]
-        </div>
-        <div class="right" height="150">
-            <div class="title">Tell your friends about Recollect!!</div>                         
-            <div>We are really grateful for your business and thank you for helping make our little company become a bit more successful.</div>
+<div class="container_24 vpad10" style="height: 250px">
+    <div class="prefix_2 grid_8 vpad50">
+        [% INCLUDE logo %]
+    </div>
+    <div class="grid_14 vpad30">
+        <h2>Tell your friends about Recollect!!</h2>
+        <div>We are really grateful for your business and thank you for helping make our little company become a bit more successful.</div>
 <div class="socialButtons">
-            [% INCLUDE social_buttons %]
-        </div>
-    </div>  
+        <div class="vpad10">[% INCLUDE social_buttons %]</div>
+    </div>
 </div>
 [% END %]
 
