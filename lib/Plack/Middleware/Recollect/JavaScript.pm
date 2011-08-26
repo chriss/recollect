@@ -10,7 +10,10 @@ method call($env) {
     # Do something with $env
     if ($env->{PATH_INFO} =~ m{/compiled/([^/]+).(?:jgz|js)$}) {
         my $js = Recollect::JavaScript->new(target => $1);
-        $js->build;
+        if ($js->needs_update) {
+            warn "Building $env->{PATH_INFO}\n";
+            $js->build;
+        }
     }
     return $self->app->($env);
 }

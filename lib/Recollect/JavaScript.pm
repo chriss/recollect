@@ -83,37 +83,38 @@ method part_files {
 }
 
 method needs_update($target) {
+    return 0 unless $self->parts;
     return $self->most_recent() > $self->modified($self->uncompressed_file);
 }
 
 method build($target) {
     my $parts = $self->parts || return;
 
-    if ($self->needs_update) {
-        # Build away
-        my $content = '';
-        for my $part (@$parts) {
-            if ($part->{jemplate_runtime}) {
-                $content .= Jemplate->runtime_source_code('jquery');
-            }
-            elsif ($part->{jemplate}) {
-                $content .= Jemplate->compile_template_files($part->{file});
-            }
-            else {
-                $content .= slurp($part->{file});
-            }
-            $content .= "\n;\n";
+    # Build away
+    my $content = '';
+    for my $part (@$parts) {
+        if ($part->{jemplate_runtime}) {
+            $content .= Jemplate->runtime_source_code('jquery');
         }
-        write_file($self->uncompressed_file, $content);
-
-        # Minify
-        my $minified = minify($content);
-
-        # Compress
-        my $gzipped = Compress::Zlib::memGzip($minified);
-
-        write_file($self->compressed_file, $gzipped);
+        elsif ($part->{jemplate}) {
+            $content .= Jemplate->compile_template_files($part->{file});
+        }
+        else {
+            $content .= slurp($part->{file});
+        }
+        $content .= "\n;\n";
     }
+    write_file($self->uncompressed_file, $content);
+
+    # Minify
+    my $minified = minify($content);
+
+    # Compress
+    my $gzipped = Compress::Zlib::memGzip($minified);
+
+    write_file($self->compressed_file, $gzipped);
+
+    write_file("root/make-time", time);
 }
 
 method modified($file) {
