@@ -1,4 +1,4 @@
-[% WRAPPER elements/outer_wrapper.tt2 %]
+[% WRAPPER wrapper.tt2 %]
     <div id="simpleLayout" class="white">
         <a href="/"><img alt="Recollect" class="logo" src="/[% version %]/images/recollect_logo.png"/></a>
         <div class="error">The requested URL was not found on this server.</div>

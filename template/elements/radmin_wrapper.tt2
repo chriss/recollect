@@ -1,4 +1,4 @@
-[% WRAPPER elements/outer_wrapper.tt2 %]
+[% WRAPPER wrapper.tt2 %]
     <div id="radmin">
         <div class="nav black">
             <div class="black"></div>

@@ -1,4 +1,4 @@
-[% WRAPPER elements/outer_wrapper.tt2 nobg=1 nofeedback=1 class="schedule"
+[% WRAPPER wrapper.tt2 nobg=1 nofeedback=1 class="schedule"
     javascript=[
         "http://maps.google.com/maps/api/js?sensor=true",
         "/$version/javascript/compiled-recollect-wizard.jgz"

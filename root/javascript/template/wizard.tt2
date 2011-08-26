@@ -22,7 +22,7 @@
 
         <form>
             <div class="alpha grid_8">
-                <input class="address" value=""/>
+                <input class="address huge" value=""/>
             </div>
             <div class="omega grid_4">
                 <a id="search" class="button green" href="#">Search</a>
@@ -108,7 +108,7 @@
         </div>
     </div>
 
-    <div class="grid_8 centered">
+    <div class="grid_8 center">
         <div class="map"></div>
         <div class="vpad10">
             <strong>If this is your zone …</strong>
@@ -297,61 +297,62 @@
 [% END %]
 
 [% BLOCK wizardForm %]
-<div class="middle subscription">
+<div class="container_24 vpad10" style="height:485px">
     <!-- first row -->
-    <div class="row" height="485">
-        <div class="center" height="430">
-            [% IF type == 'voice' %]
-                <div class="title">Where and when should we phone you?</div>
-            [% ELSIF type == 'text' %]
-                <div class="title">Where and when should we text you?</div>
-            [% ELSIF type == 'email' %]
-                <div class="title">Where and when should we email you?</div>
-            [% ELSIF type == 'twitter' %]
-                <div class="title">Where and when should we tweet you?</div>
-            [% ELSE %]
-                <div class="title">Unknown reminder type: [% type %]</div>
-            [% END %]
-
-            [% INCLUDE loading %]
-            <form>
-                [% IF type == 'voice' %]
-                    <div class="help">
-                        You can use a mobile phone or a land line.
-                    </div>
-                    [% INCLUDE field name='phone' title='Phone Number' %]
-                    [% INCLUDE time %]
-                    [% INCLUDE address_field %]
-                    [% INCLUDE field name='email' title='Email' %]
-                [% ELSIF type == 'text' %]
-                    [% INCLUDE field name='phone' title='Mobile Number' %]
-                    [% INCLUDE time %]
-                    [% INCLUDE address_field %]
-                    [% INCLUDE field name='email' title='Email' %]
-                [% ELSIF type == 'email' %]
-                    [% INCLUDE field name='email' title='Email' %]
-                    [% INCLUDE time %]
-                    [% INCLUDE address_field %]
-                [% ELSIF type == 'twitter' %]
-                    <div class="help">
-                        Make sure you follow <a href="http://twitter.com/recollectnet">@RecollectNet</a> on twitter in order to receive the direct messages.
-                    </div>
-                    [% INCLUDE field name='twitter' title='Twitter Username' %]
-                    [% INCLUDE field name='email' title='Email' %]
-                    [% INCLUDE time %]
-                    [% INCLUDE address_field %]
-                [% END %]
-                <div class="status"></div>
-                <div class="privacyLink" style="margin: 25px">
-                    Recollect will never share your information with a third party. See our privacy policy <a href="/privacy" target="_blank">here</a>
-                </div>
-                <div class="clear" style="margin-top: 25px"></div>
-                <div id="subscriptionError"></div>
-                <a href="#" class="back">Back</a>
-                <a class="bigButtonGreen next" href="#">Sounds great!</a>
-            </form>
-        </div>
+    <div class="grid_12 prefix_6 suffix_6">
+    [% IF type == 'voice' %]
+        <h5>Where and when should we phone you?</h5>
+    [% ELSIF type == 'text' %]
+        <h5>Where and when should we text you?</h5>
+    [% ELSIF type == 'email' %]
+        <h5>Where and when should we email you?</h5>
+    [% ELSIF type == 'twitter' %]
+        <h5>Where and when should we tweet you?</h5>
+    [% ELSE %]
+        <h5>Unknown reminder type: [% type %]</h5>
+    [% END %]
     </div>
+    <div class="clear"></div>
+
+    [% INCLUDE loading %]
+    <form>
+        [% IF type == 'voice' %]
+            <div class="help">
+                You can use a mobile phone or a land line.
+            </div>
+            [% INCLUDE field name='phone' title='Phone Number' %]
+            [% INCLUDE time %]
+            [% INCLUDE address_field %]
+            [% INCLUDE field name='email' title='Email' %]
+        [% ELSIF type == 'text' %]
+            [% INCLUDE field name='phone' title='Mobile Number' %]
+            [% INCLUDE time %]
+            [% INCLUDE address_field %]
+            [% INCLUDE field name='email' title='Email' %]
+        [% ELSIF type == 'email' %]
+            [% INCLUDE field name='email' title='Email' %]
+            [% INCLUDE time %]
+            [% INCLUDE address_field %]
+        [% ELSIF type == 'twitter' %]
+            <div class="help grid_12 prefix_6 suffix_6">
+                Make sure you follow <a href="http://twitter.com/recollectnet">@RecollectNet</a> on twitter in order to receive the direct messages.
+            </div>
+            [% INCLUDE field name='twitter' title='Twitter Username' %]
+            [% INCLUDE field name='email' title='Email' %]
+            [% INCLUDE time %]
+            [% INCLUDE address_field %]
+        [% END %]
+        <div class="grid_12 prefix_6 suffix_6">
+            <div class="status"></div>
+            <div class="privacyLink" style="margin: 25px">
+                Recollect will never share your information with a third party. See our privacy policy <a href="/privacy" target="_blank">here</a>
+            </div>
+            <div id="subscriptionError"></div>
+            <a href="#" class="back">Back</a>
+            <a class="button green next" href="#">Sounds great!</a>
+        </div>
+        <div clas="clear"></div>
+    </form>
 </div>
 [% END %]
 
@@ -362,27 +363,30 @@
 [% END %]
 
 [% BLOCK loading %]
-    <div class="page loading">
+    <div class="loading">
         <img alt="Loading..." src="/[% version %]/images/loading.gif"/>
     </div>
 [% END %]
 
 [% BLOCK field %]
-    <div class="field">
-        <div class="name">[% title %]:</div>
+    <div class="grid_4 prefix_6 right">[% title %]:</div>
+    <div class="grid_8 suffix_6">
         <input class="[% name %]" name="[% name %]"/>
     </div>
+    <div clas="clear"></div>
 [% END %]
 
 [% BLOCK time %]
-    <div class="field">
-        <div class="name">When:</div>
+    <div class="grid_4 prefix_6 right">When:</div>
+    <div class="grid_8 suffix_6">
         <input class="time" name="time" value="06:00 PM"/>
         <select name="day">
             <option value="day_before">the day before pickup</option>
             <option value="day_of">the day of pickup</option>
         </select>
     </div>
+    <div class="suffix_6"></div>
+    <div clas="clear"></div>
 [% END %]
 
 [% BLOCK success %]

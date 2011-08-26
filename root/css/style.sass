@@ -67,8 +67,12 @@ h6
     padding-left: #{$i}px
     padding-right: #{$i}px
 
-.centered
+.center
   text-align: center
+.right
+  text-align: right
+.left
+  text-align: left
 
 .small
   font-size: 12px
@@ -153,6 +157,8 @@ header
   position: absolute
   font-size: 16px
   input
+    width: 245px
+  .huge
     border: 1px solid #666
     font-size: 18pt
     padding: 8px
@@ -188,7 +194,16 @@ header
       text-align: center
   .confirm
     margin-left: 50px
-
+  .loading
+    display: none
+    img
+      position: absolute
+      left: 200px
+      top: 100px
+  .submitForm
+    .help
+      font-style: italic
+    
 
 // Social Buttons
 .social
@@ -209,7 +224,6 @@ header
     line-height: 22px
 
 // Feedback
-
 #feedbackTab
   display: block
   position: absolute
@@ -286,3 +300,30 @@ header
       top: 14px
       left: 65px
       line-height: 15px
+
+/* timePicker
+div
+  &.time-picker
+    position: absolute
+    height: 191px
+    overflow: auto
+    background: #fff
+    border: 1px solid #aaa
+    width: 6em
+    z-index: 99
+    margin: 0
+  &.time-picker-12hours
+    width: 75px
+  &.time-picker
+    ul
+      list-style-type: none
+      margin: 0
+      padding: 0
+    li
+      cursor: pointer
+      height: 10px
+      font: 12px / 1 Helvetica, Arial, sans-serif
+      padding: 4px 3px
+      &.selected
+        background: #0063CE
+        color: #fff
