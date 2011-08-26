@@ -1,6 +1,4 @@
-[% WRAPPER wrapper.tt2 %]
-    <div id="simpleLayout" class="white">
-        <a href="/"><img alt="Recollect" class="logo" src="/[% version %]/images/recollect_logo.png"/></a>
-        <div class="error">The requested URL was not found on this server.</div>
-    </div>
+[% WRAPPER elements/static_wrapper.tt2 title="Error: Not Found" %]
+    <h1>Sorry, that page doesn't exist</h1>
+    <div class="error">The requested URL was not found on this server.</div>
 [% END %]
