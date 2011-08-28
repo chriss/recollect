@@ -316,7 +316,7 @@
     [% INCLUDE loading %]
     <form class="reminderForm">
         [% IF type == 'voice' %]
-            <div class="help grid_12 prefix_6 suffix_6">
+            <div class="help grid_12 prefix_6 suffix_6 vpad10">
                 You can use a mobile phone or a land line.
             </div>
             [% INCLUDE field name='phone' title='Phone Number' %]
@@ -333,7 +333,7 @@
             [% INCLUDE time %]
             [% INCLUDE address_field %]
         [% ELSIF type == 'twitter' %]
-            <div class="help grid_12 prefix_6 suffix_6">
+            <div class="help grid_12 prefix_6 suffix_6 vpad10">
                 Make sure you follow <a href="http://twitter.com/recollectnet">@RecollectNet</a> on twitter in order to receive the direct messages.
             </div>
             [% INCLUDE field name='twitter' title='Twitter Username' %]
@@ -343,7 +343,7 @@
         [% END %]
         <div class="grid_12 prefix_6 suffix_6">
             <div class="status"></div>
-            <div class="privacyLink help">
+            <div class="privacyLink help vpad10">
                 Recollect will never share your information with a third party. See our privacy policy <a href="/privacy" target="_blank">here</a>
             </div>
             <div id="subscriptionError"></div>
@@ -385,7 +385,7 @@
         </select>
     </div>
     <div class="suffix_6"></div>
-    <div clas="clear"></div>
+    <div class="clear vpad10"></div>
 [% END %]
 
 [% BLOCK success %]
