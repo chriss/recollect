@@ -12,38 +12,40 @@
 
 [% BLOCK radmin_home %]
     [% INCLUDE widget
-        id="stats"
-        title="Stats"
+        id="subscriptionsByArea"
+        title="Subscriptions by Area"
+        height="300"
+        class="alpha omega grid_8 plot"
     %]
     [% INCLUDE widget
         id="recentSubscriptions"
         title="Recent Subscriptions"
+        class="grid_12"
+    %]
+    <div class="clear"></div>
+    [% INCLUDE widget
+        id="stats"
+        title="Stats"
+        class="alpha grid_4"
     %]
     [% INCLUDE widget
         id="needsPickups"
         title="Soon to run out of data"
+        class="grid_16 omega"
     %]
     <div class="clear"></div>
-    [% INCLUDE widget
-        id="subscriptionsByArea"
-        title="Subscriptions by Area"
-        width="300px"
-        height="300px"
-    %]
 [% END %]
 
 [% BLOCK widget %]
-    <div class="widget white">
-        <div class="widgetTitle">[% title %]</div>
-        <div class="widgetContent" style="[% IF width %]width:[% width %];[% END %][% IF height %]height:[% height %];[% END %]" id="[% id %]"></div>
+    <div class="[% class %]">
+        <h5>[% title %]</h5>
+        <div class="content" id="[% id %]"></div>
     </div>
 [% END %]
 
 [% BLOCK radmin_nav %]
     [% FOR el = elements %]
-        <div class="navSection">
-            <div class="navText">[% elements.$el %]</div>
-        </div>
+        > <strong>[% elements.$el %]</strong>
     [% END %]
 [% END %]
 

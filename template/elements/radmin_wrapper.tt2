@@ -1,38 +1,27 @@
 [% WRAPPER wrapper.tt2 %]
-    <div id="radmin">
-        <div class="nav black">
-            <div class="black"></div>
-            <div class="navSection navHomeLink">
-                <a href="/radmin" class="radminHome">
-                    <img alt="Recollect" class="logo" src="/[% version %]/images/favicon.png"/>
-                </a>
-                <a href="/radmin" class="radminHome">
-                    <span class="navText">R-ADmin</span>
-                </a>
-            </div>
-
-            <div class="customNav"></div>
-
-            <div class="navSection right">
-                <div class="navText">
-                    <a href="[% doorman.sign_out_path %]">Sign Out</a>
-                </div>
-            </div>
-            <div class="navSection right">
-                <div class="navText">
-                    Signed in as [% doorman.twitter_screen_name %]
-                </div>
-            </div>
-            <div class="clear"></div>
+<div id="radmin">
+    <div class="container_24">
+        <div class="grid_18">
+            <a href="/radmin"><img alt="Recollect" class="logo" src="/[% version %]/images/re.png"/>R-ADmin</a>
+            <span class="nav">
+            </span>
         </div>
-        <div class="leftNav black"></div>
-        <div class="content white">[% content %]</div>
+        <div class="grid_6 right vpad7">
+            Signed in as [% doorman.twitter_screen_name %]
+            <a href="[% doorman.sign_out_path %]">Sign Out</a>
+        </div>
     </div>
-    <script>
-        $(window).resize(function() {
-            $('#radmin .leftNav, #radmin .content').css(
-                'min-height', ($(window).height()-97) + 'px'
-            );
-        }).resize();
-    </script>
+
+    <div class="clear"></div>
+
+    <div class="container_24 vpad20">
+        <div class="grid_4 leftNav">
+        </div>
+        <div class="grid_20 content">
+            [% content %]
+        </div>
+    </div>
+
+    <div class="clear"></div>
+</div>
 [% END %]

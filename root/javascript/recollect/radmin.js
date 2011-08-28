@@ -55,7 +55,7 @@ $.extend(Recollect.RADmin.prototype, {
     },
 
     setNav: function() {
-        $('.customNav').html(
+        $('.nav').html(
             Jemplate.process('radmin_nav', {
                 elements: arguments
             })
