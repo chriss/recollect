@@ -71,7 +71,7 @@ $.extend(Recollect.Wizard.prototype, {
                         self.autocomplete($(this));
                     });
 
-                $('#wizard #search').click(function(){
+                $('#wizard .search').click(function(){
                     $('#wizard form').submit();
                     return false;
                 });
@@ -615,20 +615,23 @@ $.extend(Recollect.Wizard.prototype, {
             .appendTo($bg);
 
         $(window).resize(function() {
-            $bg.height($(window).height());
+            var height = $(window).height();
+            $bg.height(height);
 
             // Keep the background fullscreen
-            if ($(window).height() > $img.height()) {
+            if (height > $img.height()) {
                 $img.css({height:'100%', width:'auto'});
             }
             if ($(window).width() > $img.width()) {
                 $img.css({height:'auto', width:'100%'});
             }
 
-            $('#wizard').css(
-                'top', self.wizardTop(self.$currentPage.height())
-            );
-        });
+            if (self.$currentPage) {
+                $('#wizard').css(
+                    'top', self.wizardTop(self.$currentPage.height())
+                );
+            }
+        }).resize();
     },
 
     changeHeight: function(height, callback, immediate) {

@@ -25,7 +25,7 @@
                 <input class="address huge" value=""/>
             </div>
             <div class="omega grid_4">
-                <a id="search" class="button green" href="#">Search</a>
+                <a class="search button green" href="#">Search</a>
                 <input type="submit" class="hiddenButton"/>
             </div>
             <div class="clear"></div>

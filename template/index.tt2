@@ -15,7 +15,9 @@
     </div>
 
     <script>
+    $(function() {
         var wizard = new Recollect.Wizard({ version: "[% version %]" });
         wizard.start();
+    });
     </script>
 [% END %]

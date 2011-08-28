@@ -21,12 +21,12 @@
   background-color: $from
   background: -webkit-gradient(linear, left top, left bottom, from($from), to($to))
   background: -moz-linear-gradient(top,  $from,  $to)
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=$from, endColorstr=$to)
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#{$from}, endColorstr=#{$to})
 
 @mixin box-shadow-and-gradient($x, $y, $w, $color, $dir, $from, $to)
   @include box-shadow($x, $y, $w, $color, $dir)
   @include gradient($from, $to)
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=$from, endColorstr=$to) progid:DXImageTransform.Microsoft.Shadow(Strength=$w, Direction=$dir, Color=$color)
+  filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#{$from}, endColorstr=#{$to}) progid:DXImageTransform.Microsoft.Shadow(Strength=#{$w}, Direction=#{$dir}, Color=#{$color})"
 
 /**
  * Styles

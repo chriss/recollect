@@ -6,10 +6,12 @@
     ]
 %]
 <script>
-    var radmin = new Recollect.RADmin({
-        area: "[% area %]",
-        areas: [% areas %]
+    $(function() {
+        var radmin = new Recollect.RADmin({
+            area: "[% area %]",
+            areas: [% areas %]
+        });
+        radmin.start();
     });
-    radmin.start();
 </script>
 [% END %]
