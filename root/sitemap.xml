@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+<url><loc>http://kirchner:5000/about</loc><changefreq>daily</changefreq></url>
+<url><loc>http://kirchner:5000/api</loc><changefreq>daily</changefreq></url>
+<url><loc>http://kirchner:5000/copyright</loc><changefreq>daily</changefreq></url>
+<url><loc>http://kirchner:5000/error</loc><changefreq>daily</changefreq></url>
+<url><loc>http://kirchner:5000/faq</loc><changefreq>daily</changefreq></url>
+<url><loc>http://kirchner:5000/index</loc><changefreq>daily</changefreq></url>
+<url><loc>http://kirchner:5000/media</loc><changefreq>daily</changefreq></url>
+<url><loc>http://kirchner:5000/noscript</loc><changefreq>daily</changefreq></url>
+<url><loc>http://kirchner:5000/partner</loc><changefreq>daily</changefreq></url>
+<url><loc>http://kirchner:5000/privacy</loc><changefreq>daily</changefreq></url>
+<url><loc>http://kirchner:5000/schedule</loc><changefreq>daily</changefreq></url>
+<url><loc>http://kirchner:5000/tell-a-friend</loc><changefreq>daily</changefreq></url>
+<url><loc>http://kirchner:5000/terms</loc><changefreq>daily</changefreq></url>
+<url><loc>http://kirchner:5000/api</loc><changefreq>weekly</changefreq></url>
+<url><loc>http://kirchner:5000/api/areas</loc><changefreq>daily</changefreq></url>
+<url><loc>http://kirchner:5000/r/edmonton-A1</loc><changefreq>daily</changefreq></url>
+<url><loc>http://kirchner:5000/r/edmonton-A2</loc><changefreq>daily</changefreq></url>
+<url><loc>http://kirchner:5000/r/edmonton-B2</loc><changefreq>daily</changefreq></url>
+<url><loc>http://kirchner:5000/r/edmonton-B3</loc><changefreq>daily</changefreq></url>
+<url><loc>http://kirchner:5000/r/edmonton-B4</loc><changefreq>daily</changefreq></url>
+<url><loc>http://kirchner:5000/r/edmonton-C4</loc><changefreq>daily</changefreq></url>
+<url><loc>http://kirchner:5000/r/edmonton-C5</loc><changefreq>daily</changefreq></url>
+<url><loc>http://kirchner:5000/r/edmonton-D5</loc><changefreq>daily</changefreq></url>
+<url><loc>http://kirchner:5000/r/edmonton-D6</loc><changefreq>daily</changefreq></url>
+<url><loc>http://kirchner:5000/r/edmonton-D7</loc><changefreq>daily</changefreq></url>
+<url><loc>http://kirchner:5000/r/edmonton-E7</loc><changefreq>daily</changefreq></url>
+<url><loc>http://kirchner:5000/r/edmonton-E8</loc><changefreq>daily</changefreq></url>
+<url><loc>http://kirchner:5000/r/port-moody-monday</loc><changefreq>daily</changefreq></url>
+<url><loc>http://kirchner:5000/r/port-moody-thursday</loc><changefreq>daily</changefreq></url>
+<url><loc>http://kirchner:5000/r/port-moody-tuesday</loc><changefreq>daily</changefreq></url>
+<url><loc>http://kirchner:5000/r/port-moody-wednesday</loc><changefreq>daily</changefreq></url>
+<url><loc>http://kirchner:5000/r/vancouver-north-blue</loc><changefreq>daily</changefreq></url>
+<url><loc>http://kirchner:5000/r/vancouver-north-green</loc><changefreq>daily</changefreq></url>
+<url><loc>http://kirchner:5000/r/vancouver-north-purple</loc><changefreq>daily</changefreq></url>
+<url><loc>http://kirchner:5000/r/vancouver-north-red</loc><changefreq>daily</changefreq></url>
+<url><loc>http://kirchner:5000/r/vancouver-north-yellow</loc><changefreq>daily</changefreq></url>
+<url><loc>http://kirchner:5000/r/vancouver-south-blue</loc><changefreq>daily</changefreq></url>
+<url><loc>http://kirchner:5000/r/vancouver-south-green</loc><changefreq>daily</changefreq></url>
+<url><loc>http://kirchner:5000/r/vancouver-south-purple</loc><changefreq>daily</changefreq></url>
+<url><loc>http://kirchner:5000/r/vancouver-south-red</loc><changefreq>daily</changefreq></url>
+<url><loc>http://kirchner:5000/r/vancouver-south-yellow</loc><changefreq>daily</changefreq></url>
+</urlset>

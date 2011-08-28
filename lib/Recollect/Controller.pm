@@ -87,7 +87,7 @@ sub ui_html {
     my $areas = Recollect::Area->All;
 
     # NoScript functionality
-    if ($tmpl =~ m{^r/(.+)$}) {
+    if (defined($tmpl) and $tmpl =~ m{^r/(.+)$}) {
         undef $tmpl; # Use the default template
         $params->{zone} = Recollect::Zone->By_name($1);
         if ($params->{zone}) {

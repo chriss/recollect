@@ -34,6 +34,11 @@
         class="grid_16 omega"
     %]
     <div class="clear"></div>
+    [% INCLUDE widget
+        id="interestMap"
+        title="Interest Map"
+        class="grid_20 plot"
+    %]
 [% END %]
 
 [% BLOCK widget %]
@@ -58,6 +63,10 @@
             </tr>
         [% END %]
     </table>
+[% END %]
+
+[% BLOCK interest_map %]
+    <div class="map" style="height:400px"></div>
 [% END %]
 
 [% BLOCK listTable %]

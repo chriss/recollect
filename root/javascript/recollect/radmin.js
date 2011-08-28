@@ -63,6 +63,8 @@ $.extend(Recollect.RADmin.prototype, {
     },
 
     showRecentReminders: function() {
+        var self = this;
+
         // XXX  come up with bette names than datatable and listtable
         $.getJSON('/radmin/data/object_stats', function(data) {
             $('#stats').html(
@@ -102,6 +104,30 @@ $.extend(Recollect.RADmin.prototype, {
                     ]
                 })
             );
+        });
+
+        $('#interestMap').html(Jemplate.process('interest_map'));
+
+        var map = new google.maps.Map($('#interestMap .map').get(0), {
+            zoom: 2,
+            center: new google.maps.LatLng(0,0),
+            mapTypeId: google.maps.MapTypeId.ROADMAP,
+            disableDefaultUI: true
+        });
+        this.showInterestMarkers(map);
+    },
+
+    showInterestMarkers: function(map) {
+        $.getJSON('/radmin/data/place_interest', function(places){
+            $.each(places, function(_,place) {
+                new google.maps.Marker({
+                    map: map,
+                    draggable: false,
+                    icon: 'http://labs.google.com/ridefinder/images/mm_20_green.png',
+                    title: place.at,
+                    position: new google.maps.LatLng(place.lat, place.lon)
+                });
+            });
         });
     },
 

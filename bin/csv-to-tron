@@ -70,6 +70,6 @@ sub usage {
     die <<EOT;
 USAGE: $0 <csv file>
 
-Reads the specified KML URL and converts it into a tron file.
+Reads the specified CSV URL and converts it into a tron file.
 EOT
 }

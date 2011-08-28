@@ -20,13 +20,19 @@ GetOptions(
 my $url = shift || usage();
 
 print $OUT "Fetching $url ...\n";
-my $kml = get($url);
+my $kml = get("file:$url");
 die "Could not fetch $url" unless $kml;
 print $OUT "Got $url - " . length($kml) . " bytes\n";
 my $xml = XMLin(\$kml);
 
 my $xml_zones = $xml->{Document}{Placemark};
+if ($xml_zones->{Polygon}) {
+    $xml_zones = { $xml_zones->{name} => $xml_zones };
+}
 my $styles    = $xml->{Document}{Style};
+if ($styles->{PolyStyle}) {
+    $styles = { $styles->{id} => $styles };
+}
 print $OUT "Found " . scalar(keys %$xml_zones) . " zones\n";
 (my $area = $url) =~ s#.+[:/]+(.+).kml$#ucfirst($1)#eg;
 
@@ -57,9 +63,13 @@ for my $name (sort keys %$xml_zones) {
         # In KML: The order of expression is aabbggrr, where aa=alpha
         my $styleurl = $hash->{styleUrl} || '';
         if ($styleurl =~ m/^#(\w+)/) {
-            $color = $styles->{$1}{PolyStyle}{color};
+            my $stylename = $1;
+            $color = $styles->{$stylename}{PolyStyle}{color};
             $color =~ s/^\w\w(\w\w)(\w\w)(\w\w)$/$3$2$1/;
-            warn "Found color '$color' ($styleurl)\n";
+            warn "Found color '$color' ($stylename)\n";
+        }
+        else {
+            $color = $Term->readline("Enter the RRGGBB colour: ");
         }
     }
     die "Could not find a color for $name!\n" unless $color;
