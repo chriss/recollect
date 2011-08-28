@@ -14,8 +14,8 @@
   -moz-box-shadow: #{$x}px #{$y}px #{$w}px $color
   -webkit-box-shadow: #{$x}px #{$y}px #{$w}px $color
   box-shadow: #{$x}px #{$y}px #{$w}px $color
-  -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=#{w}, Direction=#{dir}, Color='#{color}')"
-  filter: progid:DXImageTransform.Microsoft.Shadow(Strength=$w, Direction=$dir, Color=$color)
+  -ms-filter: progid:DXImageTransform.Microsoft.Shadow(Strength=#{$w}, Direction=#{$dir}, Color=#{$color})
+  filter: progid:DXImageTransform.Microsoft.Shadow(Strength=#{$w}, Direction=#{$dir}, Color=#{$color})
 
 @mixin gradient($from, $to)
   background-color: $from
@@ -26,7 +26,7 @@
 @mixin box-shadow-and-gradient($x, $y, $w, $color, $dir, $from, $to)
   @include box-shadow($x, $y, $w, $color, $dir)
   @include gradient($from, $to)
-  filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#{$from}, endColorstr=#{$to}) progid:DXImageTransform.Microsoft.Shadow(Strength=#{$w}, Direction=#{$dir}, Color=#{$color})"
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#{$from}, endColorstr=#{$to}), progid:DXImageTransform.Microsoft.Shadow(Strength=#{$w}, Direction=#{$dir}, Color=#{$color})
 
 /**
  * Styles
@@ -122,7 +122,7 @@ header
   display: block
   text-decoration: none
   position: relative
-  color: #fff !important
+  color: #fff
   margin: 3px 0
   padding: 10px 30px
   font-size: 18px
