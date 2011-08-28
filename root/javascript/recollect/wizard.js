@@ -611,6 +611,7 @@ $.extend(Recollect.Wizard.prototype, {
         var $bg = $('<div id="background"></div>').prependTo('body');
         var $img = $('<img/>')
             .attr('src', "/" + self.version + "/images/background.jpg")
+            .css({width: '100%'})
             .load(function() { $(window).resize() })
             .appendTo($bg);
 
@@ -631,7 +632,7 @@ $.extend(Recollect.Wizard.prototype, {
                     'top', self.wizardTop(self.$currentPage.height())
                 );
             }
-        }).resize();
+        });
     },
 
     changeHeight: function(height, callback, immediate) {
