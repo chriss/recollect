@@ -173,7 +173,7 @@ $.extend(Recollect.Wizard.prototype, {
                         return false;
                     });
                     $('#wizard .wrongZone').click(function(){
-                        self.setLocation('/r/start');
+                        self.setLocation('/');
                         self.trackEvent('zone.wrong_zone', args.zone);
                         return false;
                     })
