@@ -1,5 +1,6 @@
 package Recollect::Zone;
 use Moose;
+use methods;
 use Recollect::Area;
 use Recollect::Pickup;
 use Recollect::PlaceInterest;
@@ -128,6 +129,7 @@ sub to_hash {
     };
     $hash->{nextpickup} = eval { $self->next_pickup->[0]->to_hash } || [];
     $hash->{lastpickup} = eval { $self->last_pickup->to_hash } || [];
+    $hash->{static_gmap} = method ($size) { $self->static_gmap($size) };
     return $hash if $opts{minimal};
 
     $hash->{pickupdays} = [ map { $_->to_hash } @{ $self->pickups } ];
@@ -301,6 +303,25 @@ sub paid_subscriber_count {
           ',
           [$self->id],
       );
+}
+
+method static_gmap ($size) {
+    $size ||= "200x200";
+
+    my $rgb = $self->rgb_color;
+
+    require Algorithm::GooglePolylineEncoding;
+    my @paths;
+    my $polygons = $self->polygons;
+    for my $p (@$polygons) {
+        my @points = map {+{lat=>$_->{lat}, lon=>$_->{lng}}} @{$p->{points}};
+        my $pline = Algorithm::GooglePolylineEncoding::encode_polyline(@points);
+
+        push @paths, "path=fillcolor:0x${rgb}44|color:0x${rgb}99|enc:$pline";
+    }
+
+    return "http://maps.googleapis.com/maps/api/staticmap"
+        . "?size=$size&sensor=true&" . join('&', @paths);
 }
 
 __PACKAGE__->meta->make_immutable;

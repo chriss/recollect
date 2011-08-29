@@ -1,10 +1,15 @@
 <div class="container_24 vpad20">
     <div class="grid_8">
-            <a href="/"><img alt="Recollect" class="logo" src="/[% version %]/images/recollect_logo_small.png"/></a>
+        <a href="/"><img alt="Recollect" class="logo" src="/[% version %]/images/recollect_logo_small.png"/></a>
+        [% IF zone %]
+            <div class="vpad20">
+                <img src="[% zone.static_gmap('294x294') %]"/>
+            </div>
+        [% END %]
     </div>
     <div class="grid_16">
         [% IF zone %]
-            <h1 class="big">Garbage Day for [% zone.title %]</h1>
+            <h1 class="big">Garbage and Recycling Schedule for [% zone.title %]</h1>
             [% IF pickups.size %]
                 <p>Your next pickup day is [% pickups.0.pretty_day %] - [% pickups.0.flags_desc %] will be picked up.</p><br/>
                 [% IF pickups.size > 1 %]
