@@ -324,11 +324,13 @@
             [% INCLUDE address_field %]
             [% INCLUDE field name='email' title='Email' %]
         [% ELSIF type == 'text' %]
+            <div class="clear vpad10"></div>
             [% INCLUDE field name='phone' title='Mobile Number' %]
             [% INCLUDE time %]
             [% INCLUDE address_field %]
             [% INCLUDE field name='email' title='Email' %]
         [% ELSIF type == 'email' %]
+            <div class="clear vpad10"></div>
             [% INCLUDE field name='email' title='Email' %]
             [% INCLUDE time %]
             [% INCLUDE address_field %]

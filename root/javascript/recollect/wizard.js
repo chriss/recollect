@@ -948,7 +948,7 @@ $.extend(Recollect.Wizard.prototype, {
 
         var data = {
             email: opts.email,
-            location: wizard.getLocation().toUrlValue(),
+            location: self.getLocation().toUrlValue(),
             reminders: []
         };
 
