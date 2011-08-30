@@ -14,7 +14,8 @@ $n->send_email(
     content_type => 'text/html',
     template => 'twir.html',
     template_args => {
-        subs => recent_subscriptions(),
+        subs => recent_subscriptions("active"),
+        inactive_subs => recent_subscriptions(!"active"),
         need_data => zones_needing_moar_datas(),
         sent => notifications_sent(),
         icals => icals_fetched(),
@@ -26,10 +27,12 @@ exit;
 
 
 sub recent_subscriptions {
+    my $active = shift // 1;
     my $sth = Recollect::Subscription->run_sql(
         q{SELECT * FROM subscriptions
             WHERE created_at > 'now'::timestamptz - '1week'::interval
-        }
+              AND active = ?
+        }, [$active ? 1 : 0]
     );
     my $subs = Recollect::Subscription->_all_as_obj($sth);
     return [ sort { $a->free <=> $b->free } @$subs ];
