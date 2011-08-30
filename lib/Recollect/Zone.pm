@@ -129,7 +129,6 @@ sub to_hash {
     };
     $hash->{nextpickup} = eval { $self->next_pickup->[0]->to_hash } || [];
     $hash->{lastpickup} = eval { $self->last_pickup->to_hash } || [];
-    $hash->{static_gmap} = method ($size) { $self->static_gmap($size) };
     return $hash if $opts{minimal};
 
     $hash->{pickupdays} = [ map { $_->to_hash } @{ $self->pickups } ];
