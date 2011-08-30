@@ -2,7 +2,7 @@ package Recollect::Util;
 use Moose;
 extends 'Exporter';
 
-our @EXPORT_OK = qw/base_path now tonight config log is_dev_env/;
+our @EXPORT_OK = qw/base_path now tonight config log is_dev_env is_live/;
 
 sub base_path { $ENV{RECOLLECT_BASE_PATH} || '/var/www/recollect' }
 
@@ -30,5 +30,7 @@ sub tonight {
 sub is_dev_env { 
     return -e base_path() . "/app.psgi";
 }
+
+sub is_live { !is_dev_env() }
 
 1;
