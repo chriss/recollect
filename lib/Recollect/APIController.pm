@@ -637,9 +637,10 @@ sub next_dow_change_json {
     my $area = shift;
     my $zone = shift;
     my $days = $zone->next_dow_change;
-    return $self->process_json( {
-            last => $days->{last}->to_hash,
-            next => $days->{next}->to_hash,
+    my ($last, $next) = ($days->{last}, $days->{next});
+    $self->process_json( {
+            last => $last ? $last->to_hash : {},
+            next => $next ? $days->{next}->to_hash : {},
         }
     );
 }
@@ -648,7 +649,9 @@ sub next_dow_change_txt {
     my $self = shift;
     my $area = shift;
     my $zone = shift;
-    return $self->process_text($zone->next_dow_change->{next}->string);
+    my $next = $zone->next_dow_change->{next};
+    return $self->process_text(
+        $next ? $next->string : "No Day of week change.");
 }
 
 
