@@ -9,24 +9,26 @@
     </div>
     <div class="grid_16">
         [% IF zone %]
-            <h1 class="big">Garbage and Recycling Schedule for [% zone.title %]</h1>
+            <h1>[% zone.title %]</h1>
+            <h2>Garbage and Recycling Schedule</h2>
             [% IF pickups.size %]
-                <p>Your next pickup day is [% pickups.0.pretty_day %] - [% pickups.0.flags_desc %] will be picked up.</p><br/>
+                <h4>Next Pickup Day</h4>
+                <div class="vpad5">Your next pickup day is [% pickups.0.pretty_day %] - [% pickups.0.flags_desc %] will be picked up.</div>
                 [% IF pickups.size > 1 %]
-                    <p>After that, your pickup days are:</p>
+                    <h4>Following pickup days</h4>
                     [% last_pickup = pickups.size - 1 %]
                     [% FOR i = [ 1 .. last_pickup ] %]
-                        <p>[% pickups.$i.pretty_day %] ([% pickups.$i.flags_desc %]).</p>
+                        <div class="vpad5">[% pickups.$i.pretty_day %] ([% pickups.$i.flags_desc %]).</div>
                     [% END %]
                 [% END %]
             [% ELSE %]
-                <p>Sorry, this zone has no data</p>
+                <h4>Sorry, this zone has no data</h4>
             [% END %]
             <br/>
-            <p>For a better experience, and to create pickup reminders, please <b>enable JavaScript for this site!</b></p>
+            <div class="vpad10">For a better experience, and to create pickup reminders, please <b>enable JavaScript for this site!</div>
         [% ELSE %]
             <h1 class="big">Welcome to Recollect</h1>
-            <p>The Garbage and Recycling collection reminder service.</p>
+            <h4>The Garbage and Recycling collection reminder service.</h4>
             [% IF area %]
             <p>Please select your zone from the list below:</p>
             <ul class="glinks">
@@ -34,9 +36,9 @@
                     <li><a href="/r/[% zone.name %]">[% zone.title %]</a></li>
                 [% END %]
             </ul>
-            <p>For a better experience, and to create pickup reminders, please <b>enable JavaScript for this site!</b></p>
+            <div class="vpad10">For a better experience, and to create pickup reminders, please <b>enable JavaScript for this site!</div>
             [% ELSE %]
-            <p>This site is best viewed with <b>JavaScript enabled.</b> However, if you wish to continue with JavaScript disabled, please select your area from the list below:</p>
+            <div class="vpad10">This site is best viewed with <b>JavaScript enabled.</b> However, if you wish to continue with JavaScript disabled, please select your area from the list below:</div>
             <ul class="glinks">
                 [% FOR area = areas %]
                     <li><a href="/?area=[% area.name %]">[% area.title %]</a></li>

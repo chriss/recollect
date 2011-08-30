@@ -45,7 +45,7 @@
     <div class="grid_16 smallish vpad10">
         [% INCLUDE loading %]
         <form>
-            <h2>Oh no! We don't have data there yet!</h2>
+            <h4>Oh no! We don't have data there yet!</h4>
 
             <div class="vpad5">We've recorded your interest in this area, and we are constantly expanding our service.</div>
             <div>Enter your email address and we'll notify you when we add coverage for this location.</div>
@@ -83,7 +83,7 @@
     <div class="grid_8 vpad10">[% INCLUDE logo %]</div>
     <div class="grid_16">
         <h1>[% title %]</h1>
-        <h2>Next pickup day: [% next %]</h2>
+        <h4>Next pickup day: [% next %]</h4>
     </div>
 
     <div class="clear vpad10"></div>
@@ -396,7 +396,7 @@
         [% INCLUDE logo %]
     </div>
     <div class="grid_14 vpad10">
-        <h2>Thank you! You're all done!</h2>
+        <h4>Thank you! You're all done!</h4>
         <div class="smallish vpad10">We are really grateful for your business and thank you for helping make our little company become a bit more successful.</div>
 <div class="socialButtons">
         [% INCLUDE social_buttons %]
@@ -413,7 +413,7 @@
         [% INCLUDE logo %]
     </div>
     <div class="grid_14 vpad30">
-        <h2>Tell your friends about Recollect!!</h2>
+        <h4>Tell your friends about Recollect!!</h4>
         <div>We are really grateful for your business and thank you for helping make our little company become a bit more successful.</div>
 <div class="socialButtons">
         <div class="vpad10">[% INCLUDE social_buttons %]</div>
