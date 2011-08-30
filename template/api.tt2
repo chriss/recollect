@@ -1,12 +1,9 @@
 [% WRAPPER elements/static_wrapper.tt2 %]
     <h1>Recollect API</h1>
-    <p>This page defines the simple REST API that exposes collection times data.</p>
+    <p>This page describes the APIs that you can use to get data from Recollect.</p>
     <p>This is a working API <em>under development</em>, one subject to evolution and change. If you would like to depend on certain parts of the API, you should contact <a href="http://twitter.com/lukec">@lukec</a> and let him know.</p>
 
       <div class="content">
-        <h2>API Version</h2>
-        <p>The API has a simple version number resource at <a href="/api/version">/api/version</a>.</p>
-
         <h2>List of Areas</h2>
         <p>
         Each city or district constitutes an Area in Recollect.  <br />
@@ -101,7 +98,22 @@
             <li><code>/api/lookup/:zone-name</code></li>
         </ul>
         <p>These APIs can also be appended with a file extension (<code>.json</code>, say) which will be appended to the redirect URL.
+        <h2>API Version</h2>
+        <p>The API has a simple version number resource at <a href="/api/version">/api/version</a>.</p>
+        <p>This API version will only be updated when incompatible changes need to happen.  All other incremental changes will happen without changing this number.</p>
+
         <h2>Webhooks</h2>
-        Just like with the <a href="http://vantrash.ca/api.html">VanTrash API</a>, webhooks are a supported notification mechanism.  If you create a subscription with a target of "<code>webhook:http://example.com</code>", Recollect will send a HTTP POST to this URL with a JSON payload containing details about the notification.  If you want to use this please tweet <a href="http://twitter.com/lukec">@lukec</a> for help.
+        <p>If you would like to receive garbage day notifications via a HTTP POST, webhooks are a available as a supported notification mechanism.  If you create a subscription with a target of "<code>webhook:http://example.com</code>", Recollect will send a HTTP POST to this URL with a JSON payload containing details about the notification.  If you want to use this please tweet <a href="http://twitter.com/lukec">@lukec</a> for help.</p>
+
+        <h2>Embeddable Widget</h2>
+        <p><strong>This API is not yet available.  Please <a href="mailto:partner@recollect.net">contact us</a> if you'd like to give feedback on it.</strong></p>
+        <h3>Sidebar Embed</h3>
+        <p>To embed the Recollect calendar of a particular zone, include the following HTML in your webpage:</p>
+        <pre>
+          &lt;div id="recollect-sidebar">&lt;/div>
+          &lt;script src="http://recollect.net/api/widget/vancouver-north-blue.js"
+                     type="javascript" />
+        </pre>
+        <p>Make sure to specify the zone you wish to see the calendar before. (Notice how this example shows the calendar for the 'vancouver-north-blue' zone.)  If you don't know the zone name, use one of the APIs above to do a lookup.</p>
     </div>
 [% END %]
