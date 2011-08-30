@@ -41,7 +41,7 @@
             <div class="vpad10">This site is best viewed with <b>JavaScript enabled.</b> However, if you wish to continue with JavaScript disabled, please select your area from the list below:</div>
             <ul class="glinks">
                 [% FOR area = areas %]
-                    <li><a href="/?area=[% area.name %]">[% area.title %]</a></li>
+                    <li><a href="/r/areas/[% area.name %]">[% area.title %]</a></li>
                 [% END %]
             </ul>
             [% END %]

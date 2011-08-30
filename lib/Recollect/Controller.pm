@@ -88,8 +88,16 @@ sub ui_html {
 
     # NoScript functionality
     if (defined($tmpl) and $tmpl =~ m{^r/(.+)$}) {
+        my $path = $1;
         undef $tmpl; # Use the default template
-        $params->{zone} = Recollect::Zone->By_name($1);
+
+        if ($path =~ m{^areas/(.+)}) {
+            my $area = Recollect::Area->By_name($1);
+            $params->{area} = $area;
+            $params->{zones} = Recollect::Zone->By_area_id($area->id);
+        }
+
+        $params->{zone} = Recollect::Zone->By_name($path);
         if ($params->{zone}) {
             $params->{pickups} = eval {
                 $params->{zone}->next_pickup(4);
@@ -97,15 +105,8 @@ sub ui_html {
         }
     }
     else {
-        # Load areas and zones for NoScript
+        # Load areas for NoScript
         $params->{areas} = $areas;
-        if (my $zone_name = $params->{zone}) {
-            return $self->redirect("/r/$zone_name");
-        }
-        elsif (my $area_name = $params->{area}) {
-            my $area = Recollect::Area->By_name($area_name);
-            $params->{zones} = Recollect::Zone->By_area_id($area->id);
-        }
     }
 
     $params->{keywords} = [
