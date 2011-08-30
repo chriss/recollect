@@ -22,11 +22,14 @@ sub send_email {
     }
 
     my %args = @_;
-    my $template = "email/$args{template}";
-    $args{template_args}{base} = $self->base_url;
-    my $body;
-    $self->tt2->process($template, $args{template_args}, \$body);
-    die "Error rendering $template: " . $self->tt2->error unless defined $body;
+    my $body = $args{body};
+    unless ($body) {
+        my $template = "email/$args{template}";
+        $args{template_args}{base} = $self->base_url;
+        $self->tt2->process($template, $args{template_args}, \$body);
+        die "Error rendering $template: " . $self->tt2->error
+            unless defined $body;
+    }
 
     my %headers = (
         From => $args{from} || 'Recollect <noreply@recollect.net>',
