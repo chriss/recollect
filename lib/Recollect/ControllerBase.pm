@@ -1,9 +1,10 @@
 package Recollect::ControllerBase;
 use feature 'switch';
 use Moose::Role;
-use Recollect::Util qw/base_path is_dev_env/;
+use Recollect::Util qw/base_path is_live/;
 use JSON qw/encode_json decode_json/;
 use File::Slurp qw(slurp);
+use Try::Tiny;
 
 with 'Recollect::Roles::Config';
 with 'Recollect::Roles::Log';
@@ -38,21 +39,35 @@ around 'run' => sub {
     my $orig = shift;
     my $self = shift;
     my $env  = shift;
+    my $req  = Plack::Request->new($env);
 
     $self->env($env);
-    $self->request( Plack::Request->new($env) );
-    my $rc = eval { $orig->($self, $env) };
-    if ($@) {
-        warn $@;
-        $self->log("Error processing " . $self->request->path . " - $@");
-        if (is_dev_env()) {
-            return $self->response('text/plain', "Error: $@", 500);
+    $self->request($req);
+
+    return try {
+        $orig->($self, $env);
+    }
+    catch {
+        my $path = $req->path;
+        warn "API ERROR: $path - $_";
+        $self->log("Error processing $path - $_");
+
+        $self->send_email(
+            body => "API: $path\n\nError: $_",
+            to => 'luke@recollect.net',
+            subject => 'Recollect API error',
+        ) if is_live();
+
+        if (($self->request->content_type // '') =~ m/html/) {
+            $self->process_template("500.tt2", {}, 500)->finalize;
         }
         else {
-            return $self->process_template("500.tt2", {}, 500);
+            $self->bad_request_text(
+                'Sorry, an error occurred. We will try to get that fixed soon.',
+                500,
+            );
         }
-    }
-    return $rc;
+    };
 };
 
 sub user_is_admin {
