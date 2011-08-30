@@ -26,8 +26,10 @@ sub _build_version {
 has 'area_hostname' => (is => 'ro', isa => 'Str', lazy_build => 1);
 sub _build_area_hostname {
     my $self = shift;
-    (my $hostname = $self->request->base->host) =~ m/^([\w ]+)\.recollect\.net/;
-    return $1 || '';
+    my ($hostname) = $self->request->base->host =~ m/^([\w ]+)\.recollect\.net/;
+    $hostname ||= '';
+    return '' if $hostname eq 'www';
+    return $hostname;
 }
 
 sub kml_content_type { 'application/vnd.google-earth.kml+xml' }
