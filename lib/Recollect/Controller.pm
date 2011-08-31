@@ -14,6 +14,7 @@ use Plack::Response;
 use Data::Dumper;
 use HTML::Calendar::Simple;
 use Try::Tiny;
+use HTTP::Date qw/time2str/;
 use namespace::clean -except => 'meta';
 
 with 'Recollect::ControllerBase';

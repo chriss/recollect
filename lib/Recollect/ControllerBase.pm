@@ -5,7 +5,6 @@ use Recollect::Util qw/base_path is_live/;
 use JSON qw/encode_json decode_json/;
 use File::Slurp qw(slurp);
 use Try::Tiny;
-use HTTP::Date qw/time2str/;
 
 with 'Recollect::Roles::Config';
 with 'Recollect::Roles::Log';
