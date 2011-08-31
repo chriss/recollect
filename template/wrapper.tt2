@@ -48,7 +48,8 @@
             </div>
             <div class="grid_7 right vpad5">
                 <a title="Copyright" href="/copyright">&copy;2011</a>
-                [% IF is_admin %]<a href="/radmin">RADmin</a>[% END %]
+                [% IF is_radmin %]<a href="/radmin">RADmin</a>[% END %]
+                <a href="/admin">Admin</a>
             </div>
             <div class="clear"></div>
         </div>

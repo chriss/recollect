@@ -13,8 +13,8 @@ sub run {
     my $self = shift;
     my $req = $self->request;
 
-    unless ($self->user_is_admin) {
-        my $tweeter = $self->doorman->twitter_screen_name;
+    unless ($self->user_is_radmin) {
+        my $tweeter = $self->radmin_doorman->twitter_screen_name;
         $self->message("Sorry, $tweeter is not authorized.\n") if $tweeter;
         return $self->login_ui;
     }
@@ -64,7 +64,7 @@ sub run {
 sub login_ui {
     my $self = shift;
     my $params = {
-        doorman => $self->doorman,
+        doorman => $self->radmin_doorman,
     };
     return $self->process_template("radmin/login.tt2", $params)->finalize;
 }
@@ -99,7 +99,7 @@ sub home_screen {
         areas => encode_json([
             map { $_->name } @{Recollect::Area->All}
         ]),
-        doorman => $self->doorman,
+        doorman => $self->radmin_doorman,
     };
     return $self->process_template("radmin/home.tt2", $params)->finalize;
 }

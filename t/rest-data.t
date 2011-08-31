@@ -389,7 +389,7 @@ sub test_the_post_api {
     my $resp_cb = shift;
     my $app     = t::Recollect->app('Recollect::APIController');
 
-    local $ENV{RECOLLECT_USER_IS_ADMIN} = 1;
+    local $ENV{RECOLLECT_USER_IS_RADMIN} = 1;
     subtest "POST $uri" => sub {
         test_psgi $app, sub {
             my $cb = shift;

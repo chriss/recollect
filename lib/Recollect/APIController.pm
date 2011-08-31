@@ -390,7 +390,7 @@ sub _areas_data {
 sub POST_areas {
     my $self = shift;
     my $args = shift;
-    return $self->forbidden unless $self->user_is_admin;
+    return $self->forbidden unless $self->user_is_radmin;
 
     my $area = Recollect::Area->Create(
         map { $_ => $args->{$_} }

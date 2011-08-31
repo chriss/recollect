@@ -1,0 +1,29 @@
+[% WRAPPER wrapper.tt2 %]
+<div id="admin">
+    <div class="container_24">
+        <div class="grid_18">
+            <a href="/admin"><img alt="Recollect" class="logo" src="/[% version %]/images/re.png"/>Admin</a>
+            <span class="nav">
+            </span>
+        </div>
+        [% IF doorman.is_sign_in %]
+          <div class="grid_6 right vpad7">
+            Signed in as [% doorman.is_sign_in %]
+            <a href="[% doorman.sign_out_path %]">Sign Out</a>
+          </div>
+        [% END %]
+    </div>
+
+    <div class="clear"></div>
+
+    <div class="container_24 vpad20">
+        <div class="grid_4 leftNav">
+        </div>
+        <div class="grid_20 content">
+            [% content %]
+        </div>
+    </div>
+
+    <div class="clear"></div>
+</div>
+[% END %]

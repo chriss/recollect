@@ -90,7 +90,10 @@ sub user_is_radmin {
 sub user_is_admin {
     my $self = shift;
     return 0 unless $self->admin_doorman->is_sign_in;
-    return $self->user;
+    my $user = $self->user;
+    return 1 if $user and $user->is_admin;
+    return 1 if $user and $user->is_area_admin;
+    return 0;
 }
 
 sub _build_base_path { base_path() }
@@ -114,7 +117,7 @@ sub render_template {
     $param->{base} = $self->base_url,
     $param->{request_uri} = $self->request->request_uri;
     $param->{message} = $self->message;
-    $param->{is_radmin} = $self->user_is_radmin ? 1 : 0;
+    $param->{is_admin} = $self->user_is_admin ? 1 : 0;
     if (my $ah = $self->area_hostname) {
         $param->{area} ||= Recollect::Area->By_name($ah);
     }
@@ -244,7 +247,7 @@ sub redirect {
 }
 
 sub _build_radmin_doorman   { shift->env->{'doorman.radmin.twitter'} }
-sub _build_admin_doorman   { shift->env->{'doorman.admin.authentication'} }
+sub _build_admin_doorman   { shift->env->{'doorman.admin.twitter'} }
 
 sub _build_user {
     my $self = shift;
@@ -253,10 +256,10 @@ sub _build_user {
         return Recollect::User->By_twitter($tweeter) if $tweeter;
     }
     if ($self->admin_doorman) {
-        my $email = $self->admin_doorman->is_sign_in;
-        return Recollect::User->By_email($email) if $email;
+        my $username = $self->admin_doorman->is_sign_in;
+        return 
     }
-    return undef;
+    return undef unless $self->radmin_doorman;
 }
 
 1;

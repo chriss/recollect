@@ -4,6 +4,7 @@
 
 use Plack::Builder;
 use lib "lib";
+use Recollect::AdminController;
 use Recollect::RadminController;
 use Recollect::CallController;
 use Recollect::APIController;
@@ -55,12 +56,17 @@ builder {
     enable "ConditionalGET";
     enable 'Session::Cookie', secret => $config->{session_secret};
 
-    enable 'DoormanTwitter', root_url => $config->{base_url}, scope => 'radmin',
-            consumer_key => $config->{twitter_consumer_key},
-            consumer_secret => $config->{twitter_consumer_secret};
+    enable 'DoormanAuthentication', scope => 'admin',
+        authenticator => \&Recollect::AdminController::Authenticator;
+
+    enable 'DoormanTwitter', scope => 'radmin',
+        root_url => $config->{base_url},
+        consumer_key => $config->{twitter_consumer_key},
+        consumer_secret => $config->{twitter_consumer_secret};
 
     mount "/call"   => sub { $set_env->(); Recollect::CallController->new->run(@_) };
     mount "/api"    => sub { $set_env->(); Recollect::APIController->new->run(@_) };
+    mount "/admin"  => sub { $set_env->(); Recollect::AdminController->new->run(@_) };
     mount "/radmin" => sub { $set_env->(); Recollect::RadminController->new->run(@_) };
     mount "/"       => sub { $set_env->(); Recollect::Controller->new->run(@_) }
 };
