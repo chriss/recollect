@@ -28,9 +28,7 @@ has 'area_hostname' => (is => 'ro', isa => 'Str', lazy_build => 1);
 sub _build_area_hostname {
     my $self = shift;
     my ($hostname) = $self->request->base->host =~ m/^([\w ]+)\.recollect\.net/;
-    $hostname ||= '';
-    return '' if $hostname eq 'www';
-    return $hostname;
+    return $hostname && Recollect::Area->By_name($hostname) ? $hostname : '';
 }
 
 sub kml_content_type { 'application/vnd.google-earth.kml+xml' }
@@ -106,6 +104,9 @@ sub render_template {
     $param->{request_uri} = $self->request->request_uri;
     $param->{message} = $self->message;
     $param->{is_admin} = $self->user_is_admin ? 1 : 0;
+    if (my $ah = $self->area_hostname) {
+        $param->{area} ||= Recollect::Area->By_name($ah);
+    }
     $self->tt2->process($template, $param, ref($html) ? $html : \$html);
     return \$html;
 }

@@ -114,9 +114,6 @@ sub ui_html {
         map { lc($_->name) } @$areas,
     ];
 
-    if (my $ah = $self->area_hostname) {
-        $params->{area} = Recollect::Area->By_name($ah);
-    }
 
     return $self->redirect('/m/index') if $self->is_mobile($req) and !$tmpl;
 
