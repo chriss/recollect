@@ -70,7 +70,7 @@ sub to_hash {
 sub _build_area_admin {
     my $self = shift;
     my $area_id = $self->sql_singlevalue(
-        'SELECT area_id FROM area_admins WHERE user_id = ?', [$self->id],
+        'SELECT area_id FROM area_admins WHERE user_id = ? LIMIT 1', [$self->id],
     );
     return undef unless $area_id;
     return Recollect::Area->By_id($area_id);
