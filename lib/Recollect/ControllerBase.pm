@@ -136,7 +136,6 @@ sub process_template {
     my $resp = Plack::Response->new($code);
     $resp->body($body);
     $resp->header('X-UA-Compatible' => 'IE=EmulateIE7');
-    $resp->header('Last-Modified'   => time2str($self->make_time));
     given ($template) {
         when (m/\.txt$/) {
             $resp->header('Content-Type' => 'text/plain');

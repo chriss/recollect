@@ -268,5 +268,13 @@ sub ad_click {
     return $self->redirect( $area->ad_url );
 }
 
+around 'process_template' => sub {
+    my $orig = shift;
+    my $self = shift;
+    my $resp = $orig->($self, @_);
+    $resp->header('Last-Modified'   => time2str($self->make_time));
+    return $resp;
+};
+
 __PACKAGE__->meta->make_immutable;
 1;
