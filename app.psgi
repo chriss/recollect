@@ -52,6 +52,7 @@ builder {
 
     my $set_env = sub { $ENV{RECOLLECT_BASE_PATH} = "$ENV{HOME}/src/recollect" };
 
+    enable "ConditionalGET";
     enable 'Session::Cookie', secret => $config->{session_secret};
 
     enable 'DoormanTwitter', root_url => $config->{base_url}, scope => 'radmin',

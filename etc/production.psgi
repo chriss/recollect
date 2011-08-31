@@ -15,6 +15,7 @@ builder {
     enable "Plack::Middleware::AccessLog::Timed",
             format => "%h %l %u %t \"%r\" %>s %b %D";
 
+    enable "ConditionalGET";
     enable 'Session::Cookie', secret => $config->{session_secret} || die;
     enable 'DoormanTwitter', root_url => $config->{base_url}, scope => 'radmin',
             consumer_key    => $config->{twitter_consumer_key},

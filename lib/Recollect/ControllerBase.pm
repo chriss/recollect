@@ -5,6 +5,7 @@ use Recollect::Util qw/base_path is_live/;
 use JSON qw/encode_json decode_json/;
 use File::Slurp qw(slurp);
 use Try::Tiny;
+use HTTP::Date qw/time2str/;
 
 with 'Recollect::Roles::Config';
 with 'Recollect::Roles::Log';
@@ -16,12 +17,16 @@ has 'message' => (is => 'rw', isa => 'Str');
 has 'doorman' => (is => 'rw', isa => 'Maybe[Object]', lazy_build => 1);
 has 'user'    => (is => 'ro', isa => 'Maybe[Object]', lazy_build => 1);
 
+has 'make_time' => (is => 'ro', isa => 'Str', lazy_build => 1);
+sub _build_make_time {
+    my $make_time = slurp( base_path() . '/root/make-time' );
+    chomp $make_time;
+    return $make_time;
+}
 has 'version' => ( is => 'ro', isa => 'Str', lazy_build => 1 );
 sub _build_version {
     my $self = shift;
-    my $make_time = slurp( base_path() . '/root/make-time' );
-    chomp $make_time;
-    return "0.11.$make_time";
+    return "0.11." . $self->make_time;
 }
 
 has 'area_hostname' => (is => 'ro', isa => 'Str', lazy_build => 1);
@@ -131,6 +136,7 @@ sub process_template {
     my $resp = Plack::Response->new($code);
     $resp->body($body);
     $resp->header('X-UA-Compatible' => 'IE=EmulateIE7');
+    $resp->header('Last-Modified'   => time2str($self->make_time));
     given ($template) {
         when (m/\.txt$/) {
             $resp->header('Content-Type' => 'text/plain');
