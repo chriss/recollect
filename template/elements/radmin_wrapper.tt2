@@ -6,10 +6,12 @@
             <span class="nav">
             </span>
         </div>
-        <div class="grid_6 right vpad7">
+        [% IF doorman.twitter_screen_name %]
+          <div class="grid_6 right vpad7">
             Signed in as [% doorman.twitter_screen_name %]
             <a href="[% doorman.sign_out_path %]">Sign Out</a>
-        </div>
+          </div>
+        [% END %]
     </div>
 
     <div class="clear"></div>
