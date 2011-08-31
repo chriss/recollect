@@ -16,3 +16,4 @@
   payment_host: 'https://recollect-test.recurly.com'
   db_user: recollect
   db_name: recollect_test
+  session_secret: 'zomg'
