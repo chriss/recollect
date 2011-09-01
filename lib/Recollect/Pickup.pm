@@ -28,6 +28,7 @@ my %flag_map = (
     G => 'Garbage',
     R => 'Recycling',
     C => 'Compost',
+    F => 'Food Drive',
     X => 'Xmas Trees',
     2 => 'Two garbage bins',
 );
