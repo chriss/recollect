@@ -122,7 +122,6 @@ sub POST_password_reset {
     my $self = shift;
 
     my $hash = $self->request->param('hash');
-    warn "Looking up '$hash'";
     if (my $user = Recollect::User->By_reset_passhash($hash) and $hash) {
         if (my $newpass = $self->_check_new_password) {
             $user->set_password($newpass);
