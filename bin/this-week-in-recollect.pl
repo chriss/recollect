@@ -3,6 +3,7 @@ use strict;
 use warnings;
 use FindBin;
 use lib "$FindBin::Bin/../lib";
+use Recollect::Util;
 use Recollect::Subscription;
 use Recollect::Notifier;
 
